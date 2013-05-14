@@ -11,7 +11,7 @@ import java.util.Observable;
 
 public class User extends Observable
 {
-	private int my_id;
+	private final int my_id;
 	
 	private Conference my_conference;
 	
@@ -21,9 +21,9 @@ public class User extends Observable
 	
 	private String my_last_name;
 	
+	private final String my_username;
+
 	private String my_password;
-	
-	private String my_username;
 	
 	private String my_email;
 	
@@ -38,19 +38,74 @@ public class User extends Observable
 		my_email = the_email;
 	}
 	
+	public int getID()
+	{
+		return my_id;
+	}
+	
+	public void setConference(final Conference the_conference)
+	{
+		my_conference = the_conference; //need to make a copy to be safe...
+	}
+	
 	public Conference getConference()
 	{
 		return my_conference; //need to make sure a copy is returned...
 	}
 
+	public void setRole(final Role the_role)
+	{
+		my_role = the_role;
+	}
+	
 	public Role getRole()
 	{
 		return my_role;
 	}
 	
+	public void setFirstName(final String the_first_name)
+	{
+		my_first_name = the_first_name;
+	}
+	
+	public String getFirstName()
+	{
+		return my_first_name;
+	}
+	
+	public void setLastName(final String the_last_name)
+	{
+		my_last_name = the_last_name;
+	}
+	
+	public String getLastName()
+	{
+		return my_last_name;
+	}
+	
 	public String getFullName()
 	{
 		return my_first_name + " " + my_last_name;
+	}
+	
+	public String getUsername()
+	{
+		return my_username;
+	}
+	
+	public String getPassword()
+	{
+		return my_password;
+	}
+	
+	public void setEmail(final String the_email)
+	{
+		my_email = the_email;
+	}
+	
+	public String getEmail()
+	{
+		return my_email;
 	}
 	
 }
