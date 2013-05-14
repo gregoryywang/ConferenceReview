@@ -13,9 +13,9 @@ public class User extends Observable
 {
 	private int my_id;
 	
-	private Collection<Conference> my_conferences;
+	private Conference my_conference;
 	
-	// ?????Organizer ???? //private Organizer my_role;
+	private Role my_role;
 	
 	private String my_first_name;
 	
@@ -27,25 +27,30 @@ public class User extends Observable
 	
 	private String my_email;
 	
-	public User()
+	public User(final int the_id, final String the_first_name, final String the_last_name, 
+			final String the_username, final String the_password, final String the_email)
 	{
-		
+		my_id = the_id;
+		my_first_name = the_first_name;
+		my_last_name = the_last_name;
+		my_username = the_username;
+		my_password = the_password;
+		my_email = the_email;
 	}
 	
-	/* ?Organizer?
-	public Organizer getRole(final Conference the_conf)
+	public Conference getConference()
 	{
+		return my_conference; //need to make sure a copy is returned...
 	}
-	*/
-	
-	public Collection<Conference> getConferences()
+
+	public Role getRole()
 	{
-		return null;
+		return my_role;
 	}
 	
 	public String getFullName()
 	{
-		return "";
+		return my_first_name + " " + my_last_name;
 	}
 	
 }
