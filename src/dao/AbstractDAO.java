@@ -49,4 +49,11 @@ public abstract class AbstractDAO {
     
     return connection;
   }
+  
+  /**
+   * Extracts data from a ResultSet object and builds the appropriate object.
+   * @param aResultSet The ResultSet to parse.
+   * @return Returns various objects.
+   */
+  protected abstract Object getRowsFromResultSet(final ResultSet aResult); 
 }

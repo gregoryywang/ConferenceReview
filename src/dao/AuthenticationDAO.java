@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.*;
+
 import model.User;
 
 /**}
@@ -21,6 +23,26 @@ public final class AuthenticationDAO extends AbstractDAO {
    * @return Returns a User Object if validated, null otherwise.
    */
   User authenticate(final int aUserid, final int aPassword) {
-    return new User();
+    ResultSet result = null;
+    try {
+      PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(AUTHENTICATE);
+      stmt.setInt(1, aUserid);
+      stmt.setInt(2, aPassword);
+      result = stmt.executeQuery();
+    } catch (Exception e) {}
+    
+    return (User) getRowsFromResultSet(result);
+  }
+
+  @Override
+  protected Object getRowsFromResultSet(ResultSet aResult) {
+    User userObject = new User();
+    try {
+      while ( aResult.next() ) {
+        ;;
+      }
+    } catch (Exception e) {}
+    
+    return userObject;
   }
 }

@@ -1,6 +1,8 @@
 package dao;
 
 import model.Conference;
+
+import java.sql.ResultSet;
 import java.util.Collection;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Collection;
  * @version 1.0
  *
  */
-public class ConferenceDAO {
+public class ConferenceDAO extends AbstractDAO {
 
   private static String GET_CONFERENCES = "SELECT * FROM CONFERENCE WHERE ACTIVE = 1";
   
@@ -27,5 +29,10 @@ public class ConferenceDAO {
    */
   public void addConference(final Conference aConference) {
     
+  }
+
+  @Override
+  protected Object getRowsFromResultSet(ResultSet aResult) {
+    return null;
   }
 }
