@@ -62,11 +62,11 @@ public class Conference extends Observable
 			final List<Paper> the_papers, final Map<Deadline,Date> the_deadlines)
 	{
 		my_date = (Date)the_date.clone();
-		my_PG_chair = new User(the_PG_chair);
+		my_PG_chair = the_PG_chair; //worry about deep copy?
 		my_topic = the_topic;
 		my_categories = new ArrayList<String>(the_categories);
-		my_papers = new ArrayList<Paper>(the_papers);
-		my_deadlines = new HashMap<Deadline, Date>(the_deadlines);
+		my_papers = the_papers;  //should we worry about deep copies?
+		my_deadlines = the_deadlines; //should we worry about deep copies?
 	}
 	
 	/**
@@ -84,6 +84,15 @@ public class Conference extends Observable
 				the_deadlines);
 	}
 	
+	/**
+	 * Void constructor which makes conference date the date of creation of this object,
+	 * a new user with default user info, topic "NO TOPIC", empty list of categories, and empty
+	 * list of papers and deadline map.
+	 */
+	public Conference()
+	{
+		this(new Date(), new User(), "NO TOPIC", new ArrayList<String>(), new HashMap<Deadline,Date>());
+	}
 	/**
 	 * Create a deep copy of the conference.
 	 * @param the_conference the conference.
@@ -152,5 +161,19 @@ public class Conference extends Observable
 	public Date getDeadline(final Deadline the_deadline)
 	{
 		return (Date)my_deadlines.get(the_deadline).clone();
+	}
+	
+	/**
+	 * Provide a short title to be displayed.
+	 * @return a short title for display purposes.
+	 */
+	public String shortTitle()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(my_topic);
+		sb.append(" (");
+		sb.append(my_date.toString());
+		sb.append(")");
+		return sb.toString();
 	}
 }
