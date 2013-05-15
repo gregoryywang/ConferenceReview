@@ -14,3 +14,4 @@ public enum Status {
 	ACCEPT,
 	DECLINE;
 }
+//?? Should this be part of the Paper??

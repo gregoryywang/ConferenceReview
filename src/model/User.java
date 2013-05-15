@@ -76,7 +76,7 @@ public class User extends Observable
 			final String the_username, final String the_password, final String the_email)
 	{
 		my_id = the_id;
-		my_conference = new Conference(the_conference);
+		my_conference = the_conference; //should we worry about cloning/copying?
 		my_role = the_role;
 		my_first_name = the_first_name;
 		my_last_name = the_last_name;
