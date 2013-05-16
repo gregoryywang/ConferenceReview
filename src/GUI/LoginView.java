@@ -39,7 +39,7 @@ public class LoginView extends JFrame {
 		 */
 		private static final long serialVersionUID = 1L;
 		
-		final JButton submitBtn;
+		final JButton submitButton;
 		final JPanel panel;
 		final JLabel usernameLabel, passwordLabel;
 		final JTextField  usernameField;
@@ -56,15 +56,15 @@ public class LoginView extends JFrame {
 			passwordLabel = new JLabel("Password:");
 			passwordField = new JPasswordField(15);
 
-			submitBtn =new JButton("SUBMIT");
-			submitBtn.addActionListener(this);
+			submitButton = new JButton("SUBMIT");
+			submitButton.addActionListener(this);
 
 			panel = new JPanel(new GridLayout(3,2));
 			panel.add(usernameLabel);
 			panel.add(usernameField);
 			panel.add(passwordLabel);
 			panel.add(passwordField);
-			panel.add(submitBtn);
+			panel.add(submitButton);
 
 			panel.add(new JLabel(""));
 			add(panel,BorderLayout.CENTER);
