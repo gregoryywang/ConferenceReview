@@ -10,11 +10,6 @@ import java.util.Observable;
 public class User extends Observable
 {
 	/**
-	 * Unique integer id for the user.
-	 */
-	private final int my_id;
-	
-	/**
 	 * The current conference for this user.
 	 * ???Should this be pushed down to the children?
 	 */
@@ -57,12 +52,10 @@ public class User extends Observable
 	public User()
 	{
 		my_username = "";
-		my_id = -1;
 	}
 	
 	/**
 	 * Create a user.
-	 * @param the_id a unique userid
 	 * @param the_conference the current conference the user is part of
 	 * @param the_role the current role of the user
 	 * @param the_first_name the first name
@@ -71,11 +64,10 @@ public class User extends Observable
 	 * @param the_password the password
 	 * @param the_email the contact email.
 	 */
-	public User(final int the_id, final Conference the_conference, final Role the_role, 
+	public User(final Conference the_conference, final Role the_role, 
 			final String the_first_name, final String the_last_name, 
 			final String the_username, final String the_password, final String the_email)
 	{
-		my_id = the_id;
 		my_conference = the_conference; //should we worry about cloning/copying?
 		my_role = the_role;
 		my_first_name = the_first_name;
@@ -89,17 +81,16 @@ public class User extends Observable
 	 * Create a generic user with no associated conferences or roles specified.
 	 * Will have null conference and Role.USER for the user.
 	 * 
-	 * @param the_id a unique userid
 	 * @param the_first_name the first name
 	 * @param the_last_name the last name
 	 * @param the_username the username for this user which is assumed unique for all users
 	 * @param the_password the password
 	 * @param the_email the contact email.
 	 */
-	public User(final int the_id, final String the_first_name, final String the_last_name, 
+	public User(final String the_first_name, final String the_last_name, 
 			final String the_username, final String the_password, final String the_email)
 	{
-		this(the_id, null, Role.USER, the_first_name, the_last_name, 
+		this(null, Role.USER, the_first_name, the_last_name, 
 				the_username, the_password, the_email);
 	}
 	
@@ -109,7 +100,7 @@ public class User extends Observable
 	 */
 	public User(final User the_user)
 	{
-		this(the_user.getID(), the_user.getConference(), the_user.getRole(),
+		this(the_user.getConference(), the_user.getRole(),
 				the_user.getFirstName(), the_user.getLastName(), 
 				the_user.getUsername(), the_user.getPassword(), the_user.getEmail());		
 	}
@@ -120,7 +111,7 @@ public class User extends Observable
 	 */
 	public int getID()
 	{
-		return my_id;
+		return my_username.hashCode();
 	}
 	
 	/**
