@@ -17,7 +17,7 @@ public final class UserDAO extends AbstractDAO {
   /**
    * Query used to authenticate a given user.
    */
-  private static final String AUTHENTICATE = "SELECT * FROM USER WHERE USERID = ? AND PASSWORD = ?";
+  private static final String AUTHENTICATE = "SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ?";
   
   /**
    * Query used to return user roles based on provided conference.
@@ -35,21 +35,28 @@ public final class UserDAO extends AbstractDAO {
    * @param password The password passed by the user.
    * @return Returns a User Object if validated, null otherwise.
    */
-  public boolean authenticate(final int aUserid, final int aPassword) {
+  public User authenticate(final String aUsername, final String aPassword) {
     ResultSet result = null;
-    boolean authenticated = false;
+    User user = null;
     
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(AUTHENTICATE);
-      stmt.setInt(1, aUserid);
-      stmt.setInt(2, aPassword);
+      stmt.setString(1, aUsername);
+      stmt.setString(2, aPassword);
       result = stmt.executeQuery();
-      if (result.getFetchSize() > 0)
-        authenticated = true;
       
-    } catch (Exception e) {}
+      while (result.next() ) {
+        user = new User();
+        user.setID(result.getInt("USER_ID"));
+        user.setFirstName(result.getString("FIRST_NAME"));
+        user.setLastName(result.getString("LAST_NAME"));
+        user.setEmail(result.getString("EMAIL_ADDRESS"));
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
     
-    return authenticated;
+    return user;
   }
   
   /**
