@@ -3,6 +3,7 @@ package GUI;
 /**
  * LoginView.java
  * @author yongyuwang
+ * @version 5-15-0654
  * Demonstrates the utilization of inner classes to combine JFrame and
  * ActionListener
  */
