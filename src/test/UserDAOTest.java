@@ -14,6 +14,9 @@ import dao.UserDAO;
 
 public class UserDAOTest {
 
+  /**
+   * Used for test setup.
+   */
   private UserDAO userDao = null;
   
   /**
