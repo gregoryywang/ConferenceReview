@@ -9,10 +9,16 @@ package GUI;
 
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 
 public class LoginView extends JFrame {
+
+	/**
+	 * Default generated serial code.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	LoginView() {
 		new Login(this);
@@ -28,18 +34,22 @@ public class LoginView extends JFrame {
 
 	class Login extends JFrame implements ActionListener
 	{
+		/**
+		 * Default generated serial code.
+		 */
+		private static final long serialVersionUID = 1L;
+		
 		final JButton submitBtn;
 		final JPanel panel;
 		final JLabel usernameLabel, passwordLabel;
 		final JTextField  usernameField;
 		final JPasswordField passwordField;
 
-		JFrame father;
-
-		Login(JFrame masterForm)
+		Login(JFrame loginForm)
 		{
-			super("Login form");
-			father = masterForm;
+			super("Login Window");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 			usernameLabel = new JLabel("Username:");
 			usernameField = new JTextField(15);
 
@@ -63,7 +73,7 @@ public class LoginView extends JFrame {
 			setSize(300,100);
 			setVisible(true);
 		}
-		public void actionPerformed(ActionEvent ee)
+		public void actionPerformed(ActionEvent event)
 		{
 			if(usernameField.getText().equals("admin")) {
 				// getPassword returns an array of char[]
@@ -73,7 +83,7 @@ public class LoginView extends JFrame {
 				}
 			}
 			// Dialog box pops up when authentication fails. 
-			JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password\n " +
+			JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password\n" +
 					"Please try again");
 		}	
 	}
