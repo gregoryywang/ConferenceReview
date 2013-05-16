@@ -35,16 +35,21 @@ public final class UserDAO extends AbstractDAO {
    * @param password The password passed by the user.
    * @return Returns a User Object if validated, null otherwise.
    */
-  public User authenticate(final int aUserid, final int aPassword) {
+  public boolean authenticate(final int aUserid, final int aPassword) {
     ResultSet result = null;
+    boolean authenticated = false;
+    
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(AUTHENTICATE);
       stmt.setInt(1, aUserid);
       stmt.setInt(2, aPassword);
       result = stmt.executeQuery();
+      if (result.getFetchSize() > 0)
+        authenticated = true;
+      
     } catch (Exception e) {}
     
-    return (User) getRowsFromResultSet(result);
+    return authenticated;
   }
   
   /**
@@ -52,25 +57,19 @@ public final class UserDAO extends AbstractDAO {
    */
   public Collection<Role> getRoles(final int aUserId, final int aConfId) {
     ResultSet result = null;
+    Collection<Role> roles = new ArrayList<Role>();
+    
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);
       stmt.setInt(1, aUserId);
       stmt.setInt(2, aConfId);
       result = stmt.executeQuery();
-    } catch (Exception e) {}
-    
-    return (Collection<Role>) getRowsFromResultSet(result);
-  }
-
-  @Override
-  protected Object getRowsFromResultSet(ResultSet aResult) {
-    Collection<Role> roleObject = new ArrayList<Role>();
-    try {
-      while ( aResult.next() ) {
-        ;;
+      
+      while ( result.next() ) {
+        ;
       }
     } catch (Exception e) {}
     
-    return roleObject;
+    return roles;
   }
 }

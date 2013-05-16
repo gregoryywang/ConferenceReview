@@ -30,9 +30,4 @@ public class ConferenceDAO extends AbstractDAO {
   public void addConference(final Conference aConference) {
     
   }
-
-  @Override
-  protected Object getRowsFromResultSet(ResultSet aResult) {
-    return null;
-  }
 }
