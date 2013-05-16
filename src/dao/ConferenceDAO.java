@@ -19,7 +19,7 @@ public class ConferenceDAO extends AbstractDAO {
    * Returns a collection of available conferences.
    * @return A collection of available conferences.
    */
-  private Collection<Conference> getConferences() {
+  public Collection<Conference> getConferences() {
     return null;
   }
   
