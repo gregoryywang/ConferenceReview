@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * that represents the "form" that a User
  * sees when they click on a Conference Object.
  * 
- * @author GuestUser
+ * @author Levon Kechichian
  * @version 1.0
  */
 public class ConferenceForm extends JFrame
@@ -57,7 +57,7 @@ public class ConferenceForm extends JFrame
 	/**
 	 * Method to test my GUI.
 	 * 
-	 * @the_args the command-line arguments
+	 * @param the_args the command-line arguments
 	 */
 	public static void main(final String[] the_args)
 	{
