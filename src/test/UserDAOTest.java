@@ -32,8 +32,8 @@ public class UserDAOTest {
    */
   @Test
   public void testAuthenticateFail() {
-    boolean result = userDao.authenticate("bob".hashCode(), "barker".hashCode());
-    assertFalse(result);
+    User user = userDao.authenticate("bob", "barker");
+    assertNull(user);
   }
   
   /**
@@ -41,8 +41,9 @@ public class UserDAOTest {
    */
   @Test
   public void testAuthenticatePass() {
-    boolean result = userDao.authenticate("robert".hashCode(), "barker".hashCode());
-    assertTrue(result);
+    User user = userDao.authenticate("AdminTest", "AdminTest");
+    assertNotNull(user);
+    assertEquals("Values did not match", user.getFirstName(), user.getLastName());
   }
   
   /**
