@@ -10,18 +10,11 @@ import java.util.Observable;
 public class User extends Observable
 {
 	/**
-	 * The current conference for this user.
-	 * ???Should this be pushed down to the children?
+	 * The unique id that identifies this user.
 	 */
-	private Conference my_conference;
-	
-	/**
-	 * The current role for this user.
-	 * ???Should this be pushed down to the children?
-	 */
-	private Role my_role;
-	
-	/**
+  private int user_id;
+  
+  /**
 	 * The User's first name.
 	 */
 	private String my_first_name;
@@ -68,8 +61,6 @@ public class User extends Observable
 			final String the_first_name, final String the_last_name, 
 			final String the_username, final String the_password, final String the_email)
 	{
-		my_conference = the_conference; //should we worry about cloning/copying?
-		my_role = the_role;
 		my_first_name = the_first_name;
 		my_last_name = the_last_name;
 		my_username = the_username;
@@ -100,8 +91,7 @@ public class User extends Observable
 	 */
 	public User(final User the_user)
 	{
-		this(the_user.getConference(), the_user.getRole(),
-				the_user.getFirstName(), the_user.getLastName(), 
+		this(the_user.getFirstName(), the_user.getLastName(), 
 				the_user.getUsername(), the_user.getPassword(), the_user.getEmail());		
 	}
 
@@ -111,47 +101,11 @@ public class User extends Observable
 	 */
 	public int getID()
 	{
-		return my_username.hashCode();
+		return user_id;
 	}
 	
-	/**
-	 * Set the current conference for the user.
-	 * @param the_conference the conference
-	 */
-	public void setConference(final Conference the_conference)
-	{
-		my_conference = new Conference(the_conference);
-		setChanged();
-		notifyObservers(the_conference);
-	}
-	
-	/**
-	 * Get the current conference for this user.
-	 * @return the current conference
-	 */
-	public Conference getConference()
-	{
-		return new Conference(my_conference);
-	}
-
-	/**
-	 * Change the role for this user.
-	 * @param the_role the role
-	 */
-	public void setRole(final Role the_role)
-	{
-		my_role = the_role;
-		setChanged();
-		notifyObservers(the_role);
-	}
-	
-	/**
-	 * Get the role of the user.
-	 * @return the current role
-	 */
-	public Role getRole()
-	{
-		return my_role;
+	public void setID(final int aId) {
+	  user_id = aId;
 	}
 	
 	/**
