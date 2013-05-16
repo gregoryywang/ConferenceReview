@@ -62,6 +62,7 @@ public class Conference extends Observable
 	 * @param the_papers the papers associated with this conference.
 	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
 	 */
+	/*
 	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
 			final List<String> the_categories, 
 			final List<Paper> the_papers, final Map<Deadline,Date> the_deadlines)
@@ -74,30 +75,90 @@ public class Conference extends Observable
 		my_papers = the_papers;  //should we worry about deep copies?
 		my_deadlines = the_deadlines; //should we worry about deep copies?
 	}
+	*/
+	
+	/**
+	 * Create a new conference.
+	 * @param the_date the date of the event
+	 * @param the_PG_chair the Program Chair for the event.
+	 * @param the_topic the topic for the event.
+	 * @param the_categories the categories for papers.
+	 * @param the_papers the papers associated with this conference.
+	 * @param the_submit_paper_deadline the date for authors to submit papers by
+	 * @param the_review_paper_deadline the last date for reviewers to review papers
+	 * @param the_make_recommendaiton_deadline the last date for subprogram chairs to give recommendations
+	 * @param the_final_decision_deadline the last date for a program chair decision
+	 * @param the_revise_paper_deadline the last date for an approved paper to be revised
+	 */
+	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
+			final List<String> the_categories, 
+			final List<Paper> the_papers, final Date the_submit_paper_deadline,
+			final Date the_review_paper_deadline, final Date the_make_recommendation_deadline,
+			final Date the_final_decision_deadline, final Date the_revise_paper_deadline)
+	{
+		my_id = the_conf_id;
+		my_date = (Date)the_date.clone();
+		my_PG_chair = the_PG_chair; //worry about deep copy?
+		my_topic = the_topic;
+		my_categories = new ArrayList<String>(the_categories);
+		my_papers = the_papers;  //should we worry about deep copies?
+		my_deadlines = new HashMap<Deadline, Date>();
+		my_deadlines.put(Deadline.SUBMIT_PAPER, (Date)the_submit_paper_deadline.clone());
+		my_deadlines.put(Deadline.REVIEW_PAPER, (Date)the_review_paper_deadline.clone());
+		my_deadlines.put(Deadline.MAKE_RECOMMENDATION, (Date)the_make_recommendation_deadline.clone());
+		my_deadlines.put(Deadline.FINAL_DECISION, (Date)the_final_decision_deadline.clone());
+		my_deadlines.put(Deadline.REVISE_PAPER, (Date)the_revise_paper_deadline.clone());
+	}
+	
+	/**
+	 * Create a conference with no associated papers yet.
+	 * @param the_conf_id the unique id of the event
+	 * @param the_date the date of the event
+	 * @param the_PG_chair the Program Chair for this event
+	 * @param the_topic the title (topic) of this event
+	 * @param the_categories the categories for paper submissions
+	 * @param the_submit_paper_deadline the last day for authors to submit papers
+	 * @param the_review_paper_deadline the last day for reviewers to submit reviews
+	 * @param the_make_recommendation_deadline the last day for SubProgram Chairs to make recommendations
+	 * @param the_final_decision_deadline the last day for Program Chairs to accept/decline papers
+	 * @param the_revise_paper_deadline the last day for accepted papers to be revised
+	 */
+	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
+			final List<String> the_categories, final Date the_submit_paper_deadline,
+			final Date the_review_paper_deadline, final Date the_make_recommendation_deadline,
+			final Date the_final_decision_deadline, final Date the_revise_paper_deadline)
+	{
+		this(the_conf_id, the_date, the_PG_chair, the_topic, the_categories, new ArrayList<Paper>(),
+				the_submit_paper_deadline, the_review_paper_deadline, the_make_recommendation_deadline,
+				the_final_decision_deadline, the_revise_paper_deadline);		
+	}
 	
 	/**
 	 * Create a new conference with no associated papers yet.
+	 * @param the_conf_id the unique id of the event
 	 * @param the_date the date of the event
 	 * @param the_PG_chair the Program Chair for the event.
 	 * @param the_topic the topic for the event.
 	 * @param the_categories the categories for papers.
 	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
 	 */
+	/*
 	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
 			final List<String> the_categories, final Map<Deadline,Date> the_deadlines)
 	{
 		this(the_conf_id, the_date, the_PG_chair, the_topic, the_categories, new ArrayList<Paper>(),
 				the_deadlines);
 	}
+	*/
 	
 	/**
 	 * Void constructor which makes conference date the date of creation of this object,
 	 * a new user with default user info, topic "NO TOPIC", empty list of categories, and empty
-	 * list of papers and deadline map.
+	 * list of papers and no deadlines.
 	 */
 	public Conference()
 	{
-		this(-1, new Date(), new User(), "NO TOPIC", new ArrayList<String>(), new HashMap<Deadline,Date>());
+		this(-1, new Date(), new User(), "NO TOPIC", new ArrayList<String>(), null, null, null, null, null, null);
 	}
 	/**
 	 * Create a deep copy of the conference.
@@ -106,7 +167,9 @@ public class Conference extends Observable
 	public Conference(final Conference the_conference)
 	{
 		this(the_conference.my_id, the_conference.my_date, the_conference.my_PG_chair, the_conference.my_topic,
-				the_conference.my_categories, the_conference.my_papers, the_conference.my_deadlines);
+				the_conference.my_categories, the_conference.my_papers, the_conference.my_deadlines.get(Deadline.SUBMIT_PAPER),
+				the_conference.my_deadlines.get(Deadline.REVIEW_PAPER), the_conference.my_deadlines.get(Deadline.MAKE_RECOMMENDATION),
+				the_conference.my_deadlines.get(Deadline.FINAL_DECISION), the_conference.my_deadlines.get(Deadline.REVISE_PAPER));
 	}
 	
 	/**
@@ -146,7 +209,7 @@ public class Conference extends Observable
 	{
 		my_PG_chair = new User(the_pg_chair);  //should it be a copy or not?
 	}
-	
+
 	/**
 	 * Change a deadline for the conference.  Assumes dates are valid, meaning
 	 * that the change of a deadline does not conflict with another deadline.

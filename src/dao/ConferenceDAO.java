@@ -1,9 +1,8 @@
 package dao;
 
-import model.Conference;
+import java.util.List;
 
-import java.sql.ResultSet;
-import java.util.Collection;
+import model.Conference;
 
 /**
  * DAO used to communicate with Conference related data.
@@ -19,7 +18,7 @@ public class ConferenceDAO extends AbstractDAO {
    * Returns a collection of available conferences.
    * @return A collection of available conferences.
    */
-  public Collection<Conference> getConferences() {
+  public List<Conference> getConferences() {
     return null;
   }
   

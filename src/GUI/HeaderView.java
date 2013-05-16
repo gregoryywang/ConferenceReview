@@ -4,16 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Conference;
-import model.User;
 import model.Role;
+import model.User;
 import dao.ConferenceDAO;
 import dao.UserDAO;
 
@@ -52,7 +53,8 @@ public class HeaderView extends JPanel {
 	}
 
 	private JComboBox makeRoleSelector() {
-		role_selector.setEditable(true);
+		role_selector.setEditable(false);
+		role_selector.addItem(Role.AUTHOR.toString());
 		//role_selector.actionPerformed(a);
 		//change user's role
 		return role_selector;
@@ -60,16 +62,26 @@ public class HeaderView extends JPanel {
 
 	private JComboBox makeConferenceSelector(final User the_user) {
 		final UserDAO user_dao = new UserDAO();
+		final ConferenceDAO conf_DAO = new ConferenceDAO();
 		
 		JComboBox conference_selector = makeRoleSelector();
-		for(Conference conf: getAvaliableConferences())
+		HashMap<String, Conference> conferences = new HashMap<String, Conference>();
+		for(Conference conf: conf_DAO.getConferences())
 		{
-			conference_selector.addItem(conf.shortTitle());
+			conferences.put(conf.shortTitle(), conf);
+		}
+		for(String name: conferences.keySet())
+		{
+			conference_selector.addItem(name);
 		}
 		conference_selector.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
-			{/*
+			{
+				JComboBox jcb = (JComboBox) the_event.getSource();
+				String conference_name = (String) jcb.getSelectedItem();
+				//need to fire off a change in the role selector menus.
+				/*
 				List<Role> roles = user_dao.getRoles(the_user.getID(), aConfId);
 				//populate role_selector box
 				//change user's conference */
@@ -77,13 +89,7 @@ public class HeaderView extends JPanel {
 		});
 		return conference_selector;
 	}
-	
-	private List<Conference> getAvaliableConferences ()
-	{
-		ConferenceDAO conf_DAO = new ConferenceDAO();
-		return new ArrayList<Conference>();
-	//	return conf_DAO.getConferences();  need to return a List<Conferences> but DAO is???
-	}
+
 /*	
 	public static void main(String...the_args)
 	{
