@@ -18,6 +18,11 @@ public class Conference extends Observable
 		FINAL_DECISION, REVISE_PAPER};
 		
 	/**
+	 * The conference id.
+	 */
+	private final int my_id;
+		
+	/**
 	 * The date of the conference event.
 	 */
 	private Date my_date;
@@ -57,10 +62,11 @@ public class Conference extends Observable
 	 * @param the_papers the papers associated with this conference.
 	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
 	 */
-	public Conference(final Date the_date, final User the_PG_chair, final String the_topic,
+	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
 			final List<String> the_categories, 
 			final List<Paper> the_papers, final Map<Deadline,Date> the_deadlines)
 	{
+		my_id = the_conf_id;
 		my_date = (Date)the_date.clone();
 		my_PG_chair = the_PG_chair; //worry about deep copy?
 		my_topic = the_topic;
@@ -77,10 +83,10 @@ public class Conference extends Observable
 	 * @param the_categories the categories for papers.
 	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
 	 */
-	public Conference(final Date the_date, final User the_PG_chair, final String the_topic,
+	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
 			final List<String> the_categories, final Map<Deadline,Date> the_deadlines)
 	{
-		this(the_date, the_PG_chair, the_topic, the_categories, new ArrayList<Paper>(),
+		this(the_conf_id, the_date, the_PG_chair, the_topic, the_categories, new ArrayList<Paper>(),
 				the_deadlines);
 	}
 	
@@ -91,7 +97,7 @@ public class Conference extends Observable
 	 */
 	public Conference()
 	{
-		this(new Date(), new User(), "NO TOPIC", new ArrayList<String>(), new HashMap<Deadline,Date>());
+		this(-1, new Date(), new User(), "NO TOPIC", new ArrayList<String>(), new HashMap<Deadline,Date>());
 	}
 	/**
 	 * Create a deep copy of the conference.
@@ -99,7 +105,7 @@ public class Conference extends Observable
 	 */
 	public Conference(final Conference the_conference)
 	{
-		this(the_conference.my_date, the_conference.my_PG_chair, the_conference.my_topic,
+		this(the_conference.my_id, the_conference.my_date, the_conference.my_PG_chair, the_conference.my_topic,
 				the_conference.my_categories, the_conference.my_papers, the_conference.my_deadlines);
 	}
 	

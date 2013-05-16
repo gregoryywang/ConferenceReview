@@ -9,7 +9,7 @@ public class Administrator extends User
 			final String the_first_name, final String the_last_name, 
 				final String the_username, final String the_password, final String the_email)
 	{
-		super(the_id, null, Role.ADMIN, the_first_name, the_last_name, 
+		super(null, Role.ADMIN, the_first_name, the_last_name, 
 				the_username, the_password, the_email);
 	}
 	
