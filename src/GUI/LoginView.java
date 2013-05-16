@@ -45,7 +45,7 @@ public class LoginView extends JFrame {
 		final JTextField  usernameField;
 		final JPasswordField passwordField;
 
-		Login(JFrame loginForm)
+		Login(JFrame LoginForm)
 		{
 			super("Login Window");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
