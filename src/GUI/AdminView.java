@@ -11,7 +11,7 @@ import model.Viewer;
  * represents what an Administrator User Interface
  * looks like.
  * 
- * @author GuestUser
+ * @author Levon Kechichian
  * @version 1.0
  */
 public class AdminView implements Viewer

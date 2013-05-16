@@ -3,7 +3,7 @@ package model;
 import java.util.Date;
 
 /**
- * Class to create an Adminstrator Object which
+ * Class to create an Administrator Object which
  * has all the functionality of a User plus
  * the ability to create conferences as well as
  * change the date associate with that conference.
