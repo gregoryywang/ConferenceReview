@@ -30,10 +30,11 @@ public class LoginView extends JFrame {
 	/**
 	 * TESTING ONLY
 	 * @param args
-	 */
+	 
 	public static void main(String[] args) {
 		new LoginView();
 	}
+	*/
 
 	class Login extends JFrame implements ActionListener
 	{
@@ -78,6 +79,7 @@ public class LoginView extends JFrame {
 			setSize(300,100);
 			setVisible(true);
 		}
+		
 		public void actionPerformed(ActionEvent event)
 		{
 			// creates a UserDAO to authenticate user
