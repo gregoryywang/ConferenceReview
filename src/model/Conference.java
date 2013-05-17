@@ -170,6 +170,15 @@ public class Conference extends Observable
 				the_conference.my_deadlines.get(Deadline.FINAL_DECISION), the_conference.my_deadlines.get(Deadline.REVISE_PAPER));
 	}
 	
+	public void setID(final int the_conf_id)
+	{
+		my_id = the_conf_id;
+	}
+	public int getID()
+	{
+		return my_id;
+	}
+	
 	/**
 	 * Change the date of the conference event.
 	 * @param the_date the conference event date.

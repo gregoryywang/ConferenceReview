@@ -75,16 +75,15 @@ public class HeaderView extends JPanel {
 		//used for testing
 		List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
 		Conference c1 = new Conference();
-		c1.setTopic("Trees are GREAT!");
+		c1.setTopic("Trees are GREAT");
 		Conference c2 = new Conference();
-		c2.setTopic("The Wonderful World of Slugs!");
+		c2.setTopic("The Wonderful World of Slugs");
 		ro.add(new ReferenceObject(c1.getTopic(), c1));
 		ro.add(new ReferenceObject(c2.getTopic(), c2));
 		
 		//end of testing
 		
 		//List<ReferenceObject> ro = conf_DAO.getConferencesRef();
-		//needs a cast!
 		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
 		JComboBox conference_selector = new JComboBox(conference_model);
 		conference_selector.setModel(conference_model);
@@ -93,7 +92,7 @@ public class HeaderView extends JPanel {
 			public void actionPerformed(final ActionEvent the_event)
 			{
 				JComboBox jcb = (JComboBox) the_event.getSource();
-				//ReferenceObject conference_name = (ReferenceObject) jcb.getSelectedItem();
+				ReferenceObject conference_name = (ReferenceObject) jcb.getSelectedItem();
 				//int conf_id = (int) conference_name.getValue(conference_name);
 				
 				//List<ReferenceObject> ro_role = user_DAO.getRolesRef();
