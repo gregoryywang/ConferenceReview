@@ -16,7 +16,6 @@ import dao.UserDAO;
 
 import java.awt.event.*;
 
-
 public class LoginView extends JFrame {
 
 	/**
@@ -49,7 +48,7 @@ public class LoginView extends JFrame {
 		final JTextField  usernameField;
 		final JPasswordField passwordField;
 		
-		User user = null;
+		private User user = null;
 
 		Login(JFrame LoginForm)
 		{
@@ -92,14 +91,16 @@ public class LoginView extends JFrame {
 			user = user_dao.authenticate(usernameField.getText(), password);
 			
 			// returns user if login succeeds 
-			if(user != null) {
+			if (user != null) {
 				// DEBUG
 				JOptionPane.showMessageDialog(this, "Success!");
 				returnUser();
 			}
-			// Dialog box pops up when authentication fails. 
-			JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password\n" +
-					"Please try again");
+			else {
+				// Dialog box pops up when authentication fails. 
+				JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password.\n" +
+						"Please try again.");
+			}			
 		}
 		
 		User returnUser() {
