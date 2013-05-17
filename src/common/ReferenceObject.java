@@ -12,6 +12,14 @@ public class ReferenceObject {
   public ReferenceObject() {}
   
   /**
+   * 2-Arg Constructor.
+   */
+  public ReferenceObject(final String aDisplay, final Object aObject) {
+    display = aDisplay;
+    data = aObject;
+  }
+  
+  /**
    * Holds the display text of the object.
    */
   private String display;
