@@ -10,6 +10,10 @@ package gui;
 
 import java.awt.*;
 import javax.swing.*;
+
+import model.User;
+import dao.UserDAO;
+
 import java.awt.event.*;
 
 
@@ -44,6 +48,8 @@ public class LoginView extends JFrame {
 		final JLabel usernameLabel, passwordLabel;
 		final JTextField  usernameField;
 		final JPasswordField passwordField;
+		
+		User user = null;
 
 		Login(JFrame LoginForm)
 		{
@@ -75,17 +81,30 @@ public class LoginView extends JFrame {
 		}
 		public void actionPerformed(ActionEvent event)
 		{
-			if(usernameField.getText().equals("admin")) {
-				// getPassword returns an array of char[]
-				if(new String(passwordField.getPassword()).equals("admin")) {
-					JOptionPane.showMessageDialog(this, "Success!");
-					return;
-				}
+			// creates a UserDAO to authenticate user
+			UserDAO user_dao = new UserDAO(); 
+			
+			// getPassword returns an array of char[], need to convert to String
+			final char[] tempPassword = passwordField.getPassword();
+			final String password = new String(tempPassword);
+			
+			// authenticates user, gets user object
+			user = user_dao.authenticate(usernameField.getText(), password);
+			
+			// returns user if login succeeds 
+			if(user != null) {
+				// DEBUG
+				JOptionPane.showMessageDialog(this, "Success!");
+				returnUser();
 			}
 			// Dialog box pops up when authentication fails. 
 			JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password\n" +
 					"Please try again");
-		}	
+		}
+		
+		User returnUser() {
+			return user;
+		}
 	}
 }
 
