@@ -56,4 +56,12 @@ public class ReferenceObject {
   public Object getData() {
     return data;
   }
+  
+  /**
+   * Returns String representation of object.
+   */
+  @Override
+  public String toString() {
+    return display;
+  }
 }
