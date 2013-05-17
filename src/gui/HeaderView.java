@@ -10,17 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import common.ReferenceObject;
-
 import model.Conference;
 import model.Conference.Deadline;
 import model.Role;
 import model.User;
+
+import common.ReferenceObject;
+
 import dao.ConferenceDAO;
 import dao.UserDAO;
 
@@ -69,14 +72,22 @@ public class HeaderView extends JPanel {
 		final UserDAO user_dao = new UserDAO();
 		final ConferenceDAO conf_DAO = new ConferenceDAO();
 		
-		JComboBox conference_selector = new JComboBox();
-		HashMap<String, Conference> conferences = new HashMap<String, Conference>();
+		//used for testing
 		List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
-		//ro.add()
+		Conference c1 = new Conference();
+		c1.setTopic("Trees are GREAT!");
+		Conference c2 = new Conference();
+		c2.setTopic("The Wonderful World of Slugs!");
+		ro.add(new ReferenceObject(c1.getTopic(), c1));
+		ro.add(new ReferenceObject(c2.getTopic(), c2));
+		
+		//end of testing
+		
 		//List<ReferenceObject> ro = conf_DAO.getConferencesRef();
-		//ComboBoxModel conference_model = new DefaultComboBox(ro.toArray[]);
-		//JComboBox conference_selector = new JComboBox(conference_model);
-		//conference_selector.setModel(conference_model;
+		//needs a cast!
+		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
+		JComboBox conference_selector = new JComboBox(conference_model);
+		conference_selector.setModel(conference_model);
 		conference_selector.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
