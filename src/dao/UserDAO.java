@@ -6,6 +6,7 @@ import model.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This class used for system authentication.
@@ -62,9 +63,9 @@ public final class UserDAO extends AbstractDAO {
   /**
    * Gets user roles based on conference and user id.
    */
-  public Collection<Role> getRoles(final int aUserId, final int aConfId) {
+  public List<Role> getRoles(final int aUserId, final int aConfId) {
     ResultSet result = null;
-    Collection<Role> roles = new ArrayList<Role>();
+    List<Role> roles = new ArrayList<Role>();
     
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);

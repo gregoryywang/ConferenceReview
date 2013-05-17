@@ -4,6 +4,9 @@ import java.util.List;
 
 import model.Conference;
 
+import java.sql.ResultSet;
+import java.util.List;
+
 /**
  * DAO used to communicate with Conference related data.
  * @author Roshun Jones

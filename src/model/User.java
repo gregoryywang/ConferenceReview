@@ -27,7 +27,7 @@ public class User extends Observable
 	/**
 	 * The User's username to log in (assumed unique).
 	 */
-	private final String my_username;
+	private String my_username;
 
 	/**
 	 * The User's password.
@@ -40,11 +40,9 @@ public class User extends Observable
 	private String my_email;
 	
 	/**
-	 * DO NOT USE!!!!!!
+	 * Default constructor.
 	 */
-	public User()
-	{
-		my_username = "";
+	public User(){
 	}
 	
 	/**
