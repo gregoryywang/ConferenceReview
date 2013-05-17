@@ -4,15 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import common.ReferenceObject;
+
 import model.Conference;
+import model.Conference.Deadline;
 import model.Role;
 import model.User;
 import dao.ConferenceDAO;
@@ -54,7 +60,6 @@ public class HeaderView extends JPanel {
 
 	private JComboBox makeRoleSelector() {
 		role_selector.setEditable(false);
-		role_selector.addItem(Role.AUTHOR.toString());
 		//role_selector.actionPerformed(a);
 		//change user's role
 		return role_selector;
@@ -64,55 +69,49 @@ public class HeaderView extends JPanel {
 		final UserDAO user_dao = new UserDAO();
 		final ConferenceDAO conf_DAO = new ConferenceDAO();
 		
-		JComboBox conference_selector = makeRoleSelector();
+		JComboBox conference_selector = new JComboBox();
 		HashMap<String, Conference> conferences = new HashMap<String, Conference>();
-		for(Conference conf: conf_DAO.getConferences())
-		{
-			conferences.put(conf.shortTitle(), conf);
-		}
-		for(String name: conferences.keySet())
-		{
-			conference_selector.addItem(name);
-		}
+		List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
+		//ro.add()
+		//List<ReferenceObject> ro = conf_DAO.getConferencesRef();
+		//ComboBoxModel conference_model = new DefaultComboBox(ro.toArray[]);
+		//JComboBox conference_selector = new JComboBox(conference_model);
+		//conference_selector.setModel(conference_model;
 		conference_selector.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
 				JComboBox jcb = (JComboBox) the_event.getSource();
-				String conference_name = (String) jcb.getSelectedItem();
-				//need to fire off a change in the role selector menus.
-				/*
-				List<Role> roles = user_dao.getRoles(the_user.getID(), aConfId);
-				//populate role_selector box
-				//change user's conference */
+				//ReferenceObject conference_name = (ReferenceObject) jcb.getSelectedItem();
+				//int conf_id = (int) conference_name.getValue(conference_name);
+				
+				//List<ReferenceObject> ro_role = user_DAO.getRolesRef();
+				//ComboBoxModel role_model = new DefaultComboBox(ro_role.toArray[]);
+				//role_selector.setModel(role_model);
 			}
 		});
 		return conference_selector;
 	}
 
-/*	
 	public static void main(String...the_args)
 	{
 		List<String> categories = new ArrayList<String>();
 		categories.add("Cat1");
 		categories.add("Cat2");
 		categories.add("Cat3");
-		User pguser = new User(-1, "Test", "PGUser", "testpguser", "testpsswd", "test@notvalid.com");
+		User pguser = new User("Test", "PGUser", "testpguser", "testpsswd", "test@notvalid.com");
 		Map<Conference.Deadline, Date> deadlines = new HashMap<Conference.Deadline, Date>();
-//		GregorianCalendar cldr = new GregorianCalendar(2013, GregorianCalendar.AUGUST, 13);
-//		cldr.set(2019, Calendar.APRIL, 23);
 		deadlines.put(Deadline.SUBMIT_PAPER, new Date());
-		Conference conf = new Conference(new Date(), pguser, "Conference Topic",
-				categories, deadlines);
-		User user = new User(-1, conf, Role.USER,"Test", "User", "testuser", "testpsswd", "test@notvalid.com");
+		Conference conf = new Conference();
+		User user = new User(conf, Role.USER,"Test", "User", "testuser", "testpsswd", "test@notvalid.com");
 		HeaderView hv = new HeaderView(user);
 		hv.setVisible(true);
 		
 		JFrame frame = new JFrame();
 		frame.add(hv);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true);
 	}
-*/
 }
 

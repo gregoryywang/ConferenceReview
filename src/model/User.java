@@ -42,7 +42,8 @@ public class User extends Observable
 	/**
 	 * Default constructor.
 	 */
-	public User(){
+	public User()
+	{
 	}
 	
 	/**

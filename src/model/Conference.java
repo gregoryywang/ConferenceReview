@@ -20,7 +20,7 @@ public class Conference extends Observable
 	/**
 	 * The conference id.
 	 */
-	private final int my_id;
+	private int my_id;
 		
 	/**
 	 * The date of the conference event.
@@ -152,13 +152,11 @@ public class Conference extends Observable
 	*/
 	
 	/**
-	 * Void constructor which makes conference date the date of creation of this object,
-	 * a new user with default user info, topic "NO TOPIC", empty list of categories, and empty
-	 * list of papers and no deadlines.
+	 * Default Constructor.
 	 */
 	public Conference()
 	{
-		this(-1, new Date(), new User(), "NO TOPIC", new ArrayList<String>(), null, null, null, null, null, null);
+		//nothing here
 	}
 	/**
 	 * Create a deep copy of the conference.
@@ -193,15 +191,6 @@ public class Conference extends Observable
 	}
 	
 	/**
-	 * Add a paper to the conference.
-	 * @param the_paper the paper to add to the event.
-	 */
-	public void addPaper(final Paper the_paper)
-	{
-		my_papers.add(the_paper);  //should it be a copy of the paper or the paper itself?
-	}
-	
-	/**
 	 * Change the Program Chair for this conference.
 	 * @param the_pg_chair the program chair for this conference.
 	 */
@@ -209,7 +198,47 @@ public class Conference extends Observable
 	{
 		my_PG_chair = new User(the_pg_chair);  //should it be a copy or not?
 	}
+	
+	/**
+	 * Get the Program Chair for this conference.  Any change made
+	 * to this user will be reflected in the conference copy as well.
+	 * @return 
+	 */
+	public User getPG_Chair()
+	{
+		return my_PG_chair;
+	}
 
+	public void setTopic(final String the_topic)
+	{
+		my_topic = the_topic;
+	}
+	
+	public String getTopic()
+	{
+		return my_topic;
+	}
+	
+	/**
+	 * Add a paper to the conference.
+	 * @param the_paper the paper to add to the event.
+	 */
+	public void addPaper(final Paper the_paper)
+	{
+		my_papers.add(the_paper);
+	}
+	
+	/**
+	 * Return a list of the papers for this conference.  This list is backed
+	 * by the list so any changes to the papers will be reflected in the 
+	 * the conference's list.
+	 * @return a list of papers for this conference.
+	 */
+	public List<Paper> getPapers()
+	{
+		return my_papers;
+	}
+	
 	/**
 	 * Change a deadline for the conference.  Assumes dates are valid, meaning
 	 * that the change of a deadline does not conflict with another deadline.
@@ -238,11 +267,6 @@ public class Conference extends Observable
 	 */
 	public String shortTitle()
 	{
-		StringBuilder sb = new StringBuilder();
-		sb.append(my_topic);
-		sb.append(" (");
-		sb.append(my_date.toString());
-		sb.append(")");
-		return sb.toString();
+		return my_topic;
 	}
 }
