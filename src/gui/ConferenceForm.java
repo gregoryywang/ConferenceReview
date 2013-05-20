@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -70,16 +71,28 @@ public class ConferenceForm extends JFrame
 		 * The default serial version UID.
 		 */
 		private static final long serialVersionUID = 1L;
+		
+		/**
+		 * The number of textfield rows.
+		 */
+		private static final int ROWS = 2;
+		
+		/**
+		 * The number of textfield columns.
+		 */
+		private static final int COLUMNS = 10;
 
 		/**
 		 * Constructs a default ConferencePanel Object.
 		 */
 		public ConferencePanel()
 		{
-			super();
+			super(new GridLayout(ROWS, COLUMNS));
 			setBackground(Color.GREEN);
 			setVisible(true);
 		}
+		
+		
 	}
 	
 }
