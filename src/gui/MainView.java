@@ -7,47 +7,32 @@ package gui;
  * @version BETA-5-15-1252
  */
 
-//TODO: Fix import mess/sort out dependencies.
-import java.awt.BorderLayout;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 public class MainView extends JFrame {
-
-	/**
-	 * Default generated serial code.
+	
+    /**
+	 * Default serial to suppress warnings
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainView frame = new MainView();
-					frame.setVisible(true);
-					LoginView panel = new LoginView();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public MainView(){
+        this.setTitle("Main View");
+        this.setSize(1200,720);
+        
+        this.setVisible(true);
+        
+        JPanel panel = new JPanel();
+        this.getContentPane().add(panel);
 
-	/**
-	 * Create the frame.
-	 */
-	public MainView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);		
-	}
-
+        new LoginView(MainView.this, "Login Window", true);
+        
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public static void main(String[] args){
+        new MainView().setVisible(true);
+    }
 }
