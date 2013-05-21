@@ -40,6 +40,11 @@ public class User extends Observable
 	private String my_email;
 	
 	/**
+	 * The User's current role.
+	 */
+	private Role my_role;
+	
+	/**
 	 * Default constructor.
 	 */
 	public User()
@@ -65,6 +70,7 @@ public class User extends Observable
 		my_username = the_username;
 		my_password = the_password;
 		my_email = the_email;
+		my_role = the_role;
 	}
 
 	/**
@@ -194,4 +200,12 @@ public class User extends Observable
 	{
 		return my_email;
 	}
+
+  public Role getRole() {
+    return my_role;
+  }
+
+  public void setRole(Role the_role) {
+    this.my_role = the_role;
+  }
 }
