@@ -1,13 +1,19 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Conference;
+import model.Conference.Deadline;
 import model.Paper;
 import model.Role;
 import model.User;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 import common.ReferenceObject;
 
@@ -19,14 +25,48 @@ import common.ReferenceObject;
  */
 public class ConferenceDAO extends AbstractDAO {
 
-  private static String GET_CONFERENCES = "SELECT * FROM CONFERENCE WHERE ACTIVE = 1";
+  /**
+   * Get all active conferences.
+   */
+  private static String GET_CONFERENCES = "SELECT * FROM CONFERENCE";
+  
+  /**
+   * Get conference based on conf_id
+   */
+  private static String GET_CONFERENCE = "SELECT * FROM CONFERENCE WHERE CONF_ID = ?";
+  
+  /**
+   * Update existing conference record.
+   */
+  private static String UPDATE_CONFERENCE = "UPDATE CONFERENCE SET TOPIC = ?, CONFERENCE_DATE = ?, " +
+      "AUTHOR_SUB_DEADLINE = ?, REVIEWER_SUB_DEADLINE = ?, AUTHOR_NOTIFICATION_DEADLINE = ? " +
+      "WHERE CONF_ID = ? ";
+  
+  /**
+   * Insert new conference record.
+   */
+  private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE VALUES(?,?,?,?,?) ";
+  
   
   /**
    * Returns a collection of available conferences.
    * @return A collection of available conferences.
    */
   public List<ReferenceObject> getConferencesRef() {
-    return null;
+      ResultSet result = null;
+      List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
+                                 
+      try {
+        Statement stmt = AbstractDAO.getConnection().createStatement();
+        result = stmt.executeQuery(GET_CONFERENCES);
+        
+        while ( result.next() ) {
+          refs.add(new ReferenceObject(result.getString("TOPIC"),
+                                       result.getObject("CONF_ID")));
+        }
+      } catch (Exception e) {}
+      
+      return refs;  
   }
   
   /**
@@ -34,7 +74,29 @@ public class ConferenceDAO extends AbstractDAO {
    * @param aConference The conference to persist.
    */
   public void saveConference(final Conference aConference) {
-    
+    try {
+      Connection con = AbstractDAO.getConnection();
+      
+      //New record to insert
+      if ( aConference.getID() == 0 ) {
+        PreparedStatement stmt = con.prepareStatement(INSERT_CONFERENCE);
+        stmt.setString(1, aConference.getTopic());
+        stmt.setDate(2, (Date) aConference.getDate());
+        stmt.setDate(3, (Date) aConference.getDeadline(Deadline.SUBMIT_PAPER));
+        stmt.setDate(4, (Date) aConference.getDeadline(Deadline.REVIEW_PAPER));
+        stmt.setDate(5, (Date) aConference.getDeadline(Deadline.FINAL_DECISION));
+      } else {
+        //Update existing record
+        PreparedStatement stmt = con.prepareStatement(UPDATE_CONFERENCE);
+        stmt.setString(1, aConference.getTopic());
+        stmt.setDate(2, (Date) aConference.getDate());
+        stmt.setDate(3, (Date) aConference.getDeadline(Deadline.SUBMIT_PAPER));
+        stmt.setDate(4, (Date) aConference.getDeadline(Deadline.REVIEW_PAPER));
+        stmt.setDate(5, (Date) aConference.getDeadline(Deadline.FINAL_DECISION));
+        stmt.setInt(6, aConference.getID());
+        stmt.executeUpdate();
+      }
+    } catch (Exception e) {}
   }
   
   /**
@@ -51,6 +113,7 @@ public class ConferenceDAO extends AbstractDAO {
    * @param aConfId The conference id.
    */
   public Conference getConference(final int aConfId) {
+    Connection con = AbstractDAO.getConnection();
     return new Conference();
   }
   
