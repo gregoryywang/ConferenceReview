@@ -45,6 +45,11 @@ public class User extends Observable
 	private Role my_role;
 	
 	/**
+	 * The User's current conference.
+	 */
+	private Conference my_conference;
+	
+	/**
 	 * Default constructor.
 	 */
 	public User()
@@ -204,8 +209,22 @@ public class User extends Observable
   public Role getRole() {
     return my_role;
   }
-
+  
   public void setRole(Role the_role) {
-    this.my_role = the_role;
+    my_role = the_role;
+    setChanged();
+    notifyObservers();
+  }
+
+public Conference getConference()
+  {
+	  return my_conference;
+  }
+  
+  public void setConference(final Conference the_conference)
+  {
+	  my_conference = the_conference;
+	  setChanged();
+	  notifyObservers();
   }
 }
