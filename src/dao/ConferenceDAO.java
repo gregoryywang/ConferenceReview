@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import model.Conference;
+import model.Paper;
 
 import java.sql.ResultSet;
 import java.util.List;
@@ -29,7 +30,16 @@ public class ConferenceDAO extends AbstractDAO {
    * Adds new conference to data source.
    * @param aConference The conference to persist.
    */
-  public void addConference(final Conference aConference) {
+  public void saveConference(final Conference aConference) {
     
+  }
+  
+  /**
+   * Adds a new paper to the conference
+   * @param conf_id the conference id
+   * @param the_paper the paper
+   */
+  public void addPaper(final int conf_id, final Paper the_paper){
+	  
   }
 }
