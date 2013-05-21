@@ -29,6 +29,13 @@ public final class UserDAO extends AbstractDAO {
   		                                      "FROM USER_ROLE_CONFERENCE AS A" +
   		                                      "INNER JOIN ROLE AS B ON A.ROLE_ID = B.ROLE_ID " +
   		                                     "WHERE CONF_ID = ? AND USER_ID = ?";
+  /**
+   * Determines whether a user is an Administrator.
+   */
+  private static final String IS_ADMIN = "SELECT NULL " +
+                                           "FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS A " +
+                                           " INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
+                                           "WHERE B.ROLE_TYPE = ? ";
   
   /**
    * Authenticates a user based on userid and password.
@@ -99,7 +106,20 @@ public final class UserDAO extends AbstractDAO {
   /**
    * Returns whether a user is an administrator.
    */
-  public boolean isAdministrator(final String aUserid) {
-    return true;
-  }
+  public boolean isAdmin(final String aUserid) {
+    ResultSet rs = null;
+    boolean result = false;
+    
+    try {
+      PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(IS_ADMIN);
+      stmt.setString(1, aUserid);
+      stmt.setInt(2, Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
+      rs = stmt.executeQuery();
+      
+      result = rs.next();
+    
+    } catch (Exception e) {}
+    
+    return result;
+   }
 }
