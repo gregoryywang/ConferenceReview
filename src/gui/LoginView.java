@@ -16,98 +16,73 @@ import dao.UserDAO;
 
 import java.awt.event.*;
 
-public class LoginView extends JFrame {
-
+class LoginView extends JDialog implements ActionListener
+{
 	/**
 	 * Default generated serial code.
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	final JButton submitButton;
+	final JPanel panel;
+	final JLabel usernameLabel, passwordLabel;
+	final JTextField  usernameField;
+	final JPasswordField passwordField;
+	
+	private User user = null;
 
-	LoginView() {
-		new Login(this);
-	}
-
-	/**
-	 * TESTING ONLY
-	 * @param args
-	 
-	public static void main(String[] args) {
-		new LoginView();
-	}
-	*/
-
-	class Login extends JFrame implements ActionListener
+	LoginView()
 	{
-		/**
-		 * Default generated serial code.
-		 */
-		private static final long serialVersionUID = 1L;
+		usernameLabel = new JLabel("Username:");
+		usernameField = new JTextField(15);
+
+		passwordLabel = new JLabel("Password:");
+		passwordField = new JPasswordField(15);
+
+		submitButton = new JButton("SUBMIT");
+		submitButton.addActionListener(this);
+
+		panel = new JPanel(new GridLayout(3,2));
+		panel.add(usernameLabel);
+		panel.add(usernameField);
+		panel.add(passwordLabel);
+		panel.add(passwordField);
+		panel.add(submitButton);
+
+		panel.add(new JLabel(""));
+		add(panel,BorderLayout.CENTER);
+
+		setTitle("PLEASE LOGIN");
+		setSize(300,100);
+		setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent event)
+	{
+		// creates a UserDAO to authenticate user
+		UserDAO user_dao = new UserDAO(); 
 		
-		final JButton submitButton;
-		final JPanel panel;
-		final JLabel usernameLabel, passwordLabel;
-		final JTextField  usernameField;
-		final JPasswordField passwordField;
+		// getPassword returns an array of char[], need to convert to String
+		final char[] tempPassword = passwordField.getPassword();
+		final String password = new String(tempPassword);
 		
-		private User user = null;
-
-		Login(JFrame LoginForm)
-		{
-			super("Login Window");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-			usernameLabel = new JLabel("Username:");
-			usernameField = new JTextField(15);
-
-			passwordLabel = new JLabel("Password:");
-			passwordField = new JPasswordField(15);
-
-			submitButton = new JButton("SUBMIT");
-			submitButton.addActionListener(this);
-
-			panel = new JPanel(new GridLayout(3,2));
-			panel.add(usernameLabel);
-			panel.add(usernameField);
-			panel.add(passwordLabel);
-			panel.add(passwordField);
-			panel.add(submitButton);
-
-			panel.add(new JLabel(""));
-			add(panel,BorderLayout.CENTER);
-
-			setTitle("PLEASE LOGIN");
-			setSize(300,100);
-			setVisible(true);
+		// authenticates user, gets user object
+		user = user_dao.authenticate(usernameField.getText(), password);
+				
+		// returns user if login succeeds 
+		if (user != null) {
+			// DEBUG
+			JOptionPane.showMessageDialog(this, "Success!\nPlease delete at some point!");
 		}
-		
-		public void actionPerformed(ActionEvent event)
-		{
-			// creates a UserDAO to authenticate user
-			UserDAO user_dao = new UserDAO(); 
-			
-			// getPassword returns an array of char[], need to convert to String
-			final char[] tempPassword = passwordField.getPassword();
-			final String password = new String(tempPassword);
-			
-			// authenticates user, gets user object
-			user = user_dao.authenticate(usernameField.getText(), password);
-			
-			// returns user if login succeeds 
-			if (user != null) {
-				// DEBUG
-				JOptionPane.showMessageDialog(this, "Success!");
-				returnUser();
-			}
-			else {
-				// Dialog box pops up when authentication fails. 
-				JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password.\n" +
-						"Please try again.");
-			}			
-		}
-		
-		User returnUser() {
-			return user;
-		}
+		else {
+			// Dialog box pops up when authentication fails. 
+			JOptionPane.showMessageDialog(this, "Sorry, wrong username and/or password.\n" +
+					"Please try again.");
+		}			
+	}
+	
+	User getUser() {
+		return user;
 	}
 }
 

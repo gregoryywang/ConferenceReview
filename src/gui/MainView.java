@@ -30,6 +30,7 @@ public class MainView extends JFrame {
 				try {
 					MainView frame = new MainView();
 					frame.setVisible(true);
+					LoginView panel = new LoginView();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,8 +47,7 @@ public class MainView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		LoginView panel = new LoginView();
+		setContentPane(contentPane);		
 	}
 
 }
