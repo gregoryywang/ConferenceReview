@@ -27,7 +27,7 @@ public final class UserDAO extends AbstractDAO {
    */
   private static final String GET_ROLES = "SELECT B.ROLE_ID, B.TITLE " +
   		                                      "FROM USER_ROLE_CONFERENCE AS A" +
-  		                                      "INNER JOIN ROLE AS B ON A.ROLE_ID = B.ROLE_ID " +
+  		                                      "INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
   		                                     "WHERE CONF_ID = ? AND USER_ID = ?";
   /**
    * Determines whether a user is an Administrator.
@@ -36,6 +36,13 @@ public final class UserDAO extends AbstractDAO {
                                            "FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS A " +
                                            " INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
                                            "WHERE B.ROLE_TYPE = ? ";
+  
+  /**
+   * Returns a user based on userid.
+   * @param aUserid The user id of the User to return.
+   * @return Returns the User object.
+   */
+  private static final String GET_USER = "SELECT * FROM USER WHERE USER_ID = ?";
   
   /**
    * Authenticates a user based on userid and password.
@@ -67,10 +74,6 @@ public final class UserDAO extends AbstractDAO {
     return user;
   }
   
-  /**
-   * Returns a list of Users as Reference Objects.
-   * @returns Returns a list of System Users as Reference Objects.
-   */
   
   /**
    * Returns a list of Roles as Reference Objects.
@@ -80,7 +83,6 @@ public final class UserDAO extends AbstractDAO {
     List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
     
     ResultSet result = null;
-    List<Role> roles = new ArrayList<Role>();
     
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);
@@ -89,7 +91,7 @@ public final class UserDAO extends AbstractDAO {
       result = stmt.executeQuery();
       
       while ( result.next() ) {
-        ;
+        refs.add(new ReferenceObject(result.getString("TITLE"), result.getObject("ROLE_ID")));
       }
     } catch (Exception e) {}
     
@@ -115,4 +117,79 @@ public final class UserDAO extends AbstractDAO {
     
     return result;
    }
+  
+  /**
+   * Gets a user object based on userid.
+   */
+  public User getUser(final int aUserid) {
+    ResultSet result = null;
+    User user = null;
+    
+    try {
+      PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_USER);
+      stmt.setInt(1, aUserid);
+      result = stmt.executeQuery();
+      
+      while (result.next() ) {
+        user = new User();
+        user.setID(result.getInt("USER_ID"));
+        user.setFirstName(result.getString("FIRST_NAME"));
+        user.setLastName(result.getString("LAST_NAME"));
+        user.setEmail(result.getString("EMAIL_ADDRESS"));
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    
+    return user;
+  }
+  
+  /**
+   * Returns a list of system users based on role type.
+   * @param aRoleType The role type.
+   */
+  public List<ReferenceObject> getUsersRef(final Role aRoleType) {
+    List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
+    
+    ResultSet result = null;
+    
+    final String USER_REFS = "SELECT * FROM USER AS A " +
+                             " INNER JOIN USER_ROLE_PAPER_CONFERENCE_JOIN AS B ON A.USER_ID = B.USER_ID " +
+                             "WHERE ";
+    try {
+      PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);
+      //stmt.setInt(1, aUserId);
+      //stmt.setInt(2, aConfId);
+      result = stmt.executeQuery();
+      
+      while ( result.next() ) {
+        refs.add(new ReferenceObject(result.getString("TITLE"), result.getObject("ROLE_ID")));
+      }
+    } catch (Exception e) {}
+    
+    return refs; 
+  }
+  
+  /**
+   * Returns a list of system users based on role type.
+   * @param aRoleType The role type.
+   */
+  public List<ReferenceObject> getUsersRef() {
+    ResultSet result = null;
+    List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
+    
+    final String USER_REFS = "SELECT * FROM USER AS A ";
+                             
+    try {
+      Statement stmt = AbstractDAO.getConnection().createStatement();
+      result = stmt.executeQuery(USER_REFS);
+      
+      while ( result.next() ) {
+        refs.add(new ReferenceObject(result.getString("LAST_NAME") + ", " + result.getString("LAST_NAME"),
+                                     result.getObject("USER_ID")));
+      }
+    } catch (Exception e) {}
+    
+    return refs; 
+  } 
 }
