@@ -99,13 +99,13 @@ public final class UserDAO extends AbstractDAO {
   /**
    * Returns whether a user is an administrator.
    */
-  public boolean isAdmin(final String aUserid) {
+  public boolean isAdmin(final int aUserid) {
     ResultSet rs = null;
     boolean result = false;
     
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(IS_ADMIN);
-      stmt.setString(1, aUserid);
+      stmt.setInt(1, aUserid);
       stmt.setInt(2, Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
       rs = stmt.executeQuery();
       
