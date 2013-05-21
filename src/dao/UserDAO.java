@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import common.ReferenceObject;
+
 /**
  * This class used for system authentication.
  * @author Roshun Jones
@@ -27,8 +29,6 @@ public final class UserDAO extends AbstractDAO {
   		                                      "FROM USER_ROLE_CONFERENCE AS A" +
   		                                      "INNER JOIN ROLE AS B ON A.ROLE_ID = B.ROLE_ID " +
   		                                     "WHERE CONF_ID = ? AND USER_ID = ?";
-  
-  
   
   /**
    * Authenticates a user based on userid and password.
@@ -61,6 +61,21 @@ public final class UserDAO extends AbstractDAO {
   }
   
   /**
+   * Returns a list of Users as Reference Objects.
+   * @returns Returns a list of System Users as Reference Objects.
+   */
+  
+  /**
+   * Returns a list of Roles as Reference Objects.
+   * @return Reference Objects of Roles.
+   */
+  public List<ReferenceObject> getRolesRef(final int aUserId, final int aConfId) {
+    List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
+    
+    return refs;
+  }
+  
+  /**
    * Gets user roles based on conference and user id.
    */
   public List<Role> getRoles(final int aUserId, final int aConfId) {
@@ -79,5 +94,12 @@ public final class UserDAO extends AbstractDAO {
     } catch (Exception e) {}
     
     return roles;
+  }
+  
+  /**
+   * Returns whether a user is an administrator.
+   */
+  public boolean isAdministrator(final String aUserid) {
+    return true;
   }
 }
