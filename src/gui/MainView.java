@@ -33,6 +33,11 @@ public class MainView extends JFrame {
         LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
         User user = LoginPanel.getUser();
         HeaderView HeaderPanel = new HeaderView(user);
+        this.getContentPane().add(HeaderPanel);
+        HeaderPanel.setVisible(true);
+        
+        
+        
     }
     
     public static void main(String[] args){
