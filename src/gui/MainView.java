@@ -4,7 +4,7 @@ package gui;
  * MainView.java
  * Creates a JFrame panel from which all other UI contents can be displayed.
  * @author yongyuwang
- * @version 5-15-1252
+ * @version 5-20-1931
  */
 
 import java.awt.BorderLayout;
@@ -24,7 +24,7 @@ public class MainView extends JFrame {
 	public MainView(){
 		
         this.setTitle("Main View");
-        this.setSize(1200,720);
+        this.setSize(1280,720);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -32,13 +32,14 @@ public class MainView extends JFrame {
         JPanel panel = new JPanel();
         this.getContentPane().add(panel, BorderLayout.CENTER);
 
+        // creates the login panel, gets authenticated user
         LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
         User user = LoginPanel.getUser();
+        
+        // creates and adds HeaderPanel to MainView
         HeaderView HeaderPanel = new HeaderView(user);
         this.getContentPane().add(HeaderPanel, BorderLayout.NORTH);
         HeaderPanel.setVisible(true);
-        
-        
         
     }
     

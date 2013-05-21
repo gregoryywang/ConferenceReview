@@ -3,7 +3,7 @@ package gui;
 /**
  * LoginView.java
  * @author yongyuwang
- * @version 5-20-1817
+ * @version 5-20-1931
  * Displays Login window, authenticates user credentials and gets 
  * authenticated user.
  * Implements JDialog modal behavior.
@@ -56,6 +56,7 @@ public class LoginView extends JDialog implements ActionListener{
 		setTitle("PLEASE LOGIN");
         this.getContentPane().add(panel);
         this.setSize(300, 100);
+        this.setLocation(600, 300);
         this.setVisible(true);
 
     }
