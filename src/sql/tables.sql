@@ -19,3 +19,100 @@ create table user_role_paper_conference_join(user_id int not null, role_id int n
 --Populate with data
 --Add Admin user
 insert into user(first_name, last_name, username, password, email_address) values('AdminTest', 'AdminTest', 'AdminTest', 'AdminTest','AdminTest@uw.edu');
+
+--Create Roles
+insert into role_type(title, role_type) values ('User', 0);
+insert into role_type(title, role_type) values ('Administrator', 1);
+insert into role_type(title, role_type) values ('Author' , 2);
+insert into role_type(title, role_type) values ('Reviewer', 3);
+insert into role_type(title, role_type) values ('SubProgram Chair' ,4);
+insert into role_type(title, role_type) values ('Program Chair', 5);
+
+--
+-- Author: Danielle Tucker
+--
+-- Create Category Table
+CREATE TABLE CATEGORY( 
+cat_id int not null auto_increment,
+display varchar(20) not null,
+PRIMARY KEY(cat_id));
+
+-- Create ConferenceCategory Table 
+--(links avaliable categories with conferences)
+CREATE TABLE CONFERENCE_CATEGORY(
+conf_id int not null,
+cat_id int not null,
+PRIMARY KEY(conf_id, cat_id),
+FOREIGN KEY(conf_id) REFERENCES conference,
+FOREIGN KEY(cat_id) REFERENCES category
+);
+
+-- Create Recommendation Table
+CREATE TABLE RECOMMENDATION(
+recomm_id int not null auto_increment,
+user_id int not null,
+rating int not null,
+comments varchar(1000),
+active int,
+PRIMARY KEY(recomm_id),
+FOREIGN KEY(user_id) REFERENCES user,
+);
+
+-- Create Paper Table
+CREATE TABLE PAPER(
+paper_id int not null auto_increment,
+user_id int not null,
+title varchar(50) not null,
+keywords varchar(1000) not null,
+cat_id int not null,
+document_path varchar(50) not null,
+revised_document_path varchar(50),
+recomm_id int,
+status varchar(10),
+active int,
+PRIMARY KEY(paper_id),
+FOREIGN KEY(user_id) REFERENCES user,
+FOREIGN KEY(cat_id) REFERENCES category,
+FOREIGN KEY(recomm_id) REFERENCES recommendation,
+FOREIGN KEY(cat_id) REFERENCES category,
+);
+
+-- Create Review Table
+CREATE TABLE REVIEW(
+review_id int not null auto_increment,
+user_id int not null,
+cmmt_subpgrmchair varchar(1000),
+q1_rating int not null,
+q1_cmmt varchar(1000),
+q2_rating int not null,
+q2_cmmt varchar(1000),
+q3_rating int not null,
+q3_cmmt varchar(1000),
+q4_rating int not null,
+q4_cmmt varchar(1000),
+q5_rating int not null,
+q5_cmmt varchar(1000),
+q6_rating int not null,
+q6_cmmt varchar(1000),
+q7_rating int not null,
+q7_cmmt varchar(1000),
+q8_rating int not null,
+q8_cmmt varchar(1000),
+q9_rating int not null,
+q9_cmmt varchar(1000),
+summary_rating int not null,
+summary_cmmt varchar(1000),
+active int not null,
+PRIMARY KEY(review_id),
+FOREIGN KEY(user_id) REFERENCES user
+);
+
+-- Create PaperReview Table
+-- (links together the multiple reviews with the papers)
+CREATE TABLE PAPER_REVIEW(
+paper_id int not null,
+review_id int not null,
+PRIMARY KEY(paper_id, review_id),
+FOREIGN KEY(paper_id) REFERENCES paper,
+FOREIGN KEY(review_id) REFERENCES review
+);
