@@ -93,10 +93,11 @@ public class HeaderView extends JPanel
 		//List<ReferenceObject> ro = conf_dao.getConferencesRef();
 		final ReferenceObject instruct = new ReferenceObject("--select a conference--", new Conference());
 		ro.add(0, instruct);
-		/*
-		if(is_admin)  
+		
+		if(is_admin) 
+		{
 			ro.add(0, new ReferenceObject("CREATE NEW CONFERENCE", new Conference()));
-		*/
+		}
 		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
 		conference_selector.setModel(conference_model);
 		conference_selector.addActionListener(new ActionListener()
@@ -124,7 +125,7 @@ public class HeaderView extends JPanel
 				else
 				{
 					ro_roles = user_dao.getRolesRef(my_user.getID(), conf_selected.getID());
-					//Test if the author role is inculded in the result set, if not, add to result set.
+					//Test if the author role is included in the result set, if not, add to result set.
 					boolean has_author = false;
 					for(ReferenceObject roles: ro_roles)
 					{
@@ -146,11 +147,6 @@ public class HeaderView extends JPanel
 				}
 				ComboBoxModel role_model = new DefaultComboBoxModel(ro_roles.toArray());
 				role_selector.setModel(role_model);
-				//change user's role
-
-				//List<ReferenceObject> ro_role = user_DAO.getRolesRef();
-				//ComboBoxModel role_model = new DefaultComboBox(ro_role.toArray[]);
-				//role_selector.setModel(role_model);
 			}
 		});
 	}
