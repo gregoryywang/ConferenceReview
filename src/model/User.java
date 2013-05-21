@@ -213,7 +213,7 @@ public class User extends Observable
   public void setRole(Role the_role) {
     my_role = the_role;
     setChanged();
-    notifyObservers();
+    notifyObservers(my_role);
   }
 
 public Conference getConference()
@@ -225,6 +225,6 @@ public Conference getConference()
   {
 	  my_conference = the_conference;
 	  setChanged();
-	  notifyObservers();
+	  notifyObservers(my_conference);
   }
 }
