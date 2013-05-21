@@ -4,9 +4,12 @@ import java.util.List;
 
 import model.Conference;
 import model.Paper;
+import model.Role;
+import model.User;
 
 import java.sql.ResultSet;
 import java.util.List;
+import common.ReferenceObject;
 
 /**
  * DAO used to communicate with Conference related data.
@@ -22,7 +25,7 @@ public class ConferenceDAO extends AbstractDAO {
    * Returns a collection of available conferences.
    * @return A collection of available conferences.
    */
-  public List<Conference> getConferences() {
+  public List<ReferenceObject> getConferencesRef() {
     return null;
   }
   
@@ -41,5 +44,22 @@ public class ConferenceDAO extends AbstractDAO {
    */
   public void addPaper(final int conf_id, final Paper the_paper){
 	  
+  }
+  
+  /**
+   * Get single conference object.
+   * @param aConfId The conference id.
+   */
+  public Conference getConference(final int aConfId) {
+    return new Conference();
+  }
+  
+  /**
+   * Adds a user to the conference.
+   * @param aUser the User object to add.
+   * @param aRoleType the type of the user.
+   */
+  public void addUser(final User aUser, final Role aRoleType) {
+    
   }
 }
