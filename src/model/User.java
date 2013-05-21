@@ -227,4 +227,10 @@ public Conference getConference()
 	  setChanged();
 	  notifyObservers(my_conference);
   }
+  
+  @Override
+  public String toString() {
+    return this.my_last_name + ", " + this.my_first_name;
+  }
+  
 }
