@@ -10,6 +10,8 @@ import model.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import common.ReferenceObject;
+
 import dao.UserDAO;
 
 public class UserDAOTest {
@@ -51,7 +53,7 @@ public class UserDAOTest {
    */
   @Test
   public void testGetRoles() {
-    Collection<Role> result = userDao.getRoles("test".hashCode(), "test".hashCode());
+    Collection<ReferenceObject> result = userDao.getRolesRef("test".hashCode(), "test".hashCode());
     assertFalse(result.isEmpty());
   }
 }
