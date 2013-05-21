@@ -79,13 +79,6 @@ public final class UserDAO extends AbstractDAO {
   public List<ReferenceObject> getRolesRef(final int aUserId, final int aConfId) {
     List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
     
-    return refs;
-  }
-  
-  /**
-   * Gets user roles based on conference and user id.
-   */
-  public List<Role> getRoles(final int aUserId, final int aConfId) {
     ResultSet result = null;
     List<Role> roles = new ArrayList<Role>();
     
@@ -100,9 +93,9 @@ public final class UserDAO extends AbstractDAO {
       }
     } catch (Exception e) {}
     
-    return roles;
+    return refs;
   }
-  
+   
   /**
    * Returns whether a user is an administrator.
    */
