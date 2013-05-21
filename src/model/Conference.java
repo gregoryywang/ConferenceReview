@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import common.ReferenceObject;
+
+import dao.ConferenceDAO;
+import dao.UserDAO;
+
 public class Conference extends Observable
 {
 	/**
@@ -16,7 +21,8 @@ public class Conference extends Observable
 	 */
 	public static enum Deadline {SUBMIT_PAPER, REVIEW_PAPER, MAKE_RECOMMENDATION,
 		FINAL_DECISION, REVISE_PAPER};
-		
+	
+	private final ConferenceDAO conf_dao = new ConferenceDAO();
 	/**
 	 * The conference id.
 	 */
@@ -52,30 +58,6 @@ public class Conference extends Observable
 	 * submitting and reviewing papers.
 	 */
 	private Map<Deadline, Date> my_deadlines;
-	
-	/**
-	 * Create a new conference.
-	 * @param the_date the date of the event
-	 * @param the_PG_chair the Program Chair for the event.
-	 * @param the_topic the topic for the event.
-	 * @param the_categories the categories for papers.
-	 * @param the_papers the papers associated with this conference.
-	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
-	 */
-	/*
-	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
-			final List<String> the_categories, 
-			final List<Paper> the_papers, final Map<Deadline,Date> the_deadlines)
-	{
-		my_id = the_conf_id;
-		my_date = (Date)the_date.clone();
-		my_PG_chair = the_PG_chair; //worry about deep copy?
-		my_topic = the_topic;
-		my_categories = new ArrayList<String>(the_categories);
-		my_papers = the_papers;  //should we worry about deep copies?
-		my_deadlines = the_deadlines; //should we worry about deep copies?
-	}
-	*/
 	
 	/**
 	 * Create a new conference.
@@ -134,24 +116,6 @@ public class Conference extends Observable
 	}
 	
 	/**
-	 * Create a new conference with no associated papers yet.
-	 * @param the_conf_id the unique id of the event
-	 * @param the_date the date of the event
-	 * @param the_PG_chair the Program Chair for the event.
-	 * @param the_topic the topic for the event.
-	 * @param the_categories the categories for papers.
-	 * @param the_deadlines the deadlines associated with submitting and reviewing papers.
-	 */
-	/*
-	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
-			final List<String> the_categories, final Map<Deadline,Date> the_deadlines)
-	{
-		this(the_conf_id, the_date, the_PG_chair, the_topic, the_categories, new ArrayList<Paper>(),
-				the_deadlines);
-	}
-	*/
-	
-	/**
 	 * Default Constructor.
 	 */
 	public Conference()
@@ -205,7 +169,7 @@ public class Conference extends Observable
 	 */
 	public void set_PG_Chair(final User the_pg_chair)
 	{
-		my_PG_chair = new User(the_pg_chair);  //should it be a copy or not?
+		my_PG_chair = the_pg_chair;
 	}
 	
 	/**
@@ -234,7 +198,8 @@ public class Conference extends Observable
 	 */
 	public void addPaper(final Paper the_paper)
 	{
-		my_papers.add(the_paper);
+		//my_papers.add(the_paper);
+		conf_dao.addPaper(my_id, the_paper); 
 	}
 	
 	/**
@@ -277,5 +242,24 @@ public class Conference extends Observable
 	public String shortTitle()
 	{
 		return my_topic;
+	}
+	
+	/**
+	 * Adds a user and sets role for this conference. 
+	 * @param aUser The user to be added.
+	 * @param aRoleType The role the user will have.
+	 * @return Returns status of operation.
+	 */
+	public void addUser(final User aUser, Role aRoleType) 
+	{
+	  conf_dao.addUser(aUser, aRoleType);
+	}
+	
+	/**
+	 * Save this conference to persistant storage.
+	 */
+	public void saveConference()
+	{
+		conf_dao.saveConference(this);
 	}
 }
