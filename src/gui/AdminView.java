@@ -81,9 +81,9 @@ public class AdminView extends JPanel implements Viewer
 	@Override
 	public List<Paper> viewPapers() 
 	{
-		
-		return new ArrayList<Paper>(((ConferenceDAO) my_administrator.getConferenceDAO())
-			.getConferences().get(STUB_ID).getPapers());
+	  return new ArrayList<Paper>();
+		//return new ArrayList<Paper>(((ConferenceDAO) my_administrator.getConferenceDAO())
+		//	.getConferencesRef().get(STUB_ID).getPapers());
 	}
 
 	/**
@@ -94,8 +94,9 @@ public class AdminView extends JPanel implements Viewer
 	@Override
 	public List<Review> viewReviews() 
 	{
-		return new ArrayList<Review>(((ConferenceDAO)my_administrator.getConferenceDAO())
-			.getConferences().get(STUB_ID).getPapers().get(STUB_ID).getReviews());
+	  return new ArrayList<Review>();
+	  //return new ArrayList<Review>(((ConferenceDAO)my_administrator.getConferenceDAO())
+		//	.getConferences().get(STUB_ID).getPapers().get(STUB_ID).getReviews());
 	}
 	
 }
