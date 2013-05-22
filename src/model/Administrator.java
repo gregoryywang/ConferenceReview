@@ -33,8 +33,8 @@ public class Administrator extends User
 	}
 	
 	/**
-	 * Method to create a Conference Object and add it to the Collection
-	 * of Conference Objects.
+	 * Method to create a Conference Object and add it to the Database
+	 * Collection of Conference Objects.
 	 * 
 	 * @param the_conference the Conference Object to be added
 	 * to the Collection.
