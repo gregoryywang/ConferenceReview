@@ -87,6 +87,7 @@ public class HeaderView extends JPanel
 
 	private void makeConferenceSelector() {	
 		//used for testing
+		/*
 		final List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
 		Conference c1 = new Conference();
 		c1.setTopic("Trees are GREAT");
@@ -96,9 +97,10 @@ public class HeaderView extends JPanel
 		c2.setID(90);
 		ro.add(new ReferenceObject(c1.getTopic(), c1));
 		ro.add(new ReferenceObject(c2.getTopic(), c2));	
+		*/
 		//end of testing
 		
-		//List<ReferenceObject> ro = conf_dao.getConferencesRef();
+		final List<ReferenceObject> ro = conf_dao.getConferencesRef();
 		final ReferenceObject instruct = new ReferenceObject("--select a conference--", new Conference());
 		ro.add(0, instruct);
 		
@@ -145,13 +147,7 @@ public class HeaderView extends JPanel
 					if (!has_author)
 					{
 						ro_roles.add(new ReferenceObject(Role.AUTHOR.toString(), Role.AUTHOR));
-					}
-					
-					
-					//for testing purposes
-					List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
-					
-					//end testing										
+					}									
 				}
 				ComboBoxModel role_model = new DefaultComboBoxModel(ro_roles.toArray());
 				role_selector.setModel(role_model);

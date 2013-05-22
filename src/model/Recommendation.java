@@ -1,6 +1,5 @@
 package model;
 
-import dao.PaperDAO;
 import dao.UserDAO;
 
 /**
