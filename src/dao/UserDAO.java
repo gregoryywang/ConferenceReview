@@ -69,7 +69,7 @@ public final class UserDAO extends AbstractDAO {
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
-    }
+    } 
     
     return user;
   }

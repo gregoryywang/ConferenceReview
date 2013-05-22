@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.util.List;
 
 import model.Conference;
 import model.Conference.Deadline;
@@ -10,8 +11,9 @@ import model.Conference.Deadline;
 import org.junit.Before;
 import org.junit.Test;
 
+import common.ReferenceObject;
+
 import dao.ConferenceDAO;
-import dao.UserDAO;
 
 public class ConferenceDAOTest {
 
@@ -69,7 +71,8 @@ public class ConferenceDAOTest {
    * Tests getConferences().
    */
   @Test
-  public void testGetConferences() {
-    fail();
+  public void testGetConferencesRef() {
+    List<ReferenceObject> result = conferenceDao.getConferencesRef();
+    assertTrue(!result.isEmpty());
   }
 }
