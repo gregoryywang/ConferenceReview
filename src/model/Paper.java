@@ -29,6 +29,8 @@ public class Paper extends Observable
 	
 	private String my_keywords;
 	
+	private String my_abstract;
+	
 	private String my_category;
 	
 	private String my_document_path;
@@ -77,6 +79,14 @@ public class Paper extends Observable
 	{
 		return my_keywords;
 	}
+	public String getAbstract()
+	{
+		return my_abstract;
+	}
+	public void setAbstract(final String the_abstract)
+	{
+		my_abstract = the_abstract;
+	}
 	public String getCategory()
 	{
 		return my_category;
@@ -123,7 +133,26 @@ public class Paper extends Observable
 	}
 	public Status getStatus() //fix me
 	{
-		return Status.SUBPROGRAM_CHAIR_NEEDED;
+		return my_status;
 	}
 	
+	public boolean equals(Object the_object)
+	{
+		boolean result = false;
+		if(this == the_object)
+		{
+			result = true;
+		}
+		if(the_object != null && the_object.getClass()==getClass())
+		{
+			final Paper other_paper = (Paper) the_object;
+			if(other_paper.getID() == getID() &&
+				other_paper.getAuthor().equals(getAuthor()) &&
+				other_paper.getTitle().equals(getTitle()))
+			{
+				result = true;
+			}
+		}
+		return result;
+	}
 }

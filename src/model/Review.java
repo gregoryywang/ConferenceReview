@@ -19,17 +19,43 @@ public class Review
 	
 	public Review()
 	{
-		
+		my_comments = new String[11];
+		my_ratings = new int[11];
+	}
+	
+	/**
+	 * Change the comments to the SubProgram Chair.
+	 * @param the_comment The private comment that only the SubProgram
+	 * Chair can see.
+	 */
+	public void setSPChairComment(final String the_comment)
+	{
+		if(the_comment != null)
+		{
+			my_comments[0]= the_comment;
+		}
+		else
+		{
+			my_comments[0] = "No comment";
+		}
 	}
 	
 	public String getSPChairComment()
 	{
-		return "";
+		return my_comments[0];
 	}
 	
+	/**
+	 * Set the overall rating for this review of the paper.
+	 * @param the_rating the rating (valid 1 - 5)
+	 */
+	public void setSummaryRagint(final int the_rating)
+	{
+		
+	}
 	public int getSummaryRating()
 	{
-		return 0;
+		return my_ratings[11];
 	}
 	
 	public String getSummaryComment()
