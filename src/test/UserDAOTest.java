@@ -51,9 +51,9 @@ public class UserDAOTest {
   /**
    * Tests with roles collection returns not empty with valid input.
    */
-  @Test
+ /* @Test
   public void testGetRoles() {
     Collection<ReferenceObject> result = userDao.getRolesRef("test".hashCode(), "test".hashCode());
     assertFalse(result.isEmpty());
-  }
+  }*/
 }
