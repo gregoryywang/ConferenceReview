@@ -1,47 +1,115 @@
 
 package model;
 
-import java.io.File;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+
+import common.ReferenceObject;
+
+import dao.ConferenceDAO;
+import dao.PaperDAO;
 
 
 /**
  * This class represents a paper an author may submit for review.
  * @author Danielle Tucker
  *
- *
  */
 public class Paper extends Observable
 {
-	private int my_author_ID;
+	private final PaperDAO paper_dao = new PaperDAO();
+	private final ConferenceDAO conference_dao = new ConferenceDAO();
+	
+	private int my_paper_ID;
+		
+	private User my_author;
 	
 	private String my_title;
 	
-	private String[] my_keywords;
+	private String my_keywords;
 	
 	private String my_category;
 	
-	private File my_document;
+	private String my_document_path;
 	
-	private File my_revised_document;
+	private String my_revised_document_path;
 	
 	private Recommendation my_recommendation;
 	
-	private Collection<Review> my_reviews;
+	private List<Review> my_reviews;
 	
-	// yeah.... private enum my_status;
-	
-	private int my_final_status;
+	private Status my_status = Status.SUBPROGRAM_CHAIR_NEEDED;
 	
 	public Paper()
 	{
 		
 	}
-	
-	public Collection<Review> getReviews()
+	public void setID(final int the_id)
 	{
-		return null;
+		my_paper_ID = the_id;
+	}
+	public int getID()
+	{
+		return my_paper_ID;
+	}
+	public void setAuthor(final User the_author)
+	{
+		my_author = the_author;
+	}
+	public User getAuthor()
+	{
+		return my_author;
+	}
+	public void setTitle(final String the_title)
+	{
+		my_title = the_title;
+	}
+	public String getTitle()
+	{
+		return my_title;
+	}
+	public void setKeywords(final String the_keywords)
+	{
+		my_keywords = the_keywords;
+	}
+	public String getKeywords()
+	{
+		return my_keywords;
+	}
+	public String getCategory()
+	{
+		return my_category;
+	}
+	public void setCategory(final String the_category)
+	{
+		my_category = the_category;
+	}
+	public void setDocumentPath(final String the_document_path)
+	{
+		my_document_path = the_document_path;
+	}
+	public String getDocumentPath()
+	{
+		return my_document_path;
+	}
+	public void setRevisedDocumentPath(final String the_path)
+	{
+		my_revised_document_path = the_path;
+	}
+	public String getRevisedDocumentPath()
+	{
+		return my_revised_document_path;
+	}
+	
+	/**
+	 * 
+	 * @return List of reference objects of reviews (summary score, review_id)
+	 */
+	public List<ReferenceObject> getReviews()
+	{
+//		return paper_dao.getReviewsRef(my_paper_ID);
+		return new ArrayList<ReferenceObject>();
 	}
 	
 	public Recommendation getRecommendation()
@@ -53,11 +121,9 @@ public class Paper extends Observable
 	{
 		return null;
 	}
-	
-	/*  ???what is our enum????
-	public enum getStatus()
+	public Status getStatus() //fix me
 	{
-		
+		return Status.SUBPROGRAM_CHAIR_NEEDED;
 	}
-	*/
+	
 }

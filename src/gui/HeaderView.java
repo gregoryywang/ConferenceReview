@@ -43,9 +43,17 @@ public class HeaderView extends JPanel
 	 */
 	public HeaderView(User the_user) 
 	{
-		my_user = the_user;
-		is_admin = user_dao.isAdmin(my_user.getID());
-		
+		if(the_user != null)
+		{
+			my_user = the_user;
+			is_admin = user_dao.isAdmin(my_user.getID());
+		}
+		else
+		{
+			my_user = new User();
+			my_user.setFirstName("WARNING:NULL USER PASSED TO HEADERVIEW");
+			my_user.setLastName("");
+		}
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_selection = new JPanel();
@@ -72,7 +80,7 @@ public class HeaderView extends JPanel
 		add(panel_1, BorderLayout.EAST);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-		panel_1.add(new JLabel("Welcome " + the_user.getFullName()));
+		panel_1.add(new JLabel("Welcome " + my_user.getFullName()));
 		
 		//add logout button???
 	}
