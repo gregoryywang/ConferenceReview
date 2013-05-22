@@ -10,7 +10,7 @@ import model.Role;
 import model.User;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -45,7 +45,8 @@ public class ConferenceDAO extends AbstractDAO {
   /**
    * Insert new conference record.
    */
-  private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE VALUES(?,?,?,?,?) ";
+  private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE(TOPIC, CONFERENCE_DATE, AUTHOR_SUB_DEADLINE, " +
+      "REVIEWER_SUB_DEADLINE, AUTHOR_NOTIFICATION_DEADLINE) VALUES(?,?,?,?,?) ";
   
   
   /**
@@ -81,22 +82,25 @@ public class ConferenceDAO extends AbstractDAO {
       if ( aConference.getID() == 0 ) {
         PreparedStatement stmt = con.prepareStatement(INSERT_CONFERENCE);
         stmt.setString(1, aConference.getTopic());
-        stmt.setDate(2, (Date) aConference.getDate());
-        stmt.setDate(3, (Date) aConference.getDeadline(Deadline.SUBMIT_PAPER));
-        stmt.setDate(4, (Date) aConference.getDeadline(Deadline.REVIEW_PAPER));
-        stmt.setDate(5, (Date) aConference.getDeadline(Deadline.FINAL_DECISION));
+        stmt.setDate(2, aConference.getDate());
+        stmt.setDate(3, aConference.getDeadline(Deadline.SUBMIT_PAPER));
+        stmt.setDate(4, aConference.getDeadline(Deadline.REVIEW_PAPER));
+        stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
+        stmt.executeUpdate();
       } else {
         //Update existing record
         PreparedStatement stmt = con.prepareStatement(UPDATE_CONFERENCE);
         stmt.setString(1, aConference.getTopic());
-        stmt.setDate(2, (Date) aConference.getDate());
-        stmt.setDate(3, (Date) aConference.getDeadline(Deadline.SUBMIT_PAPER));
-        stmt.setDate(4, (Date) aConference.getDeadline(Deadline.REVIEW_PAPER));
-        stmt.setDate(5, (Date) aConference.getDeadline(Deadline.FINAL_DECISION));
+        stmt.setDate(2, aConference.getDate());
+        stmt.setDate(3, aConference.getDeadline(Deadline.SUBMIT_PAPER));
+        stmt.setDate(4, aConference.getDeadline(Deadline.REVIEW_PAPER));
+        stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
         stmt.setInt(6, aConference.getID());
         stmt.executeUpdate();
       }
-    } catch (Exception e) {}
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
   
   /**
