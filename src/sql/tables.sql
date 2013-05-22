@@ -8,7 +8,7 @@ password varchar(15),email_address varchar(50),
 Primary Key(user_id))
 
 --Create Conference Table
-create table conference(conf_id int not null, topic varchar(20) not null, conference_date Timestamp not null, author_sub_deadline Timestamp not null, reviewer_sub_deadline Timestamp not null, author_notification_deadline Timestamp not null, primary key(conf_id));
+create table conference(conf_id int not null auto_increment, topic varchar(20) not null, conference_date Timestamp not null, author_sub_deadline Timestamp not null, reviewer_sub_deadline Timestamp not null, author_notification_deadline Timestamp not null, primary key(conf_id));
 
 --Create Role Type Table
 create table role_type(role_id int not null auto_increment, title varchar(15) not null, role_type int not null);
