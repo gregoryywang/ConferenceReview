@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,10 +118,10 @@ public class Conference extends Observable
 	/**
 	 * Default Constructor.
 	 */
-	public Conference()
-	{
-		//nothing here
+	public Conference() {
+	  my_deadlines = new HashMap<Deadline, Date>();
 	}
+	
 	/**
 	 * Create a deep copy of the conference.
 	 * @param the_conference the conference.
@@ -149,7 +149,7 @@ public class Conference extends Observable
 	 */
 	public void setDate(final Date the_date)
 	{
-		my_date = (Date)the_date.clone();
+		my_date = the_date;
 		setChanged();
 		notifyObservers(the_date);
 	}
@@ -160,7 +160,7 @@ public class Conference extends Observable
 	 */
 	public Date getDate()
 	{
-		return (Date)my_date.clone();
+		return my_date;
 	}
 	
 	/**
@@ -222,7 +222,7 @@ public class Conference extends Observable
 	 */
 	public void setDeadline(final Deadline the_deadline, final Date the_date)
 	{
-		my_deadlines.put(the_deadline, (Date)the_date.clone());
+		my_deadlines.put(the_deadline, the_date);
 	}
 	
 	/**
@@ -232,7 +232,7 @@ public class Conference extends Observable
 	 */
 	public Date getDeadline(final Deadline the_deadline)
 	{
-		return (Date)my_deadlines.get(the_deadline).clone();
+		return my_deadlines.get(the_deadline);
 	}
 	
 	/**
