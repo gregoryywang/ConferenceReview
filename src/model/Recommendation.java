@@ -1,5 +1,6 @@
 package model;
 
+import dao.PaperDAO;
 import dao.UserDAO;
 
 /**
@@ -24,6 +25,11 @@ public class Recommendation
 	 * Minimum rating for a recommendation.
 	 */
 	private static final int MIN_RATING = 1;
+	
+	/**
+	 * The id of this recommendation.
+	 */
+	private int my_id;
 	
 	/**
 	 * The SubProgram Chair User ID for this Recommendation.
@@ -102,6 +108,15 @@ public class Recommendation
 	public String getComments()
 	{
 		return my_comments;
+	}
+	public void setID(final int the_id)
+	{
+		my_id = the_id;
+	}
+
+	public int getID()
+	{
+		return my_id;
 	}
 
 }

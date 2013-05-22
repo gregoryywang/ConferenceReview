@@ -20,6 +20,7 @@ create table user_role_paper_conference_join(user_id int not null, role_id int n
 --Add Admin user
 insert into user(first_name, last_name, username, password, email_address) values('AdminTest', 'AdminTest', 'AdminTest', 'AdminTest','AdminTest@uw.edu');
 
+--Author: Danielle
 --Create Roles
 insert into role_type(title, role_type) values ('User', 0);
 insert into role_type(title, role_type) values ('Administrator', 1);
@@ -27,6 +28,15 @@ insert into role_type(title, role_type) values ('Author' , 2);
 insert into role_type(title, role_type) values ('Reviewer', 3);
 insert into role_type(title, role_type) values ('SubProgram Chair' ,4);
 insert into role_type(title, role_type) values ('Program Chair', 5);
+
+
+--Link User to Roles
+
+-- Create Categories
+INSERT INTO category(display) values ('Curriculum');
+INSERT INTO category(display) values ('Software');
+INSERT INTO category(display) values ('Hardware');
+INSERT INTO category(display) values ('Other');
 
 --
 -- Author: Danielle Tucker
@@ -68,7 +78,7 @@ cat_id int not null,
 document_path varchar(50) not null,
 revised_document_path varchar(50),
 recomm_id int,
-status varchar(10),
+status varchar(36),
 active int,
 PRIMARY KEY(paper_id),
 FOREIGN KEY(user_id) REFERENCES user,

@@ -6,7 +6,6 @@ package model;
  * @version 14 May 2013
  */
 public enum Status {
-	PROGRAM_CHAIR_NEEDED,
 	SUBPROGRAM_CHAIR_NEEDED,
 	REVIEWS_NEEDED,
 	RECOMMENDATION_NEEDED,
