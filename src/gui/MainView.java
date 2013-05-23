@@ -36,10 +36,13 @@ public class MainView extends JFrame {
         LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
         User user = LoginPanel.getUser();
         
-        // creates and adds HeaderPanel to MainView
-        HeaderView HeaderPanel = new HeaderView(user);
-        this.getContentPane().add(HeaderPanel, BorderLayout.NORTH);
-        HeaderPanel.setVisible(true);
+        // creates and adds HeaderView to MainView
+        HeaderView headerPanel = new HeaderView(user);
+        this.getContentPane().add(headerPanel, BorderLayout.NORTH);
+        headerPanel.setVisible(true);
+        
+        // creates and adds ContentView to MainView
+        ContentView contentPanel = new ContentView(user);
         
     }
     
