@@ -101,12 +101,12 @@ public class HeaderView extends JPanel
 		//end of testing
 		
 		final List<ReferenceObject> ro = conf_dao.getConferencesRef();
-		final ReferenceObject instruct = new ReferenceObject("--select a conference--", new Conference());
+		final ReferenceObject instruct = new ReferenceObject("--select a conference--", 0);
 		ro.add(0, instruct);
 		
 		if(is_admin) 
 		{
-			ro.add(0, new ReferenceObject("CREATE NEW CONFERENCE", new Conference()));
+			ro.add(0, new ReferenceObject("CREATE NEW CONFERENCE", 0));
 		}
 		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
 		conference_selector.setModel(conference_model);
@@ -116,8 +116,8 @@ public class HeaderView extends JPanel
 			{
 				JComboBox jcb = (JComboBox) the_event.getSource();
 				ReferenceObject conference_name = (ReferenceObject) jcb.getSelectedItem();
-				Conference conf_selected = (Conference) conference_name.getData();
-				System.out.println(conf_selected.getID());
+				int conf_id_selected = (Integer) conference_name.getData();
+				System.out.println(conf_id_selected);
 				
 				//Remove the instructions "--select a conference--"
 				ro.remove(instruct);
@@ -134,7 +134,7 @@ public class HeaderView extends JPanel
 				}
 				else
 				{
-					ro_roles = user_dao.getRolesRef(my_user.getID(), conf_selected.getID());
+					ro_roles = user_dao.getRolesRef(my_user.getID(), conf_id_selected);
 					//Test if the author role is included in the result set, if not, add to result set.
 					boolean has_author = false;
 					for(ReferenceObject roles: ro_roles)
