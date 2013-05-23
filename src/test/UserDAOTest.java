@@ -49,6 +49,15 @@ public class UserDAOTest {
   }
   
   /**
+   * Tests isAdmin method.
+   */
+  @Test
+  public void testIsAdmin() {
+    User user = userDao.authenticate("AdminTest", "AdminTest");
+    boolean result = userDao.isAdmin(user.getID());
+    assertTrue(result);
+  }
+  /**
    * Tests with roles collection returns not empty with valid input.
    */
  /* @Test
