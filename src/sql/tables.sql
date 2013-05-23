@@ -8,6 +8,7 @@ password varchar(15),email_address varchar(50),
 Primary Key(user_id))
 
 --Create Conference Table
+--Edits: Danielle
 create table conference(
 conf_id int not null, 
 topic varchar(20) not null, 
@@ -20,7 +21,10 @@ revise_paper Timestamp not null,
 primary key(conf_id));
 
 --Create Role Type Table
-create table role_type(role_id int not null auto_increment, title varchar(16) not null, role_type int not null);
+create table role_type(
+role_id int not null auto_increment, 
+title varchar(16) not null, 
+role_type int not null);
 
 --Create UserRolePaperConference Table
 create table user_role_paper_conference_join(
@@ -95,7 +99,6 @@ active int,
 PRIMARY KEY(paper_id),
 FOREIGN KEY(user_id) REFERENCES user,
 FOREIGN KEY(cat_id) REFERENCES category,
-FOREIGN KEY(cat_id) REFERENCES category,
 );
 
 -- Create Review Table
@@ -103,29 +106,21 @@ CREATE TABLE REVIEW(
 review_id int not null auto_increment,
 user_id int not null,
 cmmt_subpgrmchair varchar(1000),
-q1_rating int not null,
-q1_cmmt varchar(1000),
-q2_rating int not null,
-q2_cmmt varchar(1000),
-q3_rating int not null,
-q3_cmmt varchar(1000),
-q4_rating int not null,
-q4_cmmt varchar(1000),
-q5_rating int not null,
-q5_cmmt varchar(1000),
-q6_rating int not null,
-q6_cmmt varchar(1000),
-q7_rating int not null,
-q7_cmmt varchar(1000),
-q8_rating int not null,
-q8_cmmt varchar(1000),
-q9_rating int not null,
-q9_cmmt varchar(1000),
 summary_rating int not null,
 summary_cmmt varchar(1000),
 active int not null,
 PRIMARY KEY(review_id),
 FOREIGN KEY(user_id) REFERENCES user
+);
+
+-- Create Ratings_Comment_Type Table
+CREATE TABLE RATING_COMMENT_TYPE(
+review_id int not null,
+question_id int not null,
+rating int not null,
+comment varchar(1000),
+PRIMARY KEY(review_id, question_id),
+FOREIGN KEY(review_id)
 );
 
 -- Create PaperReview Table
