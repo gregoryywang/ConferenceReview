@@ -35,7 +35,7 @@ public final class UserDAO extends AbstractDAO {
   private static final String IS_ADMIN = "SELECT NULL " +
                                            "FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS A " +
                                            " INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
-                                           "WHERE B.ROLE_TYPE = ? ";
+                                           "WHERE A.USER_ID = ? AND B.ROLE_TYPE = ?";
   
   /**
    * Returns a user based on userid.
@@ -108,7 +108,7 @@ public final class UserDAO extends AbstractDAO {
     try {
       PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(IS_ADMIN);
       stmt.setInt(1, aUserid);
-      stmt.setInt(2, Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
+      stmt.setInt(2, 1);//Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
       rs = stmt.executeQuery();
       
       result = rs.next();
