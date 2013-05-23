@@ -118,4 +118,9 @@ public class Recommendation
 		return my_id;
 	}
 
+	public void saveRecommendation(int my_paper_ID) 
+	{
+		
+	}
+
 }

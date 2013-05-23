@@ -72,7 +72,6 @@ public class PaperDAOTest {
 	@Test
 	public void updatePaper()
 	{
-		String old_title = test_paper.getTitle();
 		test_paper.setTitle("I have changed the title");
 		paper_dao.savePaper(test_paper);
 		
