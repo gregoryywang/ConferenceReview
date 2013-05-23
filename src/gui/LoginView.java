@@ -51,7 +51,7 @@ public class LoginView extends JDialog implements ActionListener{
 		panel.add(submitButton);
 
 		panel.add(new JLabel(""));
-		add(panel,BorderLayout.CENTER);
+		add(panel, BorderLayout.CENTER);
 
 		setTitle("PLEASE LOGIN");
         this.getContentPane().add(panel);
