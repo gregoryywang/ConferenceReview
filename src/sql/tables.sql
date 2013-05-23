@@ -12,11 +12,11 @@ create table conference(
 conf_id int not null, 
 topic varchar(20) not null, 
 conference_date Timestamp not null, 
-author_sub_deadline Timestamp not null, 
-reviewer_sub_deadline Timestamp not null,
-sub_prgm_chair_sub_deadline Timestamp not null,
-author_notification_deadline Timestamp not null,
-revision_deadline Timestamp not null, 
+submit_paper Timestamp not null, 
+review_paper Timestamp not null,
+final_decision Timestamp not null,
+make_recommendation Timestamp not null,
+revise_paper Timestamp not null, 
 primary key(conf_id));
 
 --Create Role Type Table
