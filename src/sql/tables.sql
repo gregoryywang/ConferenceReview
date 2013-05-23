@@ -120,7 +120,7 @@ CREATE TABLE RATING_COMMENT_TYPE(
 review_id int not null,
 question_id int not null,
 rating int not null,
-comment varchar(1000),
+comment_text varchar(1000),
 PRIMARY KEY(review_id, question_id),
 FOREIGN KEY(review_id)
 );
