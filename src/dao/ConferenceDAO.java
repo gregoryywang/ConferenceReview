@@ -37,14 +37,14 @@ public class ConferenceDAO extends AbstractDAO {
    * Update existing conference record.
    */
   private static String UPDATE_CONFERENCE = "UPDATE CONFERENCE SET TOPIC = ?, CONFERENCE_DATE = ?, " +
-      "AUTHOR_SUB_DEADLINE = ?, REVIEWER_SUB_DEADLINE = ?, AUTHOR_NOTIFICATION_DEADLINE = ? " +
+      "SUBMIT_PAPER = ?, REVIEW_PAPER = ?, FINAL_DECISION = ?, MAKE_RECOMMENDATION = ?, REVISE_PAPER = ? " +
       "WHERE CONF_ID = ? ";
   
   /**
    * Insert new conference record.
    */
-  private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE(TOPIC, CONFERENCE_DATE, AUTHOR_SUB_DEADLINE, " +
-      "REVIEWER_SUB_DEADLINE, AUTHOR_NOTIFICATION_DEADLINE) VALUES(?,?,?,?,?) ";
+  private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE(TOPIC, CONFERENCE_DATE, SUBMIT_PAPER, " +
+      "REVIEW_PAPER, FINAL_DECISION, MAKE_RECOMMENDATION, REVISE_PAPER) VALUES(?,?,?,?,?,?,?) ";
   
   
   /**
@@ -84,6 +84,9 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(3, aConference.getDeadline(Deadline.SUBMIT_PAPER));
         stmt.setDate(4, aConference.getDeadline(Deadline.REVIEW_PAPER));
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
+        stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
+        stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
+        
         stmt.executeUpdate();
       } else {
         //Update existing record
@@ -93,7 +96,9 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(3, aConference.getDeadline(Deadline.SUBMIT_PAPER));
         stmt.setDate(4, aConference.getDeadline(Deadline.REVIEW_PAPER));
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
-        stmt.setInt(6, aConference.getID());
+        stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
+        stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
+        stmt.setInt(8, aConference.getID());
         stmt.executeUpdate();
       }
     } catch (Exception e) {
