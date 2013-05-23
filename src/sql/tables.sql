@@ -115,8 +115,8 @@ FOREIGN KEY(paper_id) REFERENCES paper,
 FOREIGN KEY(user_id) REFERENCES user
 );
 
--- Create Ratings_Comment_Type Table
-CREATE TABLE RATING_COMMENT_TYPE(
+-- Create Ratings_Comment Table
+CREATE TABLE RATING_COMMENT(
 review_id int not null,
 question_id int not null,
 rating int not null,
