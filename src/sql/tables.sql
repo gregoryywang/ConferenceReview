@@ -5,7 +5,7 @@
 create table user(user_id int not null auto_increment,
 first_name varchar(25), last_name varchar(25), username varchar(10),
 password varchar(15),email_address varchar(50),
-Primary Key(user_id))
+Primary Key(user_id));
 
 --Create Conference Table
 --Edits: Danielle
@@ -32,11 +32,7 @@ user_id int not null,
 role_id int not null, 
 paper_id int, 
 conf_id int, 
-primary key(user_id, role_id, conf_id), 
-foreign key(user_id) references user, 
-foreign key(role_id) references role_type, 
-foreign key(paper_id) references paper, 
-foreign key(conf_id) references conference);
+primary key(user_id, role_id, conf_id);
 
 --Populate with data
 --Add Admin user
