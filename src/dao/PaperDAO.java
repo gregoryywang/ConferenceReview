@@ -36,7 +36,9 @@ public class PaperDAO extends AbstractDAO {
 	private static final String INSERT_PAPER = "INSERT INTO "+
 			"paper(user_id, title, keywords, cat_id, document_path, status, abstract) " + 
 			"VALUES(?,?,?,?,?,?,?);";
-
+	/**
+	 * SQL query to get summary ratings and review id associated with a paper_id.
+	 */
 	private static final String GET_REVIEWS = "SELECT (review_id, summary_rating) FROM paper_review WHERE paper_id = ?";
 	private static final String GET_REVIEW = "SELECT * FROM review WHERE review_id = ?";
 	private static final String GET_QUESTION_RESULTS = "SELECT * FROM rating_comment WHERE review_id = ?";
@@ -47,8 +49,8 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
-	 * Adds new paper to the data source
-	 * @param the_paper
+	 * Adds new paper to the data source or update a current paper.
+	 * @param the_paper the paper to save to the data storage.
 	 */
 	public void savePaper(Paper the_paper)
 	{
@@ -123,13 +125,19 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
+	 * JUST A STUB, NOT FUNCTIONAL YET.
 	 * Adds a new Review to the data source and connects it to the paper.
+	 * @param the_review the review to associate with a paper.
+	 * @param the_paper_id the unique identifier of the paper for which the review is written for.
 	 */
 	public void addReview(final Review the_review, final int the_paper_id)
 	{
 	}
 	/**
 	 * Gets a paper object based on paper ID.
+	 * @param paper_ID the unique paper_ID.
+	 * @return a Paper object associated with this paper_ID.  Will return
+	 * default Paper object if no paper is associated with this paper_ID.
 	 */
 	public Paper getPaper(final int paper_ID) 
 	{
@@ -144,12 +152,12 @@ public class PaperDAO extends AbstractDAO {
 			stmt.setInt(1, paper_ID);
 			result = stmt.executeQuery();
 
-			while (result.next() ) 
+			if(result.next()) 
 			{
 				paper.setID(result.getInt("PAPER_ID"));
 				UserDAO user_dao = new UserDAO();
 				paper.setAuthor(user_dao.getUser(result.getInt("USER_ID")));
-				//paper.setCategory(result.getString());
+				paper.setCategory(result.getString("CATEGORY"));
 				paper.setDocumentPath(result.getString("DOCUMENT_PATH"));
 				paper.setID(paper_ID);
 				paper.setKeywords(result.getString("KEYWORDS"));
@@ -164,6 +172,11 @@ public class PaperDAO extends AbstractDAO {
 		return paper;
 	}
 
+	/**
+	 * Get a list of review references(IDs) associated with a paper.
+	 * @param the_paper_ID
+	 * @return list of reviews (summary rating, review_id)
+	 */
 	public List<ReferenceObject> getReviewsRef(final int the_paper_ID) 
 	{
 		ResultSet result;
@@ -176,13 +189,18 @@ public class PaperDAO extends AbstractDAO {
 			while ( result.next() ) 
 			{
 				refs.add(new ReferenceObject(result.getString("SUMMARY_RATING"),
-						result.getObject("PAPER_ID")));
+						result.getObject("REVIEW_ID")));
 			}
 		} catch (Exception e) {System.out.println(e);}
 
 		return refs;  
 	}  
 	
+	/**
+	 * Get a Review object based upon a review_id.
+	 * @param the_review_id The unique identifier for the review.
+	 * @return the review associated with the review_id
+	 */
 	public Review getReview(final int the_review_id)
 	{
 		ResultSet result;
@@ -214,6 +232,11 @@ public class PaperDAO extends AbstractDAO {
 		return review;
 	}
 
+	/**
+	 * ONLY A STUB...NO FUNCTIONALITY
+	 * @param the_paper_ID the unique id of the paper which the recommendation is requested.
+	 * @return Recommendation object associated with the paper_id
+	 */
 	public Recommendation getRecommendation(final int the_paper_ID)
 	{
 		return new Recommendation();
