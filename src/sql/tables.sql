@@ -104,12 +104,14 @@ FOREIGN KEY(cat_id) REFERENCES category,
 -- Create Review Table
 CREATE TABLE REVIEW(
 review_id int not null auto_increment,
+paper_id int not null,
 user_id int not null,
 cmmt_subpgrmchair varchar(1000),
 summary_rating int not null,
 summary_cmmt varchar(1000),
 active int not null,
 PRIMARY KEY(review_id),
+FOREIGN KEY(paper_id) REFERENCES paper,
 FOREIGN KEY(user_id) REFERENCES user
 );
 
@@ -121,14 +123,4 @@ rating int not null,
 comment varchar(1000),
 PRIMARY KEY(review_id, question_id),
 FOREIGN KEY(review_id)
-);
-
--- Create PaperReview Table
--- (links together the multiple reviews with the papers)
-CREATE TABLE PAPER_REVIEW(
-paper_id int not null,
-review_id int not null,
-PRIMARY KEY(paper_id, review_id),
-FOREIGN KEY(paper_id) REFERENCES paper,
-FOREIGN KEY(review_id) REFERENCES review
 );
