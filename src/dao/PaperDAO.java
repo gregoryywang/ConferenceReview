@@ -11,7 +11,7 @@ import java.util.List;
 import model.Paper;
 import model.Recommendation;
 import model.Review;
-import model.User;
+
 
 import common.ReferenceObject;
 
@@ -37,11 +37,9 @@ public class PaperDAO extends AbstractDAO {
 			"paper(user_id, title, keywords, cat_id, document_path, status, abstract) " + 
 			"VALUES(?,?,?,?,?,?,?);";
 
-	private static final String SELECT_CATEGORY = "SELECT cat_id FROM category WHERE display = ?";
-
-	private static final String GET_REVIEWS = "SELECT review_id FROM paper_review WHERE paper_id = ?";
+	private static final String GET_REVIEWS = "SELECT (review_id, summary_rating) FROM paper_review WHERE paper_id = ?";
 	private static final String GET_REVIEW = "SELECT * FROM review WHERE review_id = ?";
-
+	private static final String GET_QUESTION_RESULTS = "SELECT * FROM rating_comment WHERE review_id = ?";
 
 	public PaperDAO() 
 	{
@@ -65,13 +63,14 @@ public class PaperDAO extends AbstractDAO {
 				stmt.setString(2, the_paper.getTitle());
 				stmt.setString(3, the_paper.getKeywords());
 
-				/* Use when category table has been set up
+				/* use CATEGORY DAO HERE
 				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
 				secondary_stmt.setString(1, the_paper.getCategory());
 				ResultSet cat_result = secondary_stmt.executeQuery();
 				stmt.setInt(4, cat_result.getInt("cat_id"));
 				secondary_stmt.close();
-				 */
+				*/
+
 				stmt.setInt(4, 2); //setting category_id = 2 temp...
 				stmt.setString(5, the_paper.getDocumentPath());
 				stmt.setString(6, the_paper.getStatus().name());
@@ -92,22 +91,22 @@ public class PaperDAO extends AbstractDAO {
 				stmt.setInt(1, the_paper.getAuthor().getID());
 				stmt.setString(2, the_paper.getTitle());
 				stmt.setString(3, the_paper.getKeywords());
-				/* Use when category table has been set up
+
+				/* USE CATEGORY DAO HERE
 				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
 				secondary_stmt.setString(1, the_paper.getCategory());
 				ResultSet cat_result = secondary_stmt.executeQuery();
 				stmt.setInt(4, cat_result.getInt("cat_id"));
 				secondary_stmt.close();
-				 */
-				//temp line below!
-				stmt.setInt(4, 2); //setting category_id = 2 temp...
+				*/
 
+				stmt.setInt(4, 2); //setting category_id = 2 temp...
 				stmt.setString(5, the_paper.getDocumentPath());
 				stmt.setString(6, the_paper.getRevisedDocumentPath());
 				if(the_paper.getRecommendation() == null)
 				{
 					System.out.println("The recommendation is null");
-					stmt.setNull(7, Types.NULL);
+					stmt.setInt(7, Types.NULL);
 				}
 				else
 				{
@@ -115,14 +114,12 @@ public class PaperDAO extends AbstractDAO {
 				}
 				stmt.setString(8, the_paper.getStatus().name());
 				stmt.setString(9, the_paper.getAbstract());
-				
+
 				stmt.setInt(10, the_paper.getID());
 			}
-
-
 			stmt.close();
 		} 
-		catch (Exception e) {System.out.println(e.toString());}
+		catch (Exception e) {System.out.println(e);}
 	}
 
 	/**
@@ -162,17 +159,59 @@ public class PaperDAO extends AbstractDAO {
 			stmt.close();
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e);
 		}
 		return paper;
 	}
 
-	public List<ReferenceObject> getReviewsRef(final int the_paper_ID) {
-		return new ArrayList<ReferenceObject>();
+	public List<ReferenceObject> getReviewsRef(final int the_paper_ID) 
+	{
+		ResultSet result;
+		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
+
+		try {
+			Statement stmt = AbstractDAO.getConnection().createStatement();
+			result = stmt.executeQuery(GET_REVIEWS);
+			stmt.close();
+			while ( result.next() ) 
+			{
+				refs.add(new ReferenceObject(result.getString("SUMMARY_RATING"),
+						result.getObject("PAPER_ID")));
+			}
+		} catch (Exception e) {System.out.println(e);}
+
+		return refs;  
 	}  
+	
 	public Review getReview(final int the_review_id)
 	{
-		return new Review();
+		ResultSet result;
+		Review review = new Review();
+		try {
+			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_REVIEW);
+			stmt.setInt(1,the_review_id);
+			result = stmt.executeQuery();
+			stmt.close();
+			while ( result.next() ) 
+			{//COMPLETE ME!!  //MAKE ME NOT SO UGLY TOO!!
+				review.setReviewer(result.getInt("user_id"));
+				review.setSPChairComment(result.getString("CMMT_SUBPGRMCHAIR"));
+				review.setSummaryRating(result.getInt("SUMMARY_RATING"));
+				
+				stmt = AbstractDAO.getConnection().prepareStatement(GET_QUESTION_RESULTS);
+				stmt.setInt(1, the_review_id);
+				ResultSet questions_result = stmt.executeQuery();
+				while (questions_result.next())
+				{
+					int question_id = questions_result.getInt("question_id");
+					review.setRating(question_id, questions_result.getInt("rating"));
+					review.setComment(question_id, questions_result.getString("comment_text"));
+				}
+				
+			}
+		} catch (Exception e) {System.out.println(e);}
+
+		return review;
 	}
 
 	public Recommendation getRecommendation(final int the_paper_ID)
