@@ -12,6 +12,8 @@ package gui;
 import java.awt.*;
 import javax.swing.*;
 
+import service.UserService;
+
 import model.User;
 import dao.UserDAO;
 
@@ -63,15 +65,12 @@ public class LoginView extends JDialog implements ActionListener{
     
     public void actionPerformed(ActionEvent event)
 	{
-		// creates a UserDAO to authenticate user
-		UserDAO user_dao = new UserDAO(); 
-		
 		// getPassword returns an array of char[], need to convert to String
 		final char[] tempPassword = passwordField.getPassword();
 		final String password = new String(tempPassword);
 		
 		// authenticates user, gets user object
-		user = user_dao.authenticate(usernameField.getText(), password);
+		user = UserService.getInstance().authenticateUser(usernameField.getText(), password);
 				
 		// returns user if login succeeds 
 		if (user == null) {
