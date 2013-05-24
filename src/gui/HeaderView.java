@@ -18,6 +18,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import service.ConferenceService;
+import service.UserService;
+
 import model.Conference;
 import model.Conference.Deadline;
 import model.Role;
@@ -31,8 +34,6 @@ import dao.UserDAO;
 
 public class HeaderView extends JPanel 
 {
-	private final UserDAO user_dao = new UserDAO();
-	private final ConferenceDAO conf_dao = new ConferenceDAO();
 	private final JComboBox role_selector = new JComboBox();
 	private final JComboBox conference_selector = new JComboBox();
 	private User my_user;
@@ -44,9 +45,9 @@ public class HeaderView extends JPanel
 	public HeaderView(User the_user) 
 	{
 		if(the_user != null)
-		{
+		{ 
 			my_user = the_user;
-			is_admin = user_dao.isAdmin(my_user.getID());
+			is_admin = UserService.getInstance().isAdmin(my_user.getID());
 		}
 		else
 		{
@@ -100,7 +101,7 @@ public class HeaderView extends JPanel
 		*/
 		//end of testing
 		
-		final List<ReferenceObject> ro = conf_dao.getConferencesRef();
+		final List<ReferenceObject> ro = ConferenceService.getInstance().getConferences();
 		final ReferenceObject instruct = new ReferenceObject("--select a conference--", 0);
 		ro.add(0, instruct);
 		
@@ -134,7 +135,7 @@ public class HeaderView extends JPanel
 				}
 				else
 				{
-					ro_roles = user_dao.getRolesRef(my_user.getID(), conf_id_selected);
+					ro_roles = UserService.getInstance().getRoles(my_user.getID(), conf_id_selected);
 					//Test if the author role is included in the result set, if not, add to result set.
 					boolean has_author = false;
 					for(ReferenceObject roles: ro_roles)
