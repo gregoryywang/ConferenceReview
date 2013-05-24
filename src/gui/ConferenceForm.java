@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dao.CategoryDAO;
+
 import model.Viewer;
 
 /**
@@ -128,12 +130,6 @@ public class ConferenceForm extends JFrame
 		private final String[] names = {"joe", "moe", "slow", "pro", "flow", "agro", "viagro"};
 		
 		/**
-		 * A random category array.
-		 */
-		private final String[] categories = {"categories shmatergories", "scattergories", "cats", "dogs", 
-			"frogs", "logs", "bogs", "hogs"};
-
-		/**
 		 * Constructs a default ConferencePanel Object.
 		 */
 		public ConferencePanel()
@@ -193,8 +189,10 @@ public class ConferenceForm extends JFrame
 			notification_field.setEditable(false);
 			add(notification_field);
 			
+			CategoryDAO catDao = new CategoryDAO();
 			add(new JLabel("\t Conference Categories:"));
-			final JComboBox conference_categories = new JComboBox(categories);
+			final JComboBox conference_categories = 
+			    new JComboBox(catDao.getCategoriesRef().toArray());
 			add(conference_categories);
 			
 		}
