@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import service.ConferenceService;
+
 import dao.CategoryDAO;
 
 import model.Viewer;
@@ -189,10 +191,9 @@ public class ConferenceForm extends JFrame
 			notification_field.setEditable(false);
 			add(notification_field);
 			
-			CategoryDAO catDao = new CategoryDAO();
 			add(new JLabel("\t Conference Categories:"));
 			final JComboBox conference_categories = 
-			    new JComboBox(catDao.getCategoriesRef().toArray());
+			    new JComboBox(ConferenceService.getInstance().getCategories().toArray());
 			add(conference_categories);
 			
 		}
