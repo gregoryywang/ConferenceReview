@@ -10,8 +10,6 @@ package gui;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -43,7 +41,7 @@ public class AuthorView extends JFrame {
   }
   
   /**
-   * Many slightly different implementations exist on how to add buttons to a table
+   * Many slightly different implementations exist on how to add buttons to a table.
    * The code below represents one example of how to do it.
    * As of now no other implementation in my local test classes works. 
    * As my understanding of this changes so may the code below.
@@ -51,11 +49,6 @@ public class AuthorView extends JFrame {
 
   public static void main(String[] args) {
     AuthorView frame = new AuthorView();
-    frame.addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
-        System.exit(0);
-      }
-    });
   }
 }
 
