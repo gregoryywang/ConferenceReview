@@ -37,14 +37,14 @@ public class ConferenceDAO extends AbstractDAO {
    * Update existing conference record.
    */
   private static String UPDATE_CONFERENCE = "UPDATE CONFERENCE SET TOPIC = ?, CONFERENCE_DATE = ?, " +
-      "SUBMIT_PAPER = ?, REVIEW_PAPER = ?, FINAL_DECISION = ?, MAKE_RECOMMENDATION = ?, REVISE_PAPER = ? " +
-      "WHERE CONF_ID = ? ";
+      "SUBMIT_PAPER = ?, REVIEW_PAPER = ?, FINAL_DECISION = ?, MAKE_RECOMMENDATION = ?, REVISE_PAPER = ?, " +
+      "PROGRAM_CHAIR = ? WHERE CONF_ID = ? ";
   
   /**
    * Insert new conference record.
    */
   private static String INSERT_CONFERENCE = "INSERT INTO CONFERENCE(TOPIC, CONFERENCE_DATE, SUBMIT_PAPER, " +
-      "REVIEW_PAPER, FINAL_DECISION, MAKE_RECOMMENDATION, REVISE_PAPER) VALUES(?,?,?,?,?,?,?) ";
+      "REVIEW_PAPER, FINAL_DECISION, MAKE_RECOMMENDATION, REVISE_PAPER, PROGRAM_CHAIR) VALUES(?,?,?,?,?,?,?,?) ";
   
   
   /**
@@ -86,6 +86,7 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
         stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
         stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
+        stmt.setString(8,  aConference.getPG_Chair());
         
         stmt.executeUpdate();
       } else {
@@ -98,6 +99,7 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
         stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
         stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
+        stmt.setString(8,  aConference.getPG_Chair());
         stmt.setInt(8, aConference.getID());
         stmt.executeUpdate();
       }
@@ -120,16 +122,27 @@ public class ConferenceDAO extends AbstractDAO {
    * @param aConfId The conference id.
    */
   public Conference getConference(final int aConfId) {
-    Connection con = AbstractDAO.getConnection();
-    return new Conference();
-  }
-  
-  /**
-   * Adds a user to the conference.
-   * @param aUser the User object to add.
-   * @param aRoleType the type of the user.
-   */
-  public void addUser(final User aUser, final Role aRoleType) {
+    Conference conference = new Conference();
     
+    try {
+      Connection con = AbstractDAO.getConnection();
+      PreparedStatement stmt = con.prepareStatement(GET_CONFERENCE);
+      stmt.setInt(1, aConfId);
+      ResultSet result = stmt.executeQuery();
+       
+      while (result.next()) {
+        conference.setID(result.getInt("CONF_ID"));
+        conference.set_PG_Chair(result.getString("PROGRAM_CHAIR"));
+        conference.setTopic(result.getString("TOPIC"));
+        conference.setDate(result.getDate("CONFERENCE_DATE"));
+        conference.setDeadline(Deadline.FINAL_DECISION, result.getDate("FINAL_DECISION"));
+        conference.setDeadline(Deadline.MAKE_RECOMMENDATION, result.getDate("MAKE_RECOMMENDATION"));
+        conference.setDeadline(Deadline.REVIEW_PAPER, result.getDate("REVIEW_PAPER"));
+        conference.setDeadline(Deadline.REVISE_PAPER, result.getDate("REVISE_PAPER"));
+        conference.setDeadline(Deadline.SUBMIT_PAPER, result.getDate("SUBMIT_PAPER"));
+      }
+    } catch( Exception e) {}
+    
+    return conference;
   }
 }

@@ -63,7 +63,7 @@ public class PaperDAO extends AbstractDAO {
 				stmt = con.prepareStatement(INSERT_PAPER, Statement.RETURN_GENERATED_KEYS);
 				stmt.setInt(1, the_paper.getAuthor().getID());
 				stmt.setString(2, the_paper.getTitle());
-				stmt.setString(3, the_paper.getKeywords());
+				stmt.setString(3, the_paper.getKeywords()); 
 
 				/* use CATEGORY DAO HERE
 				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
