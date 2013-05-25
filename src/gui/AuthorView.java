@@ -23,29 +23,33 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.User;
+
 public class AuthorView extends JFrame {
 
-  public AuthorView() {
-    super("Author View");
+  public AuthorView(User user) {
+	  super("Author View");
 
-    DefaultTableModel AuthorPaperTable = new DefaultTableModel();
-    AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit" }, { "Paper 2 Name", "Paper 2 Status", "Edit" }}, 
+	  DefaultTableModel AuthorPaperTable = new DefaultTableModel();
+	  AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit" }, { "Paper 2 Name", "Paper 2 Status", "Edit" }}, 
     		new Object[] { "Paper Name", "Current Status", "Edit Submission" });
     
-    JTable table = new JTable(AuthorPaperTable);
+	  JTable table = new JTable(AuthorPaperTable);
 
-    table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
-    table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
+	  table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
+	  table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
    
-    JScrollPane scrollPanel = new JScrollPane(table);
-    getContentPane().add(scrollPanel);
-    setSize(500, 200);
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setVisible(true);
+	  JScrollPane scrollPanel = new JScrollPane(table);
+	  getContentPane().add(scrollPanel);
+	  setSize(500, 200);
+	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  setVisible(true);
   }
 
   public static void main(String[] args) {
-    AuthorView frame = new AuthorView();
+	  
+	  User testUser = new User();
+	  AuthorView frame = new AuthorView(testUser);
   }
 }
 
@@ -59,63 +63,63 @@ public class AuthorView extends JFrame {
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
   public ButtonRenderer() {
-    setOpaque(true);
+	  setOpaque(true);
   }
 
   public Component getTableCellRendererComponent(JTable table, Object value,
-      boolean isSelected, boolean hasFocus, int row, int column) {
-    if (isSelected) {
-      setForeground(table.getSelectionForeground());
-      setBackground(table.getSelectionBackground());
-    } else {
-      setForeground(table.getForeground());
-      setBackground(UIManager.getColor("Button.background"));
-    }
-    setText((value == null) ? "" : value.toString());
-    return this;
+		  boolean isSelected, boolean hasFocus, int row, int column) {
+	  if (isSelected) {
+		  setForeground(table.getSelectionForeground());
+		  setBackground(table.getSelectionBackground());
+	  } else {
+		  setForeground(table.getForeground());
+		  setBackground(UIManager.getColor("Button.background"));
+	  }
+	  setText((value == null) ? "" : value.toString());
+	  return this;
   }
 }
 
 class ButtonEditor extends DefaultCellEditor {
-  protected JButton button;
-  private String label;
-  private boolean isPushed;
+	protected JButton button;
+	private String label;
+	private boolean isPushed;
 
-  public ButtonEditor(JCheckBox checkBox) {
-    super(checkBox);
-    button = new JButton();
-    button.setOpaque(true);
-    button.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        fireEditingStopped();
-      }
-    });
-  }
+	public ButtonEditor(JCheckBox checkBox) {
+		super(checkBox);
+		button = new JButton();
+		button.setOpaque(true);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fireEditingStopped();
+			}
+		});
+	}
 
-  public Component getTableCellEditorComponent(JTable table, Object value,
-      boolean isSelected, int row, int column) {
-    if (isSelected) {
-      button.setForeground(table.getSelectionForeground());
-      button.setBackground(table.getSelectionBackground());
-    } else {
-      button.setForeground(table.getForeground());
-      button.setBackground(table.getBackground());
-    }
-    label = (value == null) ? "" : value.toString();
-    button.setText(label);
-    isPushed = true;
-    return button;
-  }
+	public Component getTableCellEditorComponent(JTable table, Object value,
+			boolean isSelected, int row, int column) {
+		if (isSelected) {
+			button.setForeground(table.getSelectionForeground());
+			button.setBackground(table.getSelectionBackground());
+		} else {
+			button.setForeground(table.getForeground());
+			button.setBackground(table.getBackground());
+		}
+		label = (value == null) ? "" : value.toString();
+		button.setText(label);
+		isPushed = true;
+		return button;
+	}
 
-  public Object getCellEditorValue() {
-    if (isPushed) {
-      JOptionPane.showMessageDialog(button, label + " was pressed!");
-    }
-    isPushed = false;
-    return new String(label);
-  }
+	public Object getCellEditorValue() {
+		if (isPushed) {
+			JOptionPane.showMessageDialog(button, label + " was pressed!");
+		}
+		isPushed = false;
+		return new String(label);
+	}
 
-  protected void fireEditingStopped() {
-    super.fireEditingStopped();
-  }
+	protected void fireEditingStopped() {
+		super.fireEditingStopped();
+	}
 }
