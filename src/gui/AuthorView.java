@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -30,29 +31,35 @@ public class AuthorView extends JFrame {
     DefaultTableModel AuthorPaperTable = new DefaultTableModel();
     AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit" }, { "Paper 2 Name", "Paper 2 Status", "Edit" }}, 
     		new Object[] { "Paper Name", "Current Status", "Edit Submission" });
+    
+    JTable table = new JTable(AuthorPaperTable) {
+        private static final long serialVersionUID = 1L;
+        public boolean isCellEditable(int row, int column) {                
+                return false;               
+        };
+    };
 
-    JTable table = new JTable(AuthorPaperTable);
     table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
     table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
-    
+   
     JScrollPane scrollPanel = new JScrollPane(table);
     getContentPane().add(scrollPanel);
     setSize(500, 200);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
   }
-  
-  /**
-   * Many slightly different implementations exist on how to add buttons to a table.
-   * The code below represents one example of how to do it.
-   * As of now no other implementation in my local test classes works. 
-   * As my understanding of this changes so may the code below.
-   */
 
   public static void main(String[] args) {
     AuthorView frame = new AuthorView();
   }
 }
+
+/**
+ * Many slightly different implementations exist on how to add buttons to a table.
+ * The code below represents one example of how to do it.
+ * As of now no other implementation in my local test classes works. 
+ * As my understanding of this changes so may the code below.
+ */
 
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
