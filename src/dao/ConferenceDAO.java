@@ -100,7 +100,7 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
         stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
         stmt.setString(8,  aConference.getPG_Chair());
-        stmt.setInt(8, aConference.getID());
+        stmt.setInt(9, aConference.getID());
         stmt.executeUpdate();
       }
     } catch (Exception e) {
