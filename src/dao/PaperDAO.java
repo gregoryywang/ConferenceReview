@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import model.Paper;
 import model.Recommendation;
 import model.Review;
+import model.Role;
 
 
 import common.ReferenceObject;
@@ -133,6 +135,41 @@ public class PaperDAO extends AbstractDAO {
 	public void addReview(final Review the_review, final int the_paper_id)
 	{
 	}
+	
+	/**
+	 * NOT IMPLEMENTED YET!
+	 * Get all papers associated with a user role, conference, and user.
+	 * @param the_user_id the id of the user
+	 * @param the_role the role of the user
+	 * @param the_conference the conference id of the papers to retrieve.
+	 * @return the papers associated with a conference, user, in a particular role
+	 */
+	public List<Paper> getPapers(final int the_user_id, final Role the_role, final int the_conference)
+	{
+		final String GET_ALL_PAPERS = "SELECT paper_id FROM user_role_paper_conference "+
+				"WHERE user_id = ? role_id = ? conf_id = ?";
+		List<Paper> papers = new ArrayList<Paper>();
+		try 
+		{
+			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ALL_PAPERS);
+			stmt.setInt(1, the_user_id);
+			stmt.setInt(2, the_role.ordinal());
+			stmt.setInt(3, the_conference);
+			ResultSet result_set = stmt.executeQuery();
+			stmt.close();
+			while(result_set.next())
+			{
+				papers.add(getPaper(result_set.getInt("paper_id")));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return papers;
+	}
+	
 	/**
 	 * Gets a paper object based on paper ID.
 	 * @param paper_ID the unique paper_ID.
