@@ -43,6 +43,7 @@ public class ConferenceDAOTest {
     conference.setDeadline(Deadline.REVIEW_PAPER, new Date(0));
     conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(0));
     conference.setDeadline(Deadline.FINAL_DECISION, new Date(0));
+    conference.set_PG_Chair("Bill");
     
     //Save conference
     conferenceDao.saveConference(conference);
@@ -62,6 +63,7 @@ public class ConferenceDAOTest {
     conference.setDeadline(Deadline.REVIEW_PAPER, new Date(0));
     conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(0));
     conference.setDeadline(Deadline.FINAL_DECISION, new Date(0));
+    conference.set_PG_Chair("Bill");
     
     //Save conference
     conferenceDao.saveConference(conference);
@@ -74,5 +76,14 @@ public class ConferenceDAOTest {
   public void testGetConferencesRef() {
     List<ReferenceObject> result = conferenceDao.getConferencesRef();
     assertTrue(!result.isEmpty());
+  }
+  
+  /**
+   * Tests getting single conference.
+   */
+  @Test
+  public void TestGetConference() {
+    Conference conf = conferenceDao.getConference(1);
+    assertTrue(conf != null);
   }
 }
