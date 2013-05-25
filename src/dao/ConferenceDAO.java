@@ -86,7 +86,7 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
         stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
         stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
-        stmt.setString(8,  aConference.getPG_Chair());
+        stmt.setString(8,  aConference.getProgramChair());
         
         stmt.executeUpdate();
       } else {
@@ -99,7 +99,7 @@ public class ConferenceDAO extends AbstractDAO {
         stmt.setDate(5, aConference.getDeadline(Deadline.FINAL_DECISION));
         stmt.setDate(6, aConference.getDeadline(Deadline.MAKE_RECOMMENDATION));
         stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
-        stmt.setString(8,  aConference.getPG_Chair());
+        stmt.setString(8,  aConference.getProgramChair());
         stmt.setInt(9, aConference.getID());
         stmt.executeUpdate();
       }
@@ -132,7 +132,7 @@ public class ConferenceDAO extends AbstractDAO {
        
       while (result.next()) {
         conference.setID(result.getInt("CONF_ID"));
-        conference.set_PG_Chair(result.getString("PROGRAM_CHAIR"));
+        conference.setProgramChair(result.getString("PROGRAM_CHAIR"));
         conference.setTopic(result.getString("TOPIC"));
         conference.setDate(result.getDate("CONFERENCE_DATE"));
         conference.setDeadline(Deadline.FINAL_DECISION, result.getDate("FINAL_DECISION"));

@@ -66,7 +66,8 @@ public class Conference extends Observable
 			final Date the_review_paper_deadline, final Date the_make_recommendation_deadline,
 			final Date the_final_decision_deadline, final Date the_revise_paper_deadline)
 	{
-		my_id = the_conf_id;
+		super();
+	  my_id = the_conf_id;
 		my_date = (Date)the_date.clone();
 		my_PG_chair = the_PG_chair; //worry about deep copy?
 		my_topic = the_topic;
@@ -82,6 +83,7 @@ public class Conference extends Observable
 	 * Default Constructor.
 	 */
 	public Conference() {
+	  super();
 	  my_deadlines = new HashMap<Deadline, Date>();
 	}
 	
@@ -131,7 +133,7 @@ public class Conference extends Observable
 	 * Change the Program Chair for this conference.
 	 * @param the_pg_chair the program chair for this conference.
 	 */
-	public void set_PG_Chair(final String the_pg_chair)
+	public void setProgramChair(final String the_pg_chair)
 	{
 		my_PG_chair = the_pg_chair;
 	}
@@ -141,7 +143,7 @@ public class Conference extends Observable
 	 * to this user will be reflected in the conference copy as well.
 	 * @return 
 	 */
-	public String getPG_Chair()
+	public String getProgramChair()
 	{
 		return my_PG_chair;
 	}

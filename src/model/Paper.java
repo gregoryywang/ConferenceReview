@@ -19,10 +19,7 @@ import dao.UserDAO;
  */
 public class Paper extends Observable
 {
-	private final PaperDAO paper_dao = new PaperDAO();
-	private final ConferenceDAO conference_dao = new ConferenceDAO();
-	private final UserDAO user_dao = new UserDAO();
-
+	
 	private int my_paper_ID;
 		
 	private User my_author;
@@ -41,10 +38,7 @@ public class Paper extends Observable
 	
 	private Status my_status = Status.SUBPROGRAM_CHAIR_NEEDED;
 	
-	public Paper()
-	{
-		
-	}
+	public Paper(){}
 	
 	/**
 	 * Create a paper with no associated reviews or decisions.
@@ -65,50 +59,62 @@ public class Paper extends Observable
 		my_document_path = saveDocument(the_document_path);
 		
 	}
+	
 	public void setID(final int the_id)
 	{
 		my_paper_ID = the_id;
 	}
+	
 	public int getID()
 	{
 		return my_paper_ID;
 	}
+	
 	public void setAuthor(final User the_author)
 	{
 		my_author = the_author;
 	}
+	
 	public User getAuthor()
 	{
 		return my_author;
 	}
+	
 	public void setTitle(final String the_title)
 	{
 		my_title = the_title;
 	}
+	
 	public String getTitle()
 	{
 		return my_title;
 	}
+	
 	public void setKeywords(final String the_keywords)
 	{
 		my_keywords = the_keywords;
 	}
+	
 	public String getKeywords()
 	{
 		return my_keywords;
 	}
+	
 	public String getAbstract()
 	{
 		return my_abstract;
 	}
+	
 	public void setAbstract(final String the_abstract)
 	{
 		my_abstract = the_abstract;
 	}
+	
 	public String getCategory()
 	{
 		return my_category;
 	}
+	
 	public void setCategory(final String the_category)
 	{
 		my_category = the_category;
@@ -157,6 +163,7 @@ public class Paper extends Observable
 	{
 		return null;
 	}
+	
 	public Status getStatus() //fix me
 	{
 		return my_status;
@@ -166,6 +173,7 @@ public class Paper extends Observable
 	{
 		
 	}
+	
 	public void addReview(Review the_review)
 	{
 		the_review.saveReview(my_paper_ID);

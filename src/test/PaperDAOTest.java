@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Paper;
+import model.Role;
 import model.User;
 
 
@@ -85,5 +86,10 @@ public class PaperDAOTest {
 		Paper my_paper = paper_dao.getPaper(test_paper.getID());
 		assertEquals(test_paper.getID(), my_paper.getID());
 		assertEquals(test_paper.getTitle(), my_paper.getTitle());
+	}
+	
+	@Test
+	public void testAssignPaper() {
+	  paper_dao.assignPaper(test_paper.getID(), 1, 4, Role.REVIEWER);
 	}
 }

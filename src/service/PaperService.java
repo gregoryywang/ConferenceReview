@@ -26,16 +26,17 @@ public class PaperService {
    * @param aPaper The paper to save.
    */
   public void savePaper(final Paper aPaper){
-    
+    paperDao.savePaper(aPaper);
   }
   
   /**
    * Assigns a paper to a user.
    */
-  public void assignPaper(final Paper aPaper, 
+  public void assignPaper(final int aPaperId, 
                           final int aUserId, 
                           final int aConfId,
                           final Role aRole) {
+    paperDao.assignPaper(aPaperId, aUserId, aConfId, aRole);
     
   }
   
