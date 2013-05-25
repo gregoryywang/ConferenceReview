@@ -32,12 +32,7 @@ public class AuthorView extends JFrame {
     AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit" }, { "Paper 2 Name", "Paper 2 Status", "Edit" }}, 
     		new Object[] { "Paper Name", "Current Status", "Edit Submission" });
     
-    JTable table = new JTable(AuthorPaperTable) {
-        private static final long serialVersionUID = 1L;
-        public boolean isCellEditable(int row, int column) {                
-                return false;               
-        };
-    };
+    JTable table = new JTable(AuthorPaperTable);
 
     table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
     table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
