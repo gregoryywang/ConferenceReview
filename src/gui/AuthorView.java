@@ -34,9 +34,11 @@ public class AuthorView extends JFrame {
     JTable table = new JTable(AuthorPaperTable);
     table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
     table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
-    JScrollPane scroll = new JScrollPane(table);
-    getContentPane().add(scroll);
+    
+    JScrollPane scrollPanel = new JScrollPane(table);
+    getContentPane().add(scrollPanel);
     setSize(500, 200);
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
   }
   
