@@ -10,7 +10,8 @@ Primary Key(user_id));
 --Create Conference Table
 --Edits: Danielle
 create table conference(
-conf_id int not null, 
+conf_id int not null,
+program_chair varchar(20) not null, 
 topic varchar(20) not null, 
 conference_date Timestamp not null, 
 submit_paper Timestamp not null, 
