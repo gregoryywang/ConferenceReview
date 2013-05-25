@@ -136,7 +136,7 @@ public final class UserDAO extends AbstractDAO {
 		try {
 			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(IS_ADMIN);
 			stmt.setInt(1, aUserid);
-			stmt.setInt(2, Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
+			stmt.setInt(2, 1);//Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
 			rs = stmt.executeQuery();
 
 			result = rs.next();
