@@ -39,6 +39,12 @@ public class PaperDAO extends AbstractDAO {
 			"paper(user_id, title, keywords, cat_id, document_path, status, abstract) " + 
 			"VALUES(?,?,?,?,?,?,?);";
 	/**
+	 * Assign paper to a user/role/conference.
+	 */
+	private static final String ASSIGN_PAPER = "INSERT INTO USER_ROLE_PAPER_CONFERENCE_JOIN" +
+	 "(USER_ID, ROLE_ID, PAPER_ID, CONF_ID) VALUES(?,?,?,?)";
+	
+	/**
 	 * SQL query to get summary ratings and review id associated with a paper_id.
 	 */
 	private static final String GET_REVIEWS = "SELECT (review_id, summary_rating) FROM paper_review WHERE paper_id = ?";
@@ -126,6 +132,27 @@ public class PaperDAO extends AbstractDAO {
 		catch (Exception e) {System.out.println(e);}
 	}
 
+	/**
+   * Assigns a paper to a user.
+   */
+  public void assignPaper(final int aPaperId, 
+                          final int aUserId, 
+                          final int aConfId,
+                          final Role aRole) {
+    
+    try {
+      Connection con = AbstractDAO.getConnection();
+      PreparedStatement stmt = con.prepareStatement(ASSIGN_PAPER);
+      stmt.setInt(1, aUserId);
+      stmt.setInt(2, 16);
+      stmt.setInt(3, aPaperId);
+      stmt.setInt(4, aConfId);
+      stmt.executeUpdate();
+    }catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+  
 	/**
 	 * JUST A STUB, NOT FUNCTIONAL YET.
 	 * Adds a new Review to the data source and connects it to the paper.
