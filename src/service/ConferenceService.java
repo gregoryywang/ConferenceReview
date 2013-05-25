@@ -44,6 +44,13 @@ public class ConferenceService {
   }
   
   /**
+   * Returns a single conference.
+   */
+  public Conference getConference(final int aConfId) {
+    return conferenceDao.getConference(aConfId);
+  }
+  
+  /**
    * Returns a list of categories.
    * @return Returns a list of categories.
    */
