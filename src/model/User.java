@@ -102,7 +102,10 @@ public class User extends Observable
 	public User(final User the_user)
 	{
 		this(the_user.getFirstName(), the_user.getLastName(), 
-				the_user.getUsername(), the_user.getPassword(), the_user.getEmail());		
+				the_user.getUsername(), the_user.getPassword(), the_user.getEmail());	
+		user_id = the_user.getID();
+		my_role = the_user.getRole();
+		my_conference = the_user.getConference();
 	}
 
 	/**

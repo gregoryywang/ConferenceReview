@@ -4,36 +4,33 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Conference;
+import model.Role;
+import model.User;
 import service.ConferenceService;
 import service.UserService;
 
-import model.Conference;
-import model.Conference.Deadline;
-import model.Role;
-import model.User;
-
 import common.ReferenceObject;
 
-import dao.ConferenceDAO;
-import dao.UserDAO;
-
-
+/**
+ * 
+ * @author Danielle Tucker
+ * @version 2013 May
+ */
 public class HeaderView extends JPanel 
 {
+
+	private static final long serialVersionUID = 1L;
+	
 	private final JComboBox role_selector = new JComboBox();
 	private final JComboBox conference_selector = new JComboBox();
 	private User my_user;
@@ -98,10 +95,13 @@ public class HeaderView extends JPanel
 				//check to see if user hit button without making selection before proceeding.
 				if(role_ro.getData() != null && (Integer) conf_ro.getData() != 0)
 				{
-					//FIX ME WITH SERVICE MODEL THINGINE
-					//Conference conf = ConferenceService.getInstance().getConference((Integer)conf_ro.getData());
-					//my_user.setConference(conf);
+					Conference conf = ConferenceService.getInstance().getConference((Integer)conf_ro.getData());
+					my_user.setConference(conf);
 					my_user.setRole((Role)role_ro.getData());
+				}
+				else if(is_admin && role_ro.getDisplay().equals("CREATE NEW CONFERENCE"))
+				{
+					my_user.setRole(Role.ADMIN);
 				}
 			}
 			
@@ -130,7 +130,7 @@ public class HeaderView extends JPanel
 
 		if(is_admin) 
 		{
-			ro.add(0, new ReferenceObject("CREATE NEW CONFERENCE", 0));
+			ro.add(new ReferenceObject("CREATE NEW CONFERENCE", 0));
 		}
 		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
 		conference_selector.setModel(conference_model);
@@ -160,7 +160,7 @@ public class HeaderView extends JPanel
 						has_author = true;
 					}
 				}
-				if (!has_author)
+				if (!has_author && !is_admin)
 				{
 					ro_roles.add(new ReferenceObject(Role.AUTHOR.toString(), Role.AUTHOR));
 				}									
@@ -168,27 +168,6 @@ public class HeaderView extends JPanel
 				role_selector.setModel(role_model);
 			}
 		});
-	}
-
-	public static void main(String...the_args)
-	{
-		List<String> categories = new ArrayList<String>();
-		categories.add("Cat1");
-		categories.add("Cat2");
-		categories.add("Cat3");
-		User pguser = new User("Test", "PGUser", "testpguser", "testpsswd", "test@notvalid.com");
-		Map<Conference.Deadline, Date> deadlines = new HashMap<Conference.Deadline, Date>();
-		deadlines.put(Deadline.SUBMIT_PAPER, new Date());
-		Conference conf = new Conference();
-		User user = new User(conf, Role.USER,"Test", "User", "testuser", "testpsswd", "test@notvalid.com");
-		HeaderView hv = new HeaderView(user);
-		hv.setVisible(true);
-
-		JFrame frame = new JFrame();
-		frame.add(hv);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
 	}
 }
 
