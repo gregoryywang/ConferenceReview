@@ -23,34 +23,38 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.AuthorTableModel;
 import model.User;
 
 public class AuthorView extends JFrame {
 
-  public AuthorView(User user) {
-	  super("Author View");
-
-	  DefaultTableModel AuthorPaperTable = new DefaultTableModel();
-	  AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit 1" }, { "Paper 2 Name", "Paper 2 Status", "Edit 2" }}, 
-    		new Object[] { "Paper Name", "Current Status", "Edit Submission" });
-    
-	  JTable table = new JTable(AuthorPaperTable);
-
-	  table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
-	  table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
-   
-	  JScrollPane scrollPanel = new JScrollPane(table);
-	  getContentPane().add(scrollPanel);
-	  setSize(500, 200);
-	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	  setVisible(true);
-  }
-
-  public static void main(String[] args) {
+	public AuthorView(User user) {
+		super("Author View");
 	  
-	  User testUser = new User();
-	  AuthorView frame = new AuthorView(testUser);
-  }
+		JTable test = new JTable(new AuthorTableModel());
+
+		// debug code for a default table with hardcoded data
+		DefaultTableModel AuthorPaperTable = new DefaultTableModel();
+		AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit 1" }, { "Paper 2 Name", "Paper 2 Status", "Edit 2" }}, 
+				new Object[] { "Paper Name", "Current Status", "Edit Submission" });
+    
+		JTable table = new JTable(AuthorPaperTable);
+
+		table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
+   
+		JScrollPane scrollPanel = new JScrollPane(table);
+		getContentPane().add(scrollPanel);
+		setSize(500, 200);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+
+ 	static void main(String[] args) {
+	  
+ 		User testUser = new User();
+ 		AuthorView frame = new AuthorView(testUser);
+ 	}
 }
 
 /**
@@ -62,22 +66,22 @@ public class AuthorView extends JFrame {
 
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
-  public ButtonRenderer() {
-	  setOpaque(true);
-  }
+	public ButtonRenderer() {
+		setOpaque(true);
+	}
 
-  public Component getTableCellRendererComponent(JTable table, Object value,
-		  boolean isSelected, boolean hasFocus, int row, int column) {
-	  if (isSelected) {
-		  setForeground(table.getSelectionForeground());
-		  setBackground(table.getSelectionBackground());
-	  } else {
-		  setForeground(table.getForeground());
-		  setBackground(UIManager.getColor("Button.background"));
-	  }
-	  setText((value == null) ? "" : value.toString());
-	  return this;
-  }
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+		if (isSelected) {
+			setForeground(table.getSelectionForeground());
+			setBackground(table.getSelectionBackground());
+		} else {
+			setForeground(table.getForeground());
+			setBackground(UIManager.getColor("Button.background"));
+		}
+		setText((value == null) ? "" : value.toString());
+		return this;
+	}
 }
 
 class ButtonEditor extends DefaultCellEditor {
