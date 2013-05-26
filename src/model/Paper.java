@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import service.PaperService;
+
 import common.ReferenceObject;
 
 import dao.ConferenceDAO;
@@ -176,7 +178,8 @@ public class Paper extends Observable
 	
 	public void addReview(Review the_review)
 	{
-		the_review.saveReview(my_paper_ID);
+		PaperService.getInstance().addReview(the_review, my_paper_ID);
+	//	the_review.saveReview(my_paper_ID);
 	}
 
 	public List<Review> getReviews()
