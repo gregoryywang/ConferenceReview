@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Observable;
 
 /**
@@ -230,6 +232,16 @@ public Conference getConference()
 	  setChanged();
 	  notifyObservers(my_conference);
   }
+  
+
+	/**
+	 * Get the current sql date for comparison against the deadlines for the conference.
+	 * @return current date and time.
+	 */
+	protected Date currentDate() {
+		Date timeNow = new Date(Calendar.getInstance().getTimeInMillis());
+		return timeNow;
+	}
   
   @Override
   public String toString() {
