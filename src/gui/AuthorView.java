@@ -50,7 +50,7 @@ public class AuthorView extends JFrame {
 		setVisible(true);
 	}
 
- 	static void main(String[] args) {
+ 	public static void main(String[] args) {
 	  
  		User testUser = new User();
  		AuthorView frame = new AuthorView(testUser);
