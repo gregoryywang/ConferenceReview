@@ -155,19 +155,15 @@ public class Review
 		my_comments[the_q] = the_comment;
 	}
 
-	public String getComment(final int the_q)
+	public String getComment(final int the_question)
 	{
 		return "";
 	}
 	
-	/**
-	 * Saves the review to the persistent storage
-	 * @param the_paper_id
-	 */
-	public void saveReview(final int the_paper_id)
+	@Override
+	public String toString()
 	{
-		PaperDAO paper_dao = new PaperDAO();
-		//FIX ME!!
+		return Integer.toString(getSummaryRating());
 	}
 
 	/**
