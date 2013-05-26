@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import model.Administrator;
 import model.Conference;
 import model.Conference.Deadline;
+import model.User;
 import model.Viewer;
 import service.ConferenceService;
 
@@ -151,8 +152,10 @@ public class ConferenceForm extends JFrame
 		
 		final String[] categories = {"Categories Shmategories", "Thing 1", "Thing 2", "What color is an Orange?"};
 		
+		User pgrm_chair = new User();
+		pgrm_chair.setFirstName("PGCHAAAAAIIIIRRR"); //needed due to refactoring (Danielle)
 		new ConferenceForm(new AdminView(), new Conference(10, new Date(System.currentTimeMillis()),
-		"PGCHAAAAAIIIIRRR", "GOAT CHEESE", new Date(System.currentTimeMillis()), 
+		pgrm_chair, "GOAT CHEESE", new Date(System.currentTimeMillis()), 
 		new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
 		new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()))).start();
 	}
@@ -313,8 +316,9 @@ public class ConferenceForm extends JFrame
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
-			my_conference.setProgramChair(((JComboBox) my_conference_fields.get(fields_index++)).
-				getSelectedItem().toString());
+//			my_conference.setProgramChair(((JComboBox) my_conference_fields.get(fields_index++)).
+//				getSelectedItem().toString());
+			//Was not quite sure how to fix because was not sure exactly how this code was working.
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.SUBMIT_PAPER, new Date(Long.parseLong(
 				submission.replaceAll("-", ""))));

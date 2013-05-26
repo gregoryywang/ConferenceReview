@@ -1,16 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-
-import common.ReferenceObject;
-
-import dao.ConferenceDAO;
-import dao.UserDAO;
 
 public class Conference extends Observable
 {
@@ -35,7 +28,7 @@ public class Conference extends Observable
 	/**
 	 * The PG chair for this conference.
 	 */
-	private String my_PG_chair;
+	private User my_PG_chair;
 	
 	/**
 	 * The topic for this conference.
@@ -61,7 +54,7 @@ public class Conference extends Observable
 	 * @param the_final_decision_deadline the last date for a program chair decision
 	 * @param the_revise_paper_deadline the last date for an approved paper to be revised
 	 */
-	public Conference(final int the_conf_id, final Date the_date, final String the_PG_chair, final String the_topic,
+	public Conference(final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
 			final Date the_submit_paper_deadline,
 			final Date the_review_paper_deadline, final Date the_make_recommendation_deadline,
 			final Date the_final_decision_deadline, final Date the_revise_paper_deadline)
@@ -133,7 +126,7 @@ public class Conference extends Observable
 	 * Change the Program Chair for this conference.
 	 * @param the_pg_chair the program chair for this conference.
 	 */
-	public void setProgramChair(final String the_pg_chair)
+	public void setProgramChair(final User the_pg_chair)
 	{
 		my_PG_chair = the_pg_chair;
 	}
@@ -143,7 +136,7 @@ public class Conference extends Observable
 	 * to this user will be reflected in the conference copy as well.
 	 * @return 
 	 */
-	public String getProgramChair()
+	public User getProgramChair()
 	{
 		return my_PG_chair;
 	}

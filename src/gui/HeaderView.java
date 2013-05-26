@@ -124,13 +124,18 @@ public class HeaderView extends JPanel
 		 */
 		//end of testing
 
-		final List<ReferenceObject> ro = ConferenceService.getInstance().getConferences();
-		final ReferenceObject instruct = new ReferenceObject("--select a conference--", 0);
+		final List<Conference> ro = ConferenceService.getInstance().getConferences();
+		final Conference instruct = new Conference();
+		instruct.setID(-1);
+		instruct.setTopic("--Select a Conference--");
 		ro.add(0, instruct);
 
 		if(is_admin) 
 		{
-			ro.add(new ReferenceObject("CREATE NEW CONFERENCE", 0));
+			final Conference new_conf = new Conference();
+			new_conf.setTopic("CREATE NEW CONFERENCE");
+			new_conf.setID(0);
+			ro.add(new_conf);
 		}
 		ComboBoxModel conference_model = new DefaultComboBoxModel((ro.toArray()));
 		conference_selector.setModel(conference_model);
@@ -150,21 +155,13 @@ public class HeaderView extends JPanel
 
 
 				role_selector.setEnabled(true);
-				List<ReferenceObject> ro_roles = UserService.getInstance().getRoles(my_user.getID(), conf_id_selected);
+				List<Role> roles = UserService.getInstance().getRoles(my_user.getID(), conf_id_selected);
 				//Test if the author role is included in the result set, if not, add to result set.
-				boolean has_author = false;
-				for(ReferenceObject roles: ro_roles)
+				if (!roles.contains(Role.AUTHOR) && !is_admin)
 				{
-					if((Role)roles.getData()==Role.AUTHOR)
-					{
-						has_author = true;
-					}
-				}
-				if (!has_author && !is_admin)
-				{
-					ro_roles.add(new ReferenceObject(Role.AUTHOR.toString(), Role.AUTHOR));
+					roles.add(Role.AUTHOR);
 				}									
-				ComboBoxModel role_model = new DefaultComboBoxModel(ro_roles.toArray());
+				ComboBoxModel role_model = new DefaultComboBoxModel(roles.toArray());
 				role_selector.setModel(role_model);
 			}
 		});
