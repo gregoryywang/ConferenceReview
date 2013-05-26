@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ComboBoxModel;
@@ -90,16 +91,15 @@ public class HeaderView extends JPanel
 			@Override
 			public void actionPerformed(final ActionEvent the_event) 
 			{
-				ReferenceObject role_ro = (ReferenceObject) role_selector.getSelectedItem();
-				ReferenceObject conf_ro = (ReferenceObject) conference_selector.getSelectedItem();
+				Role role = (Role) role_selector.getSelectedItem();
+				Conference conf = (Conference)conference_selector.getSelectedItem();
 				//check to see if user hit button without making selection before proceeding.
-				if(role_ro.getData() != null && (Integer) conf_ro.getData() != 0)
+				if(role != null && (Integer) conf.getID() != 0)
 				{
-					Conference conf = ConferenceService.getInstance().getConference((Integer)conf_ro.getData());
 					my_user.setConference(conf);
-					my_user.setRole((Role)role_ro.getData());
+					my_user.setRole(role);
 				}
-				else if(is_admin && role_ro.getDisplay().equals("CREATE NEW CONFERENCE"))
+				else if(is_admin)
 				{
 					my_user.setRole(Role.ADMIN);
 				}
@@ -144,23 +144,26 @@ public class HeaderView extends JPanel
 			public void actionPerformed(final ActionEvent the_event)
 			{
 				JComboBox jcb = (JComboBox) the_event.getSource();
-				ReferenceObject conference_name = (ReferenceObject) jcb.getSelectedItem();
-				int conf_id_selected = (Integer) conference_name.getData();
-				System.out.println(conf_id_selected);
+				Conference conf_selected = (Conference) jcb.getSelectedItem();
 
 				//Remove the instructions "--select a conference--"
 				ro.remove(instruct);
 				conference_selector.setModel(new DefaultComboBoxModel(ro.toArray()));
-				conference_selector.setSelectedItem(conference_name);
+				conference_selector.setSelectedItem(conf_selected);
 
 
 				role_selector.setEnabled(true);
-				List<Role> roles = UserService.getInstance().getRoles(my_user.getID(), conf_id_selected);
+				List<Role> roles = UserService.getInstance().getRoles(my_user.getID(), conf_selected.getID());
 				//Test if the author role is included in the result set, if not, add to result set.
-				if (!roles.contains(Role.AUTHOR) && !is_admin)
+				if(is_admin)
+				{
+					roles = new ArrayList<Role>();
+					roles.add(Role.ADMIN);
+				}
+				else if (!roles.contains(Role.AUTHOR) && !is_admin)
 				{
 					roles.add(Role.AUTHOR);
-				}									
+				}
 				ComboBoxModel role_model = new DefaultComboBoxModel(roles.toArray());
 				role_selector.setModel(role_model);
 			}
