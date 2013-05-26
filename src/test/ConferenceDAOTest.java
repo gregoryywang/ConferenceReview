@@ -43,7 +43,7 @@ public class ConferenceDAOTest {
     conference.setDeadline(Deadline.REVIEW_PAPER, new Date(0));
     conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(0));
     conference.setDeadline(Deadline.FINAL_DECISION, new Date(0));
-    conference.setProgramChair("Bill");
+    //conference.setProgramChair("Bill");  FIX ME!!
     
     //Save conference
     conferenceDao.saveConference(conference);
@@ -63,7 +63,7 @@ public class ConferenceDAOTest {
     conference.setDeadline(Deadline.REVIEW_PAPER, new Date(0));
     conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(0));
     conference.setDeadline(Deadline.FINAL_DECISION, new Date(0));
-    conference.setProgramChair("Bill");
+    //conference.setProgramChair("Bill");  FIX ME!!
     
     //Save conference
     conferenceDao.saveConference(conference);

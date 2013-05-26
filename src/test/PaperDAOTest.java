@@ -48,7 +48,7 @@ public class PaperDAOTest {
 	 * Tests adding a new paper.
 	 */
 	@Test
-	public void addNewPaper() {
+	public void savePaperNew() {
 		Paper paper = new Paper();
 		User test_user = new User();
 		test_user.setID(1);
@@ -71,7 +71,7 @@ public class PaperDAOTest {
 	}
 	
 	@Test
-	public void updatePaper()
+	public void savePaperUpdate()
 	{
 		test_paper.setTitle("I have changed the title");
 		paper_dao.savePaper(test_paper);
@@ -81,11 +81,42 @@ public class PaperDAOTest {
 	}
 
 	@Test
+	public void getPapers()
+	{
+		fail();
+	}
+	
+	@Test
 	public void getPaper()
 	{
 		Paper my_paper = paper_dao.getPaper(test_paper.getID());
 		assertEquals(test_paper.getID(), my_paper.getID());
 		assertEquals(test_paper.getTitle(), my_paper.getTitle());
+	}
+	
+	@Test
+	public void getRecommendation()
+	{
+		fail();
+	}
+	
+	@Test
+	public void getReviews()
+	{
+		fail();
+	}
+	
+	@Test
+	public void getReview()
+	{
+		fail();
+	}
+	
+	
+	@Test
+	public void addReview()
+	{
+		fail();
 	}
 	
 	@Test

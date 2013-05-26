@@ -4,6 +4,7 @@ import java.util.List;
 
 import common.ReferenceObject;
 
+import model.Role;
 import model.User;
 import dao.UserDAO;
 
@@ -41,9 +42,22 @@ public class UserService {
    * @param aUserid The user's id.
    * @param aConfid The conference id.
    * @return a list of User Roles for a given user and conference.
+   * @deprecated
    */
-  public List<ReferenceObject> getRoles(final int aUserid, final int aConfid) {
+  public List<ReferenceObject> getRolesRef(final int aUserid, final int aConfid) {
     return userDao.getRolesRef(aUserid, aConfid);
+  }
+  
+  /**
+   * Get a list of Roles associated with a user and conference.
+   * @param the_user_id the user id.
+   * @param the_conf_id the conference id.
+   * @return a list of Roles associated with a user and conference.
+   * @author Danielle
+   */
+  public List<Role> getRoles(final int the_user_id, final int the_conf_id)
+  {
+	  return userDao.getRoles(the_user_id, the_conf_id);
   }
   
   public static UserService getInstance() {

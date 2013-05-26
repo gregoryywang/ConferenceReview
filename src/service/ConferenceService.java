@@ -38,9 +38,10 @@ public class ConferenceService {
   /**
    * Returns a list of conferences.
    * @return a list of conferences.
+   * @author Danielle (refactor)
    */
-  public List<ReferenceObject> getConferences() {
-    return conferenceDao.getConferencesRef();
+  public List<Conference> getConferences() {
+    return conferenceDao.getConferences();
   }
   
   /**

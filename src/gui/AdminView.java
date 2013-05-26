@@ -178,8 +178,10 @@ public class AdminView extends JPanel implements Viewer
 			public void actionPerformed(final ActionEvent the_event)
 			{
 				final AdminView view = new AdminView();
+				User pgrm_chair = new User();
+				pgrm_chair.setFirstName("NEWWWWWW PGCHAAAAAIIIIRRR");
 				final Conference conference = new Conference(10, new Date(System.currentTimeMillis()),
-					"NEWWWWWW PGCHAAAAAIIIIRRR", "FInished", new Date(System.currentTimeMillis()), 
+					pgrm_chair, "FInished", new Date(System.currentTimeMillis()), 
 					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
 					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
 				
@@ -202,8 +204,10 @@ public class AdminView extends JPanel implements Viewer
 			{
 				final ReferenceObject conference_item = (ReferenceObject) ((JComboBox)
 					conference_combo_box).getSelectedItem();
+				User pg_chair = new User();
+				pg_chair.setFirstName("PGCHAAAAAIIIIRRR");
 				Object conference = new Conference(10, new Date(System.currentTimeMillis()),
-					"PGCHAAAAAIIIIRRR", "GOAT CHEESE", new Date(System.currentTimeMillis()), 
+					pg_chair, "GOAT CHEESE", new Date(System.currentTimeMillis()), 
 					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
 					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
 				JOptionPane.showMessageDialog(null, new ReferenceObject("HELLO", conference));
