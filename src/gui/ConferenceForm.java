@@ -233,7 +233,7 @@ public class ConferenceForm extends JFrame
 			program_chair_field.setEditable(false);
 			if (my_conference_flag)
 			{
-				program_chair_field.addItem(my_conference.getPG_Chair());
+				program_chair_field.addItem(my_conference.getProgramChair());
 			}
 			else
 			{
@@ -313,7 +313,7 @@ public class ConferenceForm extends JFrame
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
-			my_conference.set_PG_Chair(((JComboBox) my_conference_fields.get(fields_index++)).
+			my_conference.setProgramChair(((JComboBox) my_conference_fields.get(fields_index++)).
 				getSelectedItem().toString());
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.SUBMIT_PAPER, new Date(Long.parseLong(
