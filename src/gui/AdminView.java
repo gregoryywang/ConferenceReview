@@ -2,10 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Administrator;
+import model.Conference;
 import model.Paper;
 import model.Review;
 import model.User;
 import model.Viewer;
+import service.ConferenceService;
 
 import common.ReferenceObject;
 
@@ -66,18 +68,6 @@ public class AdminView extends JPanel implements Viewer
 	private Administrator my_administrator;
 	
 	/**
-	 * Reference to the ConferenceDAO Object
-	 * used to manipulate the database data.
-	 */
-	private ConferenceDAO my_conference_dao;
-	
-	/**
-	 * Reference to the ReferenceObject Object
-	 * used to manipulate the database data.
-	 */
-	private ReferenceObject my_reference_dao;
-	
-	/**
 	 * Reference to the UserDAO Object
 	 * used to manipulate the database data.
 	 */
@@ -91,8 +81,6 @@ public class AdminView extends JPanel implements Viewer
 		super(new BorderLayout());
 		my_administrator = new Administrator(0, "admin", 
 			"admin", "Super User", "root", "barackobama@thepresi.dent");
-		my_conference_dao = new ConferenceDAO();
-		my_reference_dao = new ReferenceObject();
 		my_user_dao = new UserDAO();
 	}
 	
@@ -181,24 +169,53 @@ public class AdminView extends JPanel implements Viewer
 	
 	private JPanel createCenterPanel()
 	{
-		final JPanel center_panel = new JPanel();
+		final JPanel panel = new JPanel(new GridLayout(0, 1));
 		
-		center_panel.add(new JLabel("\t Conferences "));
-		final JComboBox conference_combo_box = new JComboBox(
-			my_conference_dao.getConferencesRef().toArray());
-		conference_combo_box.addItem("NEW CONFERENCE");
-		center_panel.add(conference_combo_box);
-		final JButton button = new JButton("Go");
-		button.addActionListener(new ActionListener()
+		final JPanel new_conference_panel = new JPanel(new FlowLayout());
+		final JButton new_conference_button = new JButton("CREATE NEW CONFERENCE");
+		new_conference_button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				createConferenceForm();
+				final AdminView view = new AdminView();
+				final Conference conference = new Conference(10, new Date(System.currentTimeMillis()),
+					"NEWWWWWW PGCHAAAAAIIIIRRR", "FInished", new Date(System.currentTimeMillis()), 
+					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
+					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+				
+				final ConferenceForm form = new ConferenceForm(view, conference);
+				form.start();
 			}
 		});
-		center_panel.add(button);
+		new_conference_panel.add(new_conference_button);
+		panel.add(new_conference_panel);
 		
-		return center_panel;
+		final JPanel center_panel = new JPanel(new FlowLayout());
+		center_panel.add(new JLabel("\t Conferences "));
+		final JComboBox conference_combo_box = new JComboBox(
+			ConferenceService.getInstance().getConferences().toArray());
+		center_panel.add(conference_combo_box);
+		final JButton combo_box_button = new JButton("Go");
+		combo_box_button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(final ActionEvent the_event)
+			{
+				final ReferenceObject conference_item = (ReferenceObject) ((JComboBox)
+					conference_combo_box).getSelectedItem();
+				Object conference = new Conference(10, new Date(System.currentTimeMillis()),
+					"PGCHAAAAAIIIIRRR", "GOAT CHEESE", new Date(System.currentTimeMillis()), 
+					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
+					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+				JOptionPane.showMessageDialog(null, new ReferenceObject("HELLO", conference));
+				createConferenceForm(((Conference) conference));
+			//	createConferenceForm(ConferenceService.getInstance().
+			//		getConference((Conference) conference_item.getData()));
+			}
+		});
+		center_panel.add(combo_box_button);
+		panel.add(center_panel);
+		
+		return panel;
 	}
 	
 	
@@ -207,9 +224,9 @@ public class AdminView extends JPanel implements Viewer
 	 * based on what conference they chose
 	 * in the JComboBox.
 	 */
-	public void createConferenceForm()
+	public void createConferenceForm(final Conference the_conference)
 	{
-		new ConferenceForm(this).start();
+		new ConferenceForm(this, the_conference).start();
 	}
 	
 	/**
@@ -218,20 +235,9 @@ public class AdminView extends JPanel implements Viewer
 	 * 
 	 * @return returns the Administrator Object
 	 */
-	public User getAdmin()
+	public User getAdministrator()
 	{
 		return my_administrator;
-	}
-	
-	/**
-	 * Method to get the ConferenceDAO Object associated
-	 * with this AdminView.
-	 * 
-	 * @return returns the ConferenceDAO Object
-	 */
-	public ConferenceDAO getConferenceDAO()
-	{
-		return my_conference_dao;
 	}
 	
 	/**
@@ -246,16 +252,6 @@ public class AdminView extends JPanel implements Viewer
 	}
 	
 	/**
-	 * Method to get the ReferenceDAO Object associated
-	 * with this AdminView
-	 * @return
-	 */
-	public ReferenceObject getReferenceDAO()
-	{
-		return my_reference_dao;
-	}
-	
-	/**
 	 * Returns a List of Paper Objects.
 	 * 
 	 * @return the List of Paper Objects
@@ -264,8 +260,6 @@ public class AdminView extends JPanel implements Viewer
 	public List<Paper> viewPapers() 
 	{
 	  return new ArrayList<Paper>();
-	//	return new ArrayList<Paper>(((ConferenceDAO) my_administrator.getConferenceDAO())
-	//		.getConferencesRef().get(STUB_ID).getPapers());
 	}
 
 	/**
@@ -277,8 +271,6 @@ public class AdminView extends JPanel implements Viewer
 	public List<Review> viewReviews() 
 	{
 	  return new ArrayList<Review>();
-	  //return new ArrayList<Review>(((ConferenceDAO)my_administrator.getConferenceDAO())
-		//	.getConferences().get(STUB_ID).getPapers().get(STUB_ID).getReviews());
 	}
 	
 	public static void main(String[] args)

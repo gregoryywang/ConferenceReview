@@ -1,6 +1,8 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
+
+import service.ConferenceService;
 
 /**
  * Class to create an Administrator Object which
@@ -41,7 +43,7 @@ public class Administrator extends User
 	 */
 	public void createConference(final Conference the_conference)
 	{	
-		
+		ConferenceService.getInstance().saveConference(the_conference);
 	}
 
 	/**
@@ -49,9 +51,9 @@ public class Administrator extends User
 	 * 
 	 * @param the_date the new Date Object
 	 */
-	public void changeDate(final Date the_date)
+	public void changeDate(final Conference the_conference, final Date the_date)
 	{
-		
+		the_conference.setDate(the_date);
 	}
 	
 }
