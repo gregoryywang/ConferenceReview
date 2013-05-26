@@ -126,7 +126,7 @@ class ButtonEditor extends DefaultCellEditor {
 		}
 		
 		// DEBUG
-		System.out.println("reached DEBUG POINT 2");
+		System.out.println("reached DEBUG POINT 2\n");
 
 		isPushed = false;
 		return new String(label);
