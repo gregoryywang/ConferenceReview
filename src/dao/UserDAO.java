@@ -39,10 +39,12 @@ public final class UserDAO extends AbstractDAO {
 	/**
 	 * Determines whether a user is an Administrator.
 	 */
-	private static final String IS_ADMIN = "SELECT NULL " +
+	private static final String IS_ADMIN_ORING = "SELECT NULL " +
 			"FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS A " +
 			" INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
 			"WHERE B.ROLE_TYPE = ? ";
+	private static final String IS_ADMIN = "SELECT * FROM " +
+			"USER_ROLE_PAPER_CONFERENCE_JOIN WHERE user_id = ? and role_id = ?";
 
 	/**
 	 * Returns a user based on userid.
@@ -132,16 +134,19 @@ public final class UserDAO extends AbstractDAO {
 	public boolean isAdmin(final int aUserid) {
 		ResultSet rs = null;
 		boolean result = false;
-
+		System.out.println("Current Userid = " + aUserid);
+		System.out.println("Role ID = " + Role.ADMIN.ordinal());
 		try {
 			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(IS_ADMIN);
+			System.out.println("Current Userid = " + aUserid);
+			System.out.println("Role ID = " + Role.ADMIN.ordinal());
 			stmt.setInt(1, aUserid);
-			stmt.setInt(2, 1);//Role.ADMIN.ordinal()); //DANIELLE!!!!!!!! DID THIS!!!!!
+			stmt.setInt(2, Role.ADMIN.ordinal());
 			rs = stmt.executeQuery();
 
-			result = rs.next();
+			result = rs.first();
 
-		} catch (Exception e) {}
+		} catch (Exception e) {System.err.println(e);}
 
 		return result;
 	}
@@ -216,7 +221,7 @@ public final class UserDAO extends AbstractDAO {
 				refs.add(new ReferenceObject(result.getString("LAST_NAME") + ", " + result.getString("LAST_NAME"),
 						result.getObject("USER_ID")));
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {System.err.println(e);}
 
 		return refs; 
 	}  
