@@ -4,7 +4,7 @@ package gui;
  * AuthorView.java
  * @author yongyuwang
  * @version 5-25-1424
- * Prototype table to display author's papers
+ * Prototype table to display author's papers.
  */
 
 import java.awt.Component;
@@ -31,7 +31,7 @@ public class AuthorView extends JFrame {
 	  super("Author View");
 
 	  DefaultTableModel AuthorPaperTable = new DefaultTableModel();
-	  AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit" }, { "Paper 2 Name", "Paper 2 Status", "Edit" }}, 
+	  AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit 1" }, { "Paper 2 Name", "Paper 2 Status", "Edit 2" }}, 
     		new Object[] { "Paper Name", "Current Status", "Edit Submission" });
     
 	  JTable table = new JTable(AuthorPaperTable);
@@ -108,6 +108,11 @@ class ButtonEditor extends DefaultCellEditor {
 		label = (value == null) ? "" : value.toString();
 		button.setText(label);
 		isPushed = true;
+		
+		// DEBUG
+		System.out.println("reached DEBUG POINT 1");
+		System.out.println("button is in row " + row + " column " + column);
+		
 		return button;
 	}
 
@@ -115,6 +120,10 @@ class ButtonEditor extends DefaultCellEditor {
 		if (isPushed) {
 			JOptionPane.showMessageDialog(button, label + " was pressed!");
 		}
+		
+		// DEBUG
+		System.out.println("reached DEBUG POINT 2");
+
 		isPushed = false;
 		return new String(label);
 	}
