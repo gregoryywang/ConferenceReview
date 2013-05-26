@@ -1,7 +1,5 @@
 package model;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 import model.Conference.Deadline;
@@ -111,14 +109,4 @@ public class Author extends User
 	{
 		super.setRole(Role.AUTHOR);
 	}
-
-	/**
-	 * Get the current sql date for comparison against the deadlines for the conference.
-	 * @return current date and time.
-	 */
-	private Date currentDate() {
-		Date timeNow = new Date(Calendar.getInstance().getTimeInMillis());
-		return timeNow;
-	}
-
 }
