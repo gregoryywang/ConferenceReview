@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Administrator;
@@ -24,9 +23,6 @@ import model.User;
 import model.Viewer;
 import service.ConferenceService;
 
-import common.ReferenceObject;
-
-import dao.ConferenceDAO;
 import dao.UserDAO;
 
 /**
@@ -35,27 +31,10 @@ import dao.UserDAO;
  * looks like.
  * 
  * @author Levon Kechichian
- * @version 1.0
+ * @version Spring 2013
  */
 public class AdminView extends JPanel implements Viewer
 {
-	/*
-	 * depends how I know which conference I am manipulating
-	 * I am assuming it is by ID but not sure how to
-	 * obtain the correct conference to change its Date Object. 
-	 */
-	private static final int STUB_ID = 0;
-	
-	/**
-	 * The default number of panel rows.
-	 */
-	private static final int PANEL_ROWS = 0;
-	
-	/**
-	 * The defualt number of panel columns.
-	 */
-	private static final int PANEL_COLUMNS = 3;
-	
 	/**
 	 * The default serial version UID.
 	 */
@@ -89,84 +68,14 @@ public class AdminView extends JPanel implements Viewer
 	 */
 	public void fillPanel()
 	{
-		add(createNorthernPanel(), BorderLayout.NORTH);
-		add(createWesternPanel(), BorderLayout.WEST);
-		add(createSouthernPanel(), BorderLayout.SOUTH);
 		add(createCenterPanel(), BorderLayout.CENTER);
 	}
 	
-	private JPanel createNorthernPanel()
-	{
-		final JPanel northern_panel = new JPanel(new FlowLayout());
-		
-		final JLabel username_label = new JLabel("Hello, Administrator");
-		northern_panel.add(username_label);
-		
-		return northern_panel;
-	}
-	
-	private JPanel createWesternPanel()
-	{
-		final JPanel western_panel = new JPanel(new GridLayout(0, 1));
-		
-		final JButton signout_button = new JButton("Sign Out");
-		signout_button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(final ActionEvent the_event)
-			{
-				int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to sign out?");
-				if (choice == JOptionPane.YES_OPTION)
-					{
-						JOptionPane.showMessageDialog(null, "Nice try!");
-					}
-			}
-		});
-		western_panel.add(signout_button);
-		
-		final JButton change_password_button = new JButton("Change Password");
-		change_password_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					JOptionPane.showMessageDialog(null, 
-						"Your password has been set to \"password123\"");
-				}
-			});
-		western_panel.add(change_password_button);
-		
-		final JButton change_email_button = new JButton("Change E-Mail");
-		change_email_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					JOptionPane.showMessageDialog(null,
-						"Expect to hear from online advertisers =-o");
-				}
-			});
-		western_panel.add(change_email_button);
-		
-		final JButton etc_button = new JButton("etc..");
-		etc_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					JOptionPane.showMessageDialog(null, "Hey!!! Don't Click that!!!!");
-				}
-			});
-		western_panel.add(etc_button);
-		
-		return western_panel;
-	}
-	
-	private JPanel createSouthernPanel()
-	{
-		final JPanel southern_panel = new JPanel(new FlowLayout());
-		
-		southern_panel.add(new JButton("Why am I here?"));
-		
-		return southern_panel;
-	}
-	
+	/**
+	 * Creates the center panel for the AdminView Frame.
+	 * 
+	 * @return returns the populated central panel
+	 */
 	private JPanel createCenterPanel()
 	{
 		final JPanel panel = new JPanel(new GridLayout(0, 1));
@@ -269,7 +178,12 @@ public class AdminView extends JPanel implements Viewer
 	  return new ArrayList<Review>();
 	}
 	
-	public static void main(String[] args)
+	/**
+	 * Method to start the program
+	 * 
+	 * @param the_args the command-line args
+	 */
+	public static void main(String[] the_args)
 	{
 		final JFrame frame = new JFrame("AdminView");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

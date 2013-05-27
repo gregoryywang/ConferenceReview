@@ -31,8 +31,6 @@ import model.User;
 import model.Viewer;
 import service.ConferenceService;
 
-import common.ReferenceObject;
-
 /**
  * Class that creates a ConferenceForm Object
  * that represents the "form" that a User
@@ -197,13 +195,7 @@ public class ConferenceForm extends JFrame
 	}
 	
 	public static void main(String[] args)
-	{
-		final Integer[] array = {1,2,3,4,5,6,7,8,9,1,0,3,56,43,43};
-		
-		final String[] names = {"joe", "moe", "slow", "pro", "flow", "agro", "viagro"};
-		
-		final String[] categories = {"Categories Shmategories", "Thing 1", "Thing 2", "What color is an Orange?"};
-		
+	{	
 		User pgrm_chair = new User();
 		pgrm_chair.setFirstName("PGCHAAAAAIIIIRRR"); //needed due to refactoring (Danielle)
 		new ConferenceForm(new AdminView(), new Conference(10, new Date(System.currentTimeMillis()),
