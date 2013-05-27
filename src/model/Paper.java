@@ -43,14 +43,9 @@ public class Paper extends Observable
 	private String my_category;
 	
 	/**
-	 * The location of the paper in the local filesystem.
+	 * Stores the contents of the paper.
 	 */
-	private String my_document_path;
-	
-	/**
-	 * The location of the revised paper in the local filesystem.
-	 */
-	private String my_revised_document_path;
+	private String content;
 	
 	/**
 	 * The status of the paper in the review process.
@@ -72,14 +67,13 @@ public class Paper extends Observable
 	 * @param the_document_path the user path for this document.
 	 */
 	public Paper(final User the_author, final String the_title, final String the_keywords,
-			final String the_abstract, final String the_category, final String the_document_path)
+			final String the_abstract, final String the_category, final String content)
 	{
 		my_author = the_author;
 		my_title = the_title;
 		my_keywords = the_keywords;
 		my_abstract = the_abstract;
-		my_document_path = saveDocument(the_document_path);
-		
+		this.content = content;
 	}
 	
 	/**
@@ -190,43 +184,12 @@ public class Paper extends Observable
 		my_category = the_category;
 	}
 	
-	/**
-	 * Set the document path for the text of the paper.
-	 * Do not use to put in file of user's document path!! Use saveDocument() first.
-	 * @param the_document_path the document path on the program's file system.
-	 */
-	public void setDocumentPath(final String the_document_path)
-	{
-		my_document_path = the_document_path;
+	public String getContent() {
+	  return content;
 	}
 	
-	/**
-	 * The internal document path for the text of this paper.
-	 * @return the document path for the text of this paper.
-	 */
-	public String getDocumentPath()
-	{
-		return my_document_path;
-	}
-	
-	/**
-	 * Set the document path for the revised text of the paper
-	 * after the paper has been approved.  Do not use to put in file of 
-	 * user's document path!!  Use saveDocument() first.
-	 * @param the_path the document path on the program's file system.
-	 */
-	public void setRevisedDocumentPath(final String the_path)
-	{
-		my_revised_document_path = the_path;
-	}
-	
-	/**
-	 * The internal document path for the text of this revised paper.
-	 * @return the document path for the text of this revised paper.  (May be null.)
-	 */
-	public String getRevisedDocumentPath()
-	{
-		return my_revised_document_path;
+	public void setContent(final String content) {
+	  this.content = content;
 	}
 	
 	/**
