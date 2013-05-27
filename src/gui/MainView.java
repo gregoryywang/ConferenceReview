@@ -43,6 +43,9 @@ public class MainView extends JFrame {
         
         // creates and adds ContentView to MainView
         ContentView contentPanel = new ContentView(user);
+        this.getContentPane().add(contentPanel, BorderLayout.SOUTH);
+
+        
         
     }
     
