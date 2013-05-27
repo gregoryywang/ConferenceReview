@@ -1,7 +1,6 @@
 package model;
 
 import service.PaperService;
-import dao.UserDAO;
 
 /**
  * Class to create a SubProgramChair Object and its functionalities.
@@ -10,9 +9,7 @@ import dao.UserDAO;
  * @version Spring 2013
  */
 public class SubProgramChair extends User
-{
-	// Hmmmmm.....do I need any fields?
-	
+{	
 	/**
 	 * Constructs a SubProgramChair Object based
 	 * on the given parameters.
@@ -24,10 +21,12 @@ public class SubProgramChair extends User
 	 * @param the_username the Users screen name
 	 * @param the_email the Users e-mail
 	 */
-	public SubProgramChair(final Conference the_conference, final String the_first_name, final String the_last_name, 
-		final String the_password, final String the_username, final String the_email)
+	public SubProgramChair(final Conference the_conference, final String the_first_name, 
+		final String the_last_name, final String the_password, final String the_username, 
+		final String the_email)
 	{
-		super(the_conference, Role.SUB_PROGRAM_CHAIR, the_first_name, the_last_name, the_password, the_username, the_email);
+		super(the_conference, Role.SUB_PROGRAM_CHAIR, the_first_name, the_last_name, 
+			the_password, the_username, the_email);
 	}
 	
 	/**
@@ -36,13 +35,11 @@ public class SubProgramChair extends User
 	 * @param the_user the Reviewer that is being assigned to the Paper
 	 * @param the_paper the Paper that the User is being assigned to
 	 */
-	public void assignReviewer(final User the_user, final Paper the_paper)
+	public void assignReviewer(final User the_user, final Paper the_paper, 
+		final Conference the_conference)
 	{
-		//We need a assignReviewer method in the PaperService class
-		//The following will work to assign a Reviewer to the Paper until that method is created
-		final Review user_review = new Review(the_user);
-		user_review.setReviewer(the_user.getID());
-		PaperService.getInstance().addReview(user_review, the_paper.getID());
+		PaperService.getInstance().assignPaper(the_paper.getID(), the_user.getID(), 
+			the_conference.getID(), Role.REVIEWER);
 	}
 	
 	/**

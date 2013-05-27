@@ -1,17 +1,26 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import model.Conference;
 import model.Paper;
 import model.Review;
+import model.Role;
 import model.SubProgramChair;
+import model.User;
 import model.Viewer;
+import dao.UserDAO;
 
 public class SubPGChairView extends JFrame implements Viewer
 {
@@ -36,6 +45,21 @@ public class SubPGChairView extends JFrame implements Viewer
 	private static final Color BACKGROUND_COLOR = Color.MAGENTA;
 	
 	/**
+	 * The default number of columns in the central panel.
+	 */
+	private static final int PANEL_COLUMNS = 1;
+	
+	/**
+	 * The default number of rows in the central panel.
+	 */
+	private static final int PANEL_ROWS = 0;
+	
+	/**
+	 * The default number of reviewer panel columns.
+	 */
+	private static final int REVIEWER_PANEL_COLUMNS = 2;
+	
+	/**
 	 * Reference to the SubProgramChair Object associated with this view.
 	 */
 	private SubProgramChair my_user;
@@ -46,7 +70,7 @@ public class SubPGChairView extends JFrame implements Viewer
 	private List<Paper> my_papers;
 	
 	/**
-	 * Constructs a new SubPGhairView Object.
+	 * Constructs a default SubPGhairView Object.
 	 */
 	public SubPGChairView()
 	{
@@ -54,8 +78,77 @@ public class SubPGChairView extends JFrame implements Viewer
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
+		add(createCentralPanel(), BorderLayout.CENTER);
 		my_user = new SubProgramChair(new Conference(),"first", "last", "password", "screenName", "me@apple.com");
 		my_papers = new ArrayList<Paper>();
+	}
+	
+	/**
+	 * Constructs a SubPGChairView from a specific
+	 * SubProgramChair User.
+	 */
+	public SubPGChairView(final User the_user)
+	{
+		super("Sub-Program Chair");
+		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(BACKGROUND_COLOR);
+		my_user = (SubProgramChair) the_user;
+		my_papers = new ArrayList<Paper>();
+	}
+	
+	public JPanel createCentralPanel()
+	{
+		final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
+		
+		panel.add(createReviewerPanel());
+		// need to create something to view reviewers
+		// need to create something to assign a reviewer
+		// neeed to create something to view reviewers reviews
+		
+		// need to create something to view recommendations
+		// need to create something to write recommendations
+		
+		// need to create something to view all papers
+		// need to create something to view a particular paper
+		
+		// IM THINKING ReviewForm, ReviewerForm, and RecommendationForm CLASSES WILL BE NEEDED!!!! 
+		
+		return panel;
+	}
+	
+	public JPanel createReviewerPanel()
+	{
+		final JPanel reviewer_panel = new JPanel(new GridLayout(PANEL_ROWS, REVIEWER_PANEL_COLUMNS));
+		
+		reviewer_panel.add(new JLabel("Reviewer #1: "));
+		
+		// FOR THESE I NEED A 
+		// UserService.getInstance().getUsers(Role.REVIEWER)
+		final JComboBox reviewer1 = new JComboBox(
+				new DefaultComboBoxModel(new UserDAO().getUsers(Role.REVIEWER).toArray()));
+		reviewer1.setEditable(false);
+		reviewer_panel.add(reviewer1);
+		
+		reviewer_panel.add(new JLabel("Reviewer #2: "));
+		
+		// FOR THESE I NEED A 
+		// UserService.getInstance().getUsers(Role.REVIEWER)
+		final JComboBox reviewer2 = new JComboBox(
+				new DefaultComboBoxModel(new UserDAO().getUsers(Role.REVIEWER).toArray()));
+		reviewer2.setEditable(false);
+		reviewer_panel.add(reviewer2);
+		
+		reviewer_panel.add(new JLabel("Reviewer #3: "));
+		
+		// FOR THESE I NEED A 
+		// UserService.getInstance().getUsers(Role.REVIEWER)
+		final JComboBox reviewer3 = new JComboBox(
+				new DefaultComboBoxModel(new UserDAO().getUsers(Role.REVIEWER).toArray()));
+		reviewer3.setEditable(false);
+		reviewer_panel.add(reviewer3);
+		
+		return reviewer_panel;
 	}
 	
 	/**
@@ -63,6 +156,7 @@ public class SubPGChairView extends JFrame implements Viewer
 	 */
 	public void start()
 	{
+		
 		setVisible(true);
 		pack();
 	}
