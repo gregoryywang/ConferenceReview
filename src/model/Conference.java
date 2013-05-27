@@ -1,7 +1,9 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -34,6 +36,8 @@ public class Conference extends Observable
 	 * The topic for this conference.
 	 */
 	private String my_topic;
+	
+	private List<String> my_categories;
 	
 	/**
 	 * The Map of Deadlines and Dates associated with these deadlines for
@@ -141,6 +145,24 @@ public class Conference extends Observable
 		return my_PG_chair;
 	}
 
+	/**
+	 * Set the categories for this conference
+	 * @param the_categories the categories for papers at the conference.
+	 */
+	public void setCategories(final List<String> the_categories)
+	{
+		my_categories = new ArrayList<String>(the_categories);
+	}
+	
+	/**
+	 * Get a list of all categories for papers
+	 * @return a list of categories for papers
+	 */
+	public List<String> getCategories()
+	{
+		return new ArrayList<String>(my_categories);
+	}
+	
 	public void setTopic(final String the_topic)
 	{
 		my_topic = the_topic;
@@ -180,5 +202,10 @@ public class Conference extends Observable
 	public String shortTitle()
 	{
 		return my_topic;
+	}
+	
+	public String toString()
+	{
+		return shortTitle();
 	}
 }
