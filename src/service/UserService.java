@@ -60,6 +60,15 @@ public class UserService {
 	  return userDao.getRoles(the_user_id, the_conf_id);
   }
   
+  /**
+   * Get all users which are not admins.
+   * @return a list of all users who are not adminstrators.
+   */
+  public List<User> getAllUsers()
+  {
+	  return userDao.getUsers();
+  }
+  
   public static UserService getInstance() {
     return new UserService();
   }
