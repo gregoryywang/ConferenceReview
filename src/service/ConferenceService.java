@@ -27,15 +27,6 @@ public class ConferenceService {
   }
   
   /**
-   * Add a paper to the conference.
-   * @param the_paper the paper to add to the event.
-   */
-  public void addPaper(final Paper the_paper, final int aConfId)
-  {
-    conferenceDao.addPaper(aConfId, the_paper); 
-  }
-  
-  /**
    * Returns a list of conferences.
    * @return a list of conferences.
    * @author Danielle (refactor)
@@ -46,18 +37,31 @@ public class ConferenceService {
   
   /**
    * Returns a single conference.
+   * @param the_conf_id the id of the conference.
    */
-  public Conference getConference(final int aConfId) {
-    return conferenceDao.getConference(aConfId);
+  public Conference getConference(final int the_conf_id) {
+	  Conference conf = conferenceDao.getConference(the_conf_id);
+	  conf.setCategories(conferenceDao.getCategories(the_conf_id));
+    return conf;
   }
   
   /**
-   * Returns a list of categories.
+   * Returns a list of all system-wide categories for making a new conference.
    * @return Returns a list of categories.
+   * @deprecated
    */
-  public List<ReferenceObject> getCategories() {
+  public List<ReferenceObject> getCategoriesRef() {
     return categoryDao.getCategoriesRef();
   }
+  
+  /**
+   * Returns a list of all system-wide categories for making a new conference.
+   * @return Returns a list of categories.
+   */
+  public List<String> getCategories() {
+    return categoryDao.getCategories();
+  }
+  
   
   /**
    * Returns ConferenceService instance.
