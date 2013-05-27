@@ -37,7 +37,7 @@ public class ConferenceDAO extends AbstractDAO {
 	 * Update existing conference record.
 	 */
 	private static String UPDATE_CONFERENCE = "UPDATE CONFERENCE SET TOPIC = ?, CONFERENCE_DATE = ?, " +
-			"SUBMIT_PAPER = ?, REVIEW_PAPER = ?, FINAL_DECISION = ?, MAKE_RECOMMENDATION = ?, REVISE_PAPER = ?, " +
+			"SUBMIT_PAPER = ?, REVIEW_PAPER = ?, FINAL_DECISION = ?, MAKE_RECOMMENDATION = ?, REVISE_PAPER = ? " +
 			"WHERE CONF_ID = ? ";
 
 	/**
