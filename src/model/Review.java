@@ -1,7 +1,5 @@
 package model;
 
-import dao.ConferenceDAO;
-import dao.PaperDAO;
 import dao.UserDAO;
 
 /**

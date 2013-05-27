@@ -1,19 +1,18 @@
 package dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.Conference;
-import model.Conference.Deadline;
-import model.Paper;
-import model.Role;
-import model.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Conference;
+import model.Conference.Deadline;
+import model.Role;
+import model.User;
+
 import common.ReferenceObject;
 
 /**

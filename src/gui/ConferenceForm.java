@@ -58,7 +58,7 @@ public class ConferenceForm extends JFrame
 	private static final int FRAME_HEIGHT = 300;
 	
 	/**
-	 * The defualt background color.
+	 * The default background color.
 	 */
 	private static final Color BACKGROUND_COLOR = Color.GREEN;
 	
@@ -90,6 +90,9 @@ public class ConferenceForm extends JFrame
 	
 	/**
 	 * Creates a default ConferenceForm Object.
+	 * 
+	 * @param the_view the current User's view
+	 * @param the_conference the current Conference the User is viewing
 	 */
 	public ConferenceForm(final Viewer the_view, final Conference the_conference)
 	{
@@ -106,6 +109,9 @@ public class ConferenceForm extends JFrame
 		my_panel = new ConferencePanel(the_conference);
 	}
 	
+	/**
+	 * Method to initialize the Panel components.
+	 */
 	public void start()
 	{
 		my_northern_label = new JLabel();
@@ -166,6 +172,12 @@ public class ConferenceForm extends JFrame
 		pack();
 	}
 	
+	/**
+	 * Method to make sure that every Date in the JTextfields
+	 * are valid.
+	 * 
+	 * @return returns true if every Date is valid
+	 */
 	private boolean checkForValidDates()
 	{
 		boolean result = true;
@@ -186,7 +198,12 @@ public class ConferenceForm extends JFrame
 		return result;
 	}
 	
-	public static void main(String[] args)
+	/**
+	 * Main method to test the class.
+	 * 
+	 * @param the_args the command-line args
+	 */
+	public static void main(final String[] the_args)
 	{	
 		User pgrm_chair = new User();
 		pgrm_chair.setFirstName("PGCHAAAAAIIIIRRR"); //needed due to refactoring (Danielle)
@@ -204,12 +221,12 @@ public class ConferenceForm extends JFrame
 		private static final long serialVersionUID = 1L;
 		
 		/**
-		 * The number of textfield rows.
+		 * The number of text field rows.
 		 */
 		private static final int ROWS = 0;
 		
 		/**
-		 * The number of textfield columns.
+		 * The number of text field columns.
 		 */
 		private static final int COLUMNS = 2;
 		
@@ -235,6 +252,9 @@ public class ConferenceForm extends JFrame
 			setVisible(true);
 		}
 		
+		/**
+		 * Private method to create the JPanel text fields and drop downs.
+		 */
 		private void createFields()
 		{
 			add(new JLabel("\t Conference Topic: "));
@@ -367,6 +387,12 @@ public class ConferenceForm extends JFrame
 		}
 	}
 	
+	/**
+	 * Private class that listens for FocusEvents
+	 * 
+	 * @author Levon
+	 * @version Spring 2013
+	 */
 	private class DateListener implements FocusListener
 	{
 		/**
@@ -390,6 +416,14 @@ public class ConferenceForm extends JFrame
 			my_component = the_component;
 		}
 		
+		/**
+		 * Private method to check if the given date String is valid.
+		 * 
+		 * @param the_date the date that is being checked for
+		 * validity
+		 * 
+		 * @return returns true if the given date is valid based
+		 */
 		private boolean isValidDate(final String the_date)
 		{
 			boolean result = false;

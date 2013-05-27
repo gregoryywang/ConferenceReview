@@ -1,7 +1,6 @@
 package dao;
 
 import java.io.BufferedReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +15,6 @@ import model.Paper;
 import model.Recommendation;
 import model.Review;
 import model.Role;
-
 
 import common.ReferenceObject;
 
