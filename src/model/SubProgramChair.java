@@ -31,20 +31,6 @@ public class SubProgramChair extends User
 	}
 	
 	/**
-	 * Assigns a Reviewer to a Collection of Reviewers.
-	 * 
-	 * @param the_user the User that is being assigned to the Collection
-	 */
-	public void assignReviewerToPool(final User the_user)
-	{
-		// What the ????
-		// How is this method different than the one below????
-		// I am assuming we just add the_user to the database of Users?
-		// and I will code it that way...
-		new UserDAO().getUsers(Role.REVIEWER).add(the_user);
-	}
-	
-	/**
 	 * Assigns a Reviewer to a specified Paper.
 	 * 
 	 * @param the_user the Reviewer that is being assigned to the Paper

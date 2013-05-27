@@ -202,18 +202,10 @@ public class AdminView extends JPanel implements Viewer
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				final ReferenceObject conference_item = (ReferenceObject) ((JComboBox)
+				final Conference conference_item = (Conference) ((JComboBox)
 					conference_combo_box).getSelectedItem();
-				User pg_chair = new User();
-				pg_chair.setFirstName("PGCHAAAAAIIIIRRR");
-				Object conference = new Conference(10, new Date(System.currentTimeMillis()),
-					pg_chair, "GOAT CHEESE", new Date(System.currentTimeMillis()), 
-					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
-					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
-				JOptionPane.showMessageDialog(null, new ReferenceObject("HELLO", conference));
-				createConferenceForm(((Conference) conference));
-			//	createConferenceForm(ConferenceService.getInstance().
-			//		getConference((Conference) conference_item.getData()));
+				createConferenceForm(ConferenceService.getInstance().
+					getConference(conference_item.getID()));
 			}
 		});
 		center_panel.add(combo_box_button);

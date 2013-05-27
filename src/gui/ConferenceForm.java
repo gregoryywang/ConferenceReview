@@ -235,21 +235,6 @@ public class ConferenceForm extends JFrame
 		private static final int TEXTFIELD_SIZE = 10;
 		
 		/**
-		 * A random integer array.
-		 */
-		private final Integer[] array = {1,2,3,4,5,6,7,8,9,1,0,3,56,43,43};
-		
-		/**
-		 * A random name array.
-		 */
-		private final String[] names = {"joe", "moe", "slow", "pro", "flow", "agro", "viagro"};
-		
-		/**
-		 * A random conference topic array.
-		 */
-		private final String[] categories = {"Categories Shmategories", "Thing 1", "Thing 2", "What color is an Orange?"};
-		
-		/**
 		 * Array of all JComponents in the ConferencePanel
 		 * that will be used to create a Conference Object.
 		 */
