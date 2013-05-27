@@ -7,6 +7,7 @@ package gui;
  * Prototype table to display author's papers.
  */
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -26,7 +28,7 @@ import javax.swing.table.TableCellRenderer;
 import model.AuthorTableModel;
 import model.User;
 
-public class AuthorView extends JFrame {
+public class AuthorView extends JFrame implements ActionListener {
 
 	public AuthorView(User user) {
 		super("Author View");
@@ -38,17 +40,30 @@ public class AuthorView extends JFrame {
 		AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit 1" }, { "Paper 2 Name", "Paper 2 Status", "Edit 2" }}, 
 				new Object[] { "Paper Name", "Current Status", "Edit Submission" });
     
+		// Construct a new JTable following the model table object
 		JTable table = new JTable(AuthorPaperTable);
 
 		table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
    
 		JScrollPane scrollPanel = new JScrollPane(table);
-		getContentPane().add(scrollPanel);
-		setSize(500, 200);
+		getContentPane().add(scrollPanel, BorderLayout.NORTH);
+		
+        JPanel panel = new JPanel();
+        JButton AddSubmissionButton = new JButton("Add Submission");
+        panel.add(AddSubmissionButton);
+        AddSubmissionButton.addActionListener(this);
+		getContentPane().add(panel, BorderLayout.SOUTH);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
 		setVisible(true);
 	}
+	
+    public void actionPerformed(ActionEvent event) {
+		JOptionPane.showMessageDialog(this, "button was pressed!");
+    }
+
 
  	public static void main(String[] args) {
 	  
