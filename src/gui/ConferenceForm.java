@@ -438,9 +438,10 @@ public class ConferenceForm extends JFrame
 				month = Integer.parseInt(the_date.substring(5, 7));
 				day = Integer.parseInt(the_date.substring(8));
 			}
-			catch (final Exception the_exception)
+			catch (final NumberFormatException the_exception)
 			{
 				// Do nothing
+				JOptionPane.showMessageDialog(null, the_exception.getMessage());
 			}
 			
 			if (month > 0 && month < 13 && day > 0 && day < 32 && year > 1776

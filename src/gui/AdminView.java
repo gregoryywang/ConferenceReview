@@ -64,7 +64,20 @@ public class AdminView extends JPanel implements Viewer
 	}
 	
 	/**
-	 * Method to fill the Panel.
+	 * Constructs an AdminView Object
+	 * based on the given User.
+	 * 
+	 * @param the_user the Administrative User
+	 */
+	public AdminView(final User the_user)
+	{
+		super(new BorderLayout());
+		my_administrator = (Administrator) the_user;
+		my_user_dao = new UserDAO();
+	}
+	
+	/**
+	 * Method to fill the JPanel.
 	 */
 	public void fillPanel()
 	{
@@ -123,7 +136,6 @@ public class AdminView extends JPanel implements Viewer
 		return panel;
 	}
 	
-	
 	/**
 	 * Method to create a ConferenceForm Object
 	 * based on what conference they chose
@@ -179,11 +191,11 @@ public class AdminView extends JPanel implements Viewer
 	}
 	
 	/**
-	 * Method to start the program
+	 * Method to test the AdminView class.
 	 * 
 	 * @param the_args the command-line args
 	 */
-	public static void main(String[] the_args)
+	public static void main(final String[] the_args)
 	{
 		final JFrame frame = new JFrame("AdminView");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
