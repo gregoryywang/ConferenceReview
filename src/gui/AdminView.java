@@ -52,6 +52,7 @@ public class AdminView extends JPanel implements Viewer
 		super(new BorderLayout());
 		my_administrator = new Administrator(0, "admin", 
 			"admin", "Super User", "root", "barackobama@thepresi.dent");
+		fillPanel();
 	}
 	
 	/**
@@ -174,6 +175,7 @@ public class AdminView extends JPanel implements Viewer
 	 * 
 	 * @param the_args the command-line args
 	 */
+	/*
 	public static void main(final String[] the_args)
 	{
 		final JFrame frame = new JFrame("AdminView");
@@ -183,6 +185,5 @@ public class AdminView extends JPanel implements Viewer
 		frame.add(admin_view);
 		frame.pack();
 		frame.setVisible(true);
-	}
-	
+	}*/
 }

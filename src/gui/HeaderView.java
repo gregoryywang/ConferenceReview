@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -93,6 +95,7 @@ public class HeaderView extends JPanel
 			{
 				Role role = (Role) role_selector.getSelectedItem();
 				Conference conf = (Conference)conference_selector.getSelectedItem();
+				
 				//check to see if user hit button without making selection before proceeding.
 				if(role != null && (Integer) conf.getID() != 0)
 				{
@@ -102,6 +105,15 @@ public class HeaderView extends JPanel
 				else if(is_admin)
 				{
 					my_user.setRole(Role.ADMIN);
+				}
+				
+				try {
+  				//Set Main Content panel to Frame content.
+  				MainView parent = (MainView) getTopLevelAncestor();
+  				JPanel panel = (JPanel) role.getView().newInstance();
+  				parent.setContentPanel(panel);
+				}catch( Exception e) {
+				  System.out.println(e.getMessage());
 				}
 			}
 			

@@ -1,5 +1,11 @@
 package model;
 
+import gui.AdminView;
+import gui.AuthorView;
+import gui.PGChairView;
+import gui.ReviewerView;
+import gui.SubPGChairView;
+
 /**
  * Describes the type of roles a user can be.
  * @author Danielle Tucker
@@ -9,42 +15,52 @@ public enum Role {
 	/**
 	 * Default role type.
 	 */
-	USER("User"),
+	USER("User", AuthorView.class),
 	
 	/**
 	 * Role which can create conferences only.
 	 */
-	ADMIN("Administrator"),
+	ADMIN("Administrator", AdminView.class),
 	
 	/**
 	 * Role which can submit and edit papers.
 	 */
-	AUTHOR("Author"),
+	AUTHOR("Author", AuthorView.class),
 	
 	/**
 	 * Role which can review a paper, and view papers
 	 * assigned to them.
 	 */
-	REVIEWER("Reviewer"),
+	REVIEWER("Reviewer", ReviewerView.class),
 	
 	/**
 	 * Role which can assign papers to reviewers, view and make
 	 * recommendation for papers assigned to them.
 	 */
-	SUB_PROGRAM_CHAIR("SubProgram Chair"),
+	SUB_PROGRAM_CHAIR("SubProgram Chair", SubPGChairView.class),
 	
 	/**
 	 * Role which can assign papers to sub program chairs,
 	 * make decisions regarding final status of paper submitted
 	 * to a conference, view papers associated with a conference.
 	 */
-	PROGRAM_CHAIR("Program Chair");
+	PROGRAM_CHAIR("Program Chair", PGChairView.class);
 	
 	private String my_text;
+	private Class viewClass;
 	
-	Role(final String the_string)
+	Role(final String the_string, Class viewClass)
 	{
 		my_text = the_string;
+		this.viewClass = viewClass;
+	}
+	
+	/**
+	 * Returns role's view class.
+	 * @param returns role's view class.
+	 */
+	public Class getView() {
+	  return viewClass;
 	}
 	
 	/**
