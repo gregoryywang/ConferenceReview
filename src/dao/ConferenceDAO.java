@@ -12,6 +12,7 @@ import model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import common.ReferenceObject;
 
@@ -48,8 +49,10 @@ public class ConferenceDAO extends AbstractDAO {
 
 
 	/**
-	 * Returns a collection of available conferences.
+	 * Returns a collection of available conferences with all relevant
+	 * fields populated.
 	 * @return A collection of available conferences.
+	 * @author Danielle
 	 */
 	public List<Conference> getConferences() {
 		ResultSet result = null;
@@ -61,8 +64,9 @@ public class ConferenceDAO extends AbstractDAO {
 
 			while ( result.next() ) {
 				UserDAO user_dao = new UserDAO();
-				List<User> program_chair = user_dao.getUsers(result.getInt("conf_id"), Role.PROGRAM_CHAIR);
-				Conference conf = new Conference(result.getInt("conf_id"), 
+				int conf_id = result.getInt("conf_id");
+				List<User> program_chair = user_dao.getUsers(conf_id, Role.PROGRAM_CHAIR);
+				Conference conf = new Conference(conf_id, 
 						result.getDate("conference_date"), 
 						program_chair.get(0),
 						result.getString("topic"),
@@ -71,34 +75,70 @@ public class ConferenceDAO extends AbstractDAO {
 						result.getDate("make_recommendation"),
 						result.getDate("final_decision"), 
 						result.getDate("revise_paper"));
+				conf.setCategories(getCategories(conf_id));
 
 				refs.add(conf);
 			}
-		} catch (Exception e) {}
+		} 
+		catch (Exception e) 
+		{
+			System.err.println(e);
+		}
 
 		return refs;  
 	}
+	
 	/**
 	 * Returns a collection of available conferences.
 	 * @return A collection of available conferences.
+	 * @deprecated
 	 */
 	public List<ReferenceObject> getConferencesRef() {
 		ResultSet result = null;
 		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-
+	
 		try {
 			Statement stmt = AbstractDAO.getConnection().createStatement();
 			result = stmt.executeQuery(GET_CONFERENCES);
-
+	
 			while ( result.next() ) {
 				refs.add(new ReferenceObject(result.getString("TOPIC"),
 						result.getObject("CONF_ID")));
 			}
 		} catch (Exception e) {}
-
+	
 		return refs;  
 	}
+
 	/**
+	 * Get all categories associated with a conference.
+	 * @param the_conf_id the id of the conference
+	 * @return a list of categories for papers at the conference.
+	 * @author Danielle
+	 */
+	public List<String> getCategories(final int the_conf_id)
+	{
+		List<String> categories = new ArrayList<String>();
+		String get_categories = "SELECT * FROM category WHERE cat_id IN " +
+				"(SELECT cat_id FROM conference_category WHERE conf_id = ?);";
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(get_categories);
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next())
+			{
+				categories.add(result.getString("display"));
+			}
+
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return categories;
+	}
+	/**
+	 * FIX ME!! To Do: associate categories with conf and pgchair with conf.
 	 * Adds new conference to data source.
 	 * @param aConference The conference to persist.
 	 */
@@ -118,6 +158,10 @@ public class ConferenceDAO extends AbstractDAO {
 				stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
 
 				stmt.executeUpdate();
+				stmt.close();
+				UserDAO user_dao = new UserDAO();
+				///need to associate program chair with conference now.
+				//also need to associated categories with conference.
 			} else {
 				//Update existing record
 				PreparedStatement stmt = con.prepareStatement(UPDATE_CONFERENCE);
@@ -137,17 +181,9 @@ public class ConferenceDAO extends AbstractDAO {
 	}
 
 	/**
-	 * Adds a new paper to the conference
-	 * @param conf_id the conference id
-	 * @param the_paper the paper
-	 */
-	public void addPaper(final int conf_id, final Paper the_paper){
-
-	}
-
-	/**
 	 * Get single conference object.
 	 * @param aConfId The conference id.
+	 * @author Danielle (program chair and categories edits)
 	 */
 	public Conference getConference(final int aConfId) {
 		Conference conference = new Conference();
@@ -159,9 +195,10 @@ public class ConferenceDAO extends AbstractDAO {
 			ResultSet result = stmt.executeQuery();
 
 			while (result.next()) {
-				conference.setID(result.getInt("CONF_ID"));				
+				int conf_id = result.getInt("conf_id");
+				conference.setID(conf_id);				
 				UserDAO user_dao = new UserDAO();
-				List<User> program_chair = user_dao.getUsers(result.getInt("conf_id"), Role.PROGRAM_CHAIR);
+				List<User> program_chair = user_dao.getUsers(conf_id, Role.PROGRAM_CHAIR);
 				conference.setProgramChair(program_chair.get(0));
 				conference.setTopic(result.getString("TOPIC"));
 				conference.setDate(result.getDate("CONFERENCE_DATE"));
@@ -170,6 +207,7 @@ public class ConferenceDAO extends AbstractDAO {
 				conference.setDeadline(Deadline.REVIEW_PAPER, result.getDate("REVIEW_PAPER"));
 				conference.setDeadline(Deadline.REVISE_PAPER, result.getDate("REVISE_PAPER"));
 				conference.setDeadline(Deadline.SUBMIT_PAPER, result.getDate("SUBMIT_PAPER"));
+				conference.setCategories(getCategories(conf_id));
 			}
 		} catch( Exception e) {}
 
