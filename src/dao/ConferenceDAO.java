@@ -123,6 +123,7 @@ public class ConferenceDAO extends AbstractDAO {
 				"(SELECT cat_id FROM conference_category WHERE conf_id = ?);";
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(get_categories);
+			stmt.setInt(1, the_conf_id);
 			ResultSet result = stmt.executeQuery();
 			
 			while(result.next())
