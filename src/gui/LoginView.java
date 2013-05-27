@@ -27,7 +27,8 @@ public class LoginView extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	
 	final JButton submitButton;
-	final JPanel panel;
+	final JPanel topPanel;
+	final JPanel bottemPanel;
 	final JLabel usernameLabel, passwordLabel;
 	final JTextField  usernameField;
 	final JPasswordField passwordField;
@@ -45,19 +46,21 @@ public class LoginView extends JDialog implements ActionListener{
 		submitButton = new JButton("SUBMIT");
 		submitButton.addActionListener(this);
 
-		panel = new JPanel(new GridLayout(3,2));
-		panel.add(usernameLabel);
-		panel.add(usernameField);
-		panel.add(passwordLabel);
-		panel.add(passwordField);
-		panel.add(submitButton);
+		topPanel = new JPanel(new GridLayout(2,2));
+		topPanel.add(usernameLabel);
+		topPanel.add(usernameField);
+		topPanel.add(passwordLabel);
+		topPanel.add(passwordField);
+		
+		bottemPanel = new JPanel();
+		bottemPanel.add(submitButton);
 
-		panel.add(new JLabel(""));
-		add(panel, BorderLayout.CENTER);
+		add(topPanel, BorderLayout.NORTH);
+		add(bottemPanel, BorderLayout.SOUTH);
 
 		setTitle("PLEASE LOGIN");
-        this.getContentPane().add(panel);
-        this.setSize(300, 100);
+        this.getContentPane().add(topPanel);
+        this.pack();
         this.setLocation(600, 300);
         this.setVisible(true);
 
