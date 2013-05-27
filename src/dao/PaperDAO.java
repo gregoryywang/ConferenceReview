@@ -1,5 +1,8 @@
 package dao;
 
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,8 +30,8 @@ public class PaperDAO extends AbstractDAO {
 	/**
 	 * Update existing paper record.
 	 */
-	private static final String UPDATE_PAPER = "UPDATE paper SET user_id = ?, title = ?, " +
-			"keywords = ?, cat_id = ?, document_path = ?, revised_document_path = ? " +
+	private static final String UPDATE_PAPER = "UPDATE paper SET author_id = ?, title = ?, " +
+			"keywords = ?, cat_id = ?, " +
 			"recomm_id = ?, status = ?, abstract = ?" +
 			"WHERE paper_ID = ? ";
 
@@ -36,7 +39,7 @@ public class PaperDAO extends AbstractDAO {
 	 * Insert new Paper record.
 	 */
 	private static final String INSERT_PAPER = "INSERT INTO "+
-			"paper(user_id, title, keywords, cat_id, document_path, status, abstract) " + 
+			"paper(author_id, title, keywords, cat_id, status, abstract, content) " + 
 			"VALUES(?,?,?,?,?,?,?);";
 	/**
 	 * Assign paper to a user/role/conference.
@@ -71,8 +74,8 @@ public class PaperDAO extends AbstractDAO {
 				stmt = con.prepareStatement(INSERT_PAPER, Statement.RETURN_GENERATED_KEYS);
 				stmt.setInt(1, the_paper.getAuthor().getID());
 				stmt.setString(2, the_paper.getTitle());
-				stmt.setString(3, the_paper.getKeywords()); 
-
+				stmt.setString(3, the_paper.getKeywords());
+			
 				/* use CATEGORY DAO HERE
 				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
 				secondary_stmt.setString(1, the_paper.getCategory());
@@ -82,18 +85,19 @@ public class PaperDAO extends AbstractDAO {
 				*/
 
 				stmt.setInt(4, 2); //setting category_id = 2 temp...
-				stmt.setString(5, the_paper.getDocumentPath());
-				stmt.setString(6, the_paper.getStatus().name());
-				stmt.setString(7, the_paper.getAbstract());
-
+				stmt.setString(5, the_paper.getStatus().name());
+				stmt.setString(6, the_paper.getAbstract());
+				stmt.setCharacterStream(7, new StringReader(the_paper.getContent()));
 				stmt.executeUpdate();
+				
+				//Get generated primary key
 				ResultSet key = stmt.getGeneratedKeys();
 				if (key.next()) {
 					int id = key.getInt(1);
 					the_paper.setID(id);
 				} else {
-					System.out.println("no key");
-				}
+					throw new Exception("Primary key could not be generated.");
+				}				
 			}
 			else
 			{//updating existing record.
@@ -111,8 +115,7 @@ public class PaperDAO extends AbstractDAO {
 				*/
 
 				stmt.setInt(4, 2); //setting category_id = 2 temp...
-				stmt.setString(5, the_paper.getDocumentPath());
-				stmt.setString(6, the_paper.getRevisedDocumentPath());
+		
 				if(the_paper.getRecommendation() == null)
 				{
 					System.out.println("The recommendation is null");
@@ -127,6 +130,7 @@ public class PaperDAO extends AbstractDAO {
 
 				stmt.setInt(10, the_paper.getID());
 			}
+			
 			stmt.close();
 		} 
 		catch (Exception e) {System.out.println(e);}
@@ -148,6 +152,7 @@ public class PaperDAO extends AbstractDAO {
       stmt.setInt(3, aPaperId);
       stmt.setInt(4, aConfId);
       stmt.executeUpdate();
+      stmt.close();
     }catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -184,6 +189,7 @@ public class PaperDAO extends AbstractDAO {
 			stmt.setInt(3, the_conference);
 			ResultSet result_set = stmt.executeQuery();
 			stmt.close();
+			
 			while(result_set.next())
 			{
 				papers.add(getPaper(result_set.getInt("paper_id")));
@@ -215,19 +221,28 @@ public class PaperDAO extends AbstractDAO {
 
 			stmt.setInt(1, paper_ID);
 			result = stmt.executeQuery();
-
+			StringBuilder builder = new StringBuilder();
+			
 			if(result.next()) 
 			{
 				paper.setID(result.getInt("PAPER_ID"));
 				UserDAO user_dao = new UserDAO();
 				paper.setAuthor(user_dao.getUser(result.getInt("USER_ID")));
 				paper.setCategory(result.getString("CATEGORY"));
-				paper.setDocumentPath(result.getString("DOCUMENT_PATH"));
 				paper.setID(paper_ID);
 				paper.setKeywords(result.getString("KEYWORDS"));
-				paper.setRevisedDocumentPath(result.getString("REVISED_DOCUMENT_PATH"));
 				paper.setTitle(result.getString("TITLE"));
-			} 
+				
+				//Convert CLOB to string builder
+				BufferedReader buffer = new BufferedReader(result.getCharacterStream("CONTENT"));
+				String line = null;
+				while( null != (line = buffer.readLine())) {
+				  builder.append(line);
+				}
+				
+				paper.setContent(buffer.toString());
+			}
+			
 			stmt.close();
 		}
 		catch (Exception e) {
@@ -269,11 +284,13 @@ public class PaperDAO extends AbstractDAO {
 	{
 		ResultSet result;
 		Review review = new Review();
+		
 		try {
 			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_REVIEW);
 			stmt.setInt(1,the_review_id);
 			result = stmt.executeQuery();
 			stmt.close();
+			
 			while ( result.next() ) 
 			{//COMPLETE ME!!  //MAKE ME NOT SO UGLY TOO!!
 				review.setReviewer(result.getInt("user_id"));
@@ -283,13 +300,14 @@ public class PaperDAO extends AbstractDAO {
 				stmt = AbstractDAO.getConnection().prepareStatement(GET_QUESTION_RESULTS);
 				stmt.setInt(1, the_review_id);
 				ResultSet questions_result = stmt.executeQuery();
+				stmt.close();
+				
 				while (questions_result.next())
 				{
 					int question_id = questions_result.getInt("question_id");
 					review.setRating(question_id, questions_result.getInt("rating"));
 					review.setComment(question_id, questions_result.getString("comment_text"));
 				}
-				
 			}
 		} catch (Exception e) {System.out.println(e);}
 
