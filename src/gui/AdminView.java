@@ -23,8 +23,6 @@ import model.User;
 import model.Viewer;
 import service.ConferenceService;
 
-import dao.UserDAO;
-
 /**
  * Class to create a AdministratorView Object that
  * represents what an Administrator User Interface
@@ -47,12 +45,6 @@ public class AdminView extends JPanel implements Viewer
 	private Administrator my_administrator;
 	
 	/**
-	 * Reference to the UserDAO Object
-	 * used to manipulate the database data.
-	 */
-	private UserDAO my_user_dao;
-	
-	/**
 	 * Creates a default AdminView Object.
 	 */
 	public AdminView()
@@ -60,7 +52,6 @@ public class AdminView extends JPanel implements Viewer
 		super(new BorderLayout());
 		my_administrator = new Administrator(0, "admin", 
 			"admin", "Super User", "root", "barackobama@thepresi.dent");
-		my_user_dao = new UserDAO();
 	}
 	
 	/**
@@ -73,7 +64,6 @@ public class AdminView extends JPanel implements Viewer
 	{
 		super(new BorderLayout());
 		my_administrator = (Administrator) the_user;
-		my_user_dao = new UserDAO();
 	}
 	
 	/**
@@ -155,17 +145,6 @@ public class AdminView extends JPanel implements Viewer
 	public User getAdministrator()
 	{
 		return my_administrator;
-	}
-	
-	/**
-	 * Method to get the ConferenceDAO Object associated
-	 * with this AdminView.
-	 * 
-	 * @return returns the ConferenceDAO Object
-	 */
-	public UserDAO getUserDAO()
-	{
-		return my_user_dao;
 	}
 	
 	/**
