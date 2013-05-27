@@ -12,6 +12,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -29,6 +30,8 @@ import model.Conference.Deadline;
 import model.User;
 import model.Viewer;
 import service.ConferenceService;
+
+import common.ReferenceObject;
 
 /**
  * Class that creates a ConferenceForm Object
@@ -123,25 +126,74 @@ public class ConferenceForm extends JFrame
 		{
 			button_text = "Create";
 		}
-		final JButton button = new JButton(button_text);
-		
-		button.addActionListener(new ActionListener()
+		final JButton conference_button = new JButton(button_text);
+		conference_button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				((Administrator) ((AdminView) my_view).getAdministrator()).createConference(
-					my_panel.parseData());
-				JOptionPane.showMessageDialog(null, 
-					"You have succesfully " + button.getText() + "d the conference!");
+				if (checkForValidDates())
+				{
+					((Administrator) ((AdminView) my_view).getAdministrator()).createConference(
+							my_panel.parseData());
+						JOptionPane.showMessageDialog(null, 
+							"You have succesfully " + conference_button.getText() + "d the conference!");
+						dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "We cannot save a this conference due to" +
+							" one or more invalid dates.\nIf you wish to cancel changes, please click the " +
+							"\"Cancel\" button");
+				}
+			}
+		});
+		
+		final JButton cancel_button = new JButton("Cancel");
+		cancel_button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(final ActionEvent the_event)
+			{
+				JOptionPane.showMessageDialog(null, "No changes were saved.");
 				dispose();
 			}
 		});
+		
 		final JPanel button_panel = new JPanel();
 		button_panel.setBackground(BACKGROUND_COLOR);
-		button_panel.add(button);
+		button_panel.add(cancel_button);
+		button_panel.add(conference_button);
 		add(button_panel, BorderLayout.SOUTH);
 		setVisible(true);
 		pack();
+	}
+	
+	private boolean checkForValidDates()
+	{
+		boolean result = true;
+		int num_dropdown = 0;
+		int num_text_fields = 0;
+		
+		for (JComponent field : my_panel.getConferenceFields())
+		{
+			if ("JTextField".equals(field.getClass().getSimpleName()))
+			{
+				num_text_fields++;
+				if (Color.YELLOW.equals(((JTextField) field).getBackground()) ||
+						((JTextField) field).getText().isEmpty())
+				{
+					result = false;
+					break;
+				}
+			}
+			else
+			{
+				num_dropdown++;
+			}
+		}
+		JOptionPane.showMessageDialog(null, "drop down = " + num_dropdown);
+		JOptionPane.showMessageDialog(null, "Text = " + num_text_fields);
+		
+		return result;
 	}
 	
 	public static void main(String[] args)
@@ -201,7 +253,7 @@ public class ConferenceForm extends JFrame
 		 * Array of all JComponents in the ConferencePanel
 		 * that will be used to create a Conference Object.
 		 */
-		private ArrayList<JComponent> my_conference_fields = new ArrayList<JComponent>();
+		private List<JComponent> my_conference_fields = new ArrayList<JComponent>();
 		
 		/**
 		 * Constructs a default ConferencePanel Object.
@@ -241,7 +293,7 @@ public class ConferenceForm extends JFrame
 			else
 			{
 				program_chair_field.setModel(new DefaultComboBoxModel(((AdminView) my_view)
-					.getUserDAO().getUsersRef().toArray()));
+					.getUserDAO().getUsers().toArray()));
 			}
 			my_conference_fields.add(program_chair_field);
 			add(program_chair_field);
@@ -309,6 +361,11 @@ public class ConferenceForm extends JFrame
 			add(categories_field);
 		}
 		
+		public List<JComponent> getConferenceFields()
+		{
+			return my_conference_fields;
+		}
+		
 		public Conference parseData()
 		{
 			int fields_index = 0;
@@ -316,9 +373,8 @@ public class ConferenceForm extends JFrame
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
-//			my_conference.setProgramChair(((JComboBox) my_conference_fields.get(fields_index++)).
-//				getSelectedItem().toString());
-			//Was not quite sure how to fix because was not sure exactly how this code was working.
+			my_conference.setProgramChair((User) ((JComboBox) my_conference_fields.get(fields_index++)).
+				getSelectedItem());
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.SUBMIT_PAPER, new Date(Long.parseLong(
 				submission.replaceAll("-", ""))));
