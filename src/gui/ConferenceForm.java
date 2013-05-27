@@ -30,6 +30,7 @@ import model.Conference.Deadline;
 import model.User;
 import model.Viewer;
 import service.ConferenceService;
+import service.UserService;
 
 /**
  * Class that creates a ConferenceForm Object
@@ -168,14 +169,11 @@ public class ConferenceForm extends JFrame
 	private boolean checkForValidDates()
 	{
 		boolean result = true;
-		int num_dropdown = 0;
-		int num_text_fields = 0;
 		
 		for (JComponent field : my_panel.getConferenceFields())
 		{
 			if ("JTextField".equals(field.getClass().getSimpleName()))
 			{
-				num_text_fields++;
 				if (Color.YELLOW.equals(((JTextField) field).getBackground()) ||
 						((JTextField) field).getText().isEmpty())
 				{
@@ -183,14 +181,8 @@ public class ConferenceForm extends JFrame
 					break;
 				}
 			}
-			else
-			{
-				num_dropdown++;
-			}
 		}
-		JOptionPane.showMessageDialog(null, "drop down = " + num_dropdown);
-		JOptionPane.showMessageDialog(null, "Text = " + num_text_fields);
-		
+
 		return result;
 	}
 	
@@ -269,8 +261,8 @@ public class ConferenceForm extends JFrame
 			}
 			else
 			{
-				program_chair_field.setModel(new DefaultComboBoxModel(((AdminView) my_view)
-					.getUserDAO().getUsers().toArray()));
+				program_chair_field.setModel(new DefaultComboBoxModel(
+					UserService.getInstance().getAllUsers().toArray()));
 			}
 			my_conference_fields.add(program_chair_field);
 			add(program_chair_field);
@@ -332,7 +324,8 @@ public class ConferenceForm extends JFrame
 			}
 			else
 			{
-				categories_field.setModel(new DefaultComboBoxModel(ConferenceService.getInstance().getCategories().toArray()));
+				categories_field.setModel(new DefaultComboBoxModel(
+					ConferenceService.getInstance().getCategories().toArray()));
 			}
 			my_conference_fields.add(categories_field);
 			add(categories_field);
