@@ -20,17 +20,26 @@ public class MainView extends JFrame {
 	 * Default serial to suppress warnings
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Window Width.
+	 */
+	private static final int WIDTH = 1280;
+	
+	/**
+   * Window Height.
+   */
+  private static final int HEIGHT = 720;
+  
+	private JPanel contentPanel;
 
 	public MainView(){
 		
         this.setTitle("Main View");
-        this.setSize(1280,720);
+        this.setSize(WIDTH,HEIGHT);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        
-        JPanel panel = new JPanel();
-        this.getContentPane().add(panel, BorderLayout.CENTER);
 
         // creates the login panel, gets authenticated user
         LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
@@ -41,15 +50,22 @@ public class MainView extends JFrame {
         this.getContentPane().add(headerPanel, BorderLayout.NORTH);
         headerPanel.setVisible(true);
         
-        // creates and adds ContentView to MainView
-        ContentView contentPanel = new ContentView(user);
-        this.getContentPane().add(contentPanel, BorderLayout.SOUTH);
-
-        
-        
-    }
+        contentPanel = new JPanel();
+        this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+        contentPanel.setVisible(true);
+  }
     
-    public static void main(String[] args){
-        new MainView().setVisible(true);
-    }
+  public void setContentPanel(JPanel aPanel) {
+    this.getContentPane().remove(contentPanel);
+    contentPanel = aPanel;
+    this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+    validate();
+    repaint();
+  }
+  
+	public static void main(String[] args){
+    MainView app = new MainView();
+    app.setSize(WIDTH, HEIGHT);
+    app.setVisible(true);
+  }
 }
