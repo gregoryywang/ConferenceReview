@@ -49,7 +49,7 @@ public class PaperService {
   public List<Paper> getAssignedPapers(final int aUserId, 
                                        final int aConfId, 
                                        final Role aRole) {
-    return new ArrayList();
+    return new ArrayList<Paper>();
   }
   
   /**
@@ -60,7 +60,7 @@ public class PaperService {
   }
   
   public List<Review> getReviews(final int aPaperId) {
-    return new ArrayList();
+    return new ArrayList<Review>();
   }
   
   /**
@@ -71,7 +71,7 @@ public class PaperService {
   }
   
   public List<Recommendation> getRecommendations(final int aPaperId) {
-    return new ArrayList();
+    return new ArrayList<Recommendation>();
   }
   
   /**

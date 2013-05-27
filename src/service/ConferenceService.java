@@ -3,8 +3,9 @@ package service;
 import java.util.List;
 
 import model.Conference;
-import model.Paper;
+
 import common.ReferenceObject;
+
 import dao.CategoryDAO;
 import dao.ConferenceDAO;
 
