@@ -29,9 +29,12 @@ import model.AuthorTableModel;
 import model.User;
 
 public class AuthorView extends JFrame implements ActionListener {
+	
+	private User user;
 
-	public AuthorView(User user) {
-		super("Author View");
+	public AuthorView(final User the_user) {
+		
+		this.user = the_user;
 	  
 		JTable test = new JTable(new AuthorTableModel());
 
@@ -60,8 +63,11 @@ public class AuthorView extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 	
+	/**
+	 * Launches the new paper submission form when pressed.
+	 */
     public void actionPerformed(ActionEvent event) {
-		JOptionPane.showMessageDialog(this, "button was pressed!");
+		new PaperSubmissionForm(user).setVisible(true);
     }
 
 
