@@ -1,5 +1,12 @@
 package gui;
 
+/**
+ * PaperSubmissionForm.java
+ * @author yongyuwang
+ * @version 5-27-1950
+ * Displays an new paper submission form
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,17 +17,20 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import service.PaperService;
+
 import model.Author;
 import model.Paper;
 import model.User;
-
 
 public class PaperSubmissionForm extends JFrame {
 	
@@ -47,9 +57,9 @@ public class PaperSubmissionForm extends JFrame {
 	private User user;
 
 	
-	final JLabel paperTitleLabel, keywordsLabel, catagoryLabel;
-	final JTextField paperTitleField, keywordsField, catagoryField;
-	final BackgroundTextArea paperAbstract, paperContents;
+	final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
+	final JTextField titleField, keywordsField, catagoryField;
+	final BackgroundTextArea paperAbstract, paperContent;
 	
 	final JButton submitButton, cancelButton;
 	final JPanel topPanel, midPanel, bottemPanel;
@@ -60,10 +70,14 @@ public class PaperSubmissionForm extends JFrame {
 		super("New Paper Submission");
 		this.user = the_user;
 		
-
+		String firstName = user.getFirstName();
+		String lastName = user.getLastName();
 		
-		paperTitleLabel = new JLabel("Submission title:");
-		paperTitleField = new JTextField(15);
+		nameLabel = new JLabel("Your name: ");
+		name = new JLabel(firstName + " " + lastName);
+		
+		titleLabel = new JLabel("Submission title:");
+		titleField = new JTextField(15);
 		
 		keywordsLabel = new JLabel("Keywords:");
 		keywordsField = new JTextField(15);
@@ -71,10 +85,13 @@ public class PaperSubmissionForm extends JFrame {
 		catagoryLabel = new JLabel("Catagory:");
 		catagoryField = new JTextField(15);
 		
-		topPanel = new JPanel(new GridLayout(3,2));
+		topPanel = new JPanel(new GridLayout(4,2));
 		
-		topPanel.add(paperTitleLabel);
-		topPanel.add(paperTitleField);
+		topPanel.add(nameLabel);
+		topPanel.add(name);
+		
+		topPanel.add(titleLabel);
+		topPanel.add(titleField);
 		
 		topPanel.add(keywordsLabel);
 		topPanel.add(keywordsField);
@@ -86,9 +103,9 @@ public class PaperSubmissionForm extends JFrame {
 		paperAbstract.setWrapStyleWord(true);
 		JScrollPane abstractScrollPane = new JScrollPane(paperAbstract);
 		
-		paperContents = new BackgroundTextArea("Paste or type your paper here.");
-		paperContents.setWrapStyleWord(true);
-		JScrollPane contentScrollPane = new JScrollPane(paperContents);
+		paperContent = new BackgroundTextArea("Paste or type your paper here.");
+		paperContent.setWrapStyleWord(true);
+		JScrollPane contentScrollPane = new JScrollPane(paperContent);
 				
 		midPanel = new JPanel(new GridLayout(2,1));
 		midPanel.add(abstractScrollPane);
@@ -100,18 +117,24 @@ public class PaperSubmissionForm extends JFrame {
 			public void actionPerformed(final ActionEvent the_event)
 			{
 				Author myAuthor = new Author(user);
-				Paper myPaper = new Paper();
+				
+				// initialize new paper object using information from submission form
+				Paper myPaper = new Paper(myAuthor, titleField.getText(), keywordsField.getText(),
+						paperAbstract.getText(), catagoryField.getText(), paperContent.getText());
+				
+				// calls PaperService to save paper into database
+				PaperService.getInstance().savePaper(myPaper);
+				
+				JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
 			}
-
 		});
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				
+				dispose();
 			}
-
 		});
 		
 		bottemPanel = new JPanel();
@@ -124,9 +147,7 @@ public class PaperSubmissionForm extends JFrame {
 
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBackground(BACKGROUND_COLOR);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
 	public static void main(String [] args) {
@@ -138,7 +159,12 @@ public class PaperSubmissionForm extends JFrame {
 
 class BackgroundTextArea extends JTextArea implements FocusListener {
 
-    private final String backgroundText;
+    /**
+	 * Default serial ID
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private final String backgroundText;
 
     public BackgroundTextArea(final String backgroundText) {
         super(backgroundText);
