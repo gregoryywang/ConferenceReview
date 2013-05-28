@@ -38,7 +38,7 @@ import service.UserService;
  * sees when they click on a Conference Object.
  * 
  * @author Levon Kechichian
- * @version 1.0
+ * @version Spring 2013
  */
 public class ConferenceForm extends JFrame
 {
@@ -139,16 +139,16 @@ public class ConferenceForm extends JFrame
 				if (checkForValidDates())
 				{
 					((Administrator) ((AdminView) my_view).getAdministrator()).createConference(
-							my_panel.parseData());
-						JOptionPane.showMessageDialog(null, 
-							"You have succesfully " + conference_button.getText() + "d the conference!");
-						dispose();
+						my_panel.parseData());
+					JOptionPane.showMessageDialog(null, 
+						"You have succesfully " + conference_button.getText() + "d the conference!");
+					dispose();
 				}
 				else
 				{
 					JOptionPane.showMessageDialog(null, "We cannot save a this conference due to" +
-							" one or more invalid dates.\nIf you wish to cancel changes, please click the " +
-							"\"Cancel\" button");
+						" one or more invalid dates.\nIf you wish to cancel changes, please click the " +
+						"\"Cancel\" button");
 				}
 			}
 		});
@@ -243,8 +243,10 @@ public class ConferenceForm extends JFrame
 		
 		/**
 		 * Constructs a default ConferencePanel Object.
+		 * 
+		 * @param the_conference the Conference to be displayed in the JPanel
 		 */
-		public ConferencePanel(final Conference the_conference)
+		private ConferencePanel(final Conference the_conference)
 		{
 			super(new GridLayout(ROWS, COLUMNS));
 			createFields();
@@ -392,7 +394,7 @@ public class ConferenceForm extends JFrame
 	/**
 	 * Private class that listens for FocusEvents
 	 * 
-	 * @author Levon
+	 * @author Levon K
 	 * @version Spring 2013
 	 */
 	private class DateListener implements FocusListener
