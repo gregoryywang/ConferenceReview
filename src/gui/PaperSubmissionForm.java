@@ -17,8 +17,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.Author;
+import model.Paper;
+import model.User;
 
-public class PaperSubmissionForm extends JFrame implements ActionListener {
+
+public class PaperSubmissionForm extends JFrame {
 	
 	/**
 	 * The default serial version UID.
@@ -38,26 +42,25 @@ public class PaperSubmissionForm extends JFrame implements ActionListener {
 	/**
 	 * The default frame height.
 	 */
-	private static final int FRAME_HEIGHT = 500;
+	private static final int FRAME_HEIGHT = 300;
+	
+	private User user;
 
 	
-	final JLabel firstNameLabel, lastNameLabel, paperTitleLabel, keywordsLabel, catagoryLabel;
-	final JTextField  firstNameField, lastNameField, paperTitleField, keywordsField, catagoryField;
+	final JLabel paperTitleLabel, keywordsLabel, catagoryLabel;
+	final JTextField paperTitleField, keywordsField, catagoryField;
 	final BackgroundTextArea paperAbstract, paperContents;
 	
 	final JButton submitButton, cancelButton;
 	final JPanel topPanel, midPanel, bottemPanel;
 	
 	
-	public PaperSubmissionForm() {
+	public PaperSubmissionForm(final User the_user) {
 		
 		super("New Paper Submission");
+		this.user = the_user;
 		
-		firstNameLabel = new JLabel("First name:");
-		firstNameField = new JTextField(15);
 
-		lastNameLabel = new JLabel("Last name:");
-		lastNameField = new JTextField(15);
 		
 		paperTitleLabel = new JLabel("Submission title:");
 		paperTitleField = new JTextField(15);
@@ -68,13 +71,7 @@ public class PaperSubmissionForm extends JFrame implements ActionListener {
 		catagoryLabel = new JLabel("Catagory:");
 		catagoryField = new JTextField(15);
 		
-		topPanel = new JPanel(new GridLayout(5,2));
-		
-		topPanel.add(firstNameLabel);
-		topPanel.add(firstNameField);
-		
-		topPanel.add(lastNameLabel);
-		topPanel.add(lastNameField);
+		topPanel = new JPanel(new GridLayout(3,2));
 		
 		topPanel.add(paperTitleLabel);
 		topPanel.add(paperTitleField);
@@ -99,10 +96,23 @@ public class PaperSubmissionForm extends JFrame implements ActionListener {
 
 		
 		submitButton = new JButton("Submit");
-		submitButton.addActionListener(this);
+		submitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent the_event)
+			{
+				Author myAuthor = new Author(user);
+				Paper myPaper = new Paper();
+			}
+
+		});
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(this);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent the_event)
+			{
+				
+			}
+
+		});
 		
 		bottemPanel = new JPanel();
 		bottemPanel.add(submitButton);
@@ -120,14 +130,10 @@ public class PaperSubmissionForm extends JFrame implements ActionListener {
 	}
 	
 	public static void main(String [] args) {
-		new PaperSubmissionForm().setVisible(true);
+		User test = new User();
+		new PaperSubmissionForm(test).setVisible(true);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
 class BackgroundTextArea extends JTextArea implements FocusListener {
