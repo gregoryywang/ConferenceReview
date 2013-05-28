@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,6 +18,7 @@ import model.Administrator;
 import model.Conference;
 import model.Paper;
 import model.Review;
+import model.Role;
 import model.User;
 import model.Viewer;
 import service.ConferenceService;
@@ -64,7 +64,9 @@ public class AdminView extends JPanel implements Viewer
 	public AdminView(final User the_user)
 	{
 		super(new BorderLayout());
-		my_administrator = (Administrator) the_user;
+		my_administrator = new Administrator(the_user.getID(),the_user.getFirstName(), the_user.getLastName(), 
+		                                     the_user.getUsername(), the_user.getPassword(), the_user.getEmail());
+		fillPanel();
 	}
 	
 	/**
