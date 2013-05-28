@@ -35,18 +35,10 @@ public class AuthorView extends JFrame implements ActionListener {
 		
 		this.user = the_user;
 	  
-		JTable test = new JTable(new AuthorTableModel());
+		JTable table = new JTable(new AuthorTableModel(user));
 
-		// debug code for a default table with hardcoded data
-		DefaultTableModel AuthorPaperTable = new DefaultTableModel();
-		AuthorPaperTable.setDataVector(new Object[][] {{ "Paper 1 Name", "Paper 1 Status", "Edit 1" }, { "Paper 2 Name", "Paper 2 Status", "Edit 2" }}, 
-				new Object[] { "Paper Name", "Current Status", "Edit Submission" });
-    
-		// Construct a new JTable following the model table object
-		JTable table = new JTable(AuthorPaperTable);
-
-		table.getColumn("Edit Submission").setCellRenderer(new ButtonRenderer());
-		table.getColumn("Edit Submission").setCellEditor(new ButtonEditor(new JCheckBox()));
+		table.getColumn("Edit").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Edit").setCellEditor(new ButtonEditor(new JCheckBox()));
    
 		JScrollPane scrollPanel = new JScrollPane(table);
 		getContentPane().add(scrollPanel, BorderLayout.NORTH);
