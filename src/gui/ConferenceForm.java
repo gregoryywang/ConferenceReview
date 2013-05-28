@@ -340,7 +340,9 @@ public class ConferenceForm extends JFrame
 			categories_field.setEditable(true);
 			if (my_conference_flag)
 			{
-				categories_field.addItem(ConferenceService.getInstance().getCategories().toArray());
+			//NEEDS FURTHER INVESTIGATION
+			  //	if( my_conference.getCategories() != null )
+			//	  categories_field.setModel(new DefaultComboBoxModel(my_conference.getCategories().toArray()));
 			}
 			else
 			{
