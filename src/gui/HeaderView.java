@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Constructor;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -109,8 +110,23 @@ public class HeaderView extends JPanel
 				
 				try {
   				//Set Main Content panel to Frame content.
-  				MainView parent = (MainView) getTopLevelAncestor();
-  				JPanel panel = (JPanel) role.getView().newInstance();
+				  JPanel panel = null;
+				  
+				  //Get reference to parent frame
+				  MainView parent = (MainView) getTopLevelAncestor();
+  				
+				  //Get single arg constructor if exist
+				  @SuppressWarnings({"unchecked", "rawtypes"})
+          Constructor constructor = role.getView().getConstructor(User.class);
+				  
+  				if( constructor != null ) {
+  				  constructor.setAccessible(true);
+  				  panel = (JPanel) constructor.newInstance(my_user);
+  				} else {
+  				  panel = (JPanel) role.getView().newInstance(); //call default constructor
+  				}
+  				
+  				//set content panel to new panel
   				parent.setContentPanel(panel);
 				}catch( Exception e) {
 				  System.out.println(e.getMessage());

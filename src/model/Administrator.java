@@ -34,6 +34,8 @@ public class Administrator extends User
 				the_username, the_password, the_email);
 	}
 	
+	
+	
 	/**
 	 * Method to create a Conference Object and add it to the Database
 	 * Collection of Conference Objects.
