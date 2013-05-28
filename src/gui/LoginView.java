@@ -57,6 +57,14 @@ public class LoginView extends JDialog implements ActionListener{
 
 		add(topPanel, BorderLayout.NORTH);
 		add(bottemPanel, BorderLayout.SOUTH);
+		
+		//Add Window Close listener
+		addWindowListener(new WindowAdapter() {
+		  public void windowClosing(WindowEvent we) {
+		    dispose();
+		    System.exit(0);
+		  }
+		});
 
 		setTitle("PLEASE LOGIN");
         this.getContentPane().add(topPanel);
