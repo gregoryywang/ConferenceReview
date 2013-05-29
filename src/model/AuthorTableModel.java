@@ -29,43 +29,15 @@ public class AuthorTableModel extends AbstractTableModel  {
 	// data to be extracted from papers in the database
 	private Object[][] data;
 	
-	// DEBUG: hard coded test data table
-	// private Object[][] data = {{ "Paper 1 Name", "Paper 1 Status", "Category 1", "Edit 1" }, 
-	//							  { "Paper 2 Name", "Paper 2 Status", "Category 2", "Edit 2" }};
-	// DEBUG: uncomment line below to test
-	// List<Paper> testList;
-	
 	private Author user;
 	
 	public AuthorTableModel(Author the_user) {
 		super();
 		this.user = the_user;
-		
-		// DEBUG: uncommment line below to test
-		// test();
-		
 		getData();
 	}
 	
-	/** DEBUG
-	public void test() {
-		testList = new ArrayList();
-		Paper test_paper = new Paper();
-		User test_user = new User();
-		test_user.setID(1);
-		test_paper.setAuthor(test_user);
-		test_paper.setTitle("Testing Paper Stuff.");
-		test_paper.setCategory("Software");
-		test_paper.setKeywords("test, greatness");
-		test_paper.setAbstract("Wow, I can write an abstract.");
-		testList.add(test_paper);
-	}
-	*/
-	
 	public void getData() {
-		
-		// DEBUG: uncomment line below to test
-		// List <Paper> paperList = testList;
 		
 		// Retrieves an collection of papers related to this user from the database.
 		List <Paper> paperList = user.viewPapers();
@@ -76,15 +48,13 @@ public class AuthorTableModel extends AbstractTableModel  {
 		/*
 		 * Each column must match predefined labels in columnNames.
 		 * For the author table, the last column is always the edit button.
-		 */
-		for (int i = 0; i < paperList.size(); i++) {
-			Paper current = paperList.get(i);
-			for (int row = 0; row < paperList.size(); row++) {
-				data[row][0] = current.getTitle();
-				data[row][1] = current.getCategory();
-				data[row][2] = current.getStatus();
-				data[row][3] = "Edit Submission";
-			}
+		 */		
+		for (int row = 0; row < paperList.size(); row ++) {
+			Paper current = paperList.get(row);
+			data[row][0] = current.getTitle();
+			data[row][1] = current.getCategory();
+			data[row][2] = current.getStatus();
+			data[row][3] = "Edit Submission";
 		}
 	}
 
