@@ -1,5 +1,6 @@
 package model;
 
+import service.PaperService;
 import dao.UserDAO;
 
 /**
@@ -118,9 +119,9 @@ public class Recommendation
 		return my_id;
 	}
 
-	public void saveRecommendation(int my_paper_ID) 
+	public void saveRecommendation(int the_paper_ID) 
 	{
-		
+		PaperService.getInstance().addRecommendation(this, the_paper_ID);
 	}
 
 }

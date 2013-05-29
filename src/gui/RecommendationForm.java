@@ -18,10 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
 
 import model.Recommendation;
-import model.Viewer;
+import model.User;
 
 public class RecommendationForm extends JFrame
 {
@@ -53,7 +52,7 @@ public class RecommendationForm extends JFrame
 	/**
 	 * Reference to the User
 	 */
-	private Viewer my_view;
+	private User my_user;
 	
 	/**
 	 * The recommendation flag for whether the given Recommendation
@@ -70,7 +69,7 @@ public class RecommendationForm extends JFrame
 		setSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
-		my_view = new SubPGChairView();
+		my_user = new User();
 		my_recommendation = new Recommendation();
 	}
 	
@@ -80,13 +79,13 @@ public class RecommendationForm extends JFrame
 	 * @param the_view the Users view
 	 * @param the_recommendation the Recommendation that is populating the form
 	 */
-	public RecommendationForm(final Viewer the_view, final Recommendation the_recommendation)
+	public RecommendationForm(final User the_user, final Recommendation the_recommendation)
 	{
 		super("RecommendationForm");
 		setSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
-		my_view = the_view;
+		my_user = the_user;
 		my_recommendation = the_recommendation;
 		if ("".equals(the_recommendation.getComments()))
 		{
@@ -99,7 +98,11 @@ public class RecommendationForm extends JFrame
 	 */
 	public void start()
 	{
-		add(new JLabel("Northern Label"), BorderLayout.NORTH);
+		final JPanel northern_panel = new JPanel();
+		northern_panel.add(new JLabel("User: "));
+		northern_panel.add(new JLabel(my_user.toString()));
+		
+		add(northern_panel, BorderLayout.NORTH);
 		add(new RecommendationPanel(), BorderLayout.CENTER);
 		
 		final JPanel southern_panel = new JPanel();
@@ -148,7 +151,7 @@ public class RecommendationForm extends JFrame
 	 */
 	public static void main(final String[] the_args)
 	{
-		new RecommendationForm(new SubPGChairView(), new Recommendation()).start();
+		new RecommendationForm(new User(), new Recommendation()).start();
 	}
 	
 	/**
@@ -172,7 +175,7 @@ public class RecommendationForm extends JFrame
 		/**
 		 * The default number of columns in the panel.
 		 */
-		private static final int PANEL_COLUMNS = 2;
+		private static final int PANEL_COLUMNS = 1;
 		
 		/**
 		 * The default size of the text fields.
@@ -200,18 +203,28 @@ public class RecommendationForm extends JFrame
 		 */
 		private void createFields()
 		{
-			add(new JLabel("SubProgram Chair: "));
+			final JPanel user_panel = new JPanel();
+			user_panel.add(new JLabel("Sub-Program Chair: "));
 		//	add(new JLabel(my_recommendation.getReviewer().toString()));
-			add(new JLabel("SubProgramChair"));
-			add(new JLabel("Rating"));
-			add(new JTextField(TEXTFIELD_SIZE));
-			add(new JLabel("Comments"));
+			user_panel.add(new JLabel("The subprogram chair"));
+			add(user_panel);
+			
+			final JPanel rating_panel = new JPanel();
+			rating_panel.add(new JLabel("Rating: "));
+			rating_panel.add(new JTextField(TEXTFIELD_SIZE));
+			add(rating_panel);
+			
+			final JPanel comments_panel = new JPanel();
+			comments_panel.add(new JLabel("Comments"));
 			final JTextArea comment_field = new JTextArea();
 			final JScrollPane comment_scroll = new JScrollPane(comment_field);
 			comment_scroll.setEnabled(true);
 			comment_field.setLineWrap(true);
-			add(comment_scroll);
+			comments_panel.add(comment_scroll);
 			comment_field.setText("This is text");
+			comment_scroll.setPreferredSize(new Dimension(350, 50));
+			add(comments_panel);
+			
 			System.out.println(comment_field.getText());
 		}
 		
