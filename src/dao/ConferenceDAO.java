@@ -247,12 +247,12 @@ public class ConferenceDAO extends AbstractDAO {
 			
 			for(String cat_text: the_categories)
 			{
-				System.out.println("ConfDAO_saveCat()_MSG: " + cat_text);
+				//System.out.println("ConfDAO_saveCat()_MSG: " + cat_text);
 				find_cat_id_stmt.setString(1, cat_text);
 				ResultSet cat_ids = find_cat_id_stmt.executeQuery();
 				while(cat_ids.next())
 				{
-					System.out.println("ConfDAO_saveCat()_MSG: " + cat_ids.getInt("cat_id"));
+					//System.out.println("ConfDAO_saveCat()_MSG: " + cat_ids.getInt("cat_id"));
 					add_cat_stmt.setInt(2, cat_ids.getInt("cat_id"));
 					add_cat_stmt.executeUpdate();
 				}
@@ -262,12 +262,5 @@ public class ConferenceDAO extends AbstractDAO {
 		{
 			System.err.println("ConfDAO_saveCategories()_MSG: " + e);
 		}
-		
-		/*		
-		insert into conference_category(conf_id, cat_id) values(2,1);
-		insert into conference_category(conf_id, cat_id) values(2,3);
-		insert into conference_category(conf_id, cat_id) values(2,4);
-		insert into user_role_paper_conference_join(user_id, role_id, conf_id) values(2,5,2);
-	*/
 	}
 }
