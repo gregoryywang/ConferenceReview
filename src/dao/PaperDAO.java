@@ -291,7 +291,8 @@ public class PaperDAO extends AbstractDAO {
 			
 			while ( result.next() ) 
 			{//COMPLETE ME!!  //MAKE ME NOT SO UGLY TOO!!
-				review.setReviewer(result.getInt("user_id"));
+				UserDAO user_dao = new UserDAO();
+				review.setReviewer(user_dao.getUser(result.getInt("user_id")));
 				review.setSPChairComment(result.getString("CMMT_SUBPGRMCHAIR"));
 				review.setSummaryRating(result.getInt("SUMMARY_RATING"));
 				
