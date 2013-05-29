@@ -39,6 +39,7 @@ public class PaperDAO extends AbstractDAO {
 	private static final String INSERT_PAPER = "INSERT INTO "+
 			"paper(author_id, title, keywords, cat_id, status, abstract, content) " + 
 			"VALUES(?,?,?,?,?,?,?);";
+	
 	/**
 	 * Assign paper to a user/role/conference.
 	 */
@@ -58,6 +59,7 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
+	 * TO DO: get category of paper.
 	 * Adds new paper to the data source or update a current paper.
 	 * @param the_paper the paper to save to the data storage.
 	 */
@@ -82,6 +84,7 @@ public class PaperDAO extends AbstractDAO {
 				secondary_stmt.close();
 				*/
 
+				//FIX ME
 				stmt.setInt(4, 2); //setting category_id = 2 temp...
 				stmt.setString(5, the_paper.getStatus().name());
 				stmt.setString(6, the_paper.getAbstract());
@@ -112,7 +115,8 @@ public class PaperDAO extends AbstractDAO {
 				secondary_stmt.close();
 				*/
 
-				stmt.setInt(4, 2); //setting category_id = 2 temp...
+				//FIX ME!!
+				stmt.setInt(4, 2);
 		
 				if(the_paper.getRecommendation() == null)
 				{
@@ -164,15 +168,16 @@ public class PaperDAO extends AbstractDAO {
 	 */
 	public void addReview(final Review the_review, final int the_paper_id)
 	{
+		
 	}
 	
 	/**
-	 * NOT IMPLEMENTED YET!
 	 * Get all papers associated with a user role, conference, and user.
 	 * @param the_user_id the id of the user
 	 * @param the_role the role of the user
 	 * @param the_conference the conference id of the papers to retrieve.
 	 * @return the papers associated with a conference, user, in a particular role
+	 * @author Danielle
 	 */
 	public List<Paper> getPapers(final int the_user_id, final Role the_role, final int the_conference)
 	{
@@ -202,10 +207,13 @@ public class PaperDAO extends AbstractDAO {
 	}
 	
 	/**
+	 * TO DO: attach revised_content to the paper object
 	 * Gets a paper object based on paper ID.
 	 * @param paper_ID the unique paper_ID.
 	 * @return a Paper object associated with this paper_ID.  Will return
 	 * default Paper object if no paper is associated with this paper_ID.
+	 * @author Danielle
+	 * @author Roshun (Clob converter for content of papers)
 	 */
 	public Paper getPaper(final int paper_ID) 
 	{
@@ -231,7 +239,7 @@ public class PaperDAO extends AbstractDAO {
 				paper.setKeywords(result.getString("KEYWORDS"));
 				paper.setTitle(result.getString("TITLE"));
 				
-				//Convert CLOB to string builder
+				//Convert CLOB to string builder @author Roshun
 				BufferedReader buffer = new BufferedReader(result.getCharacterStream("CONTENT"));
 				String line = null;
 				while( null != (line = buffer.readLine())) {
@@ -239,6 +247,8 @@ public class PaperDAO extends AbstractDAO {
 				}
 				
 				paper.setContent(buffer.toString());
+				
+				//FIX ME!! Still need to do the same thing for "CONTENT_REVISED" which may be null.
 			}
 			
 			stmt.close();
