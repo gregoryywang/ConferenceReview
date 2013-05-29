@@ -38,8 +38,8 @@ public class Author extends User
 	{
 		if (getConference().getDeadline(Deadline.SUBMIT_PAPER).after(currentDate()))
 		{
-			PaperService.getInstance().savePaper(the_paper);  //DOES THE PAPER SERVICE CONNECT THE PAPER WITH THE AUTHOR and RECOMMENDATION?
-			//PaperService.getInstance().assignPaper(the_paper.getID(), getID(), getConference().getID(), Role.AUTHOR);
+			PaperService.getInstance().savePaper(the_paper);  
+			PaperService.getInstance().assignPaper(the_paper.getID(), getID(), getConference().getID(), Role.AUTHOR);
 		}
 		else 
 		{
