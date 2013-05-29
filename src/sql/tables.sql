@@ -38,20 +38,19 @@ display varchar(20) not null,
 PRIMARY KEY(cat_id));
 
 -- Create Paper Table
--- Author:Danielle
+-- Author:Danielle  Edits: Roshun
 CREATE TABLE PAPER(
 paper_id int not null auto_increment,
 author_id int not null,
 title varchar(100) not null,
 keywords varchar(1000) not null,
 abstract varchar(1000) not null,
-content clob,
 cat_id int not null,
-document_path varchar(100),
-revised_document_path varchar(100),
 status varchar(36),
 recomm_rating int,
 recomm_comments varchar(1000),
+content clob,
+content_revised clob,
 active int,
 PRIMARY KEY(paper_id),
 FOREIGN KEY(author_id) REFERENCES user(user_id),
