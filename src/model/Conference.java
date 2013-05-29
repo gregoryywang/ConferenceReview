@@ -64,7 +64,7 @@ public class Conference extends Observable
 			final Date the_final_decision_deadline, final Date the_revise_paper_deadline)
 	{
 		super();
-	  my_id = the_conf_id;
+	    my_id = the_conf_id;
 		my_date = (Date)the_date.clone();
 		my_PG_chair = the_PG_chair; //worry about deep copy?
 		my_topic = the_topic;
@@ -77,11 +77,13 @@ public class Conference extends Observable
 	}
 	
 	/**
-	 * Default Constructor.
+	 * Default Constructor (used for testing).
 	 */
 	public Conference() {
-	  super();
-	  my_deadlines = new HashMap<Deadline, Date>();
+	  this(0, new Date(System.currentTimeMillis()), new ProgramChair(new User("test", "test", "test", "test", "test")),
+		"topic", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
+		new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+	  my_categories = new ArrayList<String>();
 	}
 	
 	/**
