@@ -158,10 +158,21 @@ public class ConferenceDAO extends AbstractDAO {
 				stmt.setDate(7, aConference.getDeadline(Deadline.REVISE_PAPER));
 
 				stmt.executeUpdate();
+				
+				//Get generated primary key
+				ResultSet key = stmt.getGeneratedKeys();
+				if (key.next()) {
+					int id = key.getInt(1);
+					aConference.setID(id);
+				} else {
+					throw new Exception("Primary key could not be generated.");
+				}	
 				stmt.close();
-				UserDAO user_dao = new UserDAO();
 				///need to associate program chair with conference now.
+				UserDAO user_dao = new UserDAO();
+				user_dao.setRole(aConference.getProgramChair().getID(), Role.PROGRAM_CHAIR, aConference.getID());
 				//also need to associated categories with conference.
+				saveCategories(aConference.getID(), aConference.getCategories());
 			} else {
 				//Update existing record
 				PreparedStatement stmt = con.prepareStatement(UPDATE_CONFERENCE);
@@ -212,5 +223,47 @@ public class ConferenceDAO extends AbstractDAO {
 		} catch( Exception e) {}
 
 		return conference;
+	}
+	
+	/**
+	 * Associate all categories with a conference.
+	 * @param the_conf_id the id of the conference.
+	 * @param the_categories the categories
+	 */
+	private void saveCategories(final int the_conf_id, final List<String> the_categories)
+	{
+		final String find_category_id = "SELECT cat_id FROM category WHERE display = ?;";
+		final String add_category_to_conf = "INSERT INTO conference_category(conf_id, cat_id) values (?, ?);";
+		try
+		{
+			PreparedStatement add_cat_stmt = AbstractDAO.getConnection().prepareStatement(add_category_to_conf);
+			add_cat_stmt.setInt(1, the_conf_id);
+			
+			PreparedStatement find_cat_id_stmt = AbstractDAO.getConnection().prepareStatement(find_category_id);
+			
+			for(String cat_text: the_categories)
+			{
+				System.out.println("ConfDAO_saveCat()_MSG: " + cat_text);
+				find_cat_id_stmt.setString(1, cat_text);
+				ResultSet cat_ids = find_cat_id_stmt.executeQuery();
+				while(cat_ids.next())
+				{
+					System.out.println("ConfDAO_saveCat()_MSG: " + cat_ids.getInt("cat_id"));
+					add_cat_stmt.setInt(2, cat_ids.getInt("cat_id"));
+					add_cat_stmt.executeQuery();
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println("ConfDAO_saveCategories()_MSG: " + e);
+		}
+		
+		/*		
+		insert into conference_category(conf_id, cat_id) values(2,1);
+		insert into conference_category(conf_id, cat_id) values(2,3);
+		insert into conference_category(conf_id, cat_id) values(2,4);
+		insert into user_role_paper_conference_join(user_id, role_id, conf_id) values(2,5,2);
+	*/
 	}
 }
