@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
@@ -31,11 +30,11 @@ import model.User;
 public class AuthorView extends JPanel implements ActionListener {
 	
 	/**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+	 * The default serial ID
+	 */
+	private static final long serialVersionUID = 1L;
   
-  private Author user;
+  	private Author user;
 
 	public AuthorView(final User the_user) {
 		this.user = new Author(the_user);
@@ -89,6 +88,11 @@ public class AuthorView extends JPanel implements ActionListener {
 
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
+	/**
+	 * The default serial ID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ButtonRenderer() {
 		setOpaque(true);
 	}
@@ -108,6 +112,11 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 }
 
 class ButtonEditor extends DefaultCellEditor {
+	/**
+	 * The default serial ID
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	protected JButton button;
 	private String label;
 	private boolean isPushed;
