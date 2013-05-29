@@ -24,7 +24,7 @@ public class AuthorTableModel extends AbstractTableModel  {
 	private static final long serialVersionUID = 1L;
 
 	// hard coded column names in table
-	private String[] columnNames = { "Title", "Catagory", "Status", "Edit" };
+	private String[] columnNames = { "Title", "Category", "Status", "Edit" };
 	
 	// data to be extracted from papers in the database
 	private Object[][] data;
