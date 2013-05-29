@@ -73,6 +73,7 @@ public class Paper extends Observable
 		my_title = the_title;
 		my_keywords = the_keywords;
 		my_abstract = the_abstract;
+		my_category = the_category;
 		this.content = content;
 	}
 	
