@@ -257,36 +257,47 @@ public class ConferenceForm extends JFrame
 			return my_conference_fields;
 		}
 
+		/**
+		 * 
+		 * @return a Conference with the fields from the form.
+		 * @author Levon
+		 * @author Danielle (Edits: parsing date to sql.date, set program chair, setting categories)
+		 */
 		private Conference parseData()
 		{
 			int fields_index = 0;
 
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			
-			
-			//my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
 			my_conference.setDate(Date.valueOf(date));
 			
 			my_conference.setProgramChair((User) ((JComboBox) my_conference_fields.get(fields_index++)).
 					getSelectedItem());
+
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDeadline(Deadline.SUBMIT_PAPER, new Date(Long.parseLong(
-					submission.replaceAll("-", ""))));
+			my_conference.setDeadline(Deadline.SUBMIT_PAPER, Date.valueOf(submission));
+
 			String review = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDeadline(Deadline.REVIEW_PAPER, new Date(Long.parseLong(
-					review.replaceAll("-", ""))));
+			my_conference.setDeadline(Deadline.REVIEW_PAPER, Date.valueOf(review));		
+//			my_conference.setDeadline(Deadline.REVIEW_PAPER, new Date(Long.parseLong(
+//					review.replaceAll("-", ""))));
+
 			String recommendation = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(Long.parseLong(
-					recommendation.replaceAll("-", ""))));
+			my_conference.setDeadline(Deadline.MAKE_RECOMMENDATION, Date.valueOf(recommendation));
+//			my_conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(Long.parseLong(
+//					recommendation.replaceAll("-", ""))));
+
 			String final_decision = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDeadline(Deadline.FINAL_DECISION, new Date(Long.parseLong(
-					final_decision.replaceAll("-", ""))));
+			my_conference.setDeadline(Deadline.FINAL_DECISION, Date.valueOf(final_decision));
+//			my_conference.setDeadline(Deadline.FINAL_DECISION, new Date(Long.parseLong(
+//					final_decision.replaceAll("-", ""))));
+
 			String revision = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDeadline(Deadline.REVISE_PAPER, new Date(Long.parseLong(
-					revision.replaceAll("-", ""))));
-			//what about the list of Categories?
+			my_conference.setDeadline(Deadline.REVISE_PAPER, Date.valueOf(revision));
+//			my_conference.setDeadline(Deadline.REVISE_PAPER, new Date(Long.parseLong(
+//					revision.replaceAll("-", ""))));
 			
+			//Get the list of categories and set them in the conference.
 			Object[] categories = ((JList) my_conference_fields.get(fields_index)).getSelectedValues();
 			List<String> category_list = new ArrayList<String>();
 			for(Object category: categories)
