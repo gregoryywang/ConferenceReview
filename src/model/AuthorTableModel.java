@@ -37,9 +37,9 @@ public class AuthorTableModel extends AbstractTableModel  {
 	// DEBUG: uncomment line below to test
 	// List<Paper> testList;
 	
-	private User user;
+	private Author user;
 	
-	public AuthorTableModel(User the_user) {
+	public AuthorTableModel(Author the_user) {
 		super();
 		this.user = the_user;
 		
@@ -68,11 +68,15 @@ public class AuthorTableModel extends AbstractTableModel  {
 		
 		// Gets current conference from user.
 		Conference currentConference = user.getConference();
-		// Retrieves an collection of papers related to this user from the database.
-		List<Paper> paperList = PaperService.getInstance().getAssignedPapers(user.getID(), currentConference.getID(), user.getRole());
+
+		// NOT NEEDED ANYMORE. I totally forgot that Author already has this.
+		// <Paper> paperList = PaperService.getInstance().getAssignedPapers(user.getID(), currentConference.getID(), user.getRole());
 		
 		// DEBUG: uncomment line below to test
 		// List <Paper> paperList = testList;
+		
+		// Retrieves an collection of papers related to this user from the database.
+		List <Paper> paperList = user.viewPapers();
 		
 		// constructs two dimensional array based on number of papers
 		data = new Object[paperList.size()][columnNames.length];
