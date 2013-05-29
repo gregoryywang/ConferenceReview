@@ -91,6 +91,7 @@ public class ConferenceDAO extends AbstractDAO {
 	 * Returns a collection of available conferences.
 	 * @return A collection of available conferences.
 	 * @deprecated
+	 * @author Roshun
 	 */
 	public List<ReferenceObject> getConferencesRef() {
 		ResultSet result = null;
@@ -138,9 +139,10 @@ public class ConferenceDAO extends AbstractDAO {
 		return categories;
 	}
 	/**
-	 * FIX ME!! To Do: associate categories with conf and pgchair with conf.
 	 * Adds new conference to data source.
 	 * @param aConference The conference to persist.
+	 * @author Roshun
+	 * @author Danielle (Edits: associate categories and pgchair with conference)
 	 */
 	public void saveConference(final Conference aConference) {
 		try {
@@ -174,7 +176,8 @@ public class ConferenceDAO extends AbstractDAO {
 				//also need to associated categories with conference.
 				saveCategories(aConference.getID(), aConference.getCategories());
 			} else {
-				//Update existing record
+				//Update existing record  
+				// FIX ME?? (program chair and conferences cannot be updated?)
 				PreparedStatement stmt = con.prepareStatement(UPDATE_CONFERENCE);
 				stmt.setString(1, aConference.getTopic());
 				stmt.setDate(2, aConference.getDate());
@@ -194,7 +197,8 @@ public class ConferenceDAO extends AbstractDAO {
 	/**
 	 * Get single conference object.
 	 * @param aConfId The conference id.
-	 * @author Danielle (program chair and categories edits)
+	 * @author Roshun
+	 * @author Danielle (Edit: get program chair and categories populated)
 	 */
 	public Conference getConference(final int aConfId) {
 		Conference conference = new Conference();
@@ -250,7 +254,7 @@ public class ConferenceDAO extends AbstractDAO {
 				{
 					System.out.println("ConfDAO_saveCat()_MSG: " + cat_ids.getInt("cat_id"));
 					add_cat_stmt.setInt(2, cat_ids.getInt("cat_id"));
-					add_cat_stmt.executeQuery();
+					add_cat_stmt.executeUpdate();
 				}
 			}
 		}
