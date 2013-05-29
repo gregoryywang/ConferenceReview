@@ -33,9 +33,16 @@ public class Administrator extends User
 		super(null, Role.ADMIN, the_first_name, the_last_name, 
 				the_username, the_password, the_email);
 	}
-	
-	
-	
+
+	/**
+	 * Constructor of Administrator from a User
+	 * @param the_user the user to turn into an Administrator.
+	 */
+	public Administrator(final User the_user)
+	{
+		super(the_user);
+		setRole(Role.ADMIN);
+	}
 	/**
 	 * Method to create a Conference Object and add it to the Database
 	 * Collection of Conference Objects.
