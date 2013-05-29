@@ -16,7 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import model.Author;
 import model.Paper;
 import model.User;
@@ -55,7 +59,8 @@ public class PaperSubmissionForm extends JFrame {
 
 	
 	final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
-	final JTextField titleField, keywordsField, catagoryField;
+	final JTextField titleField, keywordsField/*, catagoryField*/;
+	final JComboBox catagoryField;
 	final BackgroundTextArea paperAbstract, paperContent;
 	
 	final JButton submitButton, cancelButton;
@@ -80,7 +85,10 @@ public class PaperSubmissionForm extends JFrame {
 		keywordsField = new JTextField(15);
 		
 		catagoryLabel = new JLabel("Catagory:");
-		catagoryField = new JTextField(15);
+		//catagoryField = new JTextField(15);
+		catagoryField = new JComboBox();
+		ComboBoxModel categories = new DefaultComboBoxModel(user.getConference().getCategories().toArray());
+		catagoryField.setModel(categories);
 		
 		topPanel = new JPanel(new GridLayout(4,2));
 		
@@ -114,8 +122,12 @@ public class PaperSubmissionForm extends JFrame {
 			public void actionPerformed(final ActionEvent the_event)
 			{				
 				// initialize new paper object using information from submission form
-				Paper myPaper = new Paper(user, titleField.getText(), keywordsField.getText(),
-						paperAbstract.getText(), catagoryField.getText(), paperContent.getText());
+				Paper myPaper = new Paper(user, titleField.getText(), 
+						keywordsField.getText(),
+						paperAbstract.getText(), 
+						/*catagoryField.getText()*/ (String)catagoryField.getSelectedItem(), 
+						paperContent.getText());
+				
 				
 				// saves the paper into database
 				try {
