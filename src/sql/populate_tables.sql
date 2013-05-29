@@ -32,6 +32,12 @@ insert into user_role_paper_conference_join(user_id, role_id, conf_id) values (2
 insert into user(first_name, last_name, username, password, email_address) values('ReviewerTest', 'ReviewerTest', 'ReviewerTest', 'ReviewerTest','ReviewerTest@uw.edu');
 insert into user_role_paper_conference_join(user_id, role_id) values (3, 3);
 
+--Add Author user
+insert into user(first_name, last_name, username, password, email_address) values('AuthorTest', 'AuthorTest', 'AuthorTest', 'AuthorTest','AuthorTest@uw.edu');
+
+insert into user_role_paper_conference_join(user_id, role_id) values ((select user_id from user where username = 'AuthorTest'), 2);
+
+
 --Add general user
 insert into user(first_name, last_name, username, password, email_address) values('Default', 'User', 'UserTest', 'UserTest', 'UserTest@uw.edu');
 
