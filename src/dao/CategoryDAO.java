@@ -1,6 +1,8 @@
 package dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,5 +60,32 @@ public class CategoryDAO {
 		}
 
 		return categories; 
+	}
+	
+	/**
+	 * TO DO: Implement!
+	 * Get the category id from the string text of the category.
+	 * @param the_category the name of the paper category
+	 * @return the id of the category.  If not valid, will return 0
+	 * @author Danielle
+	 */
+	public int getCategory(final String the_category)
+	{
+		final String find_category_id = "SELECT cat_id FROM category WHERE display = ?;";
+		PreparedStatement find_cat_id_stmt;
+		int id = 0;
+		try {
+			find_cat_id_stmt = AbstractDAO.getConnection().prepareStatement(find_category_id);
+			find_cat_id_stmt.setString(1, the_category);
+			ResultSet cat_id = find_cat_id_stmt.executeQuery();
+			while(cat_id.next())
+			{
+				id = cat_id.getInt("cat_id");
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("CAT_DAO_getCategory()_MSG: " + e);
+		}
+		return id;
 	}
 }
