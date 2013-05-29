@@ -58,11 +58,6 @@ public class ConferenceForm extends JFrame
 	private static final int FRAME_HEIGHT = 300;
 	
 	/**
-	 * The default background color.
-	 */
-	private static final Color BACKGROUND_COLOR = Color.GREEN;
-	
-	/**
 	 * Reference to the current users Viewer Object.
 	 */
 	private Viewer my_view;
@@ -98,7 +93,6 @@ public class ConferenceForm extends JFrame
 	{
 		super("Conference Form");
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		setBackground(BACKGROUND_COLOR);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		my_conference = the_conference;
 		if (the_conference.getID() != 0)
@@ -164,7 +158,6 @@ public class ConferenceForm extends JFrame
 		});
 		
 		final JPanel button_panel = new JPanel();
-		button_panel.setBackground(BACKGROUND_COLOR);
 		button_panel.add(cancel_button);
 		button_panel.add(conference_button);
 		add(button_panel, BorderLayout.SOUTH);
