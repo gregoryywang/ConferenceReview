@@ -68,9 +68,11 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
-	 * TO DO: get category of paper.
+	 * TO DO: update/edit of paper.
 	 * Adds new paper to the data source or update a current paper.
 	 * @param the_paper the paper to save to the data storage.
+	 * @author Danielle
+	 * @author Roshun (Edits: get generated key, insert content field)
 	 */
 	public void savePaper(Paper the_paper)
 	{
@@ -85,16 +87,10 @@ public class PaperDAO extends AbstractDAO {
 				stmt.setString(2, the_paper.getTitle());
 				stmt.setString(3, the_paper.getKeywords());
 			
-				/* use CATEGORY DAO HERE
-				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
-				secondary_stmt.setString(1, the_paper.getCategory());
-				ResultSet cat_result = secondary_stmt.executeQuery();
-				stmt.setInt(4, cat_result.getInt("cat_id"));
-				secondary_stmt.close();
-				*/
+				CategoryDAO categories = new CategoryDAO();
+				int category_int = categories.getCategory(the_paper.getCategory());
+				stmt.setInt(4, category_int);
 
-				//FIX ME
-				stmt.setInt(4, 2); //setting category_id = 2 temp...
 				stmt.setString(5, the_paper.getStatus().name());
 				stmt.setString(6, the_paper.getAbstract());
 				stmt.setCharacterStream(7, new StringReader(the_paper.getContent()));
@@ -144,7 +140,7 @@ public class PaperDAO extends AbstractDAO {
 			
 			stmt.close();
 		} 
-		catch (Exception e) {System.out.println(e);}
+		catch (Exception e) {System.out.println("PDAO_MSG: " + e);}
 	}
 
 	/**
@@ -272,6 +268,7 @@ public class PaperDAO extends AbstractDAO {
 	 * Get a list of review references(IDs) associated with a paper.
 	 * @param the_paper_ID
 	 * @return list of reviews (summary rating, review_id)
+	 * @deprecated
 	 */
 	public List<ReferenceObject> getReviewsRef(final int the_paper_ID) 
 	{
@@ -327,7 +324,7 @@ public class PaperDAO extends AbstractDAO {
 					review.setComment(question_id, questions_result.getString("comment_text"));
 				}
 			}
-		} catch (Exception e) {System.out.println(e);}
+		} catch (Exception e) {System.err.println("PDAO_MSG: " + e);}
 
 		return review;
 	}
