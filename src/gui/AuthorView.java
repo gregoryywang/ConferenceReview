@@ -34,14 +34,21 @@ public class AuthorView extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
   
-  	private Author user;
-
+  private Author user;
+  	
+  /**
+   * Table Model.
+  */
+  private AuthorTableModel model;
+  
 	public AuthorView(final User the_user) {
 		this.user = new Author(the_user);
 		
 		setLayout(new BorderLayout(0, 0));
 	  
-		JTable table = new JTable(new AuthorTableModel(user));
+		model = new AuthorTableModel(user);
+		
+		JTable table = new JTable(model);
 
 		table.getColumn("Edit").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Edit").setCellEditor(new ButtonEditor(new JCheckBox()));
@@ -63,7 +70,15 @@ public class AuthorView extends JPanel implements ActionListener {
 		new PaperSubmissionForm(user).setVisible(true);
     }
 
-
+  
+    /**
+     * Returns view's model.
+     * @return The view's model.
+     */
+    public AuthorTableModel getModel() {
+      return model;
+    }
+    
     /**
      * Test code to launch a local panel.
      * @param args

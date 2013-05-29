@@ -25,12 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import service.PaperService;
-
 import model.Author;
 import model.Paper;
-import model.Role;
 import model.User;
 
 public class PaperSubmissionForm extends JFrame {
@@ -128,11 +124,6 @@ public class PaperSubmissionForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				PaperService.getInstance().assignPaper(myPaper.getID(), 
-				                                       user.getID(), 
-				                                       user.getConference().getID(), 
-				                                       Role.AUTHOR);
 				
 				JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
 			}
