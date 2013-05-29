@@ -26,8 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import service.PaperService;
-
 import model.Author;
 import model.Paper;
 import model.User;
@@ -54,7 +52,7 @@ public class PaperSubmissionForm extends JFrame {
 	 */
 	private static final int FRAME_HEIGHT = 300;
 	
-	private User user;
+	private Author user;
 
 	
 	final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
@@ -65,7 +63,7 @@ public class PaperSubmissionForm extends JFrame {
 	final JPanel topPanel, midPanel, bottemPanel;
 	
 	
-	public PaperSubmissionForm(final User the_user) {
+	public PaperSubmissionForm(final Author the_user) {
 		
 		super("New Paper Submission");
 		this.user = the_user;
@@ -115,15 +113,18 @@ public class PaperSubmissionForm extends JFrame {
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent the_event)
-			{
-				Author myAuthor = new Author(user);
-				
+			{				
 				// initialize new paper object using information from submission form
-				Paper myPaper = new Paper(myAuthor, titleField.getText(), keywordsField.getText(),
+				Paper myPaper = new Paper(user, titleField.getText(), keywordsField.getText(),
 						paperAbstract.getText(), catagoryField.getText(), paperContent.getText());
 				
-				// calls PaperService to save paper into database
-				PaperService.getInstance().savePaper(myPaper);
+				// saves the paper into database
+				try {
+					user.submitPaper(myPaper);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
 			}
@@ -152,7 +153,8 @@ public class PaperSubmissionForm extends JFrame {
 	
 	public static void main(String [] args) {
 		User test = new User();
-		new PaperSubmissionForm(test).setVisible(true);
+		Author test2 = new Author(test);
+		new PaperSubmissionForm(test2).setVisible(true);
 	}
 
 }
