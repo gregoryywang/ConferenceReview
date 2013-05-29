@@ -74,6 +74,7 @@ public class AuthorView extends JPanel implements ActionListener {
  		AuthorView test = new AuthorView(testUser);
  		JFrame testFrame = new JFrame();
  		testFrame.getContentPane().add(test);
+ 		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  		testFrame.pack();
  		testFrame.setVisible(true);	
  	}
