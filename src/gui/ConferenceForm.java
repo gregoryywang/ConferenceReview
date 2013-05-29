@@ -84,21 +84,21 @@ public class ConferenceForm extends JFrame
 	 */
 	private boolean my_conference_flag = false;
 	
-	/**
-	 * TEST.
-	 */
-	public ConferenceForm(final User the_user)
-	{
-		super("Conference Form");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		my_user = the_user;
-		my_conference = new Conference();
-		if (my_conference.getID() != 0)
-		{
-			my_conference_flag = true;
-		}
-		my_panel = new ConferencePanel(my_conference);
-	}
+//	/**
+//	 * TEST.
+//	 */
+//	public ConferenceForm(final User the_user)
+//	{
+//		super("Conference Form");
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		my_user = the_user;
+//		my_conference = new Conference();
+//		if (my_conference.getID() != 0)
+//		{
+//			my_conference_flag = true;
+//		}
+//		my_panel = new ConferencePanel(my_conference);
+//	}
 	
 	/**
 	 * Creates a default ConferenceForm from the given User and Conference.
