@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 import model.Author;
 import model.Paper;
 import model.User;
-import model.Viewer;
 
 public class PaperForm extends JFrame 
 {
@@ -50,7 +49,7 @@ public class PaperForm extends JFrame
 	/**
 	 * Reference to the Viewer for the current User.
 	 */
-	private Viewer my_view;
+	private User my_user;
 	
 	/**
 	 * Reference to the PaperPanel in the Frame.
@@ -62,6 +61,11 @@ public class PaperForm extends JFrame
 	 */
 	private Paper my_paper;
 	
+	/**
+	 * Constructs a new PaperForm from the given Paper.
+	 * 
+	 * @param the_paper the Paper to be displayed in the form
+	 */
 	public PaperForm(final Paper the_paper)
 	{
 		super("PaperForm");
@@ -79,13 +83,13 @@ public class PaperForm extends JFrame
 	 * @param the_view the current Users Viewer
 	 * @param the_paper the current Paper the User is viewing
 	 */
-	public PaperForm(final Viewer the_view, final Paper the_paper)
+	public PaperForm(final User the_user, final Paper the_paper)
 	{
 		super("PaperForm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBackground(BACKGROUND_COLOR);
-		my_view = the_view;
+		my_user = the_user;
 		my_paper = the_paper;
 		my_panel = new PaperPanel(the_paper);
 	}
