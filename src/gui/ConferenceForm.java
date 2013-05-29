@@ -263,7 +263,11 @@ public class ConferenceForm extends JFrame
 
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
-			my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
+			
+			
+			//my_conference.setDate(new Date(Long.parseLong(date.replaceAll("-", ""))));
+			my_conference.setDate(Date.valueOf(date));
+			
 			my_conference.setProgramChair((User) ((JComboBox) my_conference_fields.get(fields_index++)).
 					getSelectedItem());
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
@@ -283,11 +287,11 @@ public class ConferenceForm extends JFrame
 					revision.replaceAll("-", ""))));
 			//what about the list of Categories?
 			
-			String[] categories = (String[])((JComboBox) my_conference_fields.get(fields_index)).getSelectedObjects();
+			Object[] categories = ((JList) my_conference_fields.get(fields_index)).getSelectedValues();
 			List<String> category_list = new ArrayList<String>();
-			for(String category: categories)
+			for(Object category: categories)
 			{
-				category_list.add(category);
+				category_list.add((String) category);
 			}
 			my_conference.setCategories(category_list);
 
