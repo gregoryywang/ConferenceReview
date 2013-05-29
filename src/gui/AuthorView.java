@@ -24,16 +24,21 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.Author;
 import model.AuthorTableModel;
 import model.User;
 
 public class AuthorView extends JPanel implements ActionListener {
 	
-	private User user;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  
+  private Author user;
 
 	public AuthorView(final User the_user) {
-		
-		this.user = the_user;
+		this.user = new Author(the_user);
 		
 		setLayout(new BorderLayout(0, 0));
 	  
