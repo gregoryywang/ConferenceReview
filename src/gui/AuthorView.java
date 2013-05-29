@@ -3,7 +3,7 @@ package gui;
 /**
  * AuthorView.java
  * @author yongyuwang
- * @version 5-25-1424
+ * @version 5-28-1952
  * Prototype table to display author's papers.
  */
 
@@ -27,13 +27,15 @@ import javax.swing.table.TableCellRenderer;
 import model.AuthorTableModel;
 import model.User;
 
-public class AuthorView extends JFrame implements ActionListener {
+public class AuthorView extends JPanel implements ActionListener {
 	
 	private User user;
 
 	public AuthorView(final User the_user) {
 		
 		this.user = the_user;
+		
+		setLayout(new BorderLayout(0, 0));
 	  
 		JTable table = new JTable(new AuthorTableModel(user));
 
@@ -41,17 +43,13 @@ public class AuthorView extends JFrame implements ActionListener {
 		table.getColumn("Edit").setCellEditor(new ButtonEditor(new JCheckBox()));
    
 		JScrollPane scrollPanel = new JScrollPane(table);
-		getContentPane().add(scrollPanel, BorderLayout.NORTH);
+		add(scrollPanel, BorderLayout.NORTH);
 		
         JPanel panel = new JPanel();
         JButton AddSubmissionButton = new JButton("Add Submission");
         panel.add(AddSubmissionButton);
         AddSubmissionButton.addActionListener(this);
-		getContentPane().add(panel, BorderLayout.SOUTH);
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		setVisible(true);
+		add(panel, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -62,10 +60,18 @@ public class AuthorView extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * Test code to launch a local panel.
+     * @param args
+     */
  	public static void main(String[] args) {
 	  
  		User testUser = new User();
- 		AuthorView frame = new AuthorView(testUser);
+ 		AuthorView test = new AuthorView(testUser);
+ 		JFrame testFrame = new JFrame();
+ 		testFrame.getContentPane().add(test);
+ 		testFrame.pack();
+ 		testFrame.setVisible(true);	
  	}
 }
 
