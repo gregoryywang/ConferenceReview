@@ -49,10 +49,8 @@ public class AdminView extends JPanel implements Viewer
 	 */
 	public AdminView()
 	{
-		super(new BorderLayout());
-		my_administrator = new Administrator(0, "admin", 
-			"admin", "Super User", "root", "barackobama@thepresi.dent");
-		fillPanel();
+		this(new Administrator(0, "admin", 
+				"admin", "Super User", "root", "barackobama@thepresi.dent"));
 	}
 	
 	/**
@@ -61,22 +59,15 @@ public class AdminView extends JPanel implements Viewer
 	 * 
 	 * @param the_user the Administrative User
 	 */
-	public AdminView(final User the_user)
+	public AdminView(final User the_admin)
 	{
 		super(new BorderLayout());
-		my_administrator = new Administrator(the_user.getID(),the_user.getFirstName(), the_user.getLastName(), 
-		                                     the_user.getUsername(), the_user.getPassword(), the_user.getEmail());
-		fillPanel();
+		my_administrator = new Administrator(the_admin);
+//		add(createCenterPanel(), BorderLayout.CENTER);
+		//System.out.println("ADMV_MSG... " + my_administrator.getRole() + " " + my_administrator.getEmail() +" "+ my_administrator.getConference());
+		new ConferenceForm(this, my_administrator.getConference()).start();
 	}
-	
-	/**
-	 * Method to fill the JPanel.
-	 */
-	public void fillPanel()
-	{
-		add(createCenterPanel(), BorderLayout.CENTER);
-	}
-	
+
 	/**
 	 * Creates the center panel for the AdminView Frame.
 	 * 
@@ -112,31 +103,21 @@ public class AdminView extends JPanel implements Viewer
 		final JComboBox conference_combo_box = new JComboBox(
 			ConferenceService.getInstance().getConferences().toArray());
 		center_panel.add(conference_combo_box);
-		final JButton combo_box_button = new JButton("Go");
+		final JButton combo_box_button = new JButton("Go"); 
 		combo_box_button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				final Conference conference_item = (Conference) ((JComboBox)
-					conference_combo_box).getSelectedItem();
-				createConferenceForm(ConferenceService.getInstance().
-					getConference(conference_item.getID()));
+				final Conference conference_item = (Conference) conference_combo_box.getSelectedItem();
+				new ConferenceForm((AdminView)the_event.getSource(), conference_item).start();
+//						createConferenceForm(ConferenceService.getInstance().
+//					getConference(conference_item.getID()));
 			}
 		});
 		center_panel.add(combo_box_button);
 		panel.add(center_panel);
 		
 		return panel;
-	}
-	
-	/**
-	 * Method to create a ConferenceForm Object
-	 * based on what conference they chose
-	 * in the JComboBox.
-	 */
-	public void createConferenceForm(final Conference the_conference)
-	{
-		new ConferenceForm(this, the_conference).start();
 	}
 	
 	/**
