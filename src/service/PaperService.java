@@ -49,7 +49,7 @@ public class PaperService {
   public List<Paper> getAssignedPapers(final int aUserId, 
                                        final int aConfId, 
                                        final Role aRole) {
-    return new ArrayList<Paper>();
+    return paperDao.getPapers(aUserId, aRole, aConfId);
   }
   
   /**

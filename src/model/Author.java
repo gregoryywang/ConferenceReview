@@ -25,7 +25,7 @@ public class Author extends User
 	 */
 	public List<Paper> viewPapers()
 	{
-		return PaperService.getInstance().getAssignedPapers(getID(), getID(), Role.AUTHOR);
+		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.AUTHOR);
 	}
 
 	/**
