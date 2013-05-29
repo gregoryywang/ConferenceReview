@@ -34,7 +34,7 @@ public class HeaderView extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final JComboBox role_selector = new JComboBox();
 	private final JComboBox conference_selector = new JComboBox();
 	private User my_user;
@@ -49,6 +49,10 @@ public class HeaderView extends JPanel
 		{ 
 			my_user = the_user;
 			is_admin = UserService.getInstance().isAdmin(my_user.getID());
+			if(is_admin)
+			{
+				my_user.setRole(Role.ADMIN);
+			}
 		}
 		else
 		{
@@ -70,7 +74,7 @@ public class HeaderView extends JPanel
 		panel_selection.add(new JLabel("Role"));
 		role_selector.setEditable(false);
 		role_selector.setEnabled(false);
-		role_selector.addItem(new ReferenceObject("none", "    "));
+		role_selector.addItem(Role.USER);
 		panel_selection.add(role_selector);
 
 		JButton button_go = makeGoButton();
@@ -96,62 +100,48 @@ public class HeaderView extends JPanel
 			{
 				Role role = (Role) role_selector.getSelectedItem();
 				Conference conf = (Conference)conference_selector.getSelectedItem();
-				
+
 				//check to see if user hit button without making selection before proceeding.
-				if(role != null && (Integer) conf.getID() != 0)
+				if(role != null && (Integer) conf.getID() != -1)
 				{
 					my_user.setConference(conf);
 					my_user.setRole(role);
-				}
-				else if(is_admin)
-				{
-					my_user.setRole(Role.ADMIN);
-				}
-				
-				try {
-  				//Set Main Content panel to Frame content.
-				  JPanel panel = null;
-				  
-				  //Get reference to parent frame
-				  MainView parent = (MainView) getTopLevelAncestor();
-  				
-				  //Get single arg constructor if exist
-				  @SuppressWarnings({"unchecked", "rawtypes"})
-          Constructor constructor = role.getView().getConstructor(User.class);
-				  
-  				if( constructor != null ) {
-  				  constructor.setAccessible(true);
-  				  panel = (JPanel) constructor.newInstance(my_user);
-  				} else {
-  				  panel = (JPanel) role.getView().newInstance(); //call default constructor
-  				}
-  				
-  				//set content panel to new panel
-  				parent.setContentPanel(panel);
-				}catch( Exception e) {
-				  System.out.println(e.getMessage());
+
+					try {
+						//Set Main Content panel to Frame content.
+						JPanel panel = null;
+
+						//Get reference to parent frame
+						MainView parent = (MainView) getTopLevelAncestor();
+
+						//Get single arg constructor if exist
+						@SuppressWarnings({"unchecked", "rawtypes"})
+						Constructor constructor = role.getView().getConstructor(User.class);
+
+						if( constructor != null ) {
+							constructor.setAccessible(true);
+							panel = (JPanel) constructor.newInstance(my_user);
+						} else {
+							panel = (JPanel) role.getView().newInstance(); //call default constructor
+						}
+
+						//set content panel to new panel
+						parent.setContentPanel(panel);
+					}catch( Exception e) {
+						System.out.println(e.getMessage());
+					}
 				}
 			}
-			
+
 		});
 		return button_go;
 	}
 
-	private void makeConferenceSelector() {	
-		//used for testing
-		/*
-		final List<ReferenceObject> ro = new ArrayList<ReferenceObject>();
-		Conference c1 = new Conference();
-		c1.setTopic("Trees are GREAT");
-		c1.setID(12);
-		Conference c2 = new Conference();
-		c2.setTopic("The Wonderful World of Slugs");
-		c2.setID(90);
-		ro.add(new ReferenceObject(c1.getTopic(), c1));
-		ro.add(new ReferenceObject(c2.getTopic(), c2));	
-		 */
-		//end of testing
-
+	/**
+	 * Creates the conference selector dropdown.
+	 */
+	private void makeConferenceSelector() 
+	{	
 		final List<Conference> ro = ConferenceService.getInstance().getConferences();
 		final Conference instruct = new Conference();
 		instruct.setID(-1);
