@@ -12,8 +12,6 @@ import javax.swing.table.AbstractTableModel;
 
 import java.util.List;
 
-import service.PaperService;
-
 /*
  * REMINDER: ROW/COLUMN COUNT STARTS AT 0!
  */
@@ -65,12 +63,6 @@ public class AuthorTableModel extends AbstractTableModel  {
 	*/
 	
 	public void getData() {
-		
-		// Gets current conference from user.
-		Conference currentConference = user.getConference();
-
-		// NOT NEEDED ANYMORE. I totally forgot that Author already has this.
-		// <Paper> paperList = PaperService.getInstance().getAssignedPapers(user.getID(), currentConference.getID(), user.getRole());
 		
 		// DEBUG: uncomment line below to test
 		// List <Paper> paperList = testList;
