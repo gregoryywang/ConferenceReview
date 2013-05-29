@@ -43,18 +43,20 @@ public class Author extends User
 		}
 		else 
 		{
-			throw new Exception("Submission must be before Submission Deadline for this conference.");
+			throw new Exception("Submission must be before Submission Deadline of " +getConference().getDeadline(Deadline.SUBMIT_PAPER) +"for this conference. Today's date is: " + currentDate() );
 		}
 	}
 
 	/**
+	 * TO DO: Implement!!!
+	 * 
 	 * Submit a revised document for this paper after it has been approved.
 	 * @param the_paper the paper object to append the revised document to.
-	 * @param the_path the user's file path of the revised document.
+	 * @param the_text the text of the revised document.
 	 * @throws Exception if attempting to submit a revised document after the revision 
 	 * deadline for the conference or if the paper has not been approved.
 	 */
-	public void submitRevisedDocument(final Paper the_paper, final String the_path) throws Exception
+	public void submitRevisedDocument(final Paper the_paper, final String the_text) throws Exception
 	{
 		if(getConference().getDeadline(Deadline.REVISE_PAPER).after(currentDate()) &&
 				the_paper.getStatus() == Status.ACCEPT)
@@ -62,10 +64,14 @@ public class Author extends User
 			//the_paper.setRevisedDocumentPath(the_path);
 		}
 		else throw new Exception("Papers may only be revised after the initial submission" +
-				"has been approved and before the Revise Paper Date for this Conference");
+				"has been approved and before the Revise Paper Date for this Conference." +
+				"\nYour paper has status: " + the_paper.getStatus() + "\nThe revision deadline is: " +
+				getConference().getDeadline(Deadline.REVISE_PAPER));
 	}
 
 	/**
+	 * TO DO: Implement!!
+	 * 
 	 * Remove a paper which has been submitted for review.
 	 * @param the_paper the paper which to remove
 	 * @throws Exception if attempting to delete a paper after the submission deadline.
@@ -78,7 +84,8 @@ public class Author extends User
 		}
 		else
 		{
-			throw new Exception("Papers may only be deleted before submission deadline.");
+			throw new Exception("Papers may only be deleted before submission deadline of " +
+						getConference().getDeadline(Deadline.SUBMIT_PAPER));
 		}
 	}
 
@@ -95,9 +102,9 @@ public class Author extends User
 		}
 		else
 		{
-			throw new Exception("Papers may only be modified before submission deadline.");
-		}
-	}
+			throw new Exception("Papers may only be modified before submission deadline of " +
+					getConference().getDeadline(Deadline.SUBMIT_PAPER));
+	}	}
 	
 
 	@Override
