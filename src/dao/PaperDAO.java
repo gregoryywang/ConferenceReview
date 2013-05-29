@@ -23,7 +23,9 @@ public class PaperDAO extends AbstractDAO {
 	/**
 	 * Get paper based on paper_id
 	 */
-	private static final String GET_PAPER = "SELECT * FROM paper WHERE paper_id = ?";
+	private static final String GET_PAPER = "SELECT * FROM PAPER AS A " +
+	                                          "INNER JOIN CATEGORY AS B ON A.CAT_ID = B.CAT_ID " +
+	                                          "WHERE paper_id = ?";
 
 	/**
 	 * Update existing paper record.
@@ -45,6 +47,13 @@ public class PaperDAO extends AbstractDAO {
 	 */
 	private static final String ASSIGN_PAPER = "INSERT INTO USER_ROLE_PAPER_CONFERENCE_JOIN" +
 	 "(USER_ID, ROLE_ID, PAPER_ID, CONF_ID) VALUES(?,?,?,?)";
+	
+	/**
+	 * Get assigned papers based on conference and role
+	 */
+	private static final String GET_ASSIGNED_PAPERS = "SELECT PAPER_ID FROM USER_ROLE_PAPER_CONFERENCE_JOIN " +
+      "WHERE USER_ID = ? AND ROLE_ID = ? AND CONF_ID = ?";
+  
 	
 	/**
 	 * SQL query to get summary ratings and review id associated with a paper_id.
@@ -150,7 +159,7 @@ public class PaperDAO extends AbstractDAO {
       Connection con = AbstractDAO.getConnection();
       PreparedStatement stmt = con.prepareStatement(ASSIGN_PAPER);
       stmt.setInt(1, aUserId);
-      stmt.setInt(2, 16);
+      stmt.setInt(2, aRole.ordinal());
       stmt.setInt(3, aPaperId);
       stmt.setInt(4, aConfId);
       stmt.executeUpdate();
@@ -181,22 +190,22 @@ public class PaperDAO extends AbstractDAO {
 	 */
 	public List<Paper> getPapers(final int the_user_id, final Role the_role, final int the_conference)
 	{
-		final String GET_ALL_PAPERS = "SELECT paper_id FROM user_role_paper_conference "+
-				"WHERE user_id = ? role_id = ? conf_id = ?";
 		List<Paper> papers = new ArrayList<Paper>();
+		
 		try 
 		{
-			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ALL_PAPERS);
+			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ASSIGNED_PAPERS);
 			stmt.setInt(1, the_user_id);
 			stmt.setInt(2, the_role.ordinal());
 			stmt.setInt(3, the_conference);
 			ResultSet result_set = stmt.executeQuery();
-			stmt.close();
 			
 			while(result_set.next())
 			{
-				papers.add(getPaper(result_set.getInt("paper_id")));
+				papers.add(getPaper(result_set.getInt("paper_id"))); //NEEDS REFACTORING!!!!!!
 			}
+			
+			stmt.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -233,8 +242,8 @@ public class PaperDAO extends AbstractDAO {
 			{
 				paper.setID(result.getInt("PAPER_ID"));
 				UserDAO user_dao = new UserDAO();
-				paper.setAuthor(user_dao.getUser(result.getInt("USER_ID")));
-				paper.setCategory(result.getString("CATEGORY"));
+				paper.setAuthor(user_dao.getUser(result.getInt("AUTHOR_ID")));
+				paper.setCategory(result.getString("DISPLAY"));
 				paper.setID(paper_ID);
 				paper.setKeywords(result.getString("KEYWORDS"));
 				paper.setTitle(result.getString("TITLE"));
