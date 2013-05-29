@@ -5,8 +5,8 @@ import dao.UserDAO;
 /**
  * Class to encapsulate a Review in our system.
  * (This Review is based on a Paper Object)
- * 
- * @author Levon Kechichian
+ * @author Levon (method stubs)
+ * @author Danielle Tucker
  * @version 1.0 (Spring 2013)
  */
 public class Review 
@@ -43,7 +43,7 @@ public class Review
 	
 	public static final String[] RATING_SCALE_DESCRIPTORS = {};
 	
-	private int my_owner_id;
+	private User my_owner;
 	
 	private int[] my_ratings;
 	
@@ -53,13 +53,14 @@ public class Review
 	
 	public Review()
 	{
-		my_comments = new String[INSTRUCTIONS.length];
-		my_ratings = new int[INSTRUCTIONS.length];
+		this(null);
 	}
 	
 	public Review(final User the_reviewer)
 	{
-		
+		my_owner = the_reviewer;
+		my_comments = new String[INSTRUCTIONS.length];
+		my_ratings = new int[INSTRUCTIONS.length];
 	}
 	
 	/**
@@ -92,11 +93,20 @@ public class Review
 	{
 		my_ratings[0] = validateRating(the_rating);
 	}
+	
+	/**
+	 * Get the overall rating for this paper
+	 * @return the overall rating for this paper
+	 */
 	public int getSummaryRating()
 	{
 		return my_ratings[0];
 	}
 	
+	/**
+	 * Summary comment to the author
+	 * @param the_string the summary overall comment to the author.
+	 */
 	public void setSummaryComment(final String the_string)
 	{
 		if(the_string != null)
@@ -105,25 +115,38 @@ public class Review
 		}
 	}
 	
+	/**
+	 * Get the overall comment for the review
+	 * @return the overall comment to the author to describe the reasoning for overall rating.
+	 */
 	public String getSummaryComment()
 	{
 		return my_comments[0];
 	}
 	
-	public void setReviewer(final int the_reviewer_id) 
+	/**
+	 * Set the author of this review.
+	 * @param the_reviewer the author of this review.
+	 */
+	public void setReviewer(final User the_reviewer) 
 	{
-		if(the_reviewer_id > 0)
-		{
-			my_owner_id = the_reviewer_id;
-		}
+		my_owner = the_reviewer;
 	}
 
+	/**
+	 * Get the author of this review
+	 * @return the author of this review.
+	 */
 	public User getReviewer()
 	{
-		UserDAO user_dao = new UserDAO();
-		return user_dao.getUser(my_owner_id);
+		return my_owner;
 	}
 	
+	/**
+	 * Set the rating for the questions.  Invalid question numbers are ignored.
+	 * @param the_q the question number on the review form
+	 * @param the_value the value (1-5) invalid values are changes to value (1-5)
+	 */
 	public void setRating(final int the_q, final int the_value)
 	{
 		if(the_q > 0 && the_q < INSTRUCTIONS.length)
@@ -147,17 +170,34 @@ public class Review
 		return result;
 	}
 	
+	/**
+	 * Set the comment for the reason behind the rating for a question
+	 * @param the_q the question number
+	 * @param the_comment the comment associated with a question's rating.
+	 */
 	public void setComment(final int the_q, final String the_comment)
 	{
 		if(the_q > 0 && the_q < INSTRUCTIONS.length)
-		my_comments[the_q] = the_comment;
+			my_comments[the_q] = the_comment;
 	}
 
+	/**
+	 * Get the comment regarding why a rating was set for a particular question
+	 * @param the_question the question number (must be valid otherwise "" returned)
+	 * @return the comment associated with this question
+	 */
 	public String getComment(final int the_question)
 	{
-		return "";
+		if(the_question > 0 && the_question < INSTRUCTIONS.length)
+			return my_comments[the_question];
+		else
+			return "";
 	}
 	
+	/**
+	 * The string is the summary rating for this review.
+	 * @return the summary rating for this review
+	 */
 	@Override
 	public String toString()
 	{
