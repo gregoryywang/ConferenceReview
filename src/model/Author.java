@@ -63,7 +63,8 @@ public class Author extends User
 		if(getConference().getDeadline(Deadline.REVISE_PAPER).after(currentDate()) &&
 				the_paper.getStatus() == Status.ACCEPT)
 		{
-			//the_paper.setRevisedDocumentPath(the_path);
+			the_paper.setRevisedContent(the_text);
+			the_paper.savePaper();
 		}
 		else throw new Exception("Papers may only be revised after the initial submission" +
 				"has been approved and before the Revise Paper Date for this Conference." +
