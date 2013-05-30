@@ -84,9 +84,31 @@ public class HeaderView extends JPanel
 
 		panel_1.add(new JLabel("Welcome " + my_user.getFullName()));
 
-		//add logout button???
 	}
-
+	
+	public void setUser(User the_user)
+	{
+		if(the_user != null)
+		{
+			my_user = the_user;
+			is_admin = UserService.getInstance().isAdmin(my_user.getID());
+			if(is_admin)
+			{
+				my_user.setRole(Role.ADMIN);
+			}
+			makeConferenceSelector();		
+			role_selector.setEditable(false);
+			role_selector.setEnabled(false);
+			role_selector.removeAllItems();
+			role_selector.addItem(Role.USER);
+		}
+	}
+	
+	/**
+	 * Create a button to change the user's role and conference based upon the dropdown
+	 * selections.
+	 * @return the button to change the user's role and conference.
+	 */
 	private JButton makeGoButton() {
 		JButton button_go = new JButton("Go");
 		button_go.addActionListener(new ActionListener()
