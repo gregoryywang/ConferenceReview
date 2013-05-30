@@ -66,12 +66,15 @@ public class PaperService {
   /**
    * Submits paper review.
    */
-  public void addRecommendation(final Recommendation aRecommendation, final int aPaperId) {
-    
+  public void addRecommendation(final Recommendation aRecommendation, final Paper aPaper) 
+  {
+	  aPaper.addRecommendation(aRecommendation);
+	  paperDao.savePaper(aPaper);
   }
   
-  public List<Recommendation> getRecommendations(final int aPaperId) {
-    return new ArrayList<Recommendation>();
+  public Recommendation getRecommendation(final int aPaperId) 
+  {
+	  return paperDao.getRecommendation(aPaperId);
   }
   
   /**

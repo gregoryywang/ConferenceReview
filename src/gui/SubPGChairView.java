@@ -334,8 +334,9 @@ public class SubPGChairView extends JPanel implements Viewer
 		// Recommendation.
 		// If the recommendation has not been written yet
 		// then you need to disable the button (or make not visible)
-		final List<Recommendation> all_recommendations = PaperService.getInstance().getRecommendations(the_paper.getID());
+		final Recommendation recommendation = PaperService.getInstance().getRecommendation(the_paper.getID());
 		
+		/*  There is only one recommendation.... (dqt)
 		for (Recommendation recommendation : all_recommendations)
 		{
 			// need to be able to find this Users Recommendation based on their ID
@@ -344,6 +345,9 @@ public class SubPGChairView extends JPanel implements Viewer
 				new RecommendationForm(my_user, recommendation).start();
 			}
 		}
+		*/
+		//A SubProgram Chair is allowed to see all recommendations (they are the only ones to write it)
+		new RecommendationForm(my_user, recommendation).start();
 		
 		// populate RecommendationForm fields with the given recommendation.
 		new RecommendationForm().start();

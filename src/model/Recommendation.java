@@ -27,11 +27,6 @@ public class Recommendation
 	private static final int MIN_RATING = 1;
 	
 	/**
-	 * The id of this recommendation.
-	 */
-	private int my_id;
-	
-	/**
 	 * The SubProgram Chair User for this Recommendation.
 	 */
 	private User my_owner;
