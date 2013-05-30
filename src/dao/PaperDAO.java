@@ -15,31 +15,32 @@ import model.Paper;
 import model.Recommendation;
 import model.Review;
 import model.Role;
+import model.User;
 
 public class PaperDAO extends AbstractDAO {
+
+	/**
+	 * Insert new Paper record.
+	 */
+	private static final String INSERT_PAPER = "INSERT INTO "+
+			"paper(author_id, title, keywords, cat_id, status, abstract, content, active) " + 
+			"VALUES(?,?,?,?,?,?,?, 1);";
+
+	/**
+	 * Update an already created paper.
+	 */
+	private final String UPDATE_PAPER = "UPDATE paper SET author_id = ?, title = ?, " +
+			"keywords = ?, cat_id = ?, " +
+			"recomm_rating = ?, recomm_comments = ?, status = ?, abstract = ?" +
+			"WHERE paper_ID = ? ";
 
 	/**
 	 * Get paper based on paper_id
 	 */
 	private static final String GET_PAPER = "SELECT * FROM PAPER AS A " +
 	                                          "INNER JOIN CATEGORY AS B ON A.CAT_ID = B.CAT_ID " +
-	                                          "WHERE paper_id = ?";
+	                                          "WHERE paper_id = ? AND active = 1";
 
-	/**
-	 * Update existing paper record.
-	 */
-	private static final String UPDATE_PAPER = "UPDATE paper SET author_id = ?, title = ?, " +
-			"keywords = ?, cat_id = ?, " +
-			"recomm_id = ?, status = ?, abstract = ?" +
-			"WHERE paper_ID = ? ";
-
-	/**
-	 * Insert new Paper record.
-	 */
-	private static final String INSERT_PAPER = "INSERT INTO "+
-			"paper(author_id, title, keywords, cat_id, status, abstract, content) " + 
-			"VALUES(?,?,?,?,?,?,?);";
-	
 	/**
 	 * Assign paper to a user/role/conference.
 	 */
@@ -53,9 +54,10 @@ public class PaperDAO extends AbstractDAO {
       "WHERE USER_ID = ? AND ROLE_ID = ? AND CONF_ID = ?";
   
 	
-	private static final String GET_REVIEW = "SELECT * FROM review WHERE review_id = ?";
 	private static final String GET_QUESTION_RESULTS = "SELECT * FROM rating_comment WHERE review_id = ?";
 
+	
+	
 	public PaperDAO() 
 	{
 		//default constructor
@@ -90,53 +92,65 @@ public class PaperDAO extends AbstractDAO {
 				stmt.setCharacterStream(7, new StringReader(the_paper.getContent()));
 				stmt.executeUpdate();
 				
-				//Get generated primary key
+				//Get generated primary key @author Roshun
 				ResultSet key = stmt.getGeneratedKeys();
 				if (key.next()) {
 					int id = key.getInt(1);
 					the_paper.setID(id);
 				} else {
 					throw new Exception("Primary key could not be generated.");
-				}				
+				}
 			}
 			else
 			{//updating existing record.
+
 				stmt = con.prepareStatement(UPDATE_PAPER);
 				stmt.setInt(1, the_paper.getAuthor().getID());
 				stmt.setString(2, the_paper.getTitle());
 				stmt.setString(3, the_paper.getKeywords());
 
-				/* USE CATEGORY DAO HERE
-				PreparedStatement secondary_stmt = AbstractDAO.getConnection().prepareStatement(SELECT_CATEGORY);
-				secondary_stmt.setString(1, the_paper.getCategory());
-				ResultSet cat_result = secondary_stmt.executeQuery();
-				stmt.setInt(4, cat_result.getInt("cat_id"));
-				secondary_stmt.close();
-				*/
-
-				//FIX ME!!
-				stmt.setInt(4, 2);
+				CategoryDAO cat_dao = new CategoryDAO();
+				int category = cat_dao.getCategory(the_paper.getCategory());
+				stmt.setInt(4, category);  
 		
 				if(the_paper.getRecommendation() == null)
 				{
-					System.out.println("The recommendation is null");
-					stmt.setInt(7, Types.NULL);
+					stmt.setInt(5, Types.NULL);
+					stmt.setString(6, "");
 				}
 				else
 				{
-					stmt.setInt(7, the_paper.getRecommendation().getID());
+					stmt.setInt(5, the_paper.getRecommendation().getRating());
+					stmt.setString(6, the_paper.getRecommendation().getComments());
 				}
-				stmt.setString(8, the_paper.getStatus().name());
-				stmt.setString(9, the_paper.getAbstract());
+				stmt.setString(7, the_paper.getStatus().name());
+				stmt.setString(8, the_paper.getAbstract());
 
-				stmt.setInt(10, the_paper.getID());
+				stmt.setInt(9, the_paper.getID());
+				stmt.executeUpdate();
 			}
-			
 			stmt.close();
 		} 
-		catch (Exception e) {System.out.println("PDAO_MSG: " + e);}
+		catch (Exception e) {System.out.println("PDAO_savePaper()_MSG: " + e);}
 	}
 
+	
+	public void deletePaper(final int the_paper_id)
+	{
+		final String delete_paper = "UPDATE paper SET active = 0 WHERE paper_id = ?";
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(delete_paper);
+			stmt.setInt(1, the_paper_id);
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) 
+		{
+			System.err.println("PDAO_deletePaper()_MSG: " + e);
+		}
+		
+	}
+	
+	
 	/**
    * Assigns a paper to a user.
    */
@@ -192,6 +206,7 @@ public class PaperDAO extends AbstractDAO {
 			
 			while(result_set.next())
 			{
+				System.out.println(result_set.getInt("paper_id"));
 				papers.add(getPaper(result_set.getInt("paper_id"))); //NEEDS REFACTORING!!!!!!
 			}
 			
@@ -237,6 +252,7 @@ public class PaperDAO extends AbstractDAO {
 				paper.setID(paper_ID);
 				paper.setKeywords(result.getString("KEYWORDS"));
 				paper.setTitle(result.getString("TITLE"));
+				paper.addRecommendation(new Recommendation());
 				
 				//Convert CLOB to string builder @author Roshun
 				BufferedReader buffer = new BufferedReader(result.getCharacterStream("CONTENT"));
@@ -245,7 +261,7 @@ public class PaperDAO extends AbstractDAO {
 				  builder.append(line);
 				}
 				
-				paper.setContent(buffer.toString());
+				paper.setContent(builder.toString());
 				
 				//FIX ME!! Still need to do the same thing for "CONTENT_REVISED" which may be null.
 			}
@@ -264,12 +280,14 @@ public class PaperDAO extends AbstractDAO {
 	 * @return the review associated with the review_id
 	 */
 	public Review getReview(final int the_review_id)
-	{
+	{	
+		final String get_review = "SELECT * FROM review WHERE review_id = ?";
+
 		ResultSet result;
 		Review review = new Review();
 		
 		try {
-			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_REVIEW);
+			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(get_review);
 			stmt.setInt(1,the_review_id);
 			result = stmt.executeQuery();
 			stmt.close();
@@ -297,14 +315,30 @@ public class PaperDAO extends AbstractDAO {
 
 		return review;
 	}
-
+	
 	/**
-	 * ONLY A STUB...NO FUNCTIONALITY
-	 * @param the_paper_ID the unique id of the paper which the recommendation is requested.
-	 * @return Recommendation object associated with the paper_id
+	 * NOT DONE YET.
+	 * @param paper_id
+	 * @return
 	 */
-	public Recommendation getRecommendation(final int the_paper_ID)
+	public User getAssignedSubProgramChair(final int paper_id)
 	{
-		return new Recommendation();
+		User user = new User();
+		final String get_spg_chair = "SELECT user_id FROM user_role_paper_conference_join WHERE "+
+				"paper_id = ?, role = ?";
+		try {
+			PreparedStatement statement = getConnection().prepareStatement(get_spg_chair);
+			statement.setInt(1, paper_id);
+			statement.setInt(2, Role.SUB_PROGRAM_CHAIR.ordinal());
+			ResultSet result = statement.executeQuery();
+			if(result.next())
+			{
+				
+			}
+		} catch (SQLException e) 
+		{
+			System.out.println("PDAO_getAssgnSPChair()_MSG: " + e);
+		}
+		return user;
 	}
 }

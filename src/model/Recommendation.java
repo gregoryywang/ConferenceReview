@@ -32,9 +32,9 @@ public class Recommendation
 	private int my_id;
 	
 	/**
-	 * The SubProgram Chair User ID for this Recommendation.
+	 * The SubProgram Chair User for this Recommendation.
 	 */
-	private int my_owner_ID;
+	private User my_owner;
 	
 	/**
 	 * The rating given to the paper.
@@ -52,14 +52,14 @@ public class Recommendation
 	public Recommendation()
 	{
 		//Left blank on purpose.
-		my_owner_ID = 0;
+		my_owner = new User();
 		setRating(0);
 		my_comments = "";
 	}
 	
-	public Recommendation(final int the_subPrg_Chair, final int the_rating, final String the_comments)
+	public Recommendation(final User the_subPrg_Chair, final int the_rating, final String the_comments)
 	{
-		my_owner_ID = the_subPrg_Chair;
+		my_owner = the_subPrg_Chair;
 		setRating(the_rating);
 		if(the_comments != null)
 		{
@@ -73,15 +73,14 @@ public class Recommendation
 	
 	
 	
-	public void setReviewer(final User the_user)
+	public void setRecommender(final User the_user)
 	{
-		my_owner_ID = the_user.getID();
+		my_owner = the_user;
 	}
 	
-	public User getReviewer()
+	public User getRecommender()
 	{
-		UserDAO user_dao = new UserDAO();
-		return user_dao.getUser(my_owner_ID);
+		return my_owner;
 	}
 	
 	public void setRating(final int the_rating)
@@ -112,20 +111,4 @@ public class Recommendation
 	{
 		return my_comments;
 	}
-	public void setID(final int the_id)
-	{
-		my_id = the_id;
-	}
-
-	public int getID()
-	{
-		return my_id;
-	}
-
-	public void saveRecommendation(int the_paper_ID) 
-	{
-		PaperService.getInstance().addRecommendation(this, the_paper_ID);
-	}
-
 }
-

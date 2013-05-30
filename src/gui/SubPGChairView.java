@@ -142,7 +142,7 @@ public class SubPGChairView extends JPanel implements Viewer
 			{
 				if ("Create Recommendation".equals(recommendation_button.getText()))
 				{
-					new RecommendationForm(my_user, new Recommendation(my_user.getID(), 0, "")).start();
+					new RecommendationForm(my_user, new Recommendation(my_user, 0, "")).start();
 				}
 				else
 				{
@@ -339,7 +339,7 @@ public class SubPGChairView extends JPanel implements Viewer
 		for (Recommendation recommendation : all_recommendations)
 		{
 			// need to be able to find this Users Recommendation based on their ID
-			if (my_user.getID() == recommendation.getReviewer().getID())
+			if (my_user.getID() == recommendation.getRecommender().getID())
 			{
 				new RecommendationForm(my_user, recommendation).start();
 			}

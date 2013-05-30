@@ -25,27 +25,32 @@ public class Paper extends Observable
 	/**
 	 * The title of this paper.
 	 */
-	private String my_title;
+	private String my_title =  "No Title Set";
 	
 	/**
 	 * Keywords used for searching for this paper.
 	 */
-	private String my_keywords;
+	private String my_keywords = "No Keywords Set";
 	
 	/**
 	 * The abstract.
 	 */
-	private String my_abstract;
+	private String my_abstract = "No Abstract Set";
 	
 	/**
 	 * The conference category this paper belongs to.
 	 */
-	private String my_category;
+	private String my_category = "No category set";
 	
 	/**
 	 * Stores the contents of the paper.
 	 */
-	private String content;
+	private String content = "";
+	
+	/**
+	 * Stores the revised content of the paper;
+	 */
+	private String revised_content = "";
 	
 	/**
 	 * The status of the paper in the review process.
@@ -185,22 +190,42 @@ public class Paper extends Observable
 		my_category = the_category;
 	}
 	
+	/**
+	 * Get the text of the paper.
+	 * @return the text (content) of the paper.
+	 * @author Roshun
+	 */
 	public String getContent() {
 	  return content;
 	}
 	
+	/**
+	 * Set the content(text) of the paper.
+	 * @param content the text of the paper.
+	 * @author Roshun
+	 */
 	public void setContent(final String content) {
 	  this.content = content;
 	}
 	
 	/**
-	 * FIX ME!
-	 * @return
+	 * Set the revised content of this paper.
+	 * @param content the revised content.
 	 */
-	public User getSPChair()
+	public void setRevisedContent(final String content)
 	{
-		return null;
+		revised_content = content;
 	}
+	
+	/**
+	 * Get the revised content.
+	 * @return the revised paper's content.
+	 */
+	public String getRevisedContent()
+	{
+		return revised_content;
+	}
+	
 	
 	/**
 	 * FIX ME!
@@ -247,7 +272,7 @@ public class Paper extends Observable
 	 */
 	public void addRecommendation(Recommendation the_recommendation)
 	{
-		the_recommendation.saveRecommendation(my_paper_ID);
+		//the_recommendation.saveRecommendation(my_paper_ID);
 	}
 	
 	/**
@@ -261,16 +286,10 @@ public class Paper extends Observable
 	}
 
 	/**
-	 * Copies file into program's file storage area and returns the location
-	 * of the storage.
-	 * @param the_local_path the path of the file on the user's local file system
-	 * @return the path of the file in the program's space.
+	 * Determines if the object is equal to this paper.
+	 * @param the_object the object to compare to this paper.
+	 * @return if this paper is equal to the_object
 	 */
-	public final String saveDocument(String the_local_path)
-	{
-		return "";
-	}
-	
 	public boolean equals(Object the_object)
 	{
 		boolean result = false;
