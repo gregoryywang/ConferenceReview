@@ -53,3 +53,4 @@ public class SubProgramChair extends User
 		PaperService.getInstance().addRecommendation(the_recommendation, the_paper.getID());
 	}
 }
+
