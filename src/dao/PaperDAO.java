@@ -16,8 +16,6 @@ import model.Recommendation;
 import model.Review;
 import model.Role;
 
-import common.ReferenceObject;
-
 public class PaperDAO extends AbstractDAO {
 
 	/**
@@ -55,10 +53,6 @@ public class PaperDAO extends AbstractDAO {
       "WHERE USER_ID = ? AND ROLE_ID = ? AND CONF_ID = ?";
   
 	
-	/**
-	 * SQL query to get summary ratings and review id associated with a paper_id.
-	 */
-	private static final String GET_REVIEWS = "SELECT (review_id, summary_rating) FROM paper_review WHERE paper_id = ?";
 	private static final String GET_REVIEW = "SELECT * FROM review WHERE review_id = ?";
 	private static final String GET_QUESTION_RESULTS = "SELECT * FROM rating_comment WHERE review_id = ?";
 
@@ -264,31 +258,6 @@ public class PaperDAO extends AbstractDAO {
 		return paper;
 	}
 
-	/**
-	 * Get a list of review references(IDs) associated with a paper.
-	 * @param the_paper_ID
-	 * @return list of reviews (summary rating, review_id)
-	 * @deprecated
-	 */
-	public List<ReferenceObject> getReviewsRef(final int the_paper_ID) 
-	{
-		ResultSet result;
-		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-
-		try {
-			Statement stmt = AbstractDAO.getConnection().createStatement();
-			result = stmt.executeQuery(GET_REVIEWS);
-			stmt.close();
-			while ( result.next() ) 
-			{
-				refs.add(new ReferenceObject(result.getString("SUMMARY_RATING"),
-						result.getObject("REVIEW_ID")));
-			}
-		} catch (Exception e) {System.out.println(e);}
-
-		return refs;  
-	}  
-	
 	/**
 	 * Get a Review object based upon a review_id.
 	 * @param the_review_id The unique identifier for the review.

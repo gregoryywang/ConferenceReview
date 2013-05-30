@@ -13,7 +13,6 @@ import model.Conference.Deadline;
 import model.Role;
 import model.User;
 
-import common.ReferenceObject;
 
 /**
  * DAO used to communicate with Conference related data.
@@ -87,29 +86,6 @@ public class ConferenceDAO extends AbstractDAO {
 		return refs;  
 	}
 	
-	/**
-	 * Returns a collection of available conferences.
-	 * @return A collection of available conferences.
-	 * @deprecated
-	 * @author Roshun
-	 */
-	public List<ReferenceObject> getConferencesRef() {
-		ResultSet result = null;
-		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-	
-		try {
-			Statement stmt = AbstractDAO.getConnection().createStatement();
-			result = stmt.executeQuery(GET_CONFERENCES);
-	
-			while ( result.next() ) {
-				refs.add(new ReferenceObject(result.getString("TOPIC"),
-						result.getObject("CONF_ID")));
-			}
-		} catch (Exception e) {}
-	
-		return refs;  
-	}
-
 	/**
 	 * Get all categories associated with a conference.
 	 * @param the_conf_id the id of the conference

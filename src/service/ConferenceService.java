@@ -4,8 +4,6 @@ import java.util.List;
 
 import model.Conference;
 
-import common.ReferenceObject;
-
 import dao.CategoryDAO;
 import dao.ConferenceDAO;
 

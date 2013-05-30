@@ -2,8 +2,6 @@ package service;
 
 import java.util.List;
 
-import common.ReferenceObject;
-
 import model.Role;
 import model.User;
 import dao.UserDAO;
