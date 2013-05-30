@@ -248,7 +248,7 @@ public class PaperDAO extends AbstractDAO {
 
 			while(result_set.next())
 			{
-				System.out.println(result_set.getInt("paper_id"));
+				//System.out.println(result_set.getInt("paper_id"));
 				papers.add(getPaper(result_set.getInt("paper_id"))); //NEEDS REFACTORING!!!!!!
 			}
 

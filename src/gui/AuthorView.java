@@ -65,6 +65,10 @@ public class AuthorView extends JPanel implements ActionListener, Observer {
         JButton AddSubmissionButton = new JButton("Add Submission");
         panel.add(AddSubmissionButton);
         AddSubmissionButton.addActionListener(this);
+        if(!user.canSubmitOrModify())
+        {
+        	AddSubmissionButton.setEnabled(false);
+        }
 		add(panel, BorderLayout.SOUTH);
 	}
 	
