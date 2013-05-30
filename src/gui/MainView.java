@@ -21,7 +21,7 @@ import model.User;
 
 /**
  * 
- * @author 
+ * @author Yong
  *
  */
 public class MainView extends JFrame {
@@ -85,20 +85,9 @@ public class MainView extends JFrame {
 	}
 
 	/**
-	 * Get the user from a login screen.
-	 * @return the authenticated user.
-	 */
-	public User getUser() {
-		// creates the login panel, gets authenticated user
-		LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
-		User user = LoginPanel.getUser();
-		return user;
-	}
-	
-
-	/**
 	 * 
 	 * @param aPanel
+	 * @author Roshun ?
 	 */
 	public void setContentPanel(JPanel aPanel) {
 		this.getContentPane().remove(contentPanel);
@@ -116,5 +105,17 @@ public class MainView extends JFrame {
 		MainView app = new MainView();
 		app.setSize(WIDTH, HEIGHT);
 		app.setVisible(true);
+	}
+
+	/**
+	 * Get the user from a login screen.
+	 * @return the authenticated user.
+	 * @author Yong
+	 */
+	private User getUser() {
+		// creates the login panel, gets authenticated user
+		LoginView LoginPanel = new LoginView(MainView.this, "Login Window", true);
+		User user = LoginPanel.getUser();
+		return user;
 	}
 }
