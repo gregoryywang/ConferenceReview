@@ -11,8 +11,6 @@ import model.Conference.Deadline;
 import org.junit.Before;
 import org.junit.Test;
 
-import common.ReferenceObject;
-
 import dao.ConferenceDAO;
 
 public class ConferenceDAOTest {
@@ -67,15 +65,6 @@ public class ConferenceDAOTest {
     
     //Save conference
     conferenceDao.saveConference(conference);
-  }
-  
-  /**
-   * Tests getConferences().
-   */
-  @Test
-  public void testGetConferencesRef() {
-    List<ReferenceObject> result = conferenceDao.getConferencesRef();
-    assertTrue(!result.isEmpty());
   }
   
   /**
