@@ -52,6 +52,9 @@ public class Recommendation
 	public Recommendation()
 	{
 		//Left blank on purpose.
+		my_owner_ID = 0;
+		setRating(0);
+		my_comments = "";
 	}
 	
 	public Recommendation(final int the_subPrg_Chair, final int the_rating, final String the_comments)
@@ -125,3 +128,4 @@ public class Recommendation
 	}
 
 }
+
