@@ -6,10 +6,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,7 +60,7 @@ public class RecommendationForm extends JFrame
 	
 	/**
 	 * The recommendation flag for whether the given Recommendation
-	 *  is pre-existing.
+	 *  is pre-existing (true if pre-existing).
 	 */
 	private boolean my_recommendation_flag = false;
 	
@@ -71,6 +75,7 @@ public class RecommendationForm extends JFrame
 		setBackground(BACKGROUND_COLOR);
 		my_user = new User();
 		my_recommendation = new Recommendation();
+		
 	}
 	
 	/**
@@ -87,7 +92,7 @@ public class RecommendationForm extends JFrame
 		setBackground(BACKGROUND_COLOR);
 		my_user = the_user;
 		my_recommendation = the_recommendation;
-		if ("".equals(the_recommendation.getComments()))
+		if (!"".equals(the_recommendation.getComments()))
 		{
 			my_recommendation_flag = true;
 		}
@@ -98,11 +103,6 @@ public class RecommendationForm extends JFrame
 	 */
 	public void start()
 	{
-		final JPanel northern_panel = new JPanel();
-		northern_panel.add(new JLabel("User: "));
-		northern_panel.add(new JLabel(my_user.toString()));
-		
-		add(northern_panel, BorderLayout.NORTH);
 		add(new RecommendationPanel(), BorderLayout.CENTER);
 		
 		final JPanel southern_panel = new JPanel();
@@ -180,7 +180,7 @@ public class RecommendationForm extends JFrame
 		/**
 		 * The default size of the text fields.
 		 */
-		private static final int TEXTFIELD_SIZE = 20;
+		private static final int TEXTFIELD_SIZE = 10;
 		
 		/**
 		 * Reference to all of the recommendation fields.
@@ -196,6 +196,7 @@ public class RecommendationForm extends JFrame
 			super(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
 			my_recommendation_fields = new ArrayList<JComponent>();
 			createFields();
+			pack();
 		}
 		
 		/**
@@ -203,30 +204,80 @@ public class RecommendationForm extends JFrame
 		 */
 		private void createFields()
 		{
+			final JPanel subprogram_panel = new JPanel();
+			subprogram_panel.add(new JLabel("Sub-Program Chair: "));
+			add(subprogram_panel);		
+			
 			final JPanel user_panel = new JPanel();
-			user_panel.add(new JLabel("Sub-Program Chair: "));
-		//	add(new JLabel(my_recommendation.getReviewer().toString()));
-			user_panel.add(new JLabel("The subprogram chair"));
+			final JTextField subprogram_chair_field = new JTextField(TEXTFIELD_SIZE);
+			subprogram_chair_field.setText(my_user.toString());
+			subprogram_chair_field.setEditable(false);
+			user_panel.add(subprogram_chair_field);
 			add(user_panel);
 			
+			final JPanel rating_label = new JPanel();
+			rating_label.add(new JLabel("Rating: "));
+			add(rating_label);
+			
 			final JPanel rating_panel = new JPanel();
-			rating_panel.add(new JLabel("Rating: "));
-			rating_panel.add(new JTextField(TEXTFIELD_SIZE));
+			final JComboBox rating_dropdown = new JComboBox();
+			rating_dropdown.setEditable(false);
+			if (my_recommendation_flag)
+			{
+				rating_dropdown.addItem(my_recommendation.getRating());
+			}
+			else
+			{
+				rating_dropdown.setModel(new DefaultComboBoxModel(Recommendation.
+					RATING_SCALE_HIGH_TO_LOW));
+			}
+			my_recommendation_fields.add(rating_dropdown);
+			rating_panel.add(rating_dropdown);
 			add(rating_panel);
 			
+			final JPanel comments_label = new JPanel();
+			comments_label.add(new JLabel("Comments"));
+			add(comments_label);
+			
 			final JPanel comments_panel = new JPanel();
-			comments_panel.add(new JLabel("Comments"));
 			final JTextArea comment_field = new JTextArea();
+			comment_field.addFocusListener(new FocusListener()
+			{
+				/**
+				 * Overrides the implemented FocusListener method.
+				 * 
+				 * @param the_event the Object that fired the event
+				 */
+				@Override
+				public void focusGained(final FocusEvent the_event) 
+				{
+					// do nothing.
+				}
+
+				/**
+				 * Overrides the implemented FocusListener method.
+				 * 
+				 * @param the_even the Object that fired the event
+				 */
+				@Override
+				public void focusLost(final FocusEvent the_event) 
+				{
+					JOptionPane.showMessageDialog(null, ((JTextArea) the_event.getSource()).getText());
+				}
+			});
+			my_recommendation_fields.add(comment_field);
 			final JScrollPane comment_scroll = new JScrollPane(comment_field);
+			my_recommendation_fields.add(comment_scroll);
 			comment_scroll.setEnabled(true);
 			comment_field.setLineWrap(true);
-			comments_panel.add(comment_scroll);
 			comment_field.setText("This is text");
-			comment_scroll.setPreferredSize(new Dimension(350, 50));
-			add(comments_panel);
+	    	comment_scroll.setPreferredSize(new Dimension(250, 100));
+	    	comments_panel.add(comment_scroll);
+	    	add(comments_panel);
 			
 			System.out.println(comment_field.getText());
 		}
 		
 	}
 }
+
