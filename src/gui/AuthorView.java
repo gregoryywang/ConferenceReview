@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -21,13 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
 import model.AuthorTableModel;
 import model.User;
 
-public class AuthorView extends JPanel implements ActionListener {
+public class AuthorView extends JPanel implements ActionListener, Observer {
 	
 	/**
 	 * The default serial ID
@@ -43,6 +46,8 @@ public class AuthorView extends JPanel implements ActionListener {
   
 	public AuthorView(final User the_user) {
 		this.user = new Author(the_user);
+		
+		user.addObserver(this);
 		
 		setLayout(new BorderLayout(0, 0));
 	  
@@ -93,6 +98,12 @@ public class AuthorView extends JPanel implements ActionListener {
  		testFrame.pack();
  		testFrame.setVisible(true);	
  	}
+
+    @Override
+    public void update(Observable arg0, Object arg1) {
+      model.getData();
+      model.fireTableChanged(new TableModelEvent(model));    
+    }
 }
 
 /**
