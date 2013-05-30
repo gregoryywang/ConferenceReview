@@ -15,6 +15,7 @@ import model.Paper;
 import model.Recommendation;
 import model.Review;
 import model.Role;
+import model.SubProgramChair;
 import model.User;
 
 public class PaperDAO extends AbstractDAO {
@@ -316,16 +317,38 @@ public class PaperDAO extends AbstractDAO {
 		return review;
 	}
 	
-	/**
-	 * NOT DONE YET.
-	 * @param paper_id
-	 * @return
-	 */
-	public User getAssignedSubProgramChair(final int paper_id)
+	public Recommendation getRecommendation(final int the_paper_id)
 	{
-		User user = new User();
-		final String get_spg_chair = "SELECT user_id FROM user_role_paper_conference_join WHERE "+
-				"paper_id = ?, role = ?";
+		Recommendation rec = new Recommendation();
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(GET_PAPER);
+			stmt.setInt(1, the_paper_id);
+			ResultSet result = stmt.executeQuery();
+			if(result.next())
+			{
+				rec.setRecommender(getAssignedSubProgramChair(the_paper_id));
+				rec.setRating(result.getInt("recomm_rating"));
+				rec.setComments(result.getString("recomm_comments"));
+			}
+			stmt.close();
+		} catch (SQLException e) 
+		{
+			System.out.println("PDAO_getRecomm()_MSG: " + e);
+		}
+		
+		return rec;
+	}
+	
+	/**
+	 * Get the subprogram chair which has been assigned to this paper.
+	 * @param paper_id the id of the paper to find the subprogram chair for
+	 * @return the subprogram chair
+	 */
+	public SubProgramChair getAssignedSubProgramChair(final int paper_id)
+	{
+		SubProgramChair user = new SubProgramChair();
+		final String get_spg_chair =  "SELECT * FROM user u INNER JOIN " +
+				"user_role_paper_conference_join j ON u.user_id = j.user_id WHERE j.paper_id = ? AND j.role_id = ?";
 		try {
 			PreparedStatement statement = getConnection().prepareStatement(get_spg_chair);
 			statement.setInt(1, paper_id);
@@ -333,7 +356,10 @@ public class PaperDAO extends AbstractDAO {
 			ResultSet result = statement.executeQuery();
 			if(result.next())
 			{
-				
+				user.setID(result.getInt("USER_ID"));
+				user.setFirstName(result.getString("FIRST_NAME"));
+				user.setLastName(result.getString("LAST_NAME"));
+				user.setEmail(result.getString("EMAIL_ADDRESS"));
 			}
 		} catch (SQLException e) 
 		{

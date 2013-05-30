@@ -62,8 +62,18 @@ public class SubProgramChair extends User
 	 * assigned to
 	 */
 	public void submitRecommendation(final Recommendation the_recommendation, final Paper the_paper)
+	{//need to add date checking to make sure the recommendation is submitted before deadline.
+		PaperService.getInstance().addRecommendation(the_recommendation, the_paper);
+	}
+	
+	/**
+	 * Implement me!!
+	 * @param the_paper
+	 * @return
+	 */
+	public Recommendation viewRecommendation(final Paper the_paper)
 	{
-		PaperService.getInstance().addRecommendation(the_recommendation, the_paper.getID());
+		return new Recommendation();
 	}
 	
 	@Override
