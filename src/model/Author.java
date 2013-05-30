@@ -40,6 +40,8 @@ public class Author extends User
 		{
 			PaperService.getInstance().savePaper(the_paper);  
 			PaperService.getInstance().assignPaper(the_paper.getID(), getID(), getConference().getID(), Role.AUTHOR);
+			setChanged();
+      notifyObservers();
 		}
 		else 
 		{
