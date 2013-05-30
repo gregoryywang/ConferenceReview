@@ -33,13 +33,6 @@ public final class UserDAO extends AbstractDAO {
 			"VALUES(?,?,?);";
 	;
 	/**
-	 * Query used to return user roles based on provided conference.
-	 */
-	private static final String GET_ROLES = "SELECT B.ROLE_ID, B.TITLE " +
-			"FROM USER_ROLE_CONFERENCE AS A" +
-			"INNER JOIN ROLE_TYPE AS B ON A.ROLE_ID = B.ROLE_ID " +
-			"WHERE CONF_ID = ? AND USER_ID = ?";
-	/**
 	 * Determines whether a user is an Administrator.
 	 * @author Danielle
 	 */
@@ -101,30 +94,6 @@ public final class UserDAO extends AbstractDAO {
 		}
 	}
 
-	/**
-	 * Returns a list of Roles as Reference Objects.
-	 * @return Reference Objects of Roles.
-	 * @deprecated
-	 */
-	public List<ReferenceObject> getRolesRef(final int aUserId, final int aConfId) {
-		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-
-		ResultSet result = null;
-
-		try {
-			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);
-			stmt.setInt(1, aUserId);
-			stmt.setInt(2, aConfId);
-			result = stmt.executeQuery();
-
-			while ( result.next() ) {
-				refs.add(new ReferenceObject(result.getString("TITLE"), result.getObject("ROLE_ID")));
-			}
-		} catch (Exception e) {}
-
-		return refs;
-	}
-	
 	/**
 	 * Get all roles associated with this user and conference.
 	 * @param the_user_id the user id
@@ -289,57 +258,6 @@ public final class UserDAO extends AbstractDAO {
 	}
 	
 	
-	/**
-	 * Returns a list of system users based on role type.
-	 * @param aRoleType The role type.
-	 * @deprecated
-	 */
-	public List<ReferenceObject> getUsersRef() {
-		ResultSet result = null;
-		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-
-		final String USER_REFS = "SELECT * FROM USER AS A ";
-
-		try {
-			Statement stmt = AbstractDAO.getConnection().createStatement();
-			result = stmt.executeQuery(USER_REFS);
-
-			while ( result.next() ) {
-				refs.add(new ReferenceObject(result.getString("LAST_NAME") + ", " + result.getString("LAST_NAME"),
-						result.getObject("USER_ID")));
-			}
-		} catch (Exception e) {System.err.println(e);}
-
-		return refs; 
-	}
-
-	/**
-	 * Returns a list of system users based on role type.
-	 * @param aRoleType The role type.
-	 * @deprecated
-	 */
-	public List<ReferenceObject> getUsersRef(final Role aRoleType) {
-		List<ReferenceObject> refs = new ArrayList<ReferenceObject>();
-	
-		ResultSet result = null;
-	
-		final String USER_REFS = "SELECT * FROM USER AS A " +
-				" INNER JOIN USER_ROLE_PAPER_CONFERENCE_JOIN AS B ON A.USER_ID = B.USER_ID " +
-				"WHERE ";
-		try {
-			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ROLES);
-			//stmt.setInt(1, aUserId);
-			//stmt.setInt(2, aConfId);
-			result = stmt.executeQuery();
-	
-			while ( result.next() ) {
-				refs.add(new ReferenceObject(result.getString("TITLE"), result.getObject("ROLE_ID")));
-			}
-		} catch (Exception e) {}
-	
-		return refs; 
-	}
-
 	/**
 	 * Convert result set which utalized SELECT * to fill in user_id, first and last name
 	 * and email.
