@@ -55,8 +55,10 @@ public class PaperService {
   /**
    * Submits paper review.
    */
-  public void addReview(final Review aReview, final int aPaperId) {
-    
+  public void addReview(final Review aReview, final Paper the_paper) 
+  {
+	  
+	  paperDao.addReview(aReview, the_paper.getID());
   }
   
   public List<Review> getReviews(final int aPaperId) {
@@ -68,13 +70,18 @@ public class PaperService {
    */
   public void addRecommendation(final Recommendation aRecommendation, final Paper aPaper) 
   {
-	  aPaper.addRecommendation(aRecommendation);
+	  aPaper.setRecommendation(aRecommendation);
 	  paperDao.savePaper(aPaper);
   }
   
   public Recommendation getRecommendation(final int aPaperId) 
   {
 	  return paperDao.getRecommendation(aPaperId);
+  }
+  
+  public void deletePaper(final int the_paper_id)
+  {
+	  paperDao.deletePaper(the_paper_id);
   }
   
   /**

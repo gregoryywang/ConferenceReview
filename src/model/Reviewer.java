@@ -6,6 +6,11 @@ import model.Conference.Deadline;
 
 import service.PaperService;
 
+/**
+ * Encapsulates the functionality of a Reviewer for a paper.
+ * @author Danielle Tucker
+ * @version 2013 May
+ */
 public class Reviewer extends User
 {
 	public Reviewer(final User the_user)
@@ -14,30 +19,81 @@ public class Reviewer extends User
 		setRole(Role.REVIEWER);
 	}
 	
-	
-	public void writeReview()
-	{
-		
-	}
-	
-	public void modifyReview()
+	/**
+	 * 
+	 * @param the_review the review to attach to this paper
+	 * @param the_paper the paper
+	 * @throws Exception
+	 */
+	public void addReview(Review the_review, Paper the_paper) throws Exception
 	{
 		if(getConference().getDeadline(Deadline.REVIEW_PAPER).after(currentDate()))
 		{
-			
+			PaperService.getInstance().addReview(the_review, the_paper);
+		}
+		else
+		{
+			throw new Exception("Submission must be before Review Deadline of " + getConference().getDeadline(Deadline.SUBMIT_PAPER) +
+					"for this conference. Today's date is: " + currentDate() );
 		}
 	}
 	
-	public Review getReview()
+	/**
+	 * Get the review associated with this reviewer and paper
+	 * @param the_paper_id the id of the paper
+	 * @return the review from this user.  If none exists a default Review is returned.
+	 */
+	public Review getReview(final int the_paper_id)
 	{
-		//check business rules
-		return new Review();
+		Review the_review = new Review();
+		List<Review> reviews = PaperService.getInstance().getReviews(the_paper_id);
+		for(int i = 0; i < reviews.size(); i++)
+		{
+			Review curr_review = reviews.get(i);
+			if(curr_review.getReviewer().getID() == getID())
+			{
+				the_review = curr_review;
+			}
+		}
+		return the_review;
 	}
-	
+
+	/**
+	 * View a list of all papers assigned to this reviewer.
+	 * @return a list of papers which the reviewer has been assigned.
+	 * All reviews except any which this user have been assigned have been stripped out.
+	 */
 	public List<Paper> viewPapers()
 	{
-		//Check on business rules for viewing papers by a reviewer.  How do we limit the reviews seen?
-		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), getRole());
+		List<Paper> papers = PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), getRole());
+		for(Paper paper: papers)
+		{
+			List<Review> reviews = paper.getReviews();
+			for(int i = 0; i < reviews.size(); i++)
+			{
+				if(reviews.get(i).getReviewer().getID() != getID())
+				{ //if reviewer of the review is not current user, remove from paper so
+					//only reviews which were written by this user may be seen.
+					reviews.remove(i);
+				}
+			}
+		}
+		return papers;
+	}
+	
+	/**
+	 * Determine if a review can be submitted.  Reviews must
+	 * be submitted before the review paper deadline for this conference.
+	 * @return if the paper is open for review
+	 */
+	public boolean canAddReview()
+	{
+		boolean result = false;
+		if (getConference().getDeadline(Deadline.REVIEW_PAPER).after(currentDate()))
+		{
+			result = true;
+		}
+		return result;
 	}
 	
 	@Override

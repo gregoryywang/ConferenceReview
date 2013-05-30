@@ -43,6 +43,10 @@ public class Review
 	
 	public static final String[] RATING_SCALE_DESCRIPTORS = {};
 	
+	public static final int NUMBER_OF_QUESTIONS = INSTRUCTIONS.length-1;
+	
+	private int my_id = 0;
+	
 	private User my_owner;
 	
 	private int[] my_ratings;
@@ -56,11 +60,32 @@ public class Review
 		this(null);
 	}
 	
+	/**
+	 * Create a Review for a paper
+	 * @param the_reviewer the author of this review.
+	 */
 	public Review(final User the_reviewer)
 	{
 		my_owner = the_reviewer;
 		my_comments = new String[INSTRUCTIONS.length];
 		my_ratings = new int[INSTRUCTIONS.length];
+	}
+	
+	/**
+	 * Set the unique id for this review
+	 * @param the_id the id
+	 */
+	public void setID(final int the_id)
+	{
+		my_id = the_id;
+	}
+	
+	/**
+	 * @return the unique id for this review.  Default is 0;
+	 */
+	public int getID()
+	{
+		return my_id;
 	}
 	
 	/**
