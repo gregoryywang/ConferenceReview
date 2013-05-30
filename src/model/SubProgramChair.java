@@ -29,7 +29,20 @@ public class SubProgramChair extends User
 			the_password, the_username, the_email);
 	}
 	
+	
+	public SubProgramChair(final User the_user)
+	{
+		super(the_user);
+		setRole(Role.PROGRAM_CHAIR);
+	}
+	
+	public SubProgramChair()
+	{
+		//
+	}
+	
 	/**
+	 * 
 	 * Assigns a Reviewer to a specified Paper.
 	 * 
 	 * @param the_user the Reviewer that is being assigned to the Paper
@@ -51,6 +64,12 @@ public class SubProgramChair extends User
 	public void submitRecommendation(final Recommendation the_recommendation, final Paper the_paper)
 	{
 		PaperService.getInstance().addRecommendation(the_recommendation, the_paper.getID());
+	}
+	
+	@Override
+	public void setRole(final Role the_role)
+	{
+		//does nothing because SubProgramChair's role is ALWAYS Role.SUBPROGRAM_CHAIR
 	}
 }
 
