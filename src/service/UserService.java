@@ -38,17 +38,6 @@ public class UserService {
   }
   
   /**
-   * Retruns a list of User Roles for a given user and conference.
-   * @param aUserid The user's id.
-   * @param aConfid The conference id.
-   * @return a list of User Roles for a given user and conference.
-   * @deprecated
-   */
-  public List<ReferenceObject> getRolesRef(final int aUserid, final int aConfid) {
-    return userDao.getRolesRef(aUserid, aConfid);
-  }
-  
-  /**
    * Get a list of Roles associated with a user and conference.
    * @param the_user_id the user id.
    * @param the_conf_id the conference id.
