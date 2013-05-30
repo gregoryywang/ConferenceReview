@@ -50,21 +50,19 @@ public class Author extends User
 	}
 
 	/**
-	 * TO DO: Implement!!!
-	 * 
-	 * Submit a revised document for this paper after it has been approved.
+	 * Submit a revised document (content) for this paper after it has been approved.
 	 * @param the_paper the paper object to append the revised document to.
 	 * @param the_text the text of the revised document.
 	 * @throws Exception if attempting to submit a revised document after the revision 
 	 * deadline for the conference or if the paper has not been approved.
 	 */
-	public void submitRevisedDocument(final Paper the_paper, final String the_text) throws Exception
+	public void submitRevisedDocument(Paper the_paper, final String the_text) throws Exception
 	{
 		if(getConference().getDeadline(Deadline.REVISE_PAPER).after(currentDate()) &&
 				the_paper.getStatus() == Status.ACCEPT)
 		{
 			the_paper.setRevisedContent(the_text);
-			the_paper.savePaper();
+			PaperService.getInstance().savePaper(the_paper);
 		}
 		else throw new Exception("Papers may only be revised after the initial submission" +
 				"has been approved and before the Revise Paper Date for this Conference." +
@@ -83,7 +81,7 @@ public class Author extends User
 	{
 		if (getConference().getDeadline(Deadline.SUBMIT_PAPER).after(currentDate()))
 		{
-			//			PaperService.getInstance().deletePaper(the_paper);
+			PaperService.getInstance().deletePaper(the_paper.getID());
 		}
 		else
 		{
@@ -117,5 +115,37 @@ public class Author extends User
 	public void setRole(final Role the_role)
 	{
 		super.setRole(Role.AUTHOR);
+	}
+	
+	/**
+	 * Papers can only be submitted, modified, or deleted before the submission deadline.
+	 * @return if a paper can be submitted, modified, or deleted.
+	 */
+	public boolean canSubmitOrModify()
+	{
+		boolean result = false;
+		if(getConference().getDeadline(Deadline.SUBMIT_PAPER).after(currentDate()))
+		{
+			result = true;
+		}
+		return result;
+	}
+	
+	/**
+	 * Determine if a paper can be revised.  Once the deadline for submission has
+	 * passed, if the paper has been approved and it is before the revise paper
+	 * deadline then the author can submit an updated revision of the paper text.
+	 * @param the_paper the paper which you want to revise.
+	 * @return if the paper is open for revision.
+	 */
+	public boolean canRevise(final Paper the_paper)
+	{
+		boolean result = false;
+		if(getConference().getDeadline(Deadline.REVISE_PAPER).after(currentDate()) &&
+				the_paper.getStatus()==Status.ACCEPT)
+		{
+			result =  true;
+		}
+		return result;
 	}
 }

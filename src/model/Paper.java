@@ -57,6 +57,10 @@ public class Paper extends Observable
 	 */
 	private Status my_status = Status.SUBPROGRAM_CHAIR_NEEDED;
 	
+	private Recommendation my_recommendation;
+	
+	private List<Review> my_reviews = new ArrayList<Review>();
+	
 	/**
 	 * Null constructor for a paper.
 	 */
@@ -235,56 +239,45 @@ public class Paper extends Observable
 	public Status getStatus() //fix me
 	{
 		return my_status;
-	}
+	}	
 	
 	/**
-	 * FIX ME!  Do we even need?
+	 * Set the SubProgramChair's recommendation.
+	 * @param the_recommendation the recommendation to associate with this paper.
 	 */
-	public void savePaper()
+	public void setRecommendation(final Recommendation the_recommendation)
 	{
-		
-	}
-	
-	/**
-	 * FIX ME!  Should not use PaperService.
-	 * Associate a review with this paper.
-	 * @param the_review the review
-	 */
-	public void addReview(Review the_review)
-	{
-		PaperService.getInstance().addReview(the_review, my_paper_ID);
+		my_recommendation = the_recommendation;
 	}
 
-	/**
-	 * FIX ME!
-	 * All Reviews associated with this paper.
-	 * @return all reviews associated with this paper.
-	 */
-	public List<Review> getReviews()
-	{
-		return new ArrayList<Review>();
-	}
 	
 	/**
-	 * FIX ME!
-	 * Associate a recommendation with this paper.
-	 * @param the_recommendation the recommendation
-	 */
-	public void addRecommendation(Recommendation the_recommendation)
-	{
-		//the_recommendation.saveRecommendation(my_paper_ID);
-	}
-	
-	/**
-	 * FIX ME!
 	 * Get the SubProgram Chair's recommendation associated with this paper.
 	 * @return the SubProgram Chair's recommendation.  May be null.
 	 */
 	public Recommendation getRecommendation()
 	{
-		return null;
+		return my_recommendation;
 	}
-
+	
+	/**
+	 * Add a review to this paper.
+	 * @param the_review the review to add to this paper.
+	 */
+	public void addReview(final Review the_review)
+	{
+		my_reviews.add(the_review);
+	}
+	
+	/**
+	 * Get all reviews associated with this paper
+	 * @return a list of all reviews.
+	 */
+	public List<Review> getReviews()
+	{
+		return my_reviews;
+	}
+	
 	/**
 	 * Determines if the object is equal to this paper.
 	 * @param the_object the object to compare to this paper.

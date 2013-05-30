@@ -71,7 +71,7 @@ public class ReviewForm extends JFrame
 			{
 				public void actionPerformed(final ActionEvent the_event)
 				{
-					PaperService.getInstance().addReview(my_review, my_paper.getID());
+					PaperService.getInstance().addReview(my_review, my_paper);
 				}
 			});
 		}

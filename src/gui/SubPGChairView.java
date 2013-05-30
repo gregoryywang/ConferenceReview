@@ -222,7 +222,7 @@ public class SubPGChairView extends JPanel implements Viewer
 				public void actionPerformed(final ActionEvent the_event)
 				{
 					final Reviewer reviewer = (Reviewer) reviewer_combo_box.getSelectedItem();
-					viewReview(the_paper, my_user, reviewer.getReview());
+					viewReview(the_paper, my_user, reviewer.getReview(the_paper.getID()));
 				}
 			});
 			panel.add(review_button);
