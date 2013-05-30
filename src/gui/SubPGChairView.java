@@ -556,3 +556,4 @@ public class SubPGChairView extends JPanel implements Viewer
 	}
 	
 }
+
