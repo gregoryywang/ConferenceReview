@@ -49,15 +49,6 @@ public class ConferenceService {
   /**
    * Returns a list of all system-wide categories for making a new conference.
    * @return Returns a list of categories.
-   * @deprecated
-   */
-  public List<ReferenceObject> getCategoriesRef() {
-    return categoryDao.getCategoriesRef();
-  }
-  
-  /**
-   * Returns a list of all system-wide categories for making a new conference.
-   * @return Returns a list of categories.
    */
   public List<String> getCategories() {
     return categoryDao.getCategories();
