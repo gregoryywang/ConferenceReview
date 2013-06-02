@@ -4,10 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class RecommendationForm extends JFrame
 	/**
 	 * The default frame width.
 	 */
-	private static final int WIDTH = 500;
+	private static final int WIDTH = 300;
 	
 	/**
 	 * The default frame height.
@@ -49,9 +48,19 @@ public class RecommendationForm extends JFrame
 	private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	
 	/**
+	 * The default JTextArea comment.
+	 */
+	private static final String DEFAULT_COMMENT = "Please enter a comment here.";
+	
+	/**
 	 * Reference to the Recommendation Object.
 	 */
 	private Recommendation my_recommendation;
+	
+	/**
+	 * Reference to the panel.
+	 */
+	private RecommendationPanel my_panel;
 	
 	/**
 	 * Reference to the User
@@ -70,12 +79,11 @@ public class RecommendationForm extends JFrame
 	public RecommendationForm()
 	{
 		super("RecommendationForm");
-		setSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
 		my_user = new User();
 		my_recommendation = new Recommendation();
-		
 	}
 	
 	/**
@@ -87,7 +95,7 @@ public class RecommendationForm extends JFrame
 	public RecommendationForm(final User the_user, final Recommendation the_recommendation)
 	{
 		super("RecommendationForm");
-		setSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
 		my_user = the_user;
@@ -103,7 +111,9 @@ public class RecommendationForm extends JFrame
 	 */
 	public void start()
 	{
-		add(new RecommendationPanel(), BorderLayout.CENTER);
+		my_panel = new RecommendationPanel();
+		
+		add(my_panel, BorderLayout.CENTER);
 		
 		final JPanel southern_panel = new JPanel();
 		
@@ -130,9 +140,18 @@ public class RecommendationForm extends JFrame
 		{
 			public void actionPerformed(final ActionEvent the_event)
 			{
-				JOptionPane.showMessageDialog(null, "You have succesfully " + 
-					recommendation_button.getText() + "d the Recommendation!");
-				dispose();
+				if (DEFAULT_COMMENT.equals(((JTextArea) my_panel.getRecommendationFields()
+					.get(1)).getText()))
+				{
+					JOptionPane.showMessageDialog(null, "You must add a comment to the Recommendation." +
+						"\n If you wish to discard the Recommendation press the \"Cancel\" button.");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "You have succesfully " + 
+						recommendation_button.getText() + "d the Recommendation!");
+					dispose();
+				}
 			}
 		});
 		southern_panel.add(recommendation_button);
@@ -239,45 +258,24 @@ public class RecommendationForm extends JFrame
 			comments_label.add(new JLabel("Comments"));
 			add(comments_label);
 			
-			final JPanel comments_panel = new JPanel();
+			final JPanel comments_panel = new JPanel(new BorderLayout());
 			final JTextArea comment_field = new JTextArea();
-			comment_field.addFocusListener(new FocusListener()
-			{
-				/**
-				 * Overrides the implemented FocusListener method.
-				 * 
-				 * @param the_event the Object that fired the event
-				 */
-				@Override
-				public void focusGained(final FocusEvent the_event) 
-				{
-					// do nothing.
-				}
-
-				/**
-				 * Overrides the implemented FocusListener method.
-				 * 
-				 * @param the_even the Object that fired the event
-				 */
-				@Override
-				public void focusLost(final FocusEvent the_event) 
-				{
-					JOptionPane.showMessageDialog(null, ((JTextArea) the_event.getSource()).getText());
-				}
-			});
 			my_recommendation_fields.add(comment_field);
 			final JScrollPane comment_scroll = new JScrollPane(comment_field);
-			my_recommendation_fields.add(comment_scroll);
-			comment_scroll.setEnabled(true);
+			comment_field.setMargin(new Insets(10, 10, 10, 10));
+			comment_field.setColumns(15);
+			comment_scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			comment_field.setLineWrap(true);
-			comment_field.setText("This is text");
-	    	comment_scroll.setPreferredSize(new Dimension(250, 100));
-	    	comments_panel.add(comment_scroll);
+			comment_field.setWrapStyleWord(true);
+			comment_field.setText(DEFAULT_COMMENT);
+	    	comments_panel.add(comment_scroll, BorderLayout.CENTER);
 	    	add(comments_panel);
-			
-			System.out.println(comment_field.getText());
 		}
 		
+		private List<JComponent> getRecommendationFields()
+		{
+			return my_recommendation_fields;
+		}
 	}
 }
 
