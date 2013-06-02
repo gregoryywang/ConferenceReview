@@ -61,6 +61,16 @@ public class Paper extends Observable
 	
 	private List<Review> my_reviews = new ArrayList<Review>();
 	
+	private String edit;
+	
+	public void setEdit(String edit) {
+	  this.edit = edit;
+	}
+	
+	public String getEdit() {
+	  return this.edit;
+	}
+	
 	/**
 	 * Null constructor for a paper.
 	 */

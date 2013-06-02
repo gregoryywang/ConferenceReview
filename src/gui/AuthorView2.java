@@ -12,7 +12,11 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 
+import service.ConferenceService;
 import service.PaperService;
 
 import model.Author;
@@ -46,10 +51,9 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
     setLayout(new BorderLayout(0, 0));
 
     String[][] properties = {
-      {"java.util.String", "Title", "Title", "true"},
-      {"java.util.String", "Category", "Category", "true"},
-      {"java.util.String", "Status", "Status", "true"},
-      {"java.util.String", "Edit", "Edit", "true"}
+      {"java.lang.String", "Title", "Title", "true"},
+      {"javax.swing.JComboBox", "Category", "Category", "true"},
+      {"javax.swing.JComboBox", "Status", "Status", "true"},  
     };
 
     // Create table panel.
@@ -62,6 +66,13 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
                                                      Role.AUTHOR);
 
     tablePanel.setModel(Arrays.asList(papers.toArray()), Paper.class);
+    
+    HashMap<Integer, Collection<Object>> refs = new HashMap<Integer, Collection<Object>>();
+    refs.put(1, Arrays.asList(ConferenceService.getInstance().getCategories().toArray()));
+    //refs.put(3, Arrays.asList(ConferenceService.getInstance().getCategories().toArray()));
+    
+    tablePanel.setReferenceValues(refs);
+    
     add(tablePanel, BorderLayout.NORTH);
 
     JPanel panel = new JPanel();
@@ -113,4 +124,5 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
 
     tablePanel.setModel(Arrays.asList(papers.toArray()), Paper.class);
   }
+   
 }
