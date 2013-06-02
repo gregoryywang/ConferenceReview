@@ -67,13 +67,22 @@ public class SubProgramChair extends User
 	}
 	
 	/**
-	 * Implement me!!
-	 * @param the_paper
-	 * @return
+	 * Method to grab or create a Recommendation for a given paper.
+	 * 
+	 * @param the_paper the paper you are creating or viewing
+	 * the Recommendation for
+	 * @return returns the Recommendation associated with the paper;
+	 * if none exists it will return a new Recommendation
 	 */
 	public Recommendation viewRecommendation(final Paper the_paper)
 	{
-		return new Recommendation();
+		Recommendation recommendation = new Recommendation();
+		
+		if (null != PaperService.getInstance().getRecommendation(the_paper.getID()))
+		{
+			recommendation = PaperService.getInstance().getRecommendation(the_paper.getID());
+		}
+		return recommendation;
 	}
 	
 	@Override
