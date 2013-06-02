@@ -329,28 +329,8 @@ public class SubPGChairView extends JPanel implements Viewer
 	 */
 	public void viewRecommendation(final Paper the_paper)
 	{
-		// need to create a RecommendationForm here
-		// and populate the fields with the Users
-		// Recommendation.
-		// If the recommendation has not been written yet
-		// then you need to disable the button (or make not visible)
 		final Recommendation recommendation = PaperService.getInstance().getRecommendation(the_paper.getID());
-		
-		/*  There is only one recommendation.... (dqt)
-		for (Recommendation recommendation : all_recommendations)
-		{
-			// need to be able to find this Users Recommendation based on their ID
-			if (my_user.getID() == recommendation.getRecommender().getID())
-			{
-				new RecommendationForm(my_user, recommendation).start();
-			}
-		}
-		*/
-		//A SubProgram Chair is allowed to see all recommendations (they are the only ones to write it)
 		new RecommendationForm(my_user, recommendation).start();
-		
-		// populate RecommendationForm fields with the given recommendation.
-		new RecommendationForm().start();
 	}
 	
 	/**
@@ -368,7 +348,7 @@ public class SubPGChairView extends JPanel implements Viewer
 		// the_users Review (this will be disabled / invisible if the Review hasn't been written)
 		
 		final List<Review> all_user_reviews = PaperService.getInstance().getReviews(the_paper.getID());
-		Review user_review;
+		Review user_review = null;
 		for (Review review : all_user_reviews)
 		{
 			if (review.getReviewer().getID() == the_user.getID())
@@ -378,7 +358,7 @@ public class SubPGChairView extends JPanel implements Viewer
 		}
 		
 		// use the user_review to populate the ReviewForm here
-		new ReviewForm(the_paper, the_user, the_review).start();
+		new ReviewForm(the_paper, the_user, user_review).start();
 	}
 	
 	/**
@@ -401,7 +381,6 @@ public class SubPGChairView extends JPanel implements Viewer
 	 */
 	public void viewPaper(final Paper the_paper)
 	{
-		// need a PaperService.getPaper(the_paper.getID());	???
 		final Paper paper = (Paper) PaperService.getInstance().getAssignedPapers
 			(my_user.getID(), my_user.getConference().getID(), Role.SUB_PROGRAM_CHAIR);
 		
