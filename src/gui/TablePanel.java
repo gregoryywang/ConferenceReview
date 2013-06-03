@@ -253,7 +253,7 @@ public class TablePanel<T> extends JPanel {
 
   
   public static void main(String[] args) {
-                                // Column data type, access method name, display name, column read only
+                                // Column data type, access method name, display name, column editable
      String[][] properties = {  
                                {"java.lang.String","PaperId","Paper Id","true"},
                                {"java.lang.String","AuthorId","Author Id","true"},
