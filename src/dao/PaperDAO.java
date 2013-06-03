@@ -15,6 +15,7 @@ import model.Paper;
 import model.Recommendation;
 import model.Review;
 import model.Role;
+import model.Status;
 import model.SubProgramChair;
 
 /**
@@ -311,6 +312,8 @@ public class PaperDAO extends AbstractDAO {
 				paper.setKeywords(result.getString("KEYWORDS"));
 				paper.setTitle(result.getString("TITLE"));
 				paper.setRecommendation(new Recommendation());
+				paper.setStatus(Status.valueOf(result.getString("STATUS")));
+				paper.setAbstract(result.getString("ABSTRACT"));
 
 				//Convert CLOB to string builder @author Roshun
 				BufferedReader buffer = new BufferedReader(result.getCharacterStream("CONTENT"));
@@ -322,6 +325,8 @@ public class PaperDAO extends AbstractDAO {
 				paper.setContent(builder.toString());
 
 				//FIX ME!! Still need to do the same thing for "CONTENT_REVISED" which may be null.
+				if(result.getCharacterStream("Content_revised") != null)
+				{
 				buffer = new BufferedReader(result.getCharacterStream("CONTENT_REVISED"));
 				line = null;
 				while( null != (line = buffer.readLine())) {
@@ -329,6 +334,7 @@ public class PaperDAO extends AbstractDAO {
 				}
 
 				paper.setRevisedContent(builder.toString());
+				}
 			}
 
 			stmt.close();

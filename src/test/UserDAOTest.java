@@ -13,10 +13,10 @@ import org.junit.Test;
 import dao.UserDAO;
 
 /**
- * 
+ * Class to Test UserDAO class.
  * @author Roshun Jones
  * @author Danielle Tucker
- *
+ * @version 2013 Spring (done)
  */
 public class UserDAOTest {
 
@@ -104,7 +104,7 @@ public class UserDAOTest {
 	 * @author Danielle
 	 */
 	@Test
-	public void testgetUsers()
+	public void testgetUsersRole()
 	{
 		List<User> users = userDao.getUsers(Role.PROGRAM_CHAIR);
 		assertTrue(users.size() > 0);
@@ -117,13 +117,29 @@ public class UserDAOTest {
 				result = true;
 			}
 		}
-		assertTrue(result);
-		
+		assertTrue(result);	
 	}
-	/*  LIST of methods to test!
-  setRole(int, Role, int)
-  getUsers(Role)
-  getUsers()
+	
+	/**
+	 * Testing getUsers()
+	 * @author Danielle
 	 */
+	@Test
+	public void testGetUsers()
+	{
+		List<User> users = userDao.getUsers();
+		assertTrue(users.size() > 0);
+	}
+	
+	/**
+	 * Testing getUsers(ConfID, Role)
+	 * @author Danielle
+	 */
+	@Test
+	public void testGetUserConfRole()
+	{
+		List<User> users = userDao.getUsers(1, Role.ADMIN);
+		assertTrue(users.size() == 0);
+	}
 }
 
