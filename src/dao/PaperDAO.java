@@ -384,7 +384,7 @@ public class PaperDAO extends AbstractDAO {
 	/**
 	 * Get the subprogram chair which has been assigned to this paper.
 	 * @param paper_id the id of the paper to find the subprogram chair for
-	 * @return the subprogram chair
+	 * @return the subprogram chair (if none is assigned a default Subprogram Chair will be returned.)
 	 */
 	public SubProgramChair getAssignedSubProgramChair(final int paper_id)
 	{

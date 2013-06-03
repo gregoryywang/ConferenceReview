@@ -7,6 +7,7 @@ import model.Paper;
 import model.Recommendation;
 import model.Review;
 import model.Role;
+import model.SubProgramChair;
 import dao.PaperDAO;
 
 /**
@@ -90,5 +91,10 @@ public class PaperService {
    */
   public static PaperService getInstance() {
     return new PaperService();
+  }
+  
+  public SubProgramChair getAssignedSubprogramChair(final int the_paper_id)
+  {
+	  return paperDao.getAssignedSubProgramChair(the_paper_id);
   }
 }

@@ -40,7 +40,6 @@ public class ConferenceService {
    */
   public Conference getConference(final int the_conf_id) {
 	  Conference conf = conferenceDao.getConference(the_conf_id);
-	  conf.setCategories(conferenceDao.getCategories(the_conf_id));
     return conf;
   }
   
