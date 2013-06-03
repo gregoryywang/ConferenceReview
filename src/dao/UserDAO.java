@@ -102,7 +102,7 @@ public final class UserDAO extends AbstractDAO {
 		List<Role> roles = new ArrayList<Role>();
 		ResultSet result;
 		
-		final String get_roles = "SELECT role_id FROM user_role_paper_conference_join " +
+		final String get_roles = "SELECT DISTINCT role_id FROM user_role_paper_conference_join " +
 				"WHERE user_id = ? AND conf_id = ?";
 		
 		try
@@ -181,6 +181,7 @@ public final class UserDAO extends AbstractDAO {
 		final String get_users_by_role = "SELECT * FROM user WHERE user_id IN " +
 				"(SELECT DISTINCT user_id FROM user_role_paper_conference_join " +
 				"WHERE role_id = ? AND conf_id = ?)";
+	
 		try {
 			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(get_users_by_role);
 			stmt.setInt(1, the_role.ordinal());
