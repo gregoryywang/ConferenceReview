@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 
 import service.PaperService;
+import service.UserService;
 /**
  * This class represents a paper an author may submit for review.
  * @author Danielle Tucker
@@ -248,14 +249,46 @@ public class Paper extends Observable
 	
 	
 	/**
-	 * FIX ME!
 	 * Determine the status of the Paper in the review process.
 	 * @return the status of the paper.
 	 */
-	public Status getStatus() //fix me
+	public Status getStatus()
 	{
-		return my_status;
-	}	
+		Status result = my_status;
+		if(my_status == Status.ACCEPT || my_status == Status.DECLINE)
+		{
+			//Decision has been made
+		}
+		else if(PaperService.getInstance().getAssignedSubprogramChair(my_paper_ID).getID() == 0)
+		{
+			result = Status.SUBPROGRAM_CHAIR_NEEDED;
+		}
+		else if(my_reviews.size() < 3)
+		{
+			result = Status.REVIEWS_NEEDED;
+		}
+		else if(my_recommendation == null || my_recommendation.getRecommender().getID()==0)
+		{
+			result = Status.RECOMMENDATION_NEEDED;
+		}
+		else
+		{
+			result = Status.DECISION_NEEDED;
+		}
+		return result;
+	}
+	
+	/**
+	 * Set the status of this paper.
+	 * @param the_status the status of the paper in the workflow.
+	 */
+	public void setStatus(final Status the_status)
+	{
+		if(the_status != null)
+		{
+			my_status = the_status;
+		}
+	}
 	
 	/**
 	 * Set the SubProgramChair's recommendation.

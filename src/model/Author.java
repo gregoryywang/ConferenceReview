@@ -41,10 +41,14 @@ public class Author extends User
 	{
 		if (getConference().getDeadline(Deadline.SUBMIT_PAPER).after(currentDate()))
 		{
-			PaperService.getInstance().savePaper(the_paper);  
+			PaperService.getInstance().savePaper(the_paper);
+			//Assign Paper to the Author
 			PaperService.getInstance().assignPaper(the_paper.getID(), getID(), getConference().getID(), Role.AUTHOR);
+			//Assign Paper to Program Chair for the Conference
+			PaperService.getInstance().assignPaper(the_paper.getID(), getConference().getProgramChair().getID(), getConference().getID(), Role.PROGRAM_CHAIR);
+			
 			setChanged();
-      notifyObservers();
+			notifyObservers();
 		}
 		else 
 		{
