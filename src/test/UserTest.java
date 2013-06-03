@@ -8,6 +8,11 @@ import org.junit.Test;
 
 import service.UserService;
 
+/**
+ * Tests for the User class
+ * @author Danielle Tucker
+ * @version 2013 Spring (done)
+ */
 public class UserTest {
 
 	User my_admin = UserService.getInstance().authenticateUser("AdminTest", "AdminTest");
@@ -16,6 +21,7 @@ public class UserTest {
 	public void getUserTest(){
 		assertEquals("AdminTest", my_admin.getFirstName());
 		assertEquals("AdminTest AdminTest", my_admin.getFullName());
+		assertEquals("AdminTest AdminTest", my_admin.toString());
 	}
 	
 	@Test

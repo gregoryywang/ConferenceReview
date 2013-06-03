@@ -42,6 +42,7 @@ public class ProgramChair extends User
 		if(the_decision)
 		{
 			the_paper.setStatus(Status.ACCEPT);
+			PaperService.getInstance().savePaper(the_paper);
 		}
 		else
 		{
