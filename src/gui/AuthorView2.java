@@ -10,6 +10,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
@@ -52,7 +53,7 @@ public class AuthorView2 extends JPanel {
   
   public AuthorView2(final User the_user) {
     this.user = new Author(the_user);
-    setLayout(new BorderLayout(0, 0));
+    setLayout(new BorderLayout());
     controller = new AuthorViewController(user);
 
     String[][] properties = {
