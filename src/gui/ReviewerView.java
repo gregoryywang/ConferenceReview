@@ -35,8 +35,8 @@ public class ReviewerView extends JPanel
 		controller = new ReviewerController(my_user);
 
 		String[][] properties = {
-				{"java.lang.String", "Title", "Title", "false"},
-				{"javax.swing.JButton", "Status", "Status", "true"},
+				{"javax.swing.JButton", "Title", "Title", "true"},
+			    {"java.lang.String", "Author", "Author", "false"},
 				{"javax.swing.JButton", "Review", "Review", "true"},
 		};
 		// Create table panel.
