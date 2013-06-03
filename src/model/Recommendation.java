@@ -39,7 +39,7 @@ public class Recommendation
 	/**
 	 * The comments provided with the rating.
 	 */
-	private String my_comments;
+	private String my_comments = "No Comment.";
 	
 	/**
 	 * Default constructor.
@@ -48,8 +48,6 @@ public class Recommendation
 	{
 		//Left blank on purpose.
 		my_owner = new User();
-		my_rating = 0;
-		my_comments = "";
 	}
 	
 	public Recommendation(final User the_subPrg_Chair, final int the_rating, final String the_comments)
@@ -100,7 +98,10 @@ public class Recommendation
 	
 	public void setComments(final String the_comments)
 	{
-		my_comments = the_comments;
+		if(the_comments != null)
+		{
+			my_comments = the_comments;
+		}
 	}
 	public String getComments()
 	{
