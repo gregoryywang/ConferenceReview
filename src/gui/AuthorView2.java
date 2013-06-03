@@ -9,35 +9,17 @@ package gui;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import controller.AuthorViewController;
-import controller.Controller;
-
 import service.ConferenceService;
-import service.PaperService;
-
 import model.Author;
-import model.AuthorTableModel;
-import model.Role;
 import model.User;
 import model.Paper;
 
@@ -58,8 +40,9 @@ public class AuthorView2 extends JPanel {
 
     String[][] properties = {
       {"java.lang.String", "Title", "Title", "false"},
-      {"javax.swing.JComboBox", "Category", "Category", "true"},
-      {"javax.swing.JComboBox", "Status", "Status", "true"},  
+      {"java.lang.String", "Category", "Category", "false"},
+      {"java.lang.String", "Status", "Status", "false"},
+      {"javax.swing.JButton", "test", "test", "true"}
     };
 
     // Create table panel.

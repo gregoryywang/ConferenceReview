@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,13 +14,18 @@ import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import controller.AuthorViewController;
@@ -112,6 +119,14 @@ public class TablePanel<T> extends JPanel {
         JComboBox box = new JComboBox(new Object[0]);
         column.setCellEditor(new DefaultCellEditor(box));
         componentMap.put(i, box);
+      }else if(model.getColumnClass(i).equals(JButton.class)) {
+        TableColumn column = table.getColumnModel().getColumn(i);       
+        JButton button = new JButton();
+        button.addActionListener(controller);
+        column.setCellEditor(new ButtonEditor(new JCheckBox()));
+        column.setCellRenderer(new ButtonRenderer());
+        column.setMaxWidth(20);
+        componentMap.put(i, button);
       }
     }
   }
@@ -250,6 +265,69 @@ public class TablePanel<T> extends JPanel {
       columnNames = columns.toArray(new String[1]);
     }
   }
+  
+  private class ButtonRenderer extends JButton implements TableCellRenderer {
+
+    /**
+     * The default serial ID
+     */
+    private static final long serialVersionUID = 1L;
+
+    public ButtonRenderer() {
+      setOpaque(true);
+    }
+    
+    public ButtonRenderer(Icon aIcon) {
+      
+    }
+
+    public Component getTableCellRendererComponent(JTable table, Object value,
+        boolean isSelected, boolean hasFocus, int row, int column) {
+      if (isSelected) {
+        setForeground(table.getSelectionForeground());
+        setBackground(table.getSelectionBackground());
+      } else {
+        setForeground(table.getForeground());
+        setBackground(UIManager.getColor("Button.background"));
+      }
+      setText((value == null) ? "" : value.toString());
+      return this;
+    }
+  }
+
+  private class ButtonEditor extends DefaultCellEditor {
+    /**
+     * The default serial ID
+     */
+    private static final long serialVersionUID = 1L;
+    
+    protected JButton button;
+    private String label;
+    private boolean isPushed;
+
+    public ButtonEditor(JCheckBox checkBox) {
+      super(checkBox);
+      button = new JButton();
+      button.setOpaque(true);
+      button.addActionListener(controller);
+    }
+
+    public Component getTableCellEditorComponent(JTable table, Object value,
+        boolean isSelected, int row, int column) {
+      if (isSelected) {
+        button.setForeground(table.getSelectionForeground());
+        button.setBackground(table.getSelectionBackground());
+      } else {
+        button.setForeground(table.getForeground());
+        button.setBackground(table.getBackground());
+      }
+      //label = (value == null) ? "" : value.toString();
+      //button.setText(label);
+      //isPushed = true;
+         
+      return button;
+    }
+  }
 
   
   public static void main(String[] args) {
@@ -259,7 +337,7 @@ public class TablePanel<T> extends JPanel {
                                {"java.lang.String","AuthorId","Author Id","true"},
                                {"java.lang.String","SubProgramChair","Subprogram Chair","true"},
                                {"javax.swing.JComboBox","Status","Status","true"},
-                               {"javax.swing.JComboBox","S","S","true"}
+                               {"javax.swing.JButton","S","S","true"}
                              };
      
      TablePanel panel = new TablePanel(properties, new AuthorViewController(new Author(new User())));
