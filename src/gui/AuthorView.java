@@ -76,7 +76,7 @@ public class AuthorView extends JPanel implements ActionListener, Observer {
 	 * Launches the new paper submission form when pressed.
 	 */
     public void actionPerformed(ActionEvent event) {
-		new PaperSubmissionForm(user).setVisible(true);
+		//new PaperSubmissionForm(user).setVisible(true);
     }
 
   

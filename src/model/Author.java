@@ -9,7 +9,9 @@ import service.PaperService;
 public class Author extends User
 {
 
-	/**
+	private List<Paper> papers;
+	
+  /**
 	 * Create an author with Author's functionality and business rules.
 	 * @param the_user the user to convert to an author.
 	 */
@@ -17,6 +19,7 @@ public class Author extends User
 	{
 		super(the_user);
 		setRole(Role.AUTHOR);
+		papers = PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.AUTHOR); 
 	}
 
 	/**
@@ -25,7 +28,7 @@ public class Author extends User
 	 */
 	public List<Paper> viewPapers()
 	{
-		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.AUTHOR);
+		return papers;
 	}
 
 	/**

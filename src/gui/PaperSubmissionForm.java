@@ -29,6 +29,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+
+import controller.PaperSubmissionController;
 
 import model.Author;
 import model.Paper;
@@ -58,17 +62,22 @@ public class PaperSubmissionForm extends JFrame {
 
   private Author user;
 
-  final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
-  final JTextField titleField, keywordsField/* , catagoryField */;
-  final JComboBox catagoryField;
-  final BackgroundTextArea paperAbstract, paperContent;
+  public final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
+  public final JTextField titleField, keywordsField/* , catagoryField */;
+  public final JComboBox catagoryField;
+  public final BackgroundTextArea paperAbstract, paperContent;
 
   final JButton submitButton, cancelButton;
   final JPanel topPanel, midPanel, bottemPanel;
+  private AbstractTableModel model;
+  
+  Paper paper = new Paper();
 
-  public PaperSubmissionForm(final Author the_user) {
-
+  public PaperSubmissionForm(final Author the_user, Object aModel) {
     super("New Paper Submission");
+    
+    model = (AbstractTableModel) aModel;
+    
     this.user = the_user;
 
     String firstName = user.getFirstName();
@@ -117,29 +126,9 @@ public class PaperSubmissionForm extends JFrame {
     midPanel.add(contentScrollPane);
 
     submitButton = new JButton("Submit");
-    submitButton.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent the_event)
-      {
-        // initialize new paper object using information from submission form
-        Paper myPaper = new Paper(user, titleField.getText(),
-                                  keywordsField.getText(),
-                                  paperAbstract.getText(),
-                                  (String) catagoryField.getSelectedItem(),
-                                  paperContent.getText());
-
-        // saves the paper into database
-        try {
-          user.submitPaper(myPaper);
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-
-        dispose();
-        JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
-      }
-    });
-
+    submitButton.setActionCommand("SubmitNewPaper");
+    submitButton.addActionListener(new PaperSubmissionController(user, this, model)); 
+                                   
     cancelButton = new JButton("Cancel");
     cancelButton.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent the_event)
@@ -164,7 +153,7 @@ public class PaperSubmissionForm extends JFrame {
   public static void main(String[] args) {
     User test = new User();
     Author test2 = new Author(test);
-    new PaperSubmissionForm(test2).setVisible(true);
+    //new PaperSubmissionForm(test2).setVisible(true);
   }
 
 }

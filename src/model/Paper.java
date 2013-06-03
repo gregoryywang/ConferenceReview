@@ -61,16 +61,6 @@ public class Paper extends Observable
 	
 	private List<Review> my_reviews = new ArrayList<Review>();
 	
-	private String edit;
-	
-	public void setEdit(String edit) {
-	  this.edit = edit;
-	}
-	
-	public String getEdit() {
-	  return this.edit;
-	}
-	
 	/**
 	 * Null constructor for a paper.
 	 */
@@ -103,6 +93,8 @@ public class Paper extends Observable
 	public void setID(final int the_id)
 	{
 		my_paper_ID = the_id;
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -121,6 +113,8 @@ public class Paper extends Observable
 	public void setAuthor(final User the_author)
 	{
 		my_author = the_author;
+		setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -139,6 +133,8 @@ public class Paper extends Observable
 	public void setTitle(final String the_title)
 	{
 		my_title = the_title;
+		setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -157,6 +153,8 @@ public class Paper extends Observable
 	public void setKeywords(final String the_keywords)
 	{
 		my_keywords = the_keywords;
+		setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -184,6 +182,8 @@ public class Paper extends Observable
 	public void setAbstract(final String the_abstract)
 	{
 		my_abstract = the_abstract;
+		setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -202,6 +202,8 @@ public class Paper extends Observable
 	public void setCategory(final String the_category)
 	{
 		my_category = the_category;
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -220,6 +222,8 @@ public class Paper extends Observable
 	 */
 	public void setContent(final String content) {
 	  this.content = content;
+	  setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -229,6 +233,8 @@ public class Paper extends Observable
 	public void setRevisedContent(final String content)
 	{
 		revised_content = content;
+		setChanged();
+    notifyObservers();
 	}
 	
 	/**
@@ -258,6 +264,8 @@ public class Paper extends Observable
 	public void setRecommendation(final Recommendation the_recommendation)
 	{
 		my_recommendation = the_recommendation;
+		setChanged();
+    notifyObservers();
 	}
 
 	

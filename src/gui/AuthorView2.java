@@ -25,7 +25,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
+import controller.AuthorViewController;
+import controller.Controller;
 
 import service.ConferenceService;
 import service.PaperService;
@@ -36,7 +40,7 @@ import model.Role;
 import model.User;
 import model.Paper;
 
-public class AuthorView2 extends JPanel implements ActionListener, Observer {
+public class AuthorView2 extends JPanel {
 
   /**
    * The default serial ID
@@ -44,32 +48,27 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
   private static final long serialVersionUID = 1L;
   private Author user;
   private TablePanel tablePanel;
+  private AuthorViewController controller;
   
   public AuthorView2(final User the_user) {
     this.user = new Author(the_user);
-    user.addObserver(this);
     setLayout(new BorderLayout(0, 0));
+    controller = new AuthorViewController(user);
 
     String[][] properties = {
-      {"java.lang.String", "Title", "Title", "true"},
+      {"java.lang.String", "Title", "Title", "false"},
       {"javax.swing.JComboBox", "Category", "Category", "true"},
       {"javax.swing.JComboBox", "Status", "Status", "true"},  
     };
 
     // Create table panel.
-    tablePanel = new TablePanel(properties);
-
+    tablePanel = new TablePanel<Paper>(properties, controller);
+     
     // Populate model
-    List<Paper> papers =
-        PaperService.getInstance().getAssignedPapers(user.getID(),
-                                                     user.getConference().getID(),
-                                                     Role.AUTHOR);
-
-    tablePanel.setModel(Arrays.asList(papers.toArray()), Paper.class);
+    tablePanel.setModel(user.viewPapers());
     
     HashMap<Integer, Collection<Object>> refs = new HashMap<Integer, Collection<Object>>();
     refs.put(1, Arrays.asList(ConferenceService.getInstance().getCategories().toArray()));
-    //refs.put(3, Arrays.asList(ConferenceService.getInstance().getCategories().toArray()));
     
     tablePanel.setReferenceValues(refs);
     
@@ -78,15 +77,8 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
     JPanel panel = new JPanel();
     JButton AddSubmissionButton = new JButton("Add Submission");
     panel.add(AddSubmissionButton);
-    AddSubmissionButton.addActionListener(this);
+    AddSubmissionButton.addActionListener(controller);
     add(panel, BorderLayout.SOUTH);
-  }
-
-  /**
-   * Launches the new paper submission form when pressed.
-   */
-  public void actionPerformed(ActionEvent event) {
-    new PaperSubmissionForm(user).setVisible(true);
   }
 
   /**
@@ -113,16 +105,4 @@ public class AuthorView2 extends JPanel implements ActionListener, Observer {
     testFrame.pack();
     testFrame.setVisible(true);
   }
-
-  @Override
-  public void update(Observable arg0, Object arg1) {
- // Populate model
-    List<Paper> papers =
-        PaperService.getInstance().getAssignedPapers(user.getID(),
-                                                     user.getConference().getID(),
-                                                     Role.AUTHOR);
-
-    tablePanel.setModel(Arrays.asList(papers.toArray()), Paper.class);
-  }
-   
 }
