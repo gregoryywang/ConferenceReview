@@ -345,7 +345,7 @@ public class Paper extends Observable
 		{
 			final Paper other_paper = (Paper) the_object;
 			if(other_paper.getID() == getID() &&
-				other_paper.getAuthor().equals(getAuthor()) &&
+				getTitle().equals(other_paper.getTitle()) &&
 				other_paper.getTitle().equals(getTitle()))
 			{
 				result = true;

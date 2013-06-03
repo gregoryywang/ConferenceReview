@@ -112,7 +112,7 @@ public class HeaderView extends JPanel
 	 * Create a button to change the user's role and conference based upon the dropdown
 	 * selections.
 	 * @return the button to change the user's role and conference.
-	 * @author Roshun (firing off the content panels)
+	 * @author Roshun
 	 */
 	private JButton makeGoButton() {
 		JButton button_go = new JButton("Go");

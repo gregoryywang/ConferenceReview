@@ -35,6 +35,7 @@ public class UserDAOTest {
 
 	/**
 	 * Tests the authentication system with a bad combination.
+	 * @author Roshun
 	 */
 	@Test
 	public void testAuthenticateFail() {
@@ -44,6 +45,7 @@ public class UserDAOTest {
 
 	/**
 	 * Tests the authentication system with a good combination.
+	 * @author Roshun
 	 */
 	@Test
 	public void testAuthenticatePass() {
@@ -54,6 +56,7 @@ public class UserDAOTest {
 
 	/**
 	 * Tests isAdmin method.
+	 * @author Danielle
 	 */
 	@Test
 	public void testIsAdmin() {
@@ -68,44 +71,59 @@ public class UserDAOTest {
 
 	/**
 	 * Tests getRoles() method.
+	 * @author Danielle
 	 */
 	@Test
 	public void testGetRoles() 
 	{
-		List<Role> result = userDao.getRoles(2, 1);
+		User program_ch = userDao.authenticate("PrgmChairTest", "PrgmChairTest");
+		assertNotNull(program_ch);
+		List<Role> result = userDao.getRoles(program_ch.getID(), 1);
 		assertTrue(result.contains(Role.PROGRAM_CHAIR));
-		assertTrue(result.contains(Role.AUTHOR));
-		assertTrue(result.size() == 2);
+		assertFalse(result.contains(Role.AUTHOR));
 	}
 
 	/**
 	 * Test getUser() method with user that exists.
+	 * @author Danielle
 	 */
 	@Test
 	public void testUser()
 	{
-		User admin_user = userDao.getUser(1);
-		assertEquals("AdminTest", admin_user.getFirstName());
-		assertEquals("AdminTest", admin_user.getLastName());
-		assertEquals("AdminTest@uw.edu", admin_user.getEmail());
-		assertEquals("AdminTest", admin_user.getUsername());
+		User admin_user = userDao.authenticate("AdminTest", "AdminTest");
+		assertNotNull(admin_user);
+		User same_user = userDao.getUser(admin_user.getID());
+		assertEquals("AdminTest", same_user.getFirstName());
+		assertEquals("AdminTest", same_user.getLastName());
+		assertEquals("AdminTest@uw.edu", same_user.getEmail());
+		assertEquals(admin_user.getID(), same_user.getID());
 	}
-	
+
 	/**
-	 * Test getUser() method with user that does not exist.
+	 * Test getUsers(Role)
+	 * @author Danielle
 	 */
-	@Test (expected = Exception.class)
-	public void testUserFail()
+	@Test
+	public void testgetUsers()
 	{
-		userDao.getUser(-1);
+		List<User> users = userDao.getUsers(Role.PROGRAM_CHAIR);
+		assertTrue(users.size() > 0);
+		User prgm_ch = userDao.authenticate("PrgmChairTest", "PrgmChairTest");
+		boolean result = false;
+		for(User user: users)
+		{
+			if(user.getFullName().equals(prgm_ch.getFullName()))
+			{
+				result = true;
+			}
+		}
+		assertTrue(result);
+		
 	}
 	/*  LIST of methods to test!
   setRole(int, Role, int)
-  getUser(int)
   getUsers(Role)
   getUsers()
-  getUsersRef()
-  getUsersRef(Role)
 	 */
 }
 
