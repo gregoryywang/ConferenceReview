@@ -36,6 +36,8 @@ public class HeaderView extends JPanel
 	private User my_user;
 	private boolean is_admin = false;
 
+	private JLabel my_welcome_msg;
+
 	/**
 	 * Create the panel.
 	 */
@@ -82,7 +84,8 @@ public class HeaderView extends JPanel
 		add(panel_1, BorderLayout.EAST);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		panel_1.add(new JLabel("Welcome " + my_user.getFullName()));
+		my_welcome_msg = new JLabel("Welcome " + my_user.getFullName());
+		panel_1.add(my_welcome_msg);
 
 	}
 	
@@ -91,6 +94,7 @@ public class HeaderView extends JPanel
 		if(the_user != null)
 		{
 			my_user = the_user;
+			my_welcome_msg.setText("Welcome " + my_user.getFullName());
 			is_admin = UserService.getInstance().isAdmin(my_user.getID());
 			if(is_admin)
 			{
@@ -108,6 +112,7 @@ public class HeaderView extends JPanel
 	 * Create a button to change the user's role and conference based upon the dropdown
 	 * selections.
 	 * @return the button to change the user's role and conference.
+	 * @author Roshun (firing off the content panels)
 	 */
 	private JButton makeGoButton() {
 		JButton button_go = new JButton("Go");
