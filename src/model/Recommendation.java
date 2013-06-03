@@ -48,7 +48,7 @@ public class Recommendation
 	{
 		//Left blank on purpose.
 		my_owner = new User();
-		setRating(0);
+		my_rating = 0;
 		my_comments = "";
 	}
 	
@@ -105,5 +105,14 @@ public class Recommendation
 	public String getComments()
 	{
 		return my_comments;
+	}
+	public String toString()
+	{
+		String result = "--none--";
+		if(my_rating != 0)
+		{
+			result = String.valueOf(my_rating); 
+		}
+		return result;
 	}
 }
