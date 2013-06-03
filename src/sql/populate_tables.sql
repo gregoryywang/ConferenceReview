@@ -43,6 +43,8 @@ insert into user(first_name, last_name, username, password, email_address) value
 insert into paper(author_id, title, keywords, abstract, cat_id, content, active) values(3, 'Design and Implmementation of Stuff', 'design, awesomeness', 'minimalist abstract', 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1);
 --Associate Paper with conference and author
 insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(3,2,1,2);
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(3,5,1,2);
+
 
 --Add Reviewer user (USER_ID = 4)
 insert into user(first_name, last_name, username, password, email_address) values('ReviewerTest', 'ReviewerTest', 'ReviewerTest', 'ReviewerTest','ReviewerTest@uw.edu');
