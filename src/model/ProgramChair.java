@@ -13,17 +13,15 @@ import service.PaperService;
  */
 public class ProgramChair extends User
 {
-	private User my_user;
-	
 	public ProgramChair()
 	{
-		my_user = new User();
+		super();
 	}
 	
 	public ProgramChair(final User the_user)
 	{
-		my_user = new User(the_user);
-		my_user.setRole(Role.PROGRAM_CHAIR);
+		super(the_user);
+		setRole(Role.PROGRAM_CHAIR);
 	}
 	
 	/**
@@ -76,6 +74,7 @@ public class ProgramChair extends User
 	 */
 	public List<Paper> viewPapers()
 	{
+
 		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.PROGRAM_CHAIR);
 	}
 	
