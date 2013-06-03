@@ -133,7 +133,7 @@ public class PaperDAO extends AbstractDAO {
 			}
 			stmt.close();
 		} 
-		catch (Exception e) {System.out.println("PDAO_savePaper()_MSG: " + e);}
+		catch (Exception e) {e.printStackTrace();}
 	}
 
 
@@ -240,16 +240,32 @@ public class PaperDAO extends AbstractDAO {
 
 		try 
 		{
-			PreparedStatement stmt = AbstractDAO.getConnection().prepareStatement(GET_ASSIGNED_PAPERS);
+			PreparedStatement stmt;
+			if(the_role == Role.PROGRAM_CHAIR)
+			{
+				String pg_get_assigned = "SELECT PAPER_ID FROM USER_ROLE_PAPER_CONFERENCE_JOIN " +
+						"WHERE ROLE_ID = ? AND CONF_ID = ?";
+				stmt = AbstractDAO.getConnection().prepareStatement(pg_get_assigned);
+				stmt.setInt(1, Role.AUTHOR.ordinal());
+				stmt.setInt(2, the_conference);
+			}
+			else
+			{
+			stmt = AbstractDAO.getConnection().prepareStatement(GET_ASSIGNED_PAPERS);
 			stmt.setInt(1, the_user_id);
 			stmt.setInt(2, the_role.ordinal());
 			stmt.setInt(3, the_conference);
+			}
 			ResultSet result_set = stmt.executeQuery();
 
 			while(result_set.next())
 			{
 				//System.out.println(result_set.getInt("paper_id"));
-				papers.add(getPaper(result_set.getInt("paper_id"))); //NEEDS REFACTORING!!!!!!
+				Paper paper = getPaper(result_set.getInt("paper_id"));//NEEDS REFACTORING!!!!!!
+				if(paper.getID() != 0)
+				{
+					papers.add(paper); 
+				}
 			}
 
 			stmt.close();
@@ -306,6 +322,13 @@ public class PaperDAO extends AbstractDAO {
 				paper.setContent(builder.toString());
 
 				//FIX ME!! Still need to do the same thing for "CONTENT_REVISED" which may be null.
+				buffer = new BufferedReader(result.getCharacterStream("CONTENT_REVISED"));
+				line = null;
+				while( null != (line = buffer.readLine())) {
+					builder.append(line);
+				}
+
+				paper.setRevisedContent(builder.toString());
 			}
 
 			stmt.close();

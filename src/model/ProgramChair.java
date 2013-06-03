@@ -16,12 +16,13 @@ public class ProgramChair extends User
 	public ProgramChair()
 	{
 		super();
+		super.setRole(Role.PROGRAM_CHAIR);
 	}
 	
 	public ProgramChair(final User the_user)
 	{
 		super(the_user);
-		setRole(Role.PROGRAM_CHAIR);
+		super.setRole(Role.PROGRAM_CHAIR);
 	}
 	
 	/**
@@ -81,7 +82,7 @@ public class ProgramChair extends User
 	@Override
 	public void setRole(final Role the_role)
 	{
-		//do nothing as this user will always be a program chair.
+		//do nothing as role is final and is set in constructor
 	}
 	
 	/**

@@ -77,6 +77,7 @@ public class User extends Observable
 		my_username = the_username;
 		my_password = the_password;
 		my_email = the_email;
+		my_conference = the_conference;
 		my_role = the_role;
 	}
 

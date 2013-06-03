@@ -13,6 +13,11 @@ import org.junit.Test;
 
 import dao.ConferenceDAO;
 
+/**
+ * 
+ * @author Roshun
+ *
+ */
 public class ConferenceDAOTest {
 
   /**

@@ -77,6 +77,10 @@ public class AuthorView2 extends JPanel {
 
     JPanel panel = new JPanel();
     JButton AddSubmissionButton = new JButton("Add Submission");
+    if(!user.canSubmitOrModify())
+    {
+    	AddSubmissionButton.setEnabled(false);
+    }
     panel.add(AddSubmissionButton);
     AddSubmissionButton.addActionListener(controller);
     add(panel, BorderLayout.SOUTH);
