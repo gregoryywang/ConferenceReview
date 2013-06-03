@@ -1,28 +1,29 @@
 package gui;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
+import controller.AuthorViewController;
+import controller.Controller;
+
+import model.Author;
 import model.User;
 
 import service.UserService;
@@ -33,7 +34,7 @@ import service.UserService;
  * @author Roshun Jones
  * @version 1.0
  */
-public class TablePanel extends JPanel implements ActionListener { 
+public class TablePanel<T> extends JPanel { 
   protected static int CLASS_TYPE = 0;
   protected static int METHOD_NAME = 1;
   protected static int COLUMN_DISPLAY = 2;
@@ -41,15 +42,18 @@ public class TablePanel extends JPanel implements ActionListener {
   
   private static final long serialVersionUID = 1L;
   private TableModel model = null;
-  private JTable table = null;
+  private JTable table = null; 
   private JScrollPane scrollPane;
+  private Controller controller;
   
-  private HashMap<Integer, Collection<Object>> referenceValues = new HashMap<Integer, Collection<Object>>();
+  private HashMap<Integer, Collection<T>> referenceValues = new HashMap<Integer, Collection<T>>();
   private HashMap<Integer, Component> componentMap = new HashMap<Integer, Component>();
   
-  public TablePanel(final String[][] aProperties) {
+  public TablePanel(final String[][] aProperties, Controller aController) {
     model = new TableModel(aProperties);
     table = new JTable( model );
+    controller = aController;
+    controller.setModel(model);
     
     //Build custom components
     buildComponents();
@@ -70,20 +74,20 @@ public class TablePanel extends JPanel implements ActionListener {
   /**
    * Sets panel data.
    */
-  public void setModel(List<Object> aList, Class aModelClass) {   
-    model.setModel(aList, aModelClass);
+  public void setModel(List<T> aList) {   
+    model.setModel(aList);
     model.fireTableDataChanged();
   }
   
   /**
    * Sets reference values or this panel.
    */
-  public void setReferenceValues(final HashMap<Integer, Collection<Object>> aRefs) {
+  public void setReferenceValues(final HashMap<Integer, Collection<T>> aRefs) {
     referenceValues = aRefs;
     for( int i = 0; i < model.getColumnCount(); i++ ) {
       Object component = componentMap.get(i);
       if( component instanceof JComboBox) {
-        Collection<Object> refs = referenceValues.get(i); 
+        Collection<T> refs = referenceValues.get(i); 
         if( refs != null ) {
           ((JComboBox) component).setModel(new DefaultComboBoxModel(refs.toArray()));
         }
@@ -91,8 +95,7 @@ public class TablePanel extends JPanel implements ActionListener {
     }
   }
   
-  @Override
-  public void actionPerformed(ActionEvent arg0) {
+  public void addListener(EventListener aListener) {
     
   }
   
@@ -116,12 +119,11 @@ public class TablePanel extends JPanel implements ActionListener {
    * @author Roshun Jones
    * @version 1.0
    */
-  private class TableModel extends AbstractTableModel {
+  public class TableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
-    private List<Object> data = new ArrayList<Object>();
+    private List<T> data = new ArrayList<T>();
     private String[] columnNames;
     private String[][] properties;
-    private Class<Object> modelClass;
     
     private TableModel(final String[][] aProperties){
       super();
@@ -132,9 +134,16 @@ public class TablePanel extends JPanel implements ActionListener {
     /**
      * Sets model data.
      */
-    private void setModel(List<Object> aList, Class<Object> aModelClass) {
+    private void setModel(List<T> aList) {
       data = aList;
-      modelClass = aModelClass;
+    }
+    
+    /**
+     * Adds row to table
+     */
+    public void addRow(T aObject) {
+      data.add(aObject);
+      this.fireTableDataChanged();
     }
     
     /*
@@ -169,7 +178,7 @@ public class TablePanel extends JPanel implements ActionListener {
     public Object getValueAt(int rowIndex, int columnIndex) {
       Object value = null;
       try {
-        Object obj = data.get(rowIndex);
+        T obj = data.get(rowIndex);
         String method = "get" + properties[columnIndex][METHOD_NAME];
         Method m = data.get(rowIndex).getClass().getMethod(method, null);
         value = m.invoke(obj, new Object[0]);
@@ -183,16 +192,18 @@ public class TablePanel extends JPanel implements ActionListener {
     /**
      * Sets the value of a cell, also updates the model.
      */
-    @Override
+   // @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
       try {
         String method = "set" + properties[columnIndex][METHOD_NAME];
-        Object obj = data.get(rowIndex);
+        T obj = data.get(rowIndex);
         
         Method[] methods = obj.getClass().getMethods();
         for(Method m : methods) {
           if( m.getName().equals(method) ) {
             m.invoke(obj, value);
+            this.fireTableChanged(new TableModelEvent(this));
+            controller.update(obj);
             break;
           }
         }
@@ -221,7 +232,7 @@ public class TablePanel extends JPanel implements ActionListener {
      * cells! Otherwise the edit button does not work.
      */
     public boolean isCellEditable(int row, int col) {
-      return true;
+      return properties[col][READ_ONLY].toLowerCase().equals("true");
     }
     
     /**
@@ -249,9 +260,9 @@ public class TablePanel extends JPanel implements ActionListener {
                                {"javax.swing.JComboBox","S","S","true"}
                              };
      
-     TablePanel panel = new TablePanel(properties);
+     TablePanel panel = new TablePanel(properties, new AuthorViewController(new Author(new User())));
      Object[] users = UserService.getInstance().getAllUsers().toArray();
-     panel.setModel(Arrays.asList(users), User.class);
+     panel.setModel((List<Object>)Arrays.asList(users));
      List<Object> testList = new ArrayList<Object>();
      testList.add("Test1");
      testList.add("Test2");
