@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -58,8 +59,9 @@ public class TablePanel<T> extends JPanel {
     //Build custom components
     buildComponents();
     
+    setLayout(new BorderLayout());
     scrollPane = new JScrollPane(table);
-    add(scrollPane);
+    add(scrollPane, BorderLayout.CENTER);
     setVisible(true);
   }
   
