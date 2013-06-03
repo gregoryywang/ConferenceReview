@@ -56,7 +56,7 @@ public class SubPGChairView extends JPanel implements Viewer
 	/**
 	 * Reference to the SubProgramChair Object associated with this view.
 	 */
-	private User my_user;
+	private SubProgramChair my_user;
 	
 	/**
 	 * Reference to the Collection of Paper Objects associated with this User.
@@ -92,7 +92,7 @@ public class SubPGChairView extends JPanel implements Viewer
 	public SubPGChairView(final User the_user)
 	{
 		super();
-		my_user = the_user;
+		my_user = new SubProgramChair(the_user);
 		my_papers = PaperService.getInstance().getAssignedPapers(the_user.getID(), 
 			((SubProgramChair) the_user).getConference().getID(), Role.SUB_PROGRAM_CHAIR);
 		add(createCentralPanel(), BorderLayout.CENTER);

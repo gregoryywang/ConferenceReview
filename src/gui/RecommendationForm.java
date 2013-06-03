@@ -22,7 +22,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import service.UserService;
+
 import model.Recommendation;
+import model.SubProgramChair;
 import model.User;
 
 public class RecommendationForm extends JFrame
@@ -65,7 +68,7 @@ public class RecommendationForm extends JFrame
 	/**
 	 * Reference to the User
 	 */
-	private User my_user;
+	private SubProgramChair my_user;
 	
 	/**
 	 * The recommendation flag for whether the given Recommendation
@@ -76,13 +79,13 @@ public class RecommendationForm extends JFrame
 	/**
 	 * Creates a new RecommendationForm with default parameters.
 	 */
-	public RecommendationForm()
+	public RecommendationForm(SubProgramChair the_user)
 	{
 		super("RecommendationForm");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
-		my_user = new User();
+		my_user = the_user;
 		my_recommendation = new Recommendation();
 	}
 	
@@ -92,7 +95,7 @@ public class RecommendationForm extends JFrame
 	 * @param the_view the Users view
 	 * @param the_recommendation the Recommendation that is populating the form
 	 */
-	public RecommendationForm(final User the_user, final Recommendation the_recommendation)
+	public RecommendationForm(final SubProgramChair the_user, final Recommendation the_recommendation)
 	{
 		super("RecommendationForm");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -170,7 +173,7 @@ public class RecommendationForm extends JFrame
 	 */
 	public static void main(final String[] the_args)
 	{
-		new RecommendationForm(new User(), new Recommendation()).start();
+		new RecommendationForm(new SubProgramChair(), new Recommendation()).start();
 	}
 	
 	/**
