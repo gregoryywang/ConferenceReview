@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import model.Paper;
 import model.Role;
 import model.User;
 import dao.UserDAO;
@@ -54,6 +55,69 @@ public class UserService {
   public List<User> getAllUsers()
   {
 	  return userDao.getUsers();
+  }
+  
+  /**
+   * Get all users who are eligible for assignment in the
+   * given role for the given paper
+   * @param the_paper the paper
+   * @param conf_id the id of the conference associated with the paper
+   * @param the_role the role type for assignment to the paper.
+   * Valid roles which return users other than from getAllUsers() are Reviewer
+   * and SubProgramChair
+   * @return a list of all users who are available to fill the role
+   * for the given paper.  If none are available, an empty list will be returned.
+   */
+  public List<User> getAllUsers(final Paper the_paper, final int conf_id, final Role the_role)
+  {
+	  List<User> user_pool;
+	  
+	  if(the_role == Role.REVIEWER)
+	  {	//remove the author, program chair, subprogram chair
+		  int author_id = the_paper.getID();
+
+		  user_pool = userDao.getUsers();
+		  
+		  User sp_chair = PaperService.getInstance().getAssignedSubprogramChair(the_paper.getID());
+		  int sp_chair_id = sp_chair.getID();
+		  
+		  List<User> pg_chairs = userDao.getUsers(conf_id, Role.PROGRAM_CHAIR);
+		  int pg_chair_id = 0;
+		  if(!pg_chairs.isEmpty())
+		  {
+			  pg_chair_id = pg_chairs.get(0).getID();
+		  }
+
+		  //Iterate through all users and remove ones which are not eligible.
+		  for(int i = 0; i< user_pool.size(); i++)
+		  {
+			  int current_user_id = user_pool.get(i).getID();
+			  if(current_user_id == author_id ||
+				 current_user_id == pg_chair_id	||
+				 current_user_id == sp_chair_id)
+			  {//Remove paper's author
+				  user_pool.remove(i);
+				  i--; //shift the index back one so to not skip next item
+			  }
+		  }
+	  }
+	  else if(the_role == Role.SUB_PROGRAM_CHAIR)
+	  {//remove the author, remove anyone who is not a reviewer
+		  user_pool = userDao.getUsers(Role.REVIEWER);
+		  for(int i = 0; i < user_pool.size(); i++)
+		  {
+			  if(user_pool.get(i).getID() == the_paper.getAuthor().getID())
+			  {
+				  user_pool.remove(i);
+				  break;
+			  }
+		  }
+	  }
+	  else
+	  {  //Program chair, User, author can be anyone
+		  user_pool = getAllUsers();
+	  }
+	  return user_pool;
   }
   
   public static UserService getInstance() {

@@ -93,6 +93,12 @@ public class PaperService {
     return new PaperService();
   }
   
+  /**
+   * 
+   * @param the_paper_id the paper id
+   * @return the user which is the subprogram chair for the paper. (If no
+   * subprogram chair exists, the default SubprogramChair will be returned.
+   */
   public SubProgramChair getAssignedSubprogramChair(final int the_paper_id)
   {
 	  return paperDao.getAssignedSubProgramChair(the_paper_id);
