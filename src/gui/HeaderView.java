@@ -91,8 +91,7 @@ public class HeaderView extends JPanel
 	
 	public void setUser(User the_user)
 	{
-		if(the_user != null)
-		{
+
 			my_user = the_user;
 			my_welcome_msg.setText("Welcome " + my_user.getFullName());
 			is_admin = UserService.getInstance().isAdmin(my_user.getID());
@@ -105,7 +104,6 @@ public class HeaderView extends JPanel
 			role_selector.setEnabled(false);
 			role_selector.removeAllItems();
 			role_selector.addItem(Role.USER);
-		}
 	}
 	
 	/**
@@ -188,9 +186,9 @@ public class HeaderView extends JPanel
 				Conference conf_selected = (Conference) jcb.getSelectedItem();
 
 				//Remove the instructions "--select a conference--"
-				ro.remove(instruct);
-				conference_selector.setModel(new DefaultComboBoxModel(ro.toArray()));
-				conference_selector.setSelectedItem(conf_selected);
+				//ro.remove(instruct);
+				//conference_selector.setModel(new DefaultComboBoxModel(ro.toArray()));
+				//conference_selector.setSelectedItem(conf_selected);
 
 
 				role_selector.setEnabled(true);
