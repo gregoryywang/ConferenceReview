@@ -165,4 +165,35 @@ public class Author extends User
 		}
 		return result;
 	}
+	
+	/**
+	 * Get reviews for the paper.
+	 * @return the reviews of the paper.
+	 * throws Exception if the author cannot view the reviews because
+	 * of business rules(paper is not approved)
+	 */
+	public List<Review> getReviews(final Paper the_paper) throws Exception
+	{
+		if(canGetReviews(the_paper))
+		{
+			return the_paper.getReviews();
+		}
+		throw new Exception("Can only review papers which are approved by the " +
+				"conference program chair.");
+	}
+	
+	/**
+	 * Determine if the user can access the reviews for a paper.
+	 * They are only accessible for papers which have been accepted.
+	 * @return if the author can access the reviews
+	 */
+	public boolean canGetReviews(final Paper the_paper)
+	{
+		boolean result = false;
+		if (the_paper.getStatus() == Status.ACCEPT)
+		{
+			result = true;
+		}
+		return result;
+	}
 }
