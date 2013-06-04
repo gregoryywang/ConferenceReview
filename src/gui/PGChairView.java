@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.Paper;
@@ -25,32 +26,51 @@ public class PGChairView extends JPanel {
   private Controller controller;
   private JTable table;
   private JScrollPane scrollPane;
-  private String[] column = {"Author","Title", "Sub-Program Chair", "Acceptance Status"};
+  private String[] columns = {"Author","Title", "Sub-Program Chair", "Acceptance Status"};
   private ProgramChair PGChair;
   private TableModel tableModel;
   private List<Paper> data;
-  
+  private JButton btViewEdit;
+  private MainView parent;
+
   public PGChairView(User aUser) {
     PGChair = new ProgramChair(aUser);
     model = PGChair.viewPapers();
-    controller = new PGChairViewController();
+    controller = new PGChairViewController(this, model);
+    
+    //Configure view/edit button
+    btViewEdit = new JButton("View/Edit Details");
+    btViewEdit.setEnabled(false);
+    btViewEdit.setActionCommand("view_edit");
+    btViewEdit.addActionListener(controller);
+   
     tableModel = new TableModel(model);
-    table = new JTable(tableModel); 
+    table = new JTable(tableModel);
+    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    table.setRowSelectionAllowed(true);
+    table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+      @Override
+      public void valueChanged(ListSelectionEvent event) {
+        //Enable view/edit button when when selection is made
+        btViewEdit.setEnabled(true);
+      }
+    });
+    
     setLayout(new BorderLayout());
     scrollPane = new JScrollPane(table);
     add(scrollPane, BorderLayout.NORTH);
-    JButton test = new JButton("Test");
-    test.addActionListener( new ActionListener(){
-      public void actionPerformed(ActionEvent e) {
-        Paper paper = getSelectedRow();
-      }
-      });
-    add(test, BorderLayout.SOUTH);
-    
+    JPanel southPanel = new JPanel();
+    southPanel.add(btViewEdit);
+    add(southPanel, BorderLayout.SOUTH);
+    parent = (MainView) getTopLevelAncestor();
     setVisible(true);
   }
   
-  private Paper getSelectedRow() {   
+  public TableModel getTableModel() {
+    return tableModel;
+  }
+  
+  public Paper getSelectedRow() {   
     int selectedRow = table.getSelectedRow();
     
     if(selectedRow >= 0)
@@ -59,10 +79,25 @@ public class PGChairView extends JPanel {
     return null;
   }
   
-  private class TableModel extends AbstractTableModel {
+  public ProgramChair getPGChair() {
+    return PGChair;
+  }
+  
+  public MainView getMainView() {
+    return parent;
+  }
+  
+  //:) I know.....
+  public void disableButton() {
+   btViewEdit.setEnabled(false);
+  }
+  
+  public class TableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
     
     private TableModel(List<Paper> model) {
+      super();
+      
       if(model == null)
         data = new ArrayList<Paper>();
       else
@@ -71,7 +106,7 @@ public class PGChairView extends JPanel {
     
     @Override
     public int getColumnCount() {
-      return column.length;
+      return columns.length;
     }
 
     @Override
@@ -81,7 +116,7 @@ public class PGChairView extends JPanel {
 
     @Override
     public String getColumnName(int columnIndex){
-      return column[columnIndex];
+      return columns[columnIndex];
     }
     
     @Override
@@ -92,7 +127,7 @@ public class PGChairView extends JPanel {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
         case 2: result = "Not Assigned"; break;
-        case 3: result = paper.getStatus().toString(); break;
+        case 3: result = paper.getAcceptanceStatus().toString(); break;
       }
       
       return result;

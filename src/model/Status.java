@@ -11,6 +11,7 @@ public enum Status {
 	RECOMMENDATION_NEEDED,
 	DECISION_NEEDED,
 	ACCEPT,
-	DECLINE;
+	DECLINE,
+	UNDECIDED;
 }
 //?? Should this be part of the Paper??

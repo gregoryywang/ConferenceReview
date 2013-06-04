@@ -61,6 +61,8 @@ public class Paper extends Observable
 	
 	private List<Review> my_reviews = new ArrayList<Review>();
 	
+	private Status acceptanceStatus;
+	
 	/**
 	 * TEST CONSTRUCTOR.
 	 */
@@ -72,6 +74,7 @@ public class Paper extends Observable
 		my_abstract = "abstract";
 		my_category = "category";
 		content = "content";
+		acceptanceStatus = Status.UNDECIDED;
 	}
 	
 	/**
@@ -92,6 +95,7 @@ public class Paper extends Observable
 		my_abstract = the_abstract;
 		my_category = the_category;
 		this.content = content;
+		acceptanceStatus = Status.UNDECIDED;
 	}
 	
 	/**
@@ -295,6 +299,17 @@ public class Paper extends Observable
 		{
 			my_status = the_status;
 		}
+	}
+	
+	/**
+	 * Gets paper's acceptance status.
+	 */
+	public Status getAcceptanceStatus() {
+	  return acceptanceStatus;
+	}
+	
+	public void setAcceptanceStatus(Status aStatus) {
+	  acceptanceStatus = aStatus;
 	}
 	
 	/**
