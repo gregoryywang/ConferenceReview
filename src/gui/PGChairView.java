@@ -1,129 +1,107 @@
 package gui;
 
-import gui.TablePanel.TableModel;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 import model.Paper;
 import model.ProgramChair;
 import model.User;
-import service.ConferenceService;
-import service.UserService;
+
 import controller.Controller;
+import controller.PGChairViewController;
 
-public class PGChairView extends JPanel
-{
+public class PGChairView extends JPanel {
+  private static final long serialVersionUID = 1L;
+  private List<Paper> model;
+  private Controller controller;
+  private JTable table;
+  private JScrollPane scrollPane;
+  private String[] column = {"Author","Title", "Sub-Program Chair", "Acceptance Status"};
+  private ProgramChair PGChair;
+  private TableModel tableModel;
+  private List<Paper> data;
+  
+  public PGChairView(User aUser) {
+    PGChair = new ProgramChair(aUser);
+    model = PGChair.viewPapers();
+    controller = new PGChairViewController();
+    tableModel = new TableModel(model);
+    table = new JTable(tableModel); 
+    setLayout(new BorderLayout());
+    scrollPane = new JScrollPane(table);
+    add(scrollPane, BorderLayout.NORTH);
+    JButton test = new JButton("Test");
+    test.addActionListener( new ActionListener(){
+      public void actionPerformed(ActionEvent e) {
+        Paper paper = getSelectedRow();
+      }
+      });
+    add(test, BorderLayout.SOUTH);
+    
+    setVisible(true);
+  }
+  
+  private Paper getSelectedRow() {   
+    int selectedRow = table.getSelectedRow();
+    
+    if(selectedRow >= 0)
+      return data.get(selectedRow);
+    
+    return null;
+  }
+  
+  private class TableModel extends AbstractTableModel {
+    private static final long serialVersionUID = 1L;
+    
+    private TableModel(List<Paper> model) {
+      if(model == null)
+        data = new ArrayList<Paper>();
+      else
+        data = model;
+    }
+    
+    @Override
+    public int getColumnCount() {
+      return column.length;
+    }
 
-	/**
-	 * The default serial ID
-	 */
-	private static final long serialVersionUID = 1L;
-	private ProgramChair my_user;
-	private TablePanel tablePanel;
-	private PGChairViewController controller;
+    @Override
+    public int getRowCount() {
+      return data.size();
+    }
 
-	public PGChairView(final User the_user) 
-	{
-		my_user = new ProgramChair(the_user);
-		setLayout(new BorderLayout(0, 0));
-		controller = new PGChairViewController(my_user);
-
-		String[][] properties = {
-				{"java.lang.JButton", "Title", "Title", "true"},
-				{"javax.swing.JButton", "Status", "Status", "true"},
-				{"javax.swing.JButton", "Recommendation", "Recommendation", "true"},
-				{"javax.swing.JButton", "Reviews", "Reviews", "true"}
-				
-		};
-		// Create table panel.
-		tablePanel = new TablePanel<Paper>(properties, controller);
-
-		// Populate model
-		tablePanel.setModel(my_user.viewPapers());
-
-		add(tablePanel, BorderLayout.NORTH);
-
-		JPanel panel = new JPanel();
-		JButton AddSubmissionButton = new JButton("View Details");
-		panel.add(AddSubmissionButton);
-		AddSubmissionButton.addActionListener(controller);
-		add(panel, BorderLayout.SOUTH);
-	}
-
-	/**
-	 * Returns view's model.
-	 * 
-	 * @return The view's model.
-	 */
-	public TableModel getModel() {
-		return tablePanel.getModel();
-	}
-
-	/**
-	 * Test code to launch a local panel.
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		User testUser = UserService.getInstance().authenticateUser("PrgmChairTest", "PrgmChairTest");
-		testUser.setConference(ConferenceService.getInstance().getConference(2));
-		PGChairView test = new PGChairView(testUser);
-		JFrame testFrame = new JFrame();
-		testFrame.getContentPane().add(test);
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testFrame.pack();
-		testFrame.setVisible(true);
-	}
-
-	private class PGChairViewController implements Controller, ActionListener
-	{
-
-		public PGChairViewController(ProgramChair the_pg_chair) {
-			
-		}
-
-		@Override
-		public void update(Object aObject) {
-
-		}
-
-		@Override
-		public void setModel(Object aObject) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("Title"))
-			{
-				System.out.println(e.getSource());
-				System.out.println("Title is pressed");
-			}
-			else if(e.getActionCommand().equals("Status"))
-			{
-				System.out.println(e.getSource());
-				System.out.println("Status is pressed");
-			}
-			else if(e.getActionCommand().equals("Recommendation"))
-			{
-				System.out.println(e.getSource());
-				System.out.println("Recommendation is pressed");
-			}
-			else if(e.getActionCommand().equals("Reviews"))
-			{
-				System.out.println(e.getSource());
-				System.out.println("Reviews is pressed");
-			}
-		}
-	}
-	
+    @Override
+    public String getColumnName(int columnIndex){
+      return column[columnIndex];
+    }
+    
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex ) {
+      Paper paper = data.get(rowIndex); 
+      String result = null;
+      switch(columnIndex) {
+        case 0: result = paper.getAuthor().getFullName(); break;
+        case 1: result = paper.getTitle(); break;
+        case 2: result = "Not Assigned"; break;
+        case 3: result = paper.getStatus().toString(); break;
+      }
+      
+      return result;
+    }
+    
+    @Override
+    public Class getColumnClass(int columnIndex) {
+      return String.class;
+    }
+  }
 }
 

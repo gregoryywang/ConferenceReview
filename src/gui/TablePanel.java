@@ -2,8 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +14,11 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -125,7 +129,8 @@ public class TablePanel<T> extends JPanel {
         button.addActionListener(controller);
         column.setCellEditor(new ButtonEditor(new JCheckBox()));
         column.setCellRenderer(new ButtonRenderer());
-        column.setMaxWidth(20);
+        button.setText(column.getHeaderValue().toString());
+        //column.setMaxWidth(25);
         componentMap.put(i, button);
       }
     }
@@ -290,7 +295,7 @@ public class TablePanel<T> extends JPanel {
         setForeground(table.getForeground());
         setBackground(UIManager.getColor("Button.background"));
       }
-      setText((value == null) ? "" : value.toString());
+      setText("Test");
       return this;
     }
   }
@@ -321,6 +326,7 @@ public class TablePanel<T> extends JPanel {
         button.setForeground(table.getForeground());
         button.setBackground(table.getBackground());
       }
+      
       //label = (value == null) ? "" : value.toString();
       //button.setText(label);
       //isPushed = true;
