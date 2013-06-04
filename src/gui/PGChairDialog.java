@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -11,11 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import service.PaperService;
+import service.UserService;
+
 import controller.Controller;
 
 import model.Paper;
 import model.ProgramChair;
 import model.Status;
+import model.SubProgramChair;
 import model.User;
 
 public class PGChairDialog extends JDialog {
@@ -53,9 +58,11 @@ public class PGChairDialog extends JDialog {
    
    lblSubChair = new JLabel("Sub-Program Chair:");
    lblSubChair.setBounds(40,80,200,20);
-   cmbSubChair = new JComboBox(new DefaultComboBoxModel(new Object[0]));
+   List<User> dropValues = UserService.getInstance().getAllUsers(); 
+   cmbSubChair = new JComboBox(new DefaultComboBoxModel(dropValues.toArray()));
    cmbSubChair.setBounds(220,80,135,20);
-   //cmbSubChair.setEnabled();// Subprogram code here
+   SubProgramChair subProgram = PaperService.getInstance().getAssignedSubprogramChair(aPaper.getID());
+   cmbSubChair.setEnabled(subProgram.getID() == 0);
    
    lblAcceptance = new JLabel("Acceptance Descision:");
    lblAcceptance.setBounds(40,110,200,20);

@@ -12,7 +12,10 @@ import service.PaperService;
 
 import model.Paper;
 import model.ProgramChair;
+import model.Role;
 import model.Status;
+import model.SubProgramChair;
+import model.User;
 
 public class PGChairViewController implements Controller {
   private PGChairView view;
@@ -42,9 +45,19 @@ public class PGChairViewController implements Controller {
           PaperService.getInstance().savePaper(paper);
           view.getTableModel().fireTableDataChanged();
         }
-        view.disableButton();
-        dlg.dispose();
       }
+      
+      User p = (User) dlg.getSubProgramChair();
+      if(p != null) {
+        PaperService.getInstance().assignPaper(paper.getID(), 
+                                               p.getID(), 
+                                               programChair.getConference().getID(), 
+                                               Role.SUB_PROGRAM_CHAIR);
+        view.getTableModel().fireTableDataChanged();
+      }
+      
+      view.disableButton();
+      dlg.dispose();
     }
   }
 
