@@ -30,15 +30,15 @@ public class PaperDAO extends AbstractDAO {
 	 * Insert new Paper record.
 	 */
 	private static final String INSERT_PAPER = "INSERT INTO "+
-			"paper(author_id, title, keywords, cat_id, status, abstract, content, active) " + 
-			"VALUES(?,?,?,?,?,?,?, 1);";
+			"paper(author_id, title, keywords, cat_id, status, abstract, content, acceptance_status, active) " + 
+			"VALUES(?,?,?,?,?,?,?,?,?);";
 
 	/**
 	 * Update an already created paper.
 	 */
 	private final String UPDATE_PAPER = "UPDATE paper SET author_id = ?, title = ?, " +
 			"keywords = ?, cat_id = ?, " +
-			"recomm_rating = ?, recomm_comments = ?, status = ?, abstract = ?" +
+			"recomm_rating = ?, recomm_comments = ?, status = ?, abstract = ?, acceptance_status = ?" +
 			"WHERE paper_ID = ? ";
 
 	/**
@@ -93,6 +93,8 @@ public class PaperDAO extends AbstractDAO {
 				stmt.setString(5, the_paper.getStatus().name());
 				stmt.setString(6, the_paper.getAbstract());
 				stmt.setCharacterStream(7, new StringReader(the_paper.getContent()));
+				stmt.setString(8, the_paper.getAcceptanceStatus().toString());
+				stmt.setInt(9, 1);				
 				stmt.executeUpdate();
 
 				//Get generated primary key @author Roshun
@@ -128,8 +130,8 @@ public class PaperDAO extends AbstractDAO {
 				}
 				stmt.setString(7, the_paper.getStatus().name());
 				stmt.setString(8, the_paper.getAbstract());
-
-				stmt.setInt(9, the_paper.getID());
+				stmt.setString(9, the_paper.getAcceptanceStatus().toString());
+				stmt.setInt(10, the_paper.getID());
 				stmt.executeUpdate();
 			}
 			stmt.close();
@@ -314,6 +316,7 @@ public class PaperDAO extends AbstractDAO {
 				paper.setRecommendation(new Recommendation());
 				paper.setStatus(Status.valueOf(result.getString("STATUS")));
 				paper.setAbstract(result.getString("ABSTRACT"));
+				paper.setAcceptanceStatus(Status.valueOf(result.getString("ACCEPTANCE_STATUS")));
 
 				//Convert CLOB to string builder @author Roshun
 				BufferedReader buffer = new BufferedReader(result.getCharacterStream("CONTENT"));

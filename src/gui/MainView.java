@@ -36,12 +36,12 @@ public class MainView extends JFrame {
 	/**
 	 * Window Width.
 	 */
-	private static final int WIDTH = 1280;
+	public static final int WIDTH = 1280;
 
 	/**
 	 * Window Height.
 	 */
-	private static final int HEIGHT = 720;
+	public static final int HEIGHT = 720;
 
 	/**
 	 * 

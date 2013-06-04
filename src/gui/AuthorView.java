@@ -41,7 +41,7 @@ public class AuthorView extends JPanel {
     String[][] properties = {
       {"java.lang.String", "Title", "Title", "false"},
       {"java.lang.String", "Category", "Category", "false"},
-      {"java.lang.String", "Status", "Status", "false"}
+      {"java.lang.String", "AcceptanceStatus", "AcceptanceStatus", "false"}
     };
 
     // Create table panel.
