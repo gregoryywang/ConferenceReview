@@ -12,6 +12,16 @@ public class Author extends User
 	private List<Paper> papers;
 	
   /**
+   * TEST CONSTRUCTOR.
+   */
+  public Author(final List<Paper> the_papers)
+  {
+	  super(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+	  setRole(Role.AUTHOR);
+	  papers = the_papers;
+  }
+	
+  /**
 	 * Create an author with Author's functionality and business rules.
 	 * @param the_user the user to convert to an author.
 	 */

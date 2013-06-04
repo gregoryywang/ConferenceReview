@@ -1,7 +1,5 @@
 package model;
 
-import service.PaperService;
-import dao.UserDAO;
 
 /**
  * Recommendations by a SubProgram Chair for a paper.
@@ -47,7 +45,9 @@ public class Recommendation
 	public Recommendation()
 	{
 		//Left blank on purpose.
-		my_owner = new User();
+		my_owner = new User("TEST", "TEST", "TEST", "TEST", "TEST");
+		my_comments = "";
+		my_rating = 0;
 	}
 	
 	public Recommendation(final User the_subPrg_Chair, final int the_rating, final String the_comments)

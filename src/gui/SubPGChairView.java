@@ -142,11 +142,12 @@ public class SubPGChairView extends JPanel implements Viewer
 			{
 				if ("Create Recommendation".equals(recommendation_button.getText()))
 				{
-					new RecommendationForm(my_user, new Recommendation(my_user, 0, "")).start();
+					new RecommendationForm(my_user, new Recommendation(my_user, 0, ""), 
+						the_paper).start();
 				}
 				else
 				{
-					new RecommendationForm(my_user, the_paper.getRecommendation());
+					new RecommendationForm(my_user, the_paper.getRecommendation(), the_paper);
 				}
 			}
 		});
@@ -247,55 +248,6 @@ public class SubPGChairView extends JPanel implements Viewer
 		return reviewer_panel;
 	}
 	
-//	/**
-//	 * Method to create and return a JPanel of all the Reviewers
-//	 * associated with a specified Paper.
-//	 * 
-//	 * @param the_paper the Paper that is populating the Reviewer drop downs
-//	 * @return returns a JPanel of the current Reviewers for a specified Paper
-//	 */
-//	private JPanel createReviewerPanel(final Paper the_paper)
-//	{
-//		final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
-//		
-//		final JPanel reviewer1_panel = new JPanel();
-//		reviewer1_panel.add(new JLabel("Reviewer #1: "));
-//		final JComboBox reviewer1_combo_box = new JComboBox(
-//			new DefaultComboBoxModel(UserService.getInstance().getAllUsers().toArray()));
-//		reviewer1_combo_box.setEditable(false);
-//		reviewer1_panel.add(reviewer1_combo_box);
-//		final JButton reviewer1_button = new JButton("Choose Reviewer #1");
-//		reviewer1_button.addActionListener(new ReviewerAction(reviewer1_button, reviewer1_combo_box, the_paper));
-//		reviewer1_panel.add(reviewer1_button);
-//		
-//		
-//		final JPanel reviewer2_panel = new JPanel();
-//		reviewer2_panel.add(new JLabel("Reviewer #2: "));
-//		final JComboBox reviewer2_combo_box = new JComboBox(
-//			new DefaultComboBoxModel(UserService.getInstance().getAllUsers().toArray()));
-//		reviewer2_combo_box.setEditable(false);
-//		reviewer2_panel.add(reviewer2_combo_box);
-//		final JButton reviewer2_button = new JButton("Choose Reviewer #2");
-//		reviewer2_button.addActionListener(new ReviewerAction(reviewer2_button, reviewer2_combo_box, the_paper));
-//		reviewer2_panel.add(reviewer2_button);
-//		
-//		final JPanel reviewer3_panel = new JPanel();
-//		reviewer3_panel.add(new JLabel("Reviewer #3: "));
-//		final JComboBox reviewer3_combo_box = new JComboBox(
-//			new DefaultComboBoxModel(UserService.getInstance().getAllUsers().toArray()));
-//		reviewer3_combo_box.setEditable(false);
-//		reviewer3_panel.add(reviewer3_combo_box);
-//		final JButton reviewer3_button = new JButton("Choose Reviewer #3");
-//		reviewer3_button.addActionListener(new ReviewerAction(reviewer3_button, reviewer3_combo_box, the_paper));
-//		reviewer3_panel.add(reviewer3_button);
-//		
-//		panel.add(reviewer1_panel);
-//		panel.add(reviewer2_panel);
-//		panel.add(reviewer3_panel);
-//		
-//		return panel;
-//	}
-	
 	/**
 	 * Gets the SubProgramChair.
 	 * 
@@ -330,7 +282,7 @@ public class SubPGChairView extends JPanel implements Viewer
 	public void viewRecommendation(final Paper the_paper)
 	{
 		final Recommendation recommendation = PaperService.getInstance().getRecommendation(the_paper.getID());
-		new RecommendationForm(my_user, recommendation).start();
+		new RecommendationForm(my_user, recommendation, the_paper).start();
 	}
 	
 	/**
@@ -524,9 +476,7 @@ public class SubPGChairView extends JPanel implements Viewer
 		final User author = new User(names[Math.abs(rand.nextInt()) % names.length], names[Math.abs(rand.nextInt()) % names.length],
 			sn[Math.abs(rand.nextInt()) % sn.length], password[Math.abs(rand.nextInt()) % password.length], 
 			email[Math.abs(rand.nextInt()) % email.length]);
-		papers.add(new Paper(new Author(author), titles[Math.abs(rand.nextInt()) % titles.length], 
-			keywords[Math.abs(rand.nextInt()) % keywords.length], abstracts[Math.abs(rand.nextInt()) % abstracts.length], 
-			categories[Math.abs(rand.nextInt()) % categories.length], contents[Math.abs(rand.nextInt()) % contents.length]));
+		papers.add(new Paper());
 		
 		
 		final JFrame frame = new JFrame("SubProgram Chair");

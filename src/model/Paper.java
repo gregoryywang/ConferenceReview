@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Observable;
 
 import service.PaperService;
-import service.UserService;
 /**
  * This class represents a paper an author may submit for review.
  * @author Danielle Tucker
@@ -63,9 +62,17 @@ public class Paper extends Observable
 	private List<Review> my_reviews = new ArrayList<Review>();
 	
 	/**
-	 * Null constructor for a paper.
+	 * TEST CONSTRUCTOR.
 	 */
-	public Paper(){}
+	public Paper()
+	{
+		my_author = new Author(new ArrayList<Paper>());
+		my_title = "Title";
+		my_keywords = "keywords";
+		my_abstract = "abstract";
+		my_category = "category";
+		content = "content";
+	}
 	
 	/**
 	 * Create a paper with no associated reviews or decisions.

@@ -55,6 +55,7 @@ public class ReviewForm extends JFrame
 		
 		final JPanel southern_panel = new JPanel();
 		final JButton button = new JButton();
+		southern_panel.add(button);
 		if ("Reviewer".equals(my_user.getClass().getSimpleName()))
 		{
 			button.setText("Cancel");
@@ -74,6 +75,7 @@ public class ReviewForm extends JFrame
 					PaperService.getInstance().addReview(my_review, my_paper);
 				}
 			});
+			southern_panel.add(review_button);
 		}
 		else
 		{
@@ -91,7 +93,7 @@ public class ReviewForm extends JFrame
 				dispose();
 			}
 		});
-		
+		add(southern_panel);
 		
 		pack();
 		setVisible(true);
