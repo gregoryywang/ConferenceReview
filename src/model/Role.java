@@ -2,7 +2,7 @@ package model;
 
 import gui.AdminView;
 import gui.AuthorView;
-import gui.AuthorView2;
+import gui.AuthorView;
 import gui.PGChairView;
 import gui.ReviewerView;
 import gui.SubPGChairView;
@@ -26,7 +26,7 @@ public enum Role {
 	/**
 	 * Role which can submit and edit papers.
 	 */
-	AUTHOR("Author", AuthorView2.class),
+	AUTHOR("Author", AuthorView.class),
 	
 	/**
 	 * Role which can review a paper, and view papers
