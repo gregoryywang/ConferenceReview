@@ -41,7 +41,7 @@ public class SubPGChairView extends JPanel implements Viewer
 	/**
 	 * The default background color.
 	 */
-	private static final Color BACKGROUND_COLOR = Color.MAGENTA;
+	private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	
 	/**
 	 * The default number of columns in the central panel.
@@ -144,10 +144,11 @@ public class SubPGChairView extends JPanel implements Viewer
 				{
 					new RecommendationForm(my_user, new Recommendation(my_user, 0, ""), 
 						the_paper).start();
+					
 				}
 				else
 				{
-					new RecommendationForm(my_user, the_paper.getRecommendation(), the_paper);
+					new RecommendationForm(my_user, the_paper.getRecommendation(), the_paper).start();
 				}
 			}
 		});
@@ -166,7 +167,6 @@ public class SubPGChairView extends JPanel implements Viewer
 		paper_panel.add(new JLabel("All assigned papers: "));
 		if (my_papers.size() != 0)
 		{
-			//final JComboBox paper_combo_box = new JComboBox(my_papers.toArray());
 			final JComboBox paper_combo_box = new JComboBox();
 			for (Paper paper : my_papers)
 			{
@@ -393,6 +393,7 @@ public class SubPGChairView extends JPanel implements Viewer
 			super();
 			my_button = the_button;
 			my_combo_box = the_combo_box;
+			my_paper = the_paper;
 		}
 
 		/**
@@ -415,7 +416,9 @@ public class SubPGChairView extends JPanel implements Viewer
 			}
 			if (new_reviewer)
 			{
-				((SubProgramChair) my_user).assignReviewer((User) my_combo_box.getSelectedItem(), 
+				List<User> user_list = UserService.getInstance().getAllUsers();
+				final User chosen_reviewer = user_list.get(my_combo_box.getSelectedIndex());
+				((SubProgramChair) my_user).assignReviewer(chosen_reviewer, 
 					my_paper, my_user.getConference());
 			}
 			else
@@ -431,51 +434,14 @@ public class SubPGChairView extends JPanel implements Viewer
 	 * 
 	 * @param the_args the command-line arguments
 	 */
+	/*
 	public static void main(final String[] the_args)
-	{
-		// PAPER
-		// final User the_author, final String the_title, final String the_keywords,
-		// final String the_abstract, final String the_category, final String content
-		
-		// USER
-		// WITH CONFERENCE
-		// final Conference the_conference, final Role the_role, 
-		// final String the_first_name, final String the_last_name, 
-		// final String the_username, final String the_password, final String the_email
-		
-		// USER 
-		// W / O CONFERENCE
-		// final String the_first_name, final String the_last_name, 
-		// final String the_username, final String the_password, final String the_email
-		
-		// CONFERENCE
-		// final int the_conf_id, final Date the_date, final User the_PG_chair, final String the_topic,
-		// final Date the_submit_paper_deadline,
-		// final Date the_review_paper_deadline, final Date the_make_recommendation_deadline,
-		// final Date the_final_decision_deadline, final Date the_revise_paper_deadline
-		
-		// DATE (sql.Date)
-		// final long the_date (System.currentTimeMillis() -> Date.valueOf("yyyy-[m]m-[d]d"))
-		
-		final String[] names = {"joe", "bob", "cindy", "alex", "david", "ed", "francis", "gary", "hal4000"};
-		final String[] sn = {"32432", "jkjkl32", "jfk3l;29", "xczca", "12", "33kjwk", "#$#@", "#J<DF*>", "_"};
-		final String[] password = {"abc", "123", "pwd", "pass", "word", "jam", "ham", "fish", "taco"};
-		final String[] email = {"@aol.com", "@me.com", "@microsoft.com", "@thewhitehouse.gov", "@yahoo.com", "@gmail.com", 
-			"@eff.org", "@slashdot.org", "@apple.com"};
-		final String[] dates = {"1900-09-01", "1901-05-05", "1986-02-01", "1999-09-09", "2000-01-01", "1999-12-31", 
-			"2025-02-07", "3000-03-03", "3030-01-01"};
-		final String[] titles = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-		final String[] keywords = {"apples", "bananas", "cherries", "dragonfruit", "e-fruit", "f-fruit", "guava", "h-fruit", "i-fruit"};
-		final String[] abstracts = {"abstract1", "abstrac2", "abstract3", "abstract4", "abstract5", "abstract6", "abstract7", "abstract8", "abstract9"};
-		final String[] categories = {"cat1", "cat2", "cat3", "cat4", "cat5", "cat6", "cat7", "cat8", "cat9"};
-		final String[] contents = {"tents1", "tents2", "tents3", "tents4", "tents5", "tents6", "tents7", "tents8", "tents9"};
-		
+	{	
 		final Random rand = new Random(System.currentTimeMillis());
 		
 		final List<Paper> papers = new ArrayList<Paper>();
-		final User author = new User(names[Math.abs(rand.nextInt()) % names.length], names[Math.abs(rand.nextInt()) % names.length],
-			sn[Math.abs(rand.nextInt()) % sn.length], password[Math.abs(rand.nextInt()) % password.length], 
-			email[Math.abs(rand.nextInt()) % email.length]);
+		final User author_user = UserService.getInstance().authenticateUser("AuthorTest", "AuthorTest");
+		Author ath = new Author(author_user);
 		papers.add(new Paper());
 		
 		
@@ -487,6 +453,7 @@ public class SubPGChairView extends JPanel implements Viewer
 		frame.pack();
 		frame.setVisible(true);
 	}
+	*/
 	
 }
 

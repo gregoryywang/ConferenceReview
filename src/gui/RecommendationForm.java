@@ -81,7 +81,7 @@ public class RecommendationForm extends JFrame
 	private boolean my_recommendation_flag = false;
 	
 	/**
-	 * Creates a new RecommendationForm with default parameters.
+	 * TEST CONSTRUCTOR.
 	 */
 	public RecommendationForm(SubProgramChair the_user)
 	{
@@ -90,9 +90,6 @@ public class RecommendationForm extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
 		my_user = the_user;
-		
-		// final User the_author, final String the_title, final String the_keywords,
-		// final String the_abstract, final String the_category, final String content
 		my_paper = new Paper(the_user, "Title", "keywords", "abstract", "category", "content");
 		my_recommendation = new Recommendation();
 	}
@@ -182,10 +179,12 @@ public class RecommendationForm extends JFrame
 	 * 
 	 * @param the_args the command-line args
 	 */
+	/*
 	public static void main(final String[] the_args)
 	{
 		new RecommendationForm(new SubProgramChair(new User("first", "last", "sn", "pw", "pw@pw"))).start();
 	}
+	*/
 	
 	/**
 	 * Private class that creates a panel to display the Recommendation Object.
