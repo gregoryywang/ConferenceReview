@@ -35,12 +35,11 @@ public class PGChairView extends JPanel
 		controller = new PGChairViewController(my_user);
 
 		String[][] properties = {
-				{"java.lang.String", "Title", "Title", "false"},
+				{"java.lang.JButton", "Title", "Title", "true"},
 				{"javax.swing.JButton", "Status", "Status", "true"},
-				{"javax.swing.JButton", "Recommendation", "Recommendation", "false"},
-				{"javax.swing.JButton", "Review.get(0)", "Review", "false"},
-				{"javax.swing.JButton", "Review.get(1)", "Review", "false"},
-				{"javax.swing.JButton", "Review.get(2)", "Review", "false"}	
+				{"javax.swing.JButton", "Recommendation", "Recommendation", "true"},
+				{"javax.swing.JButton", "Reviews", "Reviews", "true"}
+				
 		};
 		// Create table panel.
 		tablePanel = new TablePanel<Paper>(properties, controller);
@@ -103,15 +102,28 @@ public class PGChairView extends JPanel
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("View Details"))
+			if(e.getActionCommand().equals("Title"))
 			{
 				System.out.println(e.getSource());
-				//getModel().getValueAt(, columnIndex)
-				System.out.println("View Details is pressed");
+				System.out.println("Title is pressed");
+			}
+			else if(e.getActionCommand().equals("Status"))
+			{
+				System.out.println(e.getSource());
+				System.out.println("Status is pressed");
+			}
+			else if(e.getActionCommand().equals("Recommendation"))
+			{
+				System.out.println(e.getSource());
+				System.out.println("Recommendation is pressed");
+			}
+			else if(e.getActionCommand().equals("Reviews"))
+			{
+				System.out.println(e.getSource());
+				System.out.println("Reviews is pressed");
 			}
 		}
 	}
-	
 	
 }
 
