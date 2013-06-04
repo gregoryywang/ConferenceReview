@@ -8,6 +8,7 @@ package gui;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,10 @@ public class MainView extends JFrame {
 	 * 
 	 */
 	private JPanel contentPanel;
+	
+	private Container content_pane;
+	
+	private HeaderView headerPanel;
 
 	/**
 	 * 
@@ -59,9 +64,12 @@ public class MainView extends JFrame {
 		this.setVisible(true);
 
 		User user = getUser();
+		
+		content_pane = this.getContentPane();
 
 		// creates and adds HeaderView to MainView
-		final HeaderView headerPanel = new HeaderView(user);
+		//final HeaderView headerPanel = new HeaderView(user);
+		headerPanel = new HeaderView(user);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setVisible(true);
 
@@ -74,8 +82,10 @@ public class MainView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				headerPanel.setVisible(false);
+				setContentPanel(new JPanel());
 				headerPanel.setUser(getUser());
-
+				headerPanel.setVisible(true);
 			}});
 		logout_menu.add(logout_item);
 		this.setJMenuBar(menu_bar);
