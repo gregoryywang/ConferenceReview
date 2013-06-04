@@ -36,7 +36,9 @@ public class ReviewerForm extends JFrame
 	}
 	
 	/**
-	 * Private class to populate the panel with the 
+	 * Private class to populate the panel with the
+	 * given Reviewer.
+	 * 
 	 * @author Levon
 	 * @version Spring 2013
 	 */

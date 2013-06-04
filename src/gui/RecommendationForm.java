@@ -22,8 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import service.UserService;
-
+import model.Paper;
 import model.Recommendation;
 import model.SubProgramChair;
 import model.User;
@@ -61,6 +60,11 @@ public class RecommendationForm extends JFrame
 	private Recommendation my_recommendation;
 	
 	/**
+	 * Reference to the Paper Object.
+	 */
+	private Paper my_paper;
+	
+	/**
 	 * Reference to the panel.
 	 */
 	private RecommendationPanel my_panel;
@@ -86,6 +90,10 @@ public class RecommendationForm extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
 		my_user = the_user;
+		
+		// final User the_author, final String the_title, final String the_keywords,
+		// final String the_abstract, final String the_category, final String content
+		my_paper = new Paper(the_user, "Title", "keywords", "abstract", "category", "content");
 		my_recommendation = new Recommendation();
 	}
 	
@@ -95,13 +103,15 @@ public class RecommendationForm extends JFrame
 	 * @param the_view the Users view
 	 * @param the_recommendation the Recommendation that is populating the form
 	 */
-	public RecommendationForm(final SubProgramChair the_user, final Recommendation the_recommendation)
+	public RecommendationForm(final SubProgramChair the_user, final Recommendation the_recommendation,
+		final Paper the_paper)
 	{
 		super("RecommendationForm");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(BACKGROUND_COLOR);
 		my_user = the_user;
+		my_paper = the_paper;
 		my_recommendation = the_recommendation;
 		if (!"".equals(the_recommendation.getComments()))
 		{
@@ -151,6 +161,7 @@ public class RecommendationForm extends JFrame
 				}
 				else
 				{
+					((SubProgramChair) my_user).submitRecommendation(my_panel.parseData(), my_paper);
 					JOptionPane.showMessageDialog(null, "You have succesfully " + 
 						recommendation_button.getText() + "d the Recommendation!");
 					dispose();
@@ -173,7 +184,7 @@ public class RecommendationForm extends JFrame
 	 */
 	public static void main(final String[] the_args)
 	{
-		new RecommendationForm(new SubProgramChair(), new Recommendation()).start();
+		new RecommendationForm(new SubProgramChair(new User("first", "last", "sn", "pw", "pw@pw"))).start();
 	}
 	
 	/**
@@ -273,6 +284,14 @@ public class RecommendationForm extends JFrame
 			comment_field.setText(DEFAULT_COMMENT);
 	    	comments_panel.add(comment_scroll, BorderLayout.CENTER);
 	    	add(comments_panel);
+		}
+		
+		public Recommendation parseData()
+		{
+			my_recommendation.setRating(((JComboBox) my_recommendation_fields.get(0)).getSelectedIndex());
+			my_recommendation.setComments(((JTextArea) my_recommendation_fields.get(1)).getText());
+			
+			return my_recommendation;
 		}
 		
 		private List<JComponent> getRecommendationFields()
