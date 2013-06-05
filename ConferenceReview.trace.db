@@ -1,0 +1,15 @@
+06-04 22:09:58 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "USER" not found; SQL statement:
+SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ? [42102-171]
+06-04 22:10:59 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "USER" not found; SQL statement:
+SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ? [42102-171]
+06-04 22:11:35 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "USER" not found; SQL statement:
+SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ? [42102-171]
+06-05 00:41:49 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "USER" not found; SQL statement:
+SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ? [42102-171]
+06-05 00:41:49 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "USER" not found; SQL statement:
+SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ? [42102-171]
