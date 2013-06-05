@@ -1,6 +1,5 @@
 package model;
 
-import dao.UserDAO;
 
 /**
  * Class to encapsulate a Review in our system.
@@ -11,15 +10,16 @@ import dao.UserDAO;
  */
 public class Review 
 {
-	public static final String[] INSTRUCTIONS = {
+	public static final String INSTRUCTIONS =
 		"Please provide a numeric rating on a 5-point scale for each question, along with a brief " +
 		"rationale for each numeric rating. In doing so, please discuss both the strengths and the " +
 		"weaknesses of each paper so that the editors and authors can understand your reasoning./n" +
 		"Please phrase your reviews politely; even 'bad' papers represent a lot of work on the part of " + 
 		"the authors. The review may be the basis for further revisions of the paper or the work that " +
 		"the paper reports. We all know how hurtful a needlessly negative review can be, and how " +
-		"helpful a positive one can be; please try to bear that in mind when you are writing yours.",
-		
+		"helpful a positive one can be; please try to bear that in mind when you are writing yours.";
+	
+	public static final String[] QUESTIONS = {
 		"Can the content be directly applied by classroom instructors or curriculum designers?",
 		
 		"Does the work appeal to a broad readership interested in engineering education or is " +
@@ -39,11 +39,24 @@ public class Review
 		
 		"Is the paper clearly and carefully written?",
 		
-		"Does the paper adhere to accepted standards of style, usage, and composition?"};
+		"Does the paper adhere to accepted standards of style, usage, and composition?"
+	};
+	
+	/**
+	 * Descriptors for each value of the rating scale from high value to low.
+	 */
+	public static final String[] RATING_SCALE_HIGH_TO_LOW = {
+		"Strong Accept", "Accept", "Neutral", "Reject", "Strong Reject"
+	};
+	
+	/**
+	 * The default comment text.
+	 */
+	private static final String DEFAULT_TEXT = "Enter a comment here.";
 	
 	public static final String[] RATING_SCALE_DESCRIPTORS = {};
 	
-	public static final int NUMBER_OF_QUESTIONS = INSTRUCTIONS.length-1;
+	//public static final int NUMBER_OF_QUESTIONS = QUESTIONS.length;
 	
 	private int my_id = 0;
 	
@@ -51,13 +64,20 @@ public class Review
 	
 	private int[] my_ratings;
 	
-	private String my_private_comment;
+	private int my_summary_rating;
+	
+	private String my_subprogramchair_comment;
+	
+	private String my_summary_comment;
 	
 	private String[] my_comments;
 	
+	/**
+	 * TEST CONSTRUCTOR.
+	 */
 	public Review()
 	{
-		this(null);
+		this(new User("first", "last", "sn", "pwd", "@.com"));
 	}
 	
 	/**
@@ -67,8 +87,10 @@ public class Review
 	public Review(final User the_reviewer)
 	{
 		my_owner = the_reviewer;
-		my_comments = new String[INSTRUCTIONS.length];
-		my_ratings = new int[INSTRUCTIONS.length];
+		my_comments = new String[QUESTIONS.length];
+		my_ratings = new int[QUESTIONS.length];
+		my_subprogramchair_comment = DEFAULT_TEXT;
+		my_summary_comment = DEFAULT_TEXT;
 	}
 	
 	/**
@@ -97,17 +119,17 @@ public class Review
 	{
 		if(the_comment != null)
 		{
-			my_private_comment = the_comment;
+			my_subprogramchair_comment = the_comment;
 		}
 		else
 		{
-			my_private_comment = "No comment";
+			my_subprogramchair_comment = "Enter a comment here.";
 		}
 	}
 	
 	public String getSPChairComment()
 	{
-		return my_private_comment;
+		return my_subprogramchair_comment;
 	}
 	
 	/**
@@ -116,7 +138,7 @@ public class Review
 	 */
 	public void setSummaryRating(final int the_rating)
 	{
-		my_ratings[0] = validateRating(the_rating);
+		my_summary_rating = validateRating(the_rating);
 	}
 	
 	/**
@@ -125,7 +147,7 @@ public class Review
 	 */
 	public int getSummaryRating()
 	{
-		return my_ratings[0];
+		return my_summary_rating;
 	}
 	
 	/**
@@ -136,7 +158,7 @@ public class Review
 	{
 		if(the_string != null)
 		{
-			my_comments[0] = the_string;
+			my_summary_comment = the_string;
 		}
 	}
 	
@@ -146,7 +168,7 @@ public class Review
 	 */
 	public String getSummaryComment()
 	{
-		return my_comments[0];
+		return my_summary_comment;
 	}
 	
 	/**
@@ -174,7 +196,7 @@ public class Review
 	 */
 	public void setRating(final int the_q, final int the_value)
 	{
-		if(the_q > 0 && the_q < INSTRUCTIONS.length)
+		if(the_q > 0 && the_q < QUESTIONS.length)
 		{
 			my_ratings[the_q] = validateRating(the_value);
 		}
@@ -202,7 +224,7 @@ public class Review
 	 */
 	public void setComment(final int the_q, final String the_comment)
 	{
-		if(the_q > 0 && the_q < INSTRUCTIONS.length)
+		if(the_q > 0 && the_q < QUESTIONS.length)
 			my_comments[the_q] = the_comment;
 	}
 
@@ -213,7 +235,7 @@ public class Review
 	 */
 	public String getComment(final int the_question)
 	{
-		if(the_question > 0 && the_question < INSTRUCTIONS.length)
+		if(the_question > 0 && the_question < QUESTIONS.length)
 			return my_comments[the_question];
 		else
 			return "";
