@@ -29,7 +29,7 @@ public class Author extends User
 	{
 		super(the_user);
 		setRole(Role.AUTHOR);
-	//	papers = PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.AUTHOR); 
+		papers = PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.AUTHOR); 
 	}
 
 	/**
