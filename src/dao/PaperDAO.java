@@ -221,7 +221,7 @@ public class PaperDAO extends AbstractDAO {
 			//Populate answers to the comments
 			//NOT SURE ABOUT THE LOOP>>>>
 			PreparedStatement quest = getConnection().prepareStatement(add_responses);
-			for(int i = 1; i <= Review.NUMBER_OF_QUESTIONS; i++)
+			for(int i = 1; i <= Review.QUESTIONS.length; i++)
 			{
 				quest.setInt(1, the_review.getID());
 				quest.setInt(2, i);
