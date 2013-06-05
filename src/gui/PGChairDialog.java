@@ -19,6 +19,7 @@ import controller.Controller;
 
 import model.Paper;
 import model.ProgramChair;
+import model.Role;
 import model.Status;
 import model.SubProgramChair;
 import model.User;
@@ -31,7 +32,7 @@ public class PGChairDialog extends JDialog {
  private JLabel lblAuthor;
  private JLabel lblSubChair;
  private JLabel lblAcceptance;
- private JTextField txtAuthor;
+ private JLabel txtAuthor;
  private JComboBox cmbSubChair;
  private JComboBox cmbAcceptance;
  private JButton cmdCancel;
@@ -52,13 +53,12 @@ public class PGChairDialog extends JDialog {
    
    lblAuthor = new JLabel("Author:");
    lblAuthor.setBounds(40,50,50,20);
-   txtAuthor = new JTextField(aPaper.getAuthor().getFullName());
+   txtAuthor = new JLabel(aPaper.getAuthor().getFullName());
    txtAuthor.setBounds(200,50,165,20);
-   txtAuthor.setEnabled(false);
    
    lblSubChair = new JLabel("Sub-Program Chair:");
    lblSubChair.setBounds(40,80,200,20);
-   List<User> dropValues = UserService.getInstance().getAllUsers(); 
+   List<User> dropValues = UserService.getInstance().getAllUsers(aPaper, pgChair.getConference().getID(), Role.SUB_PROGRAM_CHAIR); 
    cmbSubChair = new JComboBox(new DefaultComboBoxModel(dropValues.toArray()));
    cmbSubChair.setBounds(200,80,165,20);
    SubProgramChair subProgram = PaperService.getInstance().getAssignedSubprogramChair(aPaper.getID());

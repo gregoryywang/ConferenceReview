@@ -37,7 +37,7 @@ public class ReviewForm extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		my_user = the_user;
 		my_review = the_review;
-		if (the_review.getSummaryRating() == 0)
+		if (the_review.getID() == 0)
 		{
 			my_is_new_review_flag = true;
 		}

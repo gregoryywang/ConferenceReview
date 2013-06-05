@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import model.Author;
 import model.Paper;
 import model.User;
+import service.ConferenceService;
 
 public class PaperForm extends JFrame 
 {
@@ -209,20 +211,21 @@ public class PaperForm extends JFrame
 			final JPanel keywords_panel = new JPanel();
 			keywords_panel.add(new JLabel("Keywords"));
 			add(keywords_panel);
-			final JComboBox keywords_field = new JComboBox(KEYWORDS);
+			final JLabel keywords_field = new JLabel(my_paper.getKeywords());
 			// This is supposed to return an String[] but doesn't
 			// Also I think this should be something for PaperService.getInstance().getKeywords(the_paper);
 			// keywords_field.setModel(new DefaultComboBoxModel(my_paper.getKeywords());
-			keywords_field.setEditable(false);
+			//keywords_field.setEditable(false);
 			my_paper_fields.add(keywords_field);
 			add(keywords_field);
 			
 			final JPanel categories_panel = new JPanel();
 			categories_panel.add(new JLabel("Categories"));
 			add(categories_panel);
-			final JComboBox categories_field = new JComboBox(CATEGORIES);
-//			categories_field.setModel(new DefaultComboBoxModel(
-//				ConferenceService.getInstance().getCategories().toArray()));
+			//final JComboBox categories_field = new JComboBox(CATEGORIES);
+			final JComboBox categories_field = new JComboBox();
+			categories_field.setModel(new DefaultComboBoxModel(
+				ConferenceService.getInstance().getCategories().toArray()));
 			categories_field.setEditable(false);
 			my_paper_fields.add(categories_field);
 			add(categories_field);
@@ -236,6 +239,7 @@ public class PaperForm extends JFrame
 			my_paper_fields.add(document_field);
 			add(document_field);
 			
+			//I NEED CHANGING! SHOULD ONLY DISPLAY IF THE USER IS A SUBPROGRAM CHAIR OR PROGRAM CHAIR
 			final JPanel recommendation_panel = new JPanel();
 			recommendation_panel.add(new JLabel("Recommendation"));
 			add(recommendation_panel);
