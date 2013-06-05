@@ -47,20 +47,20 @@ public class PGChairDialog extends JDialog {
    setSize(400, 240);
    setResizable(false);
    
-   lblTitle = new JLabel("Title");
-   lblTitle.setBounds(200,5,200,20);
+   lblTitle = new JLabel(aPaper.getTitle());
+   lblTitle.setBounds(150,5,200,20);
    
    lblAuthor = new JLabel("Author:");
    lblAuthor.setBounds(40,50,50,20);
    txtAuthor = new JTextField(aPaper.getAuthor().getFullName());
-   txtAuthor.setBounds(220,50,135,20);
+   txtAuthor.setBounds(200,50,165,20);
    txtAuthor.setEnabled(false);
    
    lblSubChair = new JLabel("Sub-Program Chair:");
    lblSubChair.setBounds(40,80,200,20);
    List<User> dropValues = UserService.getInstance().getAllUsers(); 
    cmbSubChair = new JComboBox(new DefaultComboBoxModel(dropValues.toArray()));
-   cmbSubChair.setBounds(220,80,135,20);
+   cmbSubChair.setBounds(200,80,165,20);
    SubProgramChair subProgram = PaperService.getInstance().getAssignedSubprogramChair(aPaper.getID());
    cmbSubChair.setEnabled(subProgram.getID() == 0);
    
@@ -68,7 +68,7 @@ public class PGChairDialog extends JDialog {
    lblAcceptance.setBounds(40,110,200,20);
    Status[] values = {Status.UNDECIDED, Status.ACCEPT, Status.DECLINE};
    cmbAcceptance = new JComboBox(new DefaultComboBoxModel(values));
-   cmbAcceptance.setBounds(220,110,135,20);
+   cmbAcceptance.setBounds(200,110,165,20);
    cmbAcceptance.setEnabled(pgChair.canAssignDecision());
    if(aPaper != null && aPaper.getAcceptanceStatus() != null)
      cmbAcceptance.setSelectedItem(aPaper.getAcceptanceStatus());
