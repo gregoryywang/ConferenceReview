@@ -142,7 +142,11 @@ public class ReviewerView extends JPanel {
       switch(columnIndex) {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
-        case 3: result = paper.getAcceptanceStatus().displayName(); break;
+//        case 3: result = paper.getAcceptanceStatus().displayName(); break;
+        // this or
+       // case 3: result = paper.getAcceptanceStatus().toString(); break;
+        // this ???
+        case 3: result = paper.getAcceptanceStatus().name(); break;
       }
       
       return result;
