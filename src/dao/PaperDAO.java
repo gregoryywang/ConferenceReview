@@ -52,7 +52,9 @@ public class PaperDAO extends AbstractDAO {
 	 * Assign paper to a user/role/conference.
 	 */
 	private static final String ASSIGN_PAPER = "INSERT INTO USER_ROLE_PAPER_CONFERENCE_JOIN" +
-			"(USER_ID, ROLE_ID, PAPER_ID, CONF_ID) VALUES(?,?,?,?)";
+			"(USER_ID, ROLE_ID, PAPER_ID, CONF_ID) Select ?,?,?,? FROM DUAL " +
+	    "WHERE NOT EXISTS(SELECT NULL FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS B WHERE B.USER_ID = ?  "+
+			"AND B.ROLE_ID = ? AND B.PAPER_ID = ? AND B.CONF_ID = ?) ";
 
 	/**
 	 * Get assigned papers based on conference and role
@@ -171,6 +173,10 @@ public class PaperDAO extends AbstractDAO {
 			stmt.setInt(2, aRole.ordinal());
 			stmt.setInt(3, aPaperId);
 			stmt.setInt(4, aConfId);
+			stmt.setInt(5, aUserId);
+      stmt.setInt(6, aRole.ordinal());
+      stmt.setInt(7, aPaperId);
+      stmt.setInt(8, aConfId);
 			stmt.executeUpdate();
 			stmt.close();
 		}catch (Exception e) {

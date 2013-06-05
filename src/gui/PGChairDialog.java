@@ -52,7 +52,7 @@ public class PGChairDialog extends JDialog {
    
    lblAuthor = new JLabel("Author:");
    lblAuthor.setBounds(40,50,50,20);
-   txtAuthor = new JTextField("SomeGuy");
+   txtAuthor = new JTextField(aPaper.getAuthor().getFullName());
    txtAuthor.setBounds(220,50,135,20);
    txtAuthor.setEnabled(false);
    
