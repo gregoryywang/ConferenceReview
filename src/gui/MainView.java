@@ -61,9 +61,9 @@ public class MainView extends JFrame {
 		this.setSize(WIDTH,HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
 
 		User user = getUser();
+		this.setVisible(true);
 		
 		content_pane = this.getContentPane();
 

@@ -37,10 +37,10 @@ public class LoginView extends JDialog implements ActionListener{
     
     public LoginView(MainView view, String title, boolean modal) {
         super(view, title, modal);
-        usernameLabel = new JLabel("Username:");
+        usernameLabel = new JLabel("  Username:");
 		usernameField = new JTextField(15);
 
-		passwordLabel = new JLabel("Password:");
+		passwordLabel = new JLabel("  Password:");
 		passwordField = new JPasswordField(15);
 
 		submitButton = new JButton("SUBMIT");
