@@ -75,6 +75,12 @@ public class PaperService {
 	  paperDao.savePaper(aPaper);
   }
   
+  /**
+   * Access the recommendation for this paper
+   * @param aPaperId the id of the paper
+   * @return the recommendation for this paper.  If it does not exist, 
+   * a default Recommendation will be returned.
+   */
   public Recommendation getRecommendation(final int aPaperId) 
   {
 	  return paperDao.getRecommendation(aPaperId);

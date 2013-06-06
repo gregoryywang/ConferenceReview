@@ -30,7 +30,6 @@ import model.Administrator;
 import model.Conference;
 import model.Conference.Deadline;
 import model.User;
-import model.Viewer;
 import service.ConferenceService;
 import service.UserService;
 
@@ -60,11 +59,6 @@ public class ConferenceForm extends JFrame
 	private static final int FRAME_HEIGHT = 300;
 
 	/**
-	 * Reference to the current users Viewer Object.
-	 */
-	private Viewer my_view;
-
-	/**
 	 * Reference to the ConferencePanel.
 	 */
 	private ConferencePanel my_panel;
@@ -84,6 +78,8 @@ public class ConferenceForm extends JFrame
 	 * The conference flag to see if the user selected to make a new conference.
 	 */
 	private boolean my_is_new_conf_flag = false;
+	
+	private Administrator the_admin;
 
 	/**
 	 * Creates a default ConferenceForm Object.
@@ -91,20 +87,20 @@ public class ConferenceForm extends JFrame
 	 * @param the_view the current User's view
 	 * @param the_conference the current Conference the User is viewing
 	 */
-	public ConferenceForm(final Viewer the_view, final Conference the_conference)
+	public ConferenceForm(final User the_administrator, final Conference the_conference)
 	{
 		super("Conference Form");
 		//System.out.println("CF_MSG...The conference passed is: " + the_conference);
 
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		the_admin = new Administrator(the_administrator);
 		my_conference = the_conference;
-		if (the_conference.getID() == 0)
+		if (my_conference.getID() == 0)
 		{
 			my_is_new_conf_flag = true;
 		}
-		my_view = the_view;
-		my_panel = new ConferencePanel(the_conference);
+		my_panel = new ConferencePanel(my_conference);
 	}
 
 	/**
@@ -136,8 +132,7 @@ public class ConferenceForm extends JFrame
 			{
 				if (checkForValidDates())
 				{
-					((Administrator) ((AdminView) my_view).getAdministrator()).createConference(
-							my_panel.parseData());
+					the_admin.createConference(my_panel.parseData());
 					JOptionPane.showMessageDialog(null, 
 							"You have succesfully " + conference_button.getText() + "d the conference!");
 					dispose();

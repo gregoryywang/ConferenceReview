@@ -54,17 +54,4 @@ public class Administrator extends User
 	{	
 		ConferenceService.getInstance().saveConference(the_conference);
 	}
-
-	/**
-	 * Method to change the date of a Conference Object.
-	 * 
-	 * @param the_conference the Conference Object that needs it's Date field
-	 * changed
-	 * @param the_date the new Date Object
-	 */
-	public void changeDate(final Conference the_conference, final Date the_date)
-	{
-		the_conference.setDate(the_date);
-	}
-	
 }

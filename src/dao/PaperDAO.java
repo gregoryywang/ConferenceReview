@@ -397,6 +397,12 @@ public class PaperDAO extends AbstractDAO {
 		return review;
 	}
 
+	/**
+	 * Get a Recommendation for the paper
+	 * @param the_paper_id the id of the paper
+	 * @return the recommendation for the paper.  If none exists, a
+	 * default recommendation will be returned.
+	 */
 	public Recommendation getRecommendation(final int the_paper_id)
 	{
 		Recommendation rec = new Recommendation();

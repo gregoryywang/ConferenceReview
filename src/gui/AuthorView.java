@@ -65,6 +65,21 @@ public class AuthorView extends JPanel {
     }
     panel.add(AddSubmissionButton);
     AddSubmissionButton.addActionListener(controller);
+    
+    /*
+    JButton viewPaper = new JButton("View Submission");
+    viewPaper.addActionListener(controller);
+    panel.add(viewPaper);
+    */
+    
+    JButton editPaper = new JButton("Edit Submission");
+    if(!user.canSubmitOrModify())
+    {
+    	editPaper.setEnabled(false);
+    }
+    editPaper.addActionListener(controller);
+    panel.add(editPaper);
+
     add(panel, BorderLayout.SOUTH);
   }
 
