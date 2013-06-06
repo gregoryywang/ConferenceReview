@@ -56,8 +56,6 @@ public class Review
 	
 	public static final String[] RATING_SCALE_DESCRIPTORS = {};
 	
-	//public static final int NUMBER_OF_QUESTIONS = QUESTIONS.length;
-	
 	private int my_id = 0;
 	
 	private User my_owner;
@@ -248,7 +246,7 @@ public class Review
 	@Override
 	public String toString()
 	{
-		return Integer.toString(getSummaryRating());
+		return my_owner.toString();
 	}
 
 	/**
