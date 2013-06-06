@@ -28,7 +28,7 @@ public class ReviewerView extends JPanel {
   private Controller controller;
   private JTable table;
   private JScrollPane scrollPane;
-  private String[] columns = {"Author","Title", "Acceptance Status"};
+  private String[] columns = {"Author","Title", "Status"};
   private Reviewer reviewer;
   private TableModel tableModel;
   private List<Paper> data;
@@ -142,11 +142,7 @@ public class ReviewerView extends JPanel {
       switch(columnIndex) {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
-//        case 3: result = paper.getAcceptanceStatus().displayName(); break;
-        // this or
-       // case 3: result = paper.getAcceptanceStatus().toString(); break;
-        // this ???
-        case 3: result = paper.getAcceptanceStatus().name(); break;
+        case 2: result = paper.getStatus().toString(); break;
       }
       
       return result;
@@ -158,101 +154,3 @@ public class ReviewerView extends JPanel {
     }
   }
 }
-
-//package gui;
-//
-//import gui.TablePanel.TableModel;
-//
-//import java.awt.BorderLayout;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//
-//import javax.swing.JButton;
-//import javax.swing.JFrame;
-//import javax.swing.JPanel;
-//
-//import model.Paper;
-//import model.Reviewer;
-//import model.User;
-//import service.ConferenceService;
-//import service.UserService;
-//import controller.Controller;
-//
-//public class ReviewerView extends JPanel
-//{
-//
-//	/**
-//	 * The default serial ID
-//	 */
-//	private static final long serialVersionUID = 1L;
-//	private Reviewer my_user;
-//	private TablePanel tablePanel;
-//	private ReviewerController controller;
-//
-//	public ReviewerView(final User the_user) 
-//	{
-//		my_user = new Reviewer(the_user);
-//		setLayout(new BorderLayout(0, 0));
-//		controller = new ReviewerController(my_user);
-//
-//		String[][] properties = {
-//				{"javax.swing.JButton", "Title", "Title", "true"},
-//			    {"java.lang.String", "Author", "Author", "false"},
-//				{"javax.swing.JButton", "Review", "Review", "true"},
-//		};
-//		// Create table panel.
-//		tablePanel = new TablePanel<Paper>(properties, controller);
-//
-//		// Populate model
-//		tablePanel.setModel(my_user.viewPapers());
-//
-//		add(tablePanel, BorderLayout.NORTH);
-//
-//	}
-//
-//	/**
-//	 * Returns view's model.
-//	 * 
-//	 * @return The view's model.
-//	 */
-//	public TableModel getModel() {
-//		return tablePanel.getModel();
-//	}
-//
-//	/**
-//	 * Test code to launch a local panel.
-//	 * 
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		
-//	}
-//
-//	private class ReviewerController implements Controller, ActionListener
-//	{
-//
-//		public ReviewerController(Reviewer the_reviewer) {
-//			
-//		}
-//
-//		@Override
-//		public void update(Object aObject) {
-//
-//		}
-//
-//		@Override
-//		public void setModel(Object aObject) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//
-//		}
-//	}
-//	
-//	
-//}
-
-
