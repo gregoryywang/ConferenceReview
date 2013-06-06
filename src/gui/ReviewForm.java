@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 
 import model.Paper;
 import model.Review;
+import model.Reviewer;
 import model.SubProgramChair;
 import model.User;
 import service.PaperService;
@@ -70,6 +71,16 @@ public class ReviewForm extends JFrame
 	private Review my_review;
 	
 	/**
+	 * Flag is set to true if the User is an author.
+	 */
+	private boolean my_is_author_flag = false;
+	
+	/**
+	 * Flag is set to true if the User is a Reviewer.
+	 */
+	private boolean my_is_reviewer_flag;
+	
+	/**
 	 * Flag is set to true if the Review is new.
 	 */
 	private boolean my_is_new_review_flag = false;
@@ -97,9 +108,18 @@ public class ReviewForm extends JFrame
 		super("Review Form");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
 		//my_user = new Author(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		
+		if ("Author".equals(my_user.getClass().getSimpleName()))
+		{
+			my_is_author_flag = true;
+		}
+		else if ("Reviewer".equals(my_user.getClass().getSimpleName()))
+		{
+			my_is_reviewer_flag = true;
+		}
 		my_review = new Review();
 		my_is_new_review_flag = true;
 		my_paper = new Paper();
@@ -118,6 +138,14 @@ public class ReviewForm extends JFrame
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		my_user = the_user;
+		if ("Author".equals(my_user.getClass().getSimpleName()))
+		{
+			my_is_author_flag = true;
+		}
+		else if ("Reviewer".equals(my_user.getClass().getSimpleName()))
+		{
+			my_is_reviewer_flag = true;
+		}
 		my_review = the_review;
 		if (the_review.getID() == 0)
 		{
@@ -126,23 +154,16 @@ public class ReviewForm extends JFrame
 		my_paper = the_paper;
 	}
 	
-	// need to figure out how to add these as well
-	// SPChairComment (String), SummaryRating (int), SummaryComment (String),
-	// maybe have a JTabbedPane which will include
-	// certain additional tabs depending on the User
-	// SPChair = SPChairComment, SummaryRating, SummaryComment
-	// ProgramChair = SummaryRating, SummaryComment, SPChairComment
-	// Author = SummaryRating, SummaryComment
-	// Reviewer = SummaryRating, SummaryComment, SPChairComment
-	
-	
+	/**
+	 * Method to initialize the panel components.
+	 */
 	public void start()
 	{
 		my_panel = new JPanel(new BorderLayout());
 		
 		final JPanel northern_panel = new JPanel();
 		northern_panel.add(new JLabel("Reviewer: "));
-		northern_panel.add(new JLabel(my_user.toString()));
+		northern_panel.add(new JLabel(my_review.getReviewer().toString()));
 		northern_panel.add(new JLabel("Paper: "));
 		northern_panel.add(new JLabel(my_paper.getTitle()));
 		my_panel.add(northern_panel, BorderLayout.NORTH);
@@ -153,7 +174,7 @@ public class ReviewForm extends JFrame
 		final JPanel southern_panel = new JPanel();
 		final JButton southern_button = new JButton();
 		southern_panel.add(southern_button);
-		if ("Reviewer".equals(my_user.getClass().getSimpleName()))
+		if (my_is_reviewer_flag)
 		{
 			southern_button.setText("Cancel");
 			final JButton review_button = new JButton();
@@ -169,7 +190,7 @@ public class ReviewForm extends JFrame
 			{
 				public void actionPerformed(final ActionEvent the_event)
 				{
-					if (my_reviewer_panel.isValidFields())
+					if (my_reviewer_panel.isValidReviewFields())
 					{
 						my_reviewer_panel.parseData();
 						PaperService.getInstance().addReview(my_review, my_paper);
@@ -213,22 +234,24 @@ public class ReviewForm extends JFrame
 		tabbed_pane.addTab("Review", scrollbar);
 		add(tabbed_pane);
 		
-		if ("SubProgramChair".equals(my_user.getClass().getSimpleName()))
+		if (!my_is_author_flag)
 		{
-			final JPanel subprogram_chair_panel = new SubProgramChairPanel();
-			tabbed_pane.addTab("Comment", subprogram_chair_panel);
-		}
-		
-		if (!"Author".equals(my_user.getClass().getSimpleName()))
-		{
-			final JPanel summary_panel = new SummaryPanel();
-			tabbed_pane.addTab("Summary", summary_panel);
+			final JPanel subprogram_chair_panel = new SubProgramChairPanel(
+				"SubProgramChair".equals(my_user.getClass().getSimpleName()));
+			tabbed_pane.addTab("SubProgramChair Comment", subprogram_chair_panel);
 		}
 		
 		pack();
 		setVisible(true);
 	}
 	
+	/**
+	 * Private class to create the panel that will display the
+	 * Review for the Paper.
+	 * 
+	 * @author Levon K
+	 * @version Spring 2013
+	 */
 	private class ReviewPanel extends JPanel
 	{
 		/**
@@ -239,7 +262,17 @@ public class ReviewForm extends JFrame
 		/**
 		 * Reference to the collection of JComponents.
 		 */
-		List<JComponent> my_review_fields;
+		private List<JComponent> my_review_fields;
+		
+		/**
+		 * Reference to the summary combo box.
+		 */
+		private JComboBox my_summary_box;
+		
+		/**
+		 * Reference to the summary text area.
+		 */
+		private JTextArea my_summary_comment;
 		
 		/**
 		 * Constructs a new ReviewPanel Object.
@@ -270,39 +303,37 @@ public class ReviewForm extends JFrame
 				final JPanel question_panel = new JPanel();
 				question_panel.add(new JLabel("Rating: "));
 				final JComboBox question_box = new JComboBox();
-				if (my_is_new_review_flag)
-				{
-					question_box.setModel(new DefaultComboBoxModel(
-						Review.RATING_SCALE_HIGH_TO_LOW));
-				}
-				else
-				{
-					question_box.addItem(Integer.valueOf(my_review.getRating(i)));
-				}
-				question_box.setEditable(false);
-				question_panel.add(question_box);
-				panel.add(question_panel);
-				my_review_fields.add(question_box);
-				
 				final JTextArea comment_field = new JTextArea();
 				final JScrollPane comment_scroll = new JScrollPane(comment_field);
 				if (my_is_new_review_flag)
 				{
-					if ("Reviewer".equals(my_user.getClass().getSimpleName()))
+					if (my_is_reviewer_flag)
 					{
 						comment_field.setEditable(true);
+						question_box.setModel(new DefaultComboBoxModel(
+								Review.RATING_SCALE_HIGH_TO_LOW));
 					}
 					else
 					{
+						question_box.addItem(Review.RATING_SCALE_HIGH_TO_LOW[0]);
 						comment_field.setEditable(false);
 					}
 					comment_field.setText(DEFAULT_TEXT);
 				}
 				else
 				{
-					comment_field.setEditable(false);
+					question_box.addItem(Integer.valueOf(my_review.getRating(i)));
 					comment_field.setText(my_review.getComment(i));
+					if (!my_is_reviewer_flag || !((Reviewer) my_user).canAddReview())
+					{
+						comment_field.setEditable(false);
+					}
 				}
+				
+				question_box.setEditable(false);
+				question_panel.add(question_box);
+				panel.add(question_panel);
+				my_review_fields.add(question_box);
 				comment_field.setMargin(new Insets(10, 10, 10, 10));
 				comment_field.setLineWrap(true);
 				final JPanel rating_label = new JPanel();
@@ -310,6 +341,60 @@ public class ReviewForm extends JFrame
 				panel.add(rating_label);
 				panel.add(comment_scroll);
 				my_review_fields.add(comment_field);
+			}
+			
+			if (!my_is_author_flag)
+			{
+				my_summary_box = new JComboBox();
+				my_summary_comment = new JTextArea();
+				
+				final JPanel central_panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
+				final JPanel reviewer_panel = new JPanel();
+				reviewer_panel.add(new JLabel("User: " + my_user.toString()));
+				central_panel.add(reviewer_panel);
+				
+				final JPanel summary_panel = new JPanel();
+				summary_panel.add(new JLabel("Summary Rating: "));
+				my_summary_box = new JComboBox();
+				my_summary_box.setEditable(false);
+				summary_panel.add(my_summary_box);
+				central_panel.add(summary_panel);
+				
+				final JPanel comment_label = new JPanel();
+				comment_label.add(new JLabel("Summary Comment: "));
+				central_panel.add(comment_label);
+				
+				my_summary_comment = new JTextArea();
+				if (my_review.getID() == 0)
+				{
+					my_summary_comment.setText(DEFAULT_TEXT);
+					if (!my_is_reviewer_flag)
+					{
+						my_summary_comment.setEditable(false);
+						my_summary_box.addItem(Review.RATING_SCALE_HIGH_TO_LOW[0]);
+					}
+					else
+					{
+						my_summary_box.setModel(new DefaultComboBoxModel(
+							Review.RATING_SCALE_HIGH_TO_LOW));
+					}
+				}
+				else
+				{
+					my_summary_comment.setText(my_review.getSummaryComment());
+					if (!my_is_reviewer_flag)
+					{
+						my_summary_comment.setEditable(false);
+					}
+					my_summary_box.addItem(Integer.valueOf(my_review.getSummaryRating()));
+				}
+				my_summary_comment.setPreferredSize(new Dimension(50, 50));
+				my_summary_comment.setWrapStyleWord(true);
+				my_summary_comment.setLineWrap(true);
+				my_summary_comment.setMargin(new Insets(10, 10, 10, 10));
+				final JScrollPane comment_scroll = new JScrollPane(my_summary_comment);
+				central_panel.add(comment_scroll);
+				panel.add(central_panel);
 			}
 			
 			return panel;
@@ -327,6 +412,11 @@ public class ReviewForm extends JFrame
 				i++;
 				my_review.setComment(i, ((JTextArea) my_review_fields.get(i)).getText());
 			}
+			if (!my_is_author_flag)
+			{
+				my_review.setSummaryRating(my_summary_box.getSelectedIndex());
+				my_review.setSummaryComment(my_summary_comment.getText());
+			}
 		}
 		
 		/**
@@ -336,7 +426,7 @@ public class ReviewForm extends JFrame
 		 * @return returns true if all the comments and 
 		 * ratings have been chosen
 		 */
-		public boolean isValidFields()
+		public boolean isValidReviewFields()
 		{
 			boolean result = true;
 			
@@ -348,112 +438,24 @@ public class ReviewForm extends JFrame
 					result = false;
 					break;
 				}
+				else if ("--select a rating--".equals(Review.RATING_SCALE_HIGH_TO_LOW[
+				    ((JComboBox) component).getSelectedIndex()]))
+				{
+					result = false;
+					break;
+				}
+			}
+			if (!my_is_author_flag)
+			{
+				if ("--select a rating--".equals(Review.RATING_SCALE_HIGH_TO_LOW[
+				    my_summary_box.getSelectedIndex()]) || DEFAULT_TEXT.
+				    equals(my_summary_comment.getText()))
+				{
+				    result = false;
+				}
 			}
 			
 			return result;
-		}
-	}
-	
-	/**
-	 * Private Listener class that creates a Form for the SPChair Comment.
-	 */
-	private class SummaryPanel extends JPanel
-	{	
-		/**
-		 * The default serial version UID.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Constructs a new SubProgramChairAction for the
-		 * SubProgramChair comment.
-		 */
-
-		private SummaryPanel()
-		{
-			super(new BorderLayout());
-			createFields();
-		}
-		
-		private void createFields()
-		{
-			final JPanel central_panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
-			final JPanel reviewer_panel = new JPanel();
-			reviewer_panel.add(new JLabel("User: " + my_user.toString()));
-			central_panel.add(reviewer_panel);
-			
-			final JPanel summary_panel = new JPanel();
-			summary_panel.add(new JLabel("Summary Rating: "));
-			final JComboBox summary_box = new JComboBox();
-			summary_box.setEditable(false);
-			summary_panel.add(summary_box);
-			central_panel.add(summary_panel);
-			
-			final JPanel comment_label = new JPanel();
-			comment_label.add(new JLabel("Summary Comment: "));
-			central_panel.add(comment_label);
-			
-			final JTextArea comment_area = new JTextArea();
-			if (DEFAULT_TEXT.equals(my_review.getSummaryComment()))
-			{
-				comment_area.setText(DEFAULT_TEXT);
-				summary_box.setModel(new DefaultComboBoxModel(
-					Review.RATING_SCALE_HIGH_TO_LOW));
-			}
-			else
-			{
-				comment_area.setText(my_review.getSummaryComment());
-				summary_box.addItem(Integer.valueOf(my_review.getSummaryRating()));
-			}
-			comment_area.setPreferredSize(new Dimension(50, 50));
-			comment_area.setWrapStyleWord(true);
-			comment_area.setLineWrap(true);
-			comment_area.setMargin(new Insets(10, 10, 10, 10));
-			final JScrollPane comment_scroll = new JScrollPane(comment_area);
-			central_panel.add(comment_scroll);
-			add(central_panel, BorderLayout.CENTER);
-			
-			final JPanel southern_panel = new JPanel();
-			final JButton cancel_button = new JButton("Cancel");
-			cancel_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					JOptionPane.showMessageDialog(null, "No changes were saved.");
-				}
-			});
-			southern_panel.add(cancel_button);
-			
-			final JButton submit_button = new JButton();
-			if (DEFAULT_TEXT.equals(my_review.getSummaryComment()))
-			{
-				submit_button.setText("Create");
-			}
-			else
-			{
-				submit_button.setText("Save");
-			}
-			submit_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					if (DEFAULT_TEXT.equals(comment_area.getText()))
-					{
-						JOptionPane.showMessageDialog(null, "Please enter " +
-							"a valid summary for the Paper or press the " +
-							"\"Cancel\" button to discard changes.");
-					}
-					else
-					{
-						my_review.setSummaryComment(comment_area.getText());
-						my_review.setSummaryRating(summary_box.getSelectedIndex());
-						JOptionPane.showMessageDialog(null, "You have successfully " +
-							submit_button.getText() + "d the summary.");
-					}
-				}
-			});
-			southern_panel.add(submit_button);
-			add(southern_panel, BorderLayout.SOUTH);
 		}
 	}
 	
@@ -466,15 +468,22 @@ public class ReviewForm extends JFrame
 		 * The default serial version UID.
 		 */
 		private static final long serialVersionUID = 1L;
+		
+		/**
+		 * Flag is set to true if the User is a SubProgramChair.
+		 */
+		private boolean my_is_subprogram_chair_flag;
 
 		/**
 		 * Constructs a new SubProgramChairAction for the
 		 * SubProgramChair comment.
+		 * 
+		 * @param the_flag is subprogram chair flag
 		 */
-
-		private SubProgramChairPanel()
+		private SubProgramChairPanel(final boolean the_flag)
 		{
 			super(new BorderLayout());
+			my_is_subprogram_chair_flag = the_flag;
 			createFields();
 		}
 		
@@ -490,7 +499,7 @@ public class ReviewForm extends JFrame
 			central_panel.add(comment_label);
 			
 			final JTextArea comment_area = new JTextArea();
-			if (DEFAULT_TEXT.equals(my_review.getSPChairComment()))
+			if (my_review.getID() == 0)
 			{
 				comment_area.setText(DEFAULT_TEXT);
 			}
@@ -506,46 +515,35 @@ public class ReviewForm extends JFrame
 			central_panel.add(comment_scroll);
 			add(central_panel, BorderLayout.CENTER);
 			
-			final JPanel southern_panel = new JPanel();
-			final JButton cancel_button = new JButton("Cancel");
-			cancel_button.addActionListener(new ActionListener()
+			if (my_is_subprogram_chair_flag)
 			{
-				public void actionPerformed(final ActionEvent the_event)
+				final JPanel southern_panel = new JPanel();
+				final JButton submit_button = new JButton("Submit");
+				submit_button.addActionListener(new ActionListener()
 				{
-					JOptionPane.showMessageDialog(null, "No changes were saved.");
-				}
-			});
-			southern_panel.add(cancel_button);
-			
-			final JButton submit_button = new JButton();
-			if (DEFAULT_TEXT.equals(my_review.getSPChairComment()))
-			{
-				submit_button.setText("Create");
+					public void actionPerformed(final ActionEvent the_event)
+					{
+						if (DEFAULT_TEXT.equals(comment_area.getText()))
+						{
+							JOptionPane.showMessageDialog(null, "Please enter " +
+								"a valid comment for the Paper or press the " +
+								"\"Cancel\" button to discard changes.");
+						}
+						else
+						{
+							my_review.setSPChairComment(comment_area.getText());
+							JOptionPane.showMessageDialog(null, "You have successfully " +
+								submit_button.getText() + "d the Comment.");
+						}
+					}
+				});
+				southern_panel.add(submit_button);
+				add(southern_panel, BorderLayout.SOUTH);
 			}
 			else
 			{
-				submit_button.setText("Save");
+				comment_area.setEditable(false);
 			}
-			submit_button.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(final ActionEvent the_event)
-				{
-					if (DEFAULT_TEXT.equals(comment_area.getText()))
-					{
-						JOptionPane.showMessageDialog(null, "Please enter " +
-							"a valid comment for the Paper or press the " +
-							"\"Cancel\" button to discard changes.");
-					}
-					else
-					{
-						my_review.setSPChairComment(comment_area.getText());
-						JOptionPane.showMessageDialog(null, "You have successfully " +
-							submit_button.getText() + "d the Comment.");
-					}
-				}
-			});
-			southern_panel.add(submit_button);
-			add(southern_panel, BorderLayout.SOUTH);
 		}
 	}
 	

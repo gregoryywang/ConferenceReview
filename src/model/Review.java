@@ -45,7 +45,7 @@ public class Review
 	/**
 	 * Descriptors for each value of the rating scale from high value to low.
 	 */
-	public static final String[] RATING_SCALE_HIGH_TO_LOW = {
+	public static final String[] RATING_SCALE_HIGH_TO_LOW = {"--select a rating--",
 		"Strong Accept", "Accept", "Neutral", "Reject", "Strong Reject"
 	};
 	
