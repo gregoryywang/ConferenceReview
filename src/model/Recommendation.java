@@ -45,7 +45,7 @@ public class Recommendation
 	public Recommendation()
 	{
 		//Left blank on purpose.
-		my_owner = new User("TEST", "TEST", "TEST", "TEST", "TEST");
+		my_owner = new User();
 		my_comments = "";
 		my_rating = 0;
 	}

@@ -18,9 +18,7 @@ import model.Administrator;
 import model.Conference;
 import model.Paper;
 import model.Review;
-import model.Role;
 import model.User;
-import model.Viewer;
 import service.ConferenceService;
 
 /**
@@ -29,9 +27,10 @@ import service.ConferenceService;
  * looks like.
  * 
  * @author Levon Kechichian
+ * @author Daniell (refactor)
  * @version Spring 2013
  */
-public class AdminView extends JPanel implements Viewer
+public class AdminView extends JPanel
 {
 	/**
 	 * The default serial version UID.
@@ -42,16 +41,7 @@ public class AdminView extends JPanel implements Viewer
 	 * Reference to the Administrator Object
 	 * associated with this View.
 	 */
-	private Administrator my_administrator;
-	
-	/**
-	 * Creates a default AdminView Object.
-	 */
-	public AdminView()
-	{
-		this(new Administrator(0, "admin", 
-				"admin", "Super User", "root", "barackobama@thepresi.dent"));
-	}
+	private Administrator my_admin;
 	
 	/**
 	 * Constructs an AdminView Object
@@ -62,111 +52,7 @@ public class AdminView extends JPanel implements Viewer
 	public AdminView(final User the_admin)
 	{
 		super(new BorderLayout());
-		my_administrator = new Administrator(the_admin);
-//		add(createCenterPanel(), BorderLayout.CENTER);
-		//System.out.println("ADMV_MSG... " + my_administrator.getRole() + " " + my_administrator.getEmail() +" "+ my_administrator.getConference());
-		new ConferenceForm(this, my_administrator.getConference()).start(); //Danielle
+		my_admin = new Administrator(the_admin);
+		new ConferenceForm(my_admin, my_admin.getConference()).start();
 	}
-
-	/**
-	 * Creates the center panel for the AdminView Frame.
-	 * 
-	 * @return returns the populated central panel
-	 */
-	private JPanel createCenterPanel()
-	{
-		final JPanel panel = new JPanel(new GridLayout(0, 1));
-		
-		final JPanel new_conference_panel = new JPanel(new FlowLayout());
-		final JButton new_conference_button = new JButton("CREATE NEW CONFERENCE");
-		new_conference_button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(final ActionEvent the_event)
-			{
-				final AdminView view = new AdminView();
-				User pgrm_chair = new User();
-				pgrm_chair.setFirstName("NEWWWWWW PGCHAAAAAIIIIRRR");
-				final Conference conference = new Conference(10, new Date(System.currentTimeMillis()),
-					pgrm_chair, "FInished", new Date(System.currentTimeMillis()), 
-					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
-					new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
-				
-				final ConferenceForm form = new ConferenceForm(view, conference);
-				form.start();
-			}
-		});
-		new_conference_panel.add(new_conference_button);
-		panel.add(new_conference_panel);
-		
-		final JPanel center_panel = new JPanel(new FlowLayout());
-		center_panel.add(new JLabel("\t Conferences "));
-		final JComboBox conference_combo_box = new JComboBox(
-			ConferenceService.getInstance().getConferences().toArray());
-		center_panel.add(conference_combo_box);
-		final JButton combo_box_button = new JButton("Go"); 
-		combo_box_button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(final ActionEvent the_event)
-			{
-				final Conference conference_item = (Conference) conference_combo_box.getSelectedItem();
-				new ConferenceForm((AdminView)the_event.getSource(), conference_item).start();
-//						createConferenceForm(ConferenceService.getInstance().
-//					getConference(conference_item.getID()));
-			}
-		});
-		center_panel.add(combo_box_button);
-		panel.add(center_panel);
-		
-		return panel;
-	}
-	
-	/**
-	 * Method to get the Administrator Object associated
-	 * with this AdminView.
-	 * 
-	 * @return returns the Administrator Object
-	 */
-	public User getAdministrator()
-	{
-		return my_administrator;
-	}
-	
-	/**
-	 * Returns a List of Paper Objects.
-	 * 
-	 * @return the List of Paper Objects
-	 */
-	@Override
-	public List<Paper> viewPapers() 
-	{
-	  return new ArrayList<Paper>();
-	}
-
-	/**
-	 * Returns a List of Review Objects.
-	 * 
-	 * @return the List of Review Objects
-	 */
-	@Override
-	public List<Review> viewReviews() 
-	{
-	  return new ArrayList<Review>();
-	}
-	
-	/**
-	 * Method to test the AdminView class.
-	 * 
-	 * @param the_args the command-line args
-	 */
-	/*
-	public static void main(final String[] the_args)
-	{
-		final JFrame frame = new JFrame("AdminView");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final AdminView admin_view = new AdminView();
-		admin_view.fillPanel();
-		frame.add(admin_view);
-		frame.pack();
-		frame.setVisible(true);
-	}*/
 }

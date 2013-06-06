@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import service.PaperService;
 
 /**
@@ -72,7 +74,7 @@ public class SubProgramChair extends User
 	 * @param the_paper the paper you are creating or viewing
 	 * the Recommendation for
 	 * @return returns the Recommendation associated with the paper;
-	 * if none exists it will return a new Recommendation
+	 * if none exists it will return a new default Recommendation
 	 */
 	public Recommendation viewRecommendation(final Paper the_paper)
 	{
@@ -89,6 +91,16 @@ public class SubProgramChair extends User
 	public void setRole(final Role the_role)
 	{
 		//does nothing because SubProgramChair's role is ALWAYS Role.SUBPROGRAM_CHAIR
+	}
+	
+	public List<Paper> getPapers()
+	{
+		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.SUB_PROGRAM_CHAIR);
+	}
+	
+	public List<Review> getReviews(final Paper the_paper)
+	{
+		return PaperService.getInstance().getReviews(the_paper.getID());
 	}
 }
 
