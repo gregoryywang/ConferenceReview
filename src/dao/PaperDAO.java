@@ -239,6 +239,7 @@ public class PaperDAO extends AbstractDAO {
 
 	/**
 	 * Get all papers associated with a user role, conference, and user.
+	 * Reviews and Recommendations are NOT associated with the paper at this stage.
 	 * @param the_user_id the id of the user
 	 * @param the_role the role of the user
 	 * @param the_conference the conference id of the papers to retrieve.
@@ -290,8 +291,7 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
-	 * TO DO: attach revised_content to the paper object
-	 * Gets a paper object based on paper ID.
+	 * Gets a paper object based on paper ID.  Reviews and Recommendations are NOT attached.
 	 * @param paper_ID the unique paper_ID.
 	 * @return a Paper object associated with this paper_ID.  Will return
 	 * default Paper object if no paper is associated with this paper_ID.
@@ -335,7 +335,6 @@ public class PaperDAO extends AbstractDAO {
 
 				paper.setContent(builder.toString());
 
-				//FIX ME!! Still need to do the same thing for "CONTENT_REVISED" which may be null.
 				if(result.getCharacterStream("Content_revised") != null)
 				{
 				buffer = new BufferedReader(result.getCharacterStream("CONTENT_REVISED"));

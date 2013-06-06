@@ -74,7 +74,7 @@ public class UserService {
 	  
 	  if(the_role == Role.REVIEWER)
 	  {	//remove the author, program chair, subprogram chair
-		  int author_id = the_paper.getID();
+		  int author_id = the_paper.getAuthor().getID();
 
 		  user_pool = userDao.getUsers();
 		  
@@ -95,9 +95,9 @@ public class UserService {
 			  if(current_user_id == author_id ||
 				 current_user_id == pg_chair_id	||
 				 current_user_id == sp_chair_id)
-			  {//Remove paper's author
+			  {//Remove paper's author, pg chair and sub program chair
 				  user_pool.remove(i);
-				  i--; //shift the index back one so to not skip next item
+				  i = i - 1;
 			  }
 		  }
 	  }

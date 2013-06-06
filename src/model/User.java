@@ -256,4 +256,20 @@ public Conference getConference()
     return getFullName();
   }
   
+  @Override
+  public boolean equals(final Object the_object)
+  {
+	  boolean result = false;
+	  if(the_object == null || the_object instanceof User)
+	  {
+		  return false;
+	  }
+	  User other_user = (User) the_object;
+	  if(other_user.getID() == getID())
+	  {
+		  result = true;
+	  }
+	  return result;
+  }
+  
 }

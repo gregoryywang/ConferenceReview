@@ -79,6 +79,7 @@ public class PGChairDialog extends JDialog {
 		lblReviews = new JLabel("View Reviews:");
 		lblReviews.setBounds(50,110,220,20);
 		Object[] reviewValues = aPaper.getReviews().toArray();
+		System.out.println(aPaper.getReviews().size());
 		cmbReviews = new JComboBox(new DefaultComboBoxModel(reviewValues));
 		cmbReviews.setBounds(210,110,185,20);
 		

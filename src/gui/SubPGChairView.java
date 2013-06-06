@@ -28,15 +28,15 @@ public class SubPGChairView extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	private String[] columns = {"Author","Title", "Status", "Reviewer", "Reviewer", "Reviewer"};
-	  private List<Paper> model;
-	  private Controller controller;
-	  private JTable table;
-	  private JScrollPane scrollPane;
-	  private SubProgramChair my_SPChair;
-	  private JButton btViewEdit;
-	  private TableModel tableModel;
-	  private List<Paper> data;
-	  private MainView parent;
+	private List<Paper> model;
+	private Controller controller;
+	private JTable table;
+	private JScrollPane scrollPane;
+	private SubProgramChair my_SPChair;
+	private JButton btViewEdit;
+	private TableModel tableModel;
+	private List<Paper> data;
+	private MainView parent;
 	/**
 	 * Constructs a SubPGChairView from a specific
 	 * SubProgramChair User.
@@ -75,34 +75,34 @@ public class SubPGChairView extends JPanel
 		parent = (MainView) getTopLevelAncestor();
 		setVisible(true);
 	}
-	  
-	  public TableModel getTableModel() {
-	    return tableModel;
-	  }
-	  
-	  public Paper getSelectedRow() {   
-	    int selectedRow = table.getSelectedRow();
-	    
-	    if(selectedRow >= 0)
-	      return data.get(selectedRow);
-	    
-	    return null;
-	  }
-	  
-	  public SubProgramChair getSPChair() {
-	    return my_SPChair;
-	  }
-	  
-	  public MainView getMainView() {
-	    return parent;
-	  }
-	  
-	  //:) I know.....
-	  public void disableButton() {
-	   btViewEdit.setEnabled(false);
-	  }
 
-	private class TableModel extends AbstractTableModel 
+	public TableModel getTableModel() {
+		return tableModel;
+	}
+
+	public Paper getSelectedRow() {   
+		int selectedRow = table.getSelectedRow();
+
+		if(selectedRow >= 0)
+			return data.get(selectedRow);
+
+		return null;
+	}
+
+	public SubProgramChair getSPChair() {
+		return my_SPChair;
+	}
+
+	public MainView getMainView() {
+		return parent;
+	}
+
+	//:) I know.....
+	public void disableButton() {
+		btViewEdit.setEnabled(false);
+	}
+
+	public class TableModel extends AbstractTableModel 
 	{
 		private static final long serialVersionUID = 1L;
 
