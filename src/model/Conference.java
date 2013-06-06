@@ -77,7 +77,7 @@ public class Conference extends Observable
 	}
 	
 	/**
-	 * Default Constructor (used for testing).
+	 * TEST CONSTRUCTOR.
 	 */
 	public Conference() {
 	  this(0, new Date(System.currentTimeMillis()), new ProgramChair(new User("test", "test", "test", "test", "test")),

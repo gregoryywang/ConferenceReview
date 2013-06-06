@@ -163,7 +163,14 @@ public class ReviewForm extends JFrame
 		
 		final JPanel northern_panel = new JPanel();
 		northern_panel.add(new JLabel("Reviewer: "));
-		northern_panel.add(new JLabel(my_review.getReviewer().toString()));
+		if (my_is_reviewer_flag)
+		{
+			northern_panel.add(new JLabel(my_user.toString()));
+		}
+		else
+		{
+			northern_panel.add(new JLabel(my_review.getReviewer().toString()));
+		}
 		northern_panel.add(new JLabel("Paper: "));
 		northern_panel.add(new JLabel(my_paper.getTitle()));
 		my_panel.add(northern_panel, BorderLayout.NORTH);

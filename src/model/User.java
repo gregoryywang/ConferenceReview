@@ -52,10 +52,17 @@ public class User extends Observable
 	private Conference my_conference;
 	
 	/**
-	 * Default constructor.
+	 * TEST CONSTRUCTOR.
 	 */
 	public User()
 	{
+		my_first_name = "first";
+		my_last_name = "last";
+		my_username = "user name";
+		my_password = "password";
+		my_email = "email";
+		my_conference = new Conference();
+		my_role = Role.USER;
 	}
 	
 	/**
