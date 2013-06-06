@@ -13,12 +13,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import service.PaperService;
-
 import model.Paper;
 import model.ProgramChair;
+import model.SubProgramChair;
 import model.User;
-
+import service.PaperService;
 import controller.Controller;
 import controller.PGChairViewController;
 
@@ -129,8 +128,8 @@ public class PGChairView extends JPanel {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
         case 2: 
-          User user = PaperService.getInstance().getAssignedSubprogramChair(paper.getID());
-          result = (user.getID() == 0) ? "Not Assigned" : user.getLastName(); break; 
+          SubProgramChair user = PaperService.getInstance().getAssignedSubprogramChair(paper.getID());
+          result = (user.getID() == 0) ? "Not Assigned" : user.getFullName(); break; 
         case 3: result = paper.getAcceptanceStatus().toString(); break;
       }
       
