@@ -2,24 +2,24 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
-import model.Conference;
 import model.Paper;
 import model.Recommendation;
 import model.Review;
@@ -27,10 +27,15 @@ import model.Reviewer;
 import model.Role;
 import model.SubProgramChair;
 import model.User;
-import service.PaperService;
 import service.UserService;
 import controller.Controller;
 
+/**
+ * A Dialog of all actions a SubProgramChair can take.
+ * @author Roshun Jones (template for layout)
+ * @author Danielle Tucker
+ *
+ */
 public class SubPGChairDialog extends JDialog
 {
 	/**
@@ -41,6 +46,9 @@ public class SubPGChairDialog extends JDialog
 	private final Controller my_controller;
 	private final SubProgramChair my_SPChair;
 	private final Paper my_paper;
+	private JTextPane txtComments;
+	private JComboBox cmbRating;
+	private final JList reviewer_choices = new JList();
 
 	public SubPGChairDialog(final MainView aParent, final Controller aController,
 			final SubProgramChair SPChair, final Paper aPaper)
@@ -53,7 +61,7 @@ public class SubPGChairDialog extends JDialog
 		JPanel contentPanel = new JPanel();
 
 		setTitle("Sub Program Chair Command Center");
-		setModal(true);
+		setModal(false);
 		setSize(350, 350);
 		//		setResizable(false);
 		setLayout(new BorderLayout());
@@ -83,61 +91,19 @@ public class SubPGChairDialog extends JDialog
 		JLabel lblReviews = new JLabel("Reviews:");
 		lblReviews.setBounds(15, 86, 90, 14);
 
-		final List<Review> reviews = my_paper.getReviews();
-		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
-		for(int i = 0; i < 3; i++)
-		{	
-			if(reviews.size() > i)
-			{//Display button for review 1
-				JButton btnReviewer1 = new JButton("View Review");
-				btnReviewer1.setBounds(120, 83 + i*30, 200, 20);
-				btnReviewer1.addActionListener(new ReviewActionListener(reviews.get(i)));
-				btnReviewer1.setEnabled(reviewers.size() > i);
-				contentPanel.add(btnReviewer1);			
-			}
-			else if(reviewers.size() > i)
-			{//Display label for reviewer assigned
-				JButton btnReviewer1 = new JButton("Review Not Avaliable");
-				btnReviewer1.setBounds(120, 83 + i*30, 200, 20);
-				btnReviewer1.setEnabled(false);
-				contentPanel.add(btnReviewer1);			
-			}
-			else
-			{//Display dropdown for choosing the reviewer
-				JComboBox cmbReviewer1 = new JComboBox();
-				cmbReviewer1.setBounds(120, 83 + i*30, 200, 20);
-				cmbReviewer1.setModel(new DefaultComboBoxModel());
-				cmbReviewer1.setEditable(false);
-				contentPanel.add(cmbReviewer1);
-			}
-		}
-		
-		/*
-		//now add the rating and comments sections
-		Recommendation rec =  my_SPChair.viewRecommendation(my_paper);
-		boolean newRec = (rec.getRating() == 0);
-		if(newRec) //new recommendation
-		{
-			JComboBox cmbRating = new JComboBox(new DefaultComboBoxModel(rec.RATING_SCALE_HIGH_TO_LOW));
-			cmbRating.setBounds(200, 90, 165, 20);
-			add(cmbRating);
-		}
-		else
-		{
+		createReviewItems(aPaper, contentPanel);
 
-		}
-		 */
 		JLabel lblMyRating = new JLabel("My Rating:");
 		lblMyRating.setBounds(15, 174, 90, 14);
 
-		JComboBox cmbRating = new JComboBox();
+		cmbRating = new JComboBox();
 		cmbRating.setBounds(120, 171, 200, 20);
-		cmbRating.setEditable(true);
+		cmbRating.setEditable(false);
 		cmbRating.setModel(new DefaultComboBoxModel(Recommendation.RATING_SCALE_HIGH_TO_LOW));
 
 		JLabel lblMyComments = new JLabel("My Comments:");
 		lblMyComments.setBounds(15, 202, 90, 14);		
-		JTextPane txtComments = new JTextPane();
+		txtComments = new JTextPane();
 		JScrollPane jsp = new JScrollPane(txtComments);
 		jsp.setBounds(120, 202, 200, 68);
 
@@ -158,12 +124,22 @@ public class SubPGChairDialog extends JDialog
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		add(buttonPane, BorderLayout.SOUTH);
 
-		JButton btnSave = new JButton("Save Changes");
-		btnSave.setActionCommand("Save");
-		btnSave.addActionListener(aController);
-		buttonPane.add(btnSave);
-		getRootPane().setDefaultButton(btnSave);
-
+		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
+		if(reviewers.isEmpty())
+		{
+			JButton btnSave = new JButton("Save Reviewers");
+			btnSave.setActionCommand("save_rev");
+			btnSave.addActionListener(my_controller);
+			buttonPane.add(btnSave);
+		}
+		else
+		{
+			JButton btnSaveRec = new JButton("Save Recommendation");
+			btnSaveRec.setActionCommand("save_rec");
+			btnSaveRec.addActionListener(my_controller);
+			buttonPane.add(btnSaveRec);
+		}
+		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
@@ -172,6 +148,7 @@ public class SubPGChairDialog extends JDialog
 			}
 		});
 		buttonPane.add(btnCancel);
+		getRootPane().setDefaultButton(btnCancel);
 
 
 		//Center dialog
@@ -181,30 +158,72 @@ public class SubPGChairDialog extends JDialog
 		int locY = (parentHeight / 2) - (getHeight() / 2);
 		setLocation(locX, locY);	
 	}
-	/*
-	public Object getDecision() {
-		return cmbAcceptance.getSelectedItem();
-	}
-
-	public Object getSubProgramChair() {
-		return cmbSubChair.getSelectedItem();
-	} 
-	 */
-
-
 
 	/**
-	 * Gets the SubProgramChair.
+	 * Gets the assignedReviewer.
 	 * 
-	 * @return the SubProgramChair
+	 * @return the assignedReviewers
 	 */
-	public User getSubProgramChair()
+	public List<User> getAssignedReviewer()
 	{
-		return my_SPChair;
+		Object[] select_obj = reviewer_choices.getSelectedValues();
+		List<User> selections = new ArrayList<User>();
+		for(Object obj: select_obj)
+		{
+			selections.add((User)obj);
+		}
+		return selections;
 	}
 
+	public int getRating()
+	{
+		return (Integer) cmbRating.getSelectedItem();
+	}
 
+	public String getComments()
+	{
+		return txtComments.getText();
+	}
 
+	private void createReviewItems(final Paper aPaper, JPanel contentPanel) {
+		final List<Review> reviews = my_paper.getReviews();
+		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
+		List<User> reviewer_pool = UserService.getInstance().getAllUsers(my_paper, my_SPChair.getConference().getID(), Role.REVIEWER);
+		for(User usr: reviewer_pool)
+		{
+			System.out.println(usr);
+		}
+		
+		if(reviewers.size() == 0)
+		{
+			reviewer_choices.setModel(new DefaultComboBoxModel(reviewer_pool.toArray()));
+			JScrollPane scroll_pane = new JScrollPane(reviewer_choices);
+			scroll_pane.setBounds(120, 83 + 0*30, 200, 20*3);
+			contentPanel.add(scroll_pane);
+		}
+		else
+		{
+			System.out.println("Number of Reviews:" + reviews.size());
+			for(int i = 0; i < 4; i++)
+			{
+				if(reviews.size() > i)
+				{ //display button for review
+					JButton btnReviewer1 = new JButton("View Review");
+					btnReviewer1.setBounds(120, 83 + i*30, 200, 20);
+					btnReviewer1.addActionListener(new ReviewActionListener(reviews.get(i)));
+					btnReviewer1.setEnabled(reviewers.size() > 0);
+					contentPanel.add(btnReviewer1);	
+				}
+				else
+				{//Display label for reviewer assigned
+					JButton btnReviewer1 = new JButton("Review Not Avaliable");
+					btnReviewer1.setBounds(120, 83 + i*30, 200, 20);
+					btnReviewer1.setEnabled(false);
+					contentPanel.add(btnReviewer1);			
+				}
+			}
+		}
+	}
 
 	private class ReviewActionListener implements ActionListener
 	{
@@ -219,76 +238,6 @@ public class SubPGChairDialog extends JDialog
 		public void actionPerformed(ActionEvent arg0) {
 			new ReviewForm(my_paper, my_SPChair, my_review).start();
 		}	
-	}
-	/**
-	 * Private class to Listen for Reviewer events.
-	 */
-	private class ReviewerAction extends AbstractAction
-	{
-		/**
-		 * The default serial version UID.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Reference to the JButton.
-		 */
-		private JButton my_button;
-
-		/**
-		 * Reference to the JComboBox.
-		 */
-		private JComboBox my_combo_box;
-
-		/**
-		 * Reference to the Paper.
-		 */
-		private Paper my_paper;
-
-		/**
-		 * Constructs a new ReviewerAction from the
-		 * given button and combo box.
-		 */
-		private ReviewerAction(final JButton the_button, final JComboBox the_combo_box, 
-				final Paper the_paper)
-		{
-			super();
-			my_button = the_button;
-			my_combo_box = the_combo_box;
-			my_paper = the_paper;
-		}
-
-		/**
-		 * Overrides the implemented interface method.
-		 * 
-		 * @param the_event the Object that fired the event
-		 */
-		@Override
-		public void actionPerformed(final ActionEvent the_event) 
-		{
-			final List<Review> all_reviews = my_paper.getReviews();
-			boolean new_reviewer = true;
-
-			for (Review review : all_reviews)
-			{
-				if (((User) review.getReviewer()).getID() == ((User) my_combo_box.getSelectedItem()).getID())
-				{
-					new_reviewer = false;
-				}
-			}
-			if (new_reviewer)
-			{
-				List<User> user_list = UserService.getInstance().getAllUsers();
-				final User chosen_reviewer = user_list.get(my_combo_box.getSelectedIndex());
-				((SubProgramChair) my_SPChair).assignReviewer(chosen_reviewer, 
-						my_paper, my_SPChair.getConference());
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "The Reviewer " + 
-						((User) my_combo_box.getSelectedItem()).toString() + " has already been chosen.");
-			}
-		}
 	}
 }
 

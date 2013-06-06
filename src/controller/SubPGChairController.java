@@ -7,8 +7,15 @@ import gui.SubPGChairView;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Paper;
+import model.Recommendation;
+import model.Reviewer;
+import model.Role;
 import model.SubProgramChair;
+import model.User;
+import service.PaperService;
 
 public class SubPGChairController implements Controller
 {
@@ -27,12 +34,39 @@ public class SubPGChairController implements Controller
 	@Override
 	public void actionPerformed(final ActionEvent the_event)
 	{
-		if("view_edit".equals(the_event.getActionCommand()))
+		String command = the_event.getActionCommand();
+		if("view_edit".equals(command))
 		{
 			MainView parent = my_view.getMainView();
 			Paper paper = my_view.getSelectedRow();
 			dlg = new SubPGChairDialog(parent, this, the_SPChair, paper);
 			dlg.setVisible(true);
+		}
+		if("save_rec".equals(command))
+		{
+			Paper paper = my_view.getSelectedRow();
+			Recommendation rec = new Recommendation(the_SPChair, dlg.getRating(), dlg.getComments());
+			PaperService.getInstance().addRecommendation(rec, paper);
+		}
+		if("save_rev".equals(command))
+		{
+			List<User> reviewers = dlg.getAssignedReviewer();
+			if(reviewers.size() != 3)
+			{
+				JOptionPane.showMessageDialog(dlg.getParent(),
+						"You need to choose 3 Reviewers");
+			}
+			else
+			{
+				Paper paper = my_view.getSelectedRow();
+				for(User reviewer: reviewers)
+				{
+					PaperService.getInstance().assignPaper(paper.getID(), reviewer.getID(), 
+							the_SPChair.getConference().getID(), Role.REVIEWER);
+					my_view.getTableModel().fireTableDataChanged();
+					dlg.dispose();
+				}
+			}
 		}
 	}
 

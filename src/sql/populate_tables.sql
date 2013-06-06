@@ -88,6 +88,11 @@ insert into user(first_name, last_name, username, password, email_address) value
 --Associate ReivewerTest3 with Paper 4
 insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (7, 3, 4, 2);
 
+--Add Reviewer2 and Reviewer3 to Paper 3
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (6, 3, 3, 2);
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (7, 3, 3, 2);
+
+
 --Create Paper5 with ProgramChair as author (PAPER_ID = 5)
 insert into paper(author_id, title, keywords, abstract, cat_id, content, active) values(2, 'A Review of ISA Impacts within Business Environment', 'business, isa', 'minimalist abstract', 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1);
 --Associate Paper with conference1 and AuthorTest
@@ -115,6 +120,59 @@ insert into rating_comment(review_id, question_id, rating, comment_text) values 
 insert into rating_comment(review_id, question_id, rating, comment_text) values (1,9,5,'Looks good');
 
 
---Add general user (USER_ID = 8)
+--Add Author2 user (USER_ID = 8)
+insert into user(first_name, last_name, username, password, email_address) values('Author', 'User2', 'AuthorTest2', 'AuthorTest2', 'AuthorTest2@uw.edu');
+
+--Create Paper6 with Author2 as author (PAPER_ID = 6)
+insert into paper(author_id, title, keywords, abstract, cat_id, content, active) values(8, 'Isometric Challenges in Implementaion of Clusters', 'cluser, data centers', 'abstracts are great', 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1);
+--Associate Paper with conference1 and Reviewer2
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(8,2,6,1);
+--Associate Paper with SubProgramChair
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(4,4,6,1);
+--Associate ReivewerTest with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (5,3,6,1);
+--Associate ReivewerTest2 with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (6,3,6,1);
+--Associate ReivewerTest3 with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (7,3,6,1);
+
+--Create A Review for Paper 6 written by ReviewerTest(REVIEW_ID = 2)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (6, 5, 'I would recommend that you read this and approve it!!!', 4, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,1,4,'All items addressed');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,5,3,'Yep');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (2,9,5,'Meets the standard');
+--Create A Review for Paper 6 written by ReviewerTest2(REVIEW_ID = 3)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (6, 6, 'I would think...', 4, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,1,4,'Some minor details');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,5,3,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (3,9,5,'Meets the standard');
+--Create A Review for Paper 6 written by ReviewerTest2(REVIEW_ID = 4)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (6, 7, 'I would recommend that...!!!', 5, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,1,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,5,3,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (4,9,5,'Meets the standard');
+
+--Add general user (USER_ID = 9)
 insert into user(first_name, last_name, username, password, email_address) values('Default', 'User', 'UserTest', 'UserTest', 'UserTest@uw.edu');
 

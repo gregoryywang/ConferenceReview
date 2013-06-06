@@ -94,6 +94,11 @@ public class SubProgramChair extends User
 		//does nothing because SubProgramChair's role is ALWAYS Role.SUBPROGRAM_CHAIR
 	}
 	
+	/**
+	 * Get all Papers associated with this Sub Program Chair
+	 * @return a list of all papers associated with this sub program chair.  If none are
+	 * associated then an empty list is created.
+	 */
 	public List<Paper> getPapers()
 	{
 		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.SUB_PROGRAM_CHAIR);

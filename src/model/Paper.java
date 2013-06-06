@@ -348,16 +348,16 @@ public class Paper extends Observable
 	 */
 	public List<Review> getReviews()
 	{
-		if(my_reviews.isEmpty()) {
-		  List<Review> temp = new ArrayList<Review>();
-		  temp.add(new Review() {
-		    @Override 
-		    public String toString() {
-		      return "No reviews available";
-		    }
-		  });
-		  return temp;
-		}else 
+//		if(my_reviews.isEmpty()) {
+//		  List<Review> temp = new ArrayList<Review>();
+//		  temp.add(new Review() {
+//		    @Override 
+//		    public String toString() {
+//		      return "No reviews available";
+//		    }
+//		  });
+//		  return temp;
+//		}else 
 		  return my_reviews;
 	}
 	

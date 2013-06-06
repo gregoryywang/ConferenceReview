@@ -78,7 +78,7 @@ public class PaperService {
   }
   
   /**
-   * Submits paper review.
+   * Submits paper recommendation from the SubprogramChair.
    */
   public void addRecommendation(final Recommendation aRecommendation, final Paper aPaper) 
   {
