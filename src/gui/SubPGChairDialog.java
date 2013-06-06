@@ -177,47 +177,6 @@ public class SubPGChairDialog extends JDialog
 		return cmbSubChair.getSelectedItem();
 	} 
 	 */
-	/**
-	 * Private method to create the recommendation portion of the panel
-	 * with the given paper.
-	 * 
-	 * @param the_paper the paper that is populating the panel
-	 * @return returns a panel that is populated by the given paper
-	 */
-	private JPanel createRecommendationPanel(final Paper the_paper)
-	{
-		final JPanel recommendation_panel = new JPanel();
-
-		final JButton recommendation_button = new JButton();
-		if ("".equals(the_paper.getRecommendation()))
-		{
-			recommendation_button.setText("View Recommendation");
-		}
-		else
-		{
-			recommendation_button.setText("Create Recommendation");
-		}
-
-		recommendation_button.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(final ActionEvent the_event)
-			{
-				if ("Create Recommendation".equals(recommendation_button.getText()))
-				{
-					new RecommendationForm(my_SPChair, new Recommendation(my_SPChair, 0, ""), 
-							the_paper).start();
-
-				}
-				else
-				{
-					new RecommendationForm(my_SPChair, the_paper.getRecommendation(), the_paper).start();
-				}
-			}
-		});
-		recommendation_panel.add(recommendation_button);
-
-		return recommendation_panel;
-	}
 
 
 
@@ -289,32 +248,6 @@ public class SubPGChairDialog extends JDialog
 		new ReviewForm(the_paper, the_user, user_review).start();
 	}
 
-
-	/**
-	 * View the Recommendation written by this User
-	 * on a specified Paper
-	 * 
-	 * @param the_paper the Paper that the Recommendation
-	 * was written for
-	 */
-	public void viewRecommendation(final Paper the_paper)
-	{
-		final Recommendation recommendation = PaperService.getInstance().getRecommendation(the_paper.getID());
-		new RecommendationForm(my_SPChair, recommendation, the_paper).start();
-	}
-	/**
-	 * Assigns a Recommendation to a specified Paper.
-	 * 
-	 * @param the_paper the Paper that the
-	 * Recommendation is being assigned to
-	 */
-	public void writeRecommendation(final Paper the_paper)
-	{
-		// I need to create the RecommendationForm here
-		// and then grab the data from the recommendation
-		final Recommendation recommendation = new Recommendation();
-		((SubProgramChair) my_SPChair).submitRecommendation(recommendation, the_paper);
-	}
 
 	/**
 	 * Method to update the ReviewerPanel based on the chosen paper.
