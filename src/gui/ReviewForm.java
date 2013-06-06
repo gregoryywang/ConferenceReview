@@ -21,9 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
-import model.Author;
 import model.Paper;
 import model.Review;
+import model.SubProgramChair;
 import model.User;
 import service.PaperService;
 
@@ -98,8 +98,8 @@ public class ReviewForm extends JFrame
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		my_user = new Author(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		//my_user = new Author(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
 		my_review = new Review();
 		my_is_new_review_flag = true;
 		my_paper = new Paper();
@@ -119,7 +119,7 @@ public class ReviewForm extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		my_user = the_user;
 		my_review = the_review;
-		if ("".equals(the_review.getSummaryComment()))
+		if (the_review.getID() == 0)
 		{
 			my_is_new_review_flag = true;
 		}
@@ -130,10 +130,10 @@ public class ReviewForm extends JFrame
 	// SPChairComment (String), SummaryRating (int), SummaryComment (String),
 	// maybe have a JTabbedPane which will include
 	// certain additional tabs depending on the User
-	// SPChair = SPChairComment
-	// ProgramChair = SummaryRating, SummaryComment
+	// SPChair = SPChairComment, SummaryRating, SummaryComment
+	// ProgramChair = SummaryRating, SummaryComment, SPChairComment
 	// Author = SummaryRating, SummaryComment
-	// Reviewer = ???
+	// Reviewer = SummaryRating, SummaryComment, SPChairComment
 	
 	
 	public void start()
@@ -210,7 +210,7 @@ public class ReviewForm extends JFrame
 		scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		final JTabbedPane tabbed_pane = new JTabbedPane();
-		tabbed_pane.addTab("Main", scrollbar);
+		tabbed_pane.addTab("Review", scrollbar);
 		add(tabbed_pane);
 		
 		if ("SubProgramChair".equals(my_user.getClass().getSimpleName()))
@@ -219,8 +219,7 @@ public class ReviewForm extends JFrame
 			tabbed_pane.addTab("Comment", subprogram_chair_panel);
 		}
 		
-		if ("ProgramChair".equals(my_user.getClass().getSimpleName()) ||
-			"Author".equals(my_user.getClass().getSimpleName()))
+		if (!"Author".equals(my_user.getClass().getSimpleName()))
 		{
 			final JPanel summary_panel = new SummaryPanel();
 			tabbed_pane.addTab("Summary", summary_panel);
