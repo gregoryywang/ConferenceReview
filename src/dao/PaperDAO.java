@@ -14,9 +14,11 @@ import java.util.List;
 import model.Paper;
 import model.Recommendation;
 import model.Review;
+import model.Reviewer;
 import model.Role;
 import model.Status;
 import model.SubProgramChair;
+import model.User;
 
 /**
  * Class to get/set information about papers in the database.
@@ -375,6 +377,7 @@ public class PaperDAO extends AbstractDAO {
 
 			while ( result.next() ) 
 			{
+				review.setID(result.getInt("review_id"));
 				UserDAO user_dao = new UserDAO();
 				review.setReviewer(user_dao.getUser(result.getInt("user_id")));
 				review.setSPChairComment(result.getString("CMMT_SUBPGRMCHAIR"));
@@ -395,6 +398,42 @@ public class PaperDAO extends AbstractDAO {
 		} catch (Exception e) {System.err.println("PDAO_MSG: " + e);}
 
 		return review;
+	}
+	
+	public List<Review> getReviews(final int the_paper_id)
+	{
+		List<Review> revs = new ArrayList<Review>();
+		final String query = "SELECT * FROM review WHERE paper_id = ?";
+		final String get_question_results = "SELECT * FROM rating_comment WHERE review_id = ?";
+		try
+		{
+			PreparedStatement stmt = getConnection().prepareStatement(query);
+			stmt.setInt(1, the_paper_id);
+			ResultSet result = stmt.executeQuery();
+			while ( result.next() ) 
+			{		
+				Review review = new Review();
+				review.setID(result.getInt("review_id"));
+				UserDAO user_dao = new UserDAO();
+				review.setReviewer(user_dao.getUser(result.getInt("reviewer_id")));
+				review.setSPChairComment(result.getString("CMMT_SUBPGRMCHAIR"));
+				review.setSummaryRating(result.getInt("SUMMARY_RATING"));
+
+				stmt = AbstractDAO.getConnection().prepareStatement(get_question_results);
+				stmt.setInt(1, result.getInt("review_id"));
+				ResultSet questions_result = stmt.executeQuery();
+
+				while (questions_result.next())
+				{
+					int question_id = questions_result.getInt("question_id");
+					review.setRating(question_id, questions_result.getInt("rating"));
+					review.setComment(question_id, questions_result.getString("comment_text"));
+				}
+			}
+			stmt.close();
+		} catch (Exception e)  {System.err.println("PDAO_getReviews_MSG: " + e);}
+		
+		return revs;
 	}
 
 	/**
@@ -453,4 +492,36 @@ public class PaperDAO extends AbstractDAO {
 		}
 		return user;
 	}
+	
+	/**
+	 * Get the reviewers which have been assigned to this paper.
+	 * @param paper_id the id of the paper to find the reviewers for
+	 * @return the reviewers (if none is assigned an empty list will be returned.)
+	 */
+	public List<Reviewer> getAssignedReviewers(final int paper_id)
+	{
+		List<Reviewer> users = new ArrayList<Reviewer>();
+		final String get_spg_chair =  "SELECT * FROM user u INNER JOIN " +
+				"user_role_paper_conference_join j ON u.user_id = j.user_id WHERE j.paper_id = ? AND j.role_id = ?";
+		try {
+			PreparedStatement statement = getConnection().prepareStatement(get_spg_chair);
+			statement.setInt(1, paper_id);
+			statement.setInt(2, Role.REVIEWER.ordinal());
+			ResultSet result = statement.executeQuery();
+			while(result.next())
+			{
+				User user = new User();
+				user.setID(result.getInt("USER_ID"));
+				user.setFirstName(result.getString("FIRST_NAME"));
+				user.setLastName(result.getString("LAST_NAME"));
+				user.setEmail(result.getString("EMAIL_ADDRESS"));
+				users.add(new Reviewer(user));
+			}
+		} catch (SQLException e) 
+		{
+			System.out.println("PDAO_getAssgnSPChair()_MSG: " + e);
+		}
+		return users;
+	}
+
 }

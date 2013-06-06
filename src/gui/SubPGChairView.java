@@ -1,9 +1,6 @@
 package gui;
 
-import gui.PGChairView.TableModel;
-
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +14,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.Paper;
-import model.ProgramChair;
-import model.Review;
+import model.Reviewer;
 import model.SubProgramChair;
 import model.User;
 import controller.Controller;
@@ -138,15 +134,15 @@ public class SubPGChairView extends JPanel
 		public Object getValueAt(int rowIndex, int columnIndex ) {
 			Paper paper = data.get(rowIndex); 
 			String result = "";
-			List<Review> reviews = paper.getReviews();
+			List<Reviewer> reviewers = my_SPChair.getReviewers(paper);
 			switch(columnIndex) {
 			case 0: result = paper.getAuthor().getFullName(); break;
 			case 1: result = paper.getTitle(); break;
 			case 2: result = paper.getStatus().displayName(); break;
 			case 3:
-				if(reviews.size() > 0)
+				if(reviewers.size() > 0)
 				{
-					result = reviews.get(0).getReviewer().getFullName();
+					result = reviewers.get(0).getFullName();
 				}
 				else
 				{
@@ -154,9 +150,9 @@ public class SubPGChairView extends JPanel
 				}
 				break; 
 			case 4: 
-				if(reviews.size() > 1)
+				if(reviewers.size() > 1)
 				{
-					result = reviews.get(1).getReviewer().getFullName();
+					result = reviewers.get(1).getFullName();
 				}
 				else
 				{
@@ -164,9 +160,9 @@ public class SubPGChairView extends JPanel
 				}
 				break; 
 			case 5: 
-				if(reviews.size() > 2)
+				if(reviewers.size() > 2)
 				{
-					result = reviews.get(2).getReviewer().getFullName();
+					result = reviewers.get(2).getFullName();
 				}
 				else
 				{

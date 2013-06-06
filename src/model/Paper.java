@@ -385,4 +385,13 @@ public class Paper extends Observable
 		}
 		return result;
 	}
+
+	/**
+	 * Set all reviews in this paper with the list.  Will replace any reviews with the list provided.
+	 * @param reviews the list of reviews for this paper.
+	 */
+	public void setReview(List<Review> the_reviews) 
+	{
+		my_reviews = the_reviews;
+	}
 }

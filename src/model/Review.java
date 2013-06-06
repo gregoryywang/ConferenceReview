@@ -75,7 +75,7 @@ public class Review
 	 */
 	public Review()
 	{
-		this(new User("first", "last", "sn", "pwd", "@.com"));
+		this(new User());
 	}
 	
 	/**
