@@ -1,11 +1,11 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.Paper;
 import model.Recommendation;
 import model.Review;
+import model.Reviewer;
 import model.Role;
 import model.SubProgramChair;
 import dao.PaperDAO;
@@ -50,7 +50,12 @@ public class PaperService {
   public List<Paper> getAssignedPapers(final int aUserId, 
                                        final int aConfId, 
                                        final Role aRole) {
-    return paperDao.getPapers(aUserId, aRole, aConfId);
+	  List<Paper> papers = paperDao.getPapers(aUserId, aRole, aConfId);
+	  for(Paper paper: papers)
+	  {
+		  paper.setReview(paperDao.getReviews(paper.getID()));
+	  }
+    return papers;
   }
   
   /**
@@ -62,8 +67,14 @@ public class PaperService {
 	  paperDao.addReview(aReview, the_paper.getID());
   }
   
+  /**
+   * Get all reviews associated with this paper.
+   * @param aPaperId the ID of the paper
+   * @return All Reviews associated with this paper.  If none exist, an
+   * empty list will be returned.
+   */
   public List<Review> getReviews(final int aPaperId) {
-    return new ArrayList<Review>();
+    return paperDao.getReviews(aPaperId);
   }
   
   /**
@@ -108,5 +119,16 @@ public class PaperService {
   public SubProgramChair getAssignedSubprogramChair(final int the_paper_id)
   {
 	  return paperDao.getAssignedSubProgramChair(the_paper_id);
+  }
+  
+  /**
+   * 
+   * @param the_paper_id
+   * @return the list of Reviewers associated with the paper. If no reviewers
+   * are assigned, then returns an empty list.
+   */
+  public List<Reviewer> getAssignedReviewers(final int the_paper_id)
+  {
+	  return paperDao.getAssignedReviewers(the_paper_id);
   }
 }

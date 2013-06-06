@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 import service.PaperService;
+import service.UserService;
 
 /**
  * Class to create a SubProgramChair Object and its functionalities.
@@ -98,9 +99,24 @@ public class SubProgramChair extends User
 		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.SUB_PROGRAM_CHAIR);
 	}
 	
+	/**
+	 * Get all reviews associated with the paper.
+	 * @param the_paper the paper
+	 * @return A list of reviews associated with this paper.  If no reviews are associated, an empty list will be retuned.
+	 */
 	public List<Review> getReviews(final Paper the_paper)
 	{
 		return PaperService.getInstance().getReviews(the_paper.getID());
+	}
+	
+	/**
+	 * Get all reviewers assigned to the paper.
+	 * @param the_paper the reviewers assigned to the paper
+	 * @return all reviewers assigned to the paper.
+	 */
+	public List<Reviewer> getReviewers(final Paper the_paper)
+	{
+		return PaperService.getInstance().getAssignedReviewers(the_paper.getID());
 	}
 }
 
