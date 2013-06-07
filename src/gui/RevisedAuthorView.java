@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * AuthorView3
+ * RevisedAuthorView
  * A new AuthorView based on the new PGChairView
  * Has edit buttons acting on each paper in the table.
  * 
