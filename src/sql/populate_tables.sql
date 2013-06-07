@@ -24,7 +24,7 @@ insert into conference_category(conf_id, cat_id) values(1,2);
 insert into conference_category(conf_id, cat_id) values(1,4);
 
 --Add Program Chair user (USER_ID = 2)
-insert into user(first_name, last_name, username, password, email_address) values('PrgmChairTest', 'PrgmChairTest', 'PrgmChairTest', 'PrgmChairTest','PrgmChairTest@uw.edu');
+insert into user(first_name, last_name, username, password, email_address) values('PrgmChair', 'User', 'PrgmChairTest', 'PrgmChairTest','PrgmChairTest@uw.edu');
 --Link ProgramChairTest user to the Conference1
 insert into user_role_paper_conference_join(user_id, role_id, conf_id) values (2, 5, 1);
 

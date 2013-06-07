@@ -55,7 +55,7 @@ public class PaperDAO extends AbstractDAO {
 	 */
 	private static final String ASSIGN_PAPER = "INSERT INTO USER_ROLE_PAPER_CONFERENCE_JOIN" +
 			"(USER_ID, ROLE_ID, PAPER_ID, CONF_ID) Select ?,?,?,? FROM DUAL " +
-	    "WHERE NOT EXISTS(SELECT NULL FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS B WHERE B.USER_ID = ?  "+
+			"WHERE NOT EXISTS(SELECT NULL FROM USER_ROLE_PAPER_CONFERENCE_JOIN AS B WHERE B.USER_ID = ?  "+
 			"AND B.ROLE_ID = ? AND B.PAPER_ID = ? AND B.CONF_ID = ?) ";
 
 	/**
@@ -176,9 +176,9 @@ public class PaperDAO extends AbstractDAO {
 			stmt.setInt(3, aPaperId);
 			stmt.setInt(4, aConfId);
 			stmt.setInt(5, aUserId);
-      stmt.setInt(6, aRole.ordinal());
-      stmt.setInt(7, aPaperId);
-      stmt.setInt(8, aConfId);
+			stmt.setInt(6, aRole.ordinal());
+			stmt.setInt(7, aPaperId);
+			stmt.setInt(8, aConfId);
 			stmt.executeUpdate();
 			stmt.close();
 		}catch (Exception e) {
@@ -263,10 +263,10 @@ public class PaperDAO extends AbstractDAO {
 			}
 			else
 			{
-			stmt = AbstractDAO.getConnection().prepareStatement(GET_ASSIGNED_PAPERS);
-			stmt.setInt(1, the_user_id);
-			stmt.setInt(2, the_role.ordinal());
-			stmt.setInt(3, the_conference);
+				stmt = AbstractDAO.getConnection().prepareStatement(GET_ASSIGNED_PAPERS);
+				stmt.setInt(1, the_user_id);
+				stmt.setInt(2, the_role.ordinal());
+				stmt.setInt(3, the_conference);
 			}
 			ResultSet result_set = stmt.executeQuery();
 
@@ -337,14 +337,19 @@ public class PaperDAO extends AbstractDAO {
 
 				if(result.getCharacterStream("Content_revised") != null)
 				{
-				buffer = new BufferedReader(result.getCharacterStream("CONTENT_REVISED"));
-				line = null;
-				while( null != (line = buffer.readLine())) {
-					builder.append(line);
-				}
+					buffer = new BufferedReader(result.getCharacterStream("CONTENT_REVISED"));
+					line = null;
+					while( null != (line = buffer.readLine())) {
+						builder.append(line);
+					}
 
-				paper.setRevisedContent(builder.toString());
+					paper.setRevisedContent(builder.toString());
 				}
+				Recommendation rec = new Recommendation();
+				rec.setRecommender(getAssignedSubProgramChair(paper_ID));
+				rec.setRating(result.getInt("recomm_rating"));
+				rec.setComments(result.getString("recomm_comments"));
+				paper.setRecommendation(rec);
 			}
 
 			stmt.close();
@@ -398,7 +403,7 @@ public class PaperDAO extends AbstractDAO {
 
 		return review;
 	}
-	
+
 	public List<Review> getReviews(final int the_paper_id)
 	{
 		List<Review> revs = new ArrayList<Review>();
@@ -432,7 +437,7 @@ public class PaperDAO extends AbstractDAO {
 			}
 			stmt.close();
 		} catch (Exception e)  {System.err.println("PDAO_getReviews_MSG: " + e);}
-		
+
 		return revs;
 	}
 
@@ -492,7 +497,7 @@ public class PaperDAO extends AbstractDAO {
 		}
 		return user;
 	}
-	
+
 	/**
 	 * Get the reviewers which have been assigned to this paper.
 	 * @param paper_id the id of the paper to find the reviewers for

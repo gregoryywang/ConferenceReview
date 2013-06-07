@@ -47,6 +47,8 @@ public class SubPGChairController implements Controller
 			Paper paper = my_view.getSelectedRow();
 			Recommendation rec = new Recommendation(the_SPChair, dlg.getRating(), dlg.getComments());
 			PaperService.getInstance().addRecommendation(rec, paper);
+			my_view.getTableModel().fireTableDataChanged();
+			dlg.dispose();			
 		}
 		if("save_rev".equals(command))
 		{
