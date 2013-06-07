@@ -39,7 +39,7 @@ public class RevisedAuthorView extends JPanel {
   private Author author;
   private TableModel tableModel;
   private List<Paper> data;
-  private JButton ViewEditButton, DeleteSubmission, AddSubmission;
+  private JButton ViewEdit, DeleteSubmission, AddSubmission, ViewReviews;
   private MainView parent;
 
   public RevisedAuthorView(User aUser) {
@@ -48,10 +48,16 @@ public class RevisedAuthorView extends JPanel {
     controller = new AuthorViewController(author);
     
     // Configure view/edit button
-    ViewEditButton = new JButton("View/Edit Details");
-    ViewEditButton.setEnabled(false);
-    ViewEditButton.setActionCommand("view_edit");
-    ViewEditButton.addActionListener(controller);
+    ViewEdit = new JButton("View/Edit Details");
+    ViewEdit.setEnabled(false);
+    ViewEdit.setActionCommand("view_edit");
+    ViewEdit.addActionListener(controller);
+    
+    // Configure view reviews button
+    ViewReviews = new JButton("View Reviews");
+    ViewReviews.setEnabled(false);
+    ViewReviews.setActionCommand("view_reviews");
+    ViewReviews.addActionListener(controller);
     
     // Configure Delete Submission button
     DeleteSubmission = new JButton("Delete Submission");
@@ -77,7 +83,7 @@ public class RevisedAuthorView extends JPanel {
       @Override
       public void valueChanged(ListSelectionEvent event) {
           //Enable view/edit button when when selection is made
-    	  ViewEditButton.setEnabled(true);
+    	  ViewEdit.setEnabled(true);
     	  DeleteSubmission.setEnabled(true);
       }
     });
@@ -89,9 +95,9 @@ public class RevisedAuthorView extends JPanel {
     
     // adds auxiliary panel for buttons to main panel
     JPanel southPanel = new JPanel();
-    southPanel.add(ViewEditButton);
-    southPanel.add(DeleteSubmission);
     southPanel.add(AddSubmission);
+    southPanel.add(ViewEdit);
+    southPanel.add(DeleteSubmission);
     add(southPanel, BorderLayout.SOUTH);
     
     parent = (MainView) getTopLevelAncestor();
@@ -121,8 +127,10 @@ public class RevisedAuthorView extends JPanel {
   
   //:) I know.....
   public void disableButton() {
-	ViewEditButton.setEnabled(false);
+	ViewEdit.setEnabled(false);
 	DeleteSubmission.setEnabled(false);
+	AddSubmission.setEnabled(false);
+    ViewReviews.setEnabled(false);
   }
   
   public class TableModel extends AbstractTableModel {
