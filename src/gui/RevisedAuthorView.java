@@ -6,7 +6,9 @@ package gui;
  * Has edit buttons acting on each paper in the table.
  * 
  * @author yongyuwang
- * Based on PGChairView made by Roshun Jones
+ * @version 3
+ * Based on code from PGChairView and SubPGChairView
+ * by Roshun Jones and Danielle Tucker respectively.
  */
 
 import java.awt.BorderLayout;
@@ -84,7 +86,10 @@ public class RevisedAuthorView extends JPanel {
       public void valueChanged(ListSelectionEvent event) {
           //Enable view/edit button when when selection is made
     	  ViewEdit.setEnabled(true);
-    	  DeleteSubmission.setEnabled(true);
+    	  // Only enables delete button if selected and deadline is not passed
+    	  if(!author.canSubmitOrModify()) {
+        	  DeleteSubmission.setEnabled(true);
+    	  }   
       }
     });
     

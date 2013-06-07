@@ -3,10 +3,10 @@ package gui;
 
 /**
  * RevisedPaperSubmissionForm.java
- * 
+ * Displays an new paper submission form
  * @author yongyuwang
  * @version 3
- * Displays an new paper submission form
+ * 
  */
 
 import java.awt.BorderLayout;
