@@ -1,7 +1,6 @@
 package controller;
 
 import gui.RevisedPaperSubmissionForm;
-import gui.TablePanel.TableModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,12 +16,10 @@ public class RevisedPaperSubmissionController implements ActionListener {
 	private Author author;
 
 	private RevisedPaperSubmissionForm view;
-	private TableModel model;
 
 	public RevisedPaperSubmissionController(Author aAuthor, Object aView, Object aModel) {
 		author = aAuthor;
 		view = (RevisedPaperSubmissionForm) aView;
-		model = (TableModel) aModel;
 	}
 
 	@Override 
@@ -39,7 +36,6 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			// saves the paper into database
 			try {
 				author.submitPaper(myPaper);
-				model.addRow(myPaper);
 				view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -60,7 +56,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
+			JOptionPane.showMessageDialog(new JDialog(), "Your submission has been updated.");
 		}
 	}
 }

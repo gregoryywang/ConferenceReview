@@ -34,15 +34,17 @@ public class RevisedAuthorViewController implements Controller
 		{
 			Paper paper = my_view.getSelectedRow();
 	        new RevisedPaperSubmissionForm(the_author,  model, paper).setVisible(true); 
+			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("add_submission".equals(command))
 		{
 			//Launches the new paper submission form when pressed.
-	        new RevisedPaperSubmissionForm(the_author, model, new Paper()).setVisible(true); 
+	        new RevisedPaperSubmissionForm(the_author, model, null).setVisible(true); 
+			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("view_reviews".equals(command))
 		{
-
+			
 		}
 		if("delete_submission".equals(command))
 		{
@@ -53,6 +55,7 @@ public class RevisedAuthorViewController implements Controller
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			my_view.getTableModel().fireTableDataChanged();
 		}
 	
 	}
