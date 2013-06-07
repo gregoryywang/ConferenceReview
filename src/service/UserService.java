@@ -103,7 +103,8 @@ public class UserService {
 	  }
 	  else if(the_role == Role.SUB_PROGRAM_CHAIR)
 	  {//remove the author, remove anyone who is not a reviewer
-		  user_pool = userDao.getUsers(Role.REVIEWER);
+		  //get every reviewer for the conference
+		  user_pool = userDao.getUsers(conf_id, Role.REVIEWER);
 		  for(int i = 0; i < user_pool.size(); i++)
 		  {
 			  if(user_pool.get(i).getID() == the_paper.getAuthor().getID())
