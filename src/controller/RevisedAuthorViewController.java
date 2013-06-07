@@ -1,5 +1,15 @@
 package controller;
 
+/**
+ * RevisedAuthorViewController.java
+ * Controls the behavior of buttons in RevisedAuthorView
+ * 
+ * @author yongyuwang
+ * @version 3
+ * Based on code from AuthorViewController 
+ * by Roshun Jones 
+ */
+
 import gui.MainView;
 import gui.RevisedAuthorView;
 import gui.RevisedPaperSubmissionForm;

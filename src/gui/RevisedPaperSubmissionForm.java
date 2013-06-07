@@ -4,9 +4,11 @@ package gui;
 /**
  * RevisedPaperSubmissionForm.java
  * Displays an new paper submission form
+ * 
  * @author yongyuwang
  * @version 3
- * 
+ * Based on PaperSubmissionForm V.2
+ * Created by yongyuwang, edited by Roshun Jones and Danielle Tucker
  */
 
 import java.awt.BorderLayout;

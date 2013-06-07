@@ -102,6 +102,7 @@ public class RevisedAuthorView extends JPanel {
     JPanel southPanel = new JPanel();
     southPanel.add(AddSubmission);
     southPanel.add(ViewEdit);
+    southPanel.add(ViewReviews);
     southPanel.add(DeleteSubmission);
     add(southPanel, BorderLayout.SOUTH);
     
