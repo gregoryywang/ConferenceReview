@@ -1,6 +1,6 @@
 package controller;
 
-import gui.PaperSubmissionForm;
+import gui.RevisedPaperSubmissionForm;
 import gui.TablePanel.TableModel;
 
 import java.awt.event.ActionEvent;
@@ -16,7 +16,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 
 	private Author author;
 
-	private PaperSubmissionForm view;
+	private RevisedPaperSubmissionForm view;
 	private TableModel model;
 	
 	/**
@@ -27,7 +27,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 
 	public RevisedPaperSubmissionController(Author aAuthor, Object aView, Object aModel, Paper aPaper) {
 		author = aAuthor;
-		view = (PaperSubmissionForm) aView;
+		view = (RevisedPaperSubmissionForm) aView;
 		model = (TableModel) aModel;
 		paper = aPaper;
 	}
@@ -39,9 +39,9 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			// initialize new paper object using information from submission form
 			Paper myPaper = new Paper(author, view.titleField.getText(),
 					view.keywordsField.getText(),
-					"",//view.paperAbstract.getText(),
+					view.paperAbstract.getText(),
 					(String) view.catagoryField.getSelectedItem(),
-					""); // view.paperContent.getText());
+					view.paperContent.getText());
 
 			// saves the paper into database
 			try {
