@@ -22,8 +22,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import service.PaperService;
-
 import model.Author;
 import model.Paper;
 import model.User;
@@ -41,7 +39,7 @@ public class RevisedAuthorView extends JPanel {
   private Author author;
   private TableModel tableModel;
   private List<Paper> data;
-  private JButton ViewEditButton, DeleteSubmission, AddSubmissionButton;
+  private JButton ViewEditButton, DeleteSubmission, AddSubmission;
   private MainView parent;
 
   public RevisedAuthorView(User aUser) {
@@ -62,12 +60,14 @@ public class RevisedAuthorView extends JPanel {
     DeleteSubmission.addActionListener(controller);
     
     // Configure the Add Submission button
-    AddSubmissionButton = new JButton("Add Submission");
+    AddSubmission = new JButton("Add Submission");
     // Disables new submission button if deadline is passed
     if(!author.canSubmitOrModify())
     {
-    	AddSubmissionButton.setEnabled(false);
+    	AddSubmission.setEnabled(false);
     }
+    AddSubmission.setActionCommand("add_submission");
+    AddSubmission.addActionListener(controller);
    
     tableModel = new TableModel(model);
     table = new JTable(tableModel);
@@ -76,20 +76,22 @@ public class RevisedAuthorView extends JPanel {
     table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
       @Override
       public void valueChanged(ListSelectionEvent event) {
-        //Enable view/edit button when when selection is made
+          //Enable view/edit button when when selection is made
     	  ViewEditButton.setEnabled(true);
     	  DeleteSubmission.setEnabled(true);
       }
     });
     
+    // adds scroll panel for papers to main panel
     setLayout(new BorderLayout());
     scrollPane = new JScrollPane(table);
     add(scrollPane, BorderLayout.NORTH);
     
+    // adds auxiliary panel for buttons to main panel
     JPanel southPanel = new JPanel();
     southPanel.add(ViewEditButton);
     southPanel.add(DeleteSubmission);
-    southPanel.add(AddSubmissionButton);
+    southPanel.add(AddSubmission);
     add(southPanel, BorderLayout.SOUTH);
     
     parent = (MainView) getTopLevelAncestor();
