@@ -428,6 +428,7 @@ public class PaperDAO extends AbstractDAO {
 					review.setRating(question_id, questions_result.getInt("rating"));
 					review.setComment(question_id, questions_result.getString("comment_text"));
 				}
+				revs.add(review);
 			}
 			stmt.close();
 		} catch (Exception e)  {System.err.println("PDAO_getReviews_MSG: " + e);}
