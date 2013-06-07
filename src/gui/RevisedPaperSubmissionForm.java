@@ -33,7 +33,10 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
+import controller.AuthorViewController;
+import controller.Controller;
 import controller.PaperSubmissionController;
+import controller.RevisedPaperSubmissionController;
 
 import model.Author;
 import model.Paper;
@@ -62,6 +65,9 @@ public class RevisedPaperSubmissionForm extends JFrame {
   private static final int FRAME_HEIGHT = 300;
 
   private Author user;
+  
+  private RevisedPaperSubmissionController controller;
+
 
   public final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
   public final JTextField titleField, keywordsField/* , catagoryField */;
@@ -72,7 +78,7 @@ public class RevisedPaperSubmissionForm extends JFrame {
   final JPanel topPanel, midPanel, bottemPanel;
   private AbstractTableModel model;
   
-  Paper paper = new Paper();
+  Paper paper;
   boolean isNewSubmission = true;
 
   public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
@@ -80,11 +86,12 @@ public class RevisedPaperSubmissionForm extends JFrame {
     super("Paper Submission");
     paper = the_paper;
     this.user = the_user;
+    controller = new RevisedPaperSubmissionController(user, this, model, paper);
 
-    
     // check if creating a new paper or editing an existing paper
     if(paper != null) {
     	isNewSubmission = false;
+    	the_paper = paper;
     }
     
     model = (AbstractTableModel) aModel;
@@ -145,11 +152,11 @@ public class RevisedPaperSubmissionForm extends JFrame {
 
     submitButton = new JButton("Submit");
     submitButton.setActionCommand("SubmitNewPaper");
-    submitButton.addActionListener(new PaperSubmissionController(user, this, model)); 
+    submitButton.addActionListener(controller); 
     
     updateButton = new JButton("Update");
     updateButton.setActionCommand("UpdatePaper");
-    updateButton.addActionListener(new PaperSubmissionController(user, this, model)); 
+    updateButton.addActionListener(controller); 
                                    
     cancelButton = new JButton("Cancel");
     cancelButton.addActionListener(new ActionListener() {
@@ -162,12 +169,14 @@ public class RevisedPaperSubmissionForm extends JFrame {
     bottemPanel = new JPanel();
     bottemPanel.add(submitButton);
     bottemPanel.add(cancelButton);
+    
+    // Update button only appears if editing existing submission
     if (!isNewSubmission) {
     	bottemPanel.add(updateButton);
     }
     
     // Disables update button if deadline is passed
-    if(!isNewSubmission && !user.canSubmitOrModify()) {
+    if(!user.canSubmitOrModify()) {
     	updateButton.setEnabled(false);
     }
 
