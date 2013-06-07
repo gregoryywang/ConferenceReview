@@ -28,8 +28,8 @@ import model.Author;
 import model.Paper;
 import model.User;
 
-import controller.AuthorViewController;
 import controller.Controller;
+import controller.RevisedAuthorViewController;
 
 public class RevisedAuthorView extends JPanel {
   private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class RevisedAuthorView extends JPanel {
   public RevisedAuthorView(User aUser) {
     author = new Author(aUser);
     model = author.viewPapers();
-    controller = new AuthorViewController(author);
+    controller = new RevisedAuthorViewController(this);
     
     // Configure view/edit button
     ViewEdit = new JButton("View/Edit Details");

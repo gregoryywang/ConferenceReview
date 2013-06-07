@@ -78,16 +78,15 @@ public class RevisedPaperSubmissionForm extends JFrame {
 
 	final JButton submitButton, updateButton, cancelButton;
 	final JPanel topPanel, midPanel, bottemPanel;
-	private AbstractTableModel model;
 
 	Paper paper;
 	boolean isNewSubmission = true;
 
-	public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
+	public RevisedPaperSubmissionForm(final Author the_user, Paper the_paper) {
 		
 		super("Paper Submission");
 		this.user = the_user;
-		controller = new RevisedPaperSubmissionController(user, this, model);
+		controller = new RevisedPaperSubmissionController(user, this);
 
 		// check if creating a new paper or editing an existing paper
 		if(paper != null) {
@@ -95,7 +94,6 @@ public class RevisedPaperSubmissionForm extends JFrame {
 			paper = the_paper;
 		}
 
-		model = (AbstractTableModel) aModel;
 
 
 		String firstName = user.getFirstName();

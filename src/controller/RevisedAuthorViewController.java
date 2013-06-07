@@ -26,13 +26,11 @@ import model.Paper;
 public class RevisedAuthorViewController implements Controller
 {
 	private RevisedAuthorView my_view;
-	private List<Paper> model;
 	private Author the_author;
 
-	public RevisedAuthorViewController(final RevisedAuthorView the_view, final List<Paper> the_papers)
+	public RevisedAuthorViewController(final RevisedAuthorView the_view)
 	{
 		my_view = the_view;
-		model = the_papers;
 		the_author = my_view.getAuthor();
 	}
 
@@ -43,13 +41,13 @@ public class RevisedAuthorViewController implements Controller
 		if("view_edit".equals(command))
 		{
 			Paper paper = my_view.getSelectedRow();
-	        new RevisedPaperSubmissionForm(the_author,  model, paper).setVisible(true); 
+	        new RevisedPaperSubmissionForm(the_author, paper).setVisible(true); 
 			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("add_submission".equals(command))
 		{
 			//Launches the new paper submission form when pressed.
-	        new RevisedPaperSubmissionForm(the_author, model, null).setVisible(true); 
+	        new RevisedPaperSubmissionForm(the_author, null).setVisible(true); 
 			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("view_reviews".equals(command))
