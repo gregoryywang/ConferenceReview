@@ -39,7 +39,7 @@ public class PGChairDialog extends JDialog {
 	private JComboBox cmbReviews;
 	private JLabel txtSubChair;
 	private JComboBox cmbAcceptance;
-	private JButton cmdViewPaper;
+	private JButton cmdViewReview;
 	private JButton cmdCancel;
 	private JButton cmdUpdate;
 
@@ -49,7 +49,7 @@ public class PGChairDialog extends JDialog {
 			Paper aPaper) {
 		setLayout(null);
 		setTitle("Program Chair Command Center");
-		setModal(true);
+		//setModal(true);
 		setSize(445, 260);
 		setResizable(false);
 
@@ -78,7 +78,8 @@ public class PGChairDialog extends JDialog {
 		
 		lblReviews = new JLabel("View Reviews:");
 		lblReviews.setBounds(50,110,220,20);
-		Object[] reviewValues = aPaper.getReviews().toArray();
+		//Object[] reviewValues = aPaper.getReviews().toArray();
+		Object[] reviewValues = PaperService.getInstance().getReviews(aPaper.getID()).toArray();
 		System.out.println(aPaper.getReviews().size());
 		cmbReviews = new JComboBox(new DefaultComboBoxModel(reviewValues));
 		cmbReviews.setBounds(210,110,185,20);
@@ -88,21 +89,22 @@ public class PGChairDialog extends JDialog {
 		Status[] values = {Status.UNDECIDED, Status.ACCEPT, Status.DECLINE};
 		cmbAcceptance = new JComboBox(new DefaultComboBoxModel(values));
 		cmbAcceptance.setBounds(210,140,185,20);
-		cmbAcceptance.setEnabled(pgChair.canAssignDecision() && (reviewValues.length) > 3);
+		cmbAcceptance.setEnabled(pgChair.canAssignDecision() && (reviewValues.length) >= 3);
 		if(aPaper != null && aPaper.getAcceptanceStatus() != null)
 			cmbAcceptance.setSelectedItem(aPaper.getAcceptanceStatus());
 		
-		/*
-		cmdViewPaper = new JButton("View Paper");
-		cmdViewPaper.setBounds(65, 165, 100, 20); //from l, from t, width, ht
-		cmdViewPaper.addActionListener(aController);
-		 */
+		cmdViewReview = new JButton("View Review");
+		cmdViewReview.setBounds(170, 195, 100, 20); //from l, from t, width, ht
+		cmdViewReview.addActionListener(aController);
+		cmdViewReview.setEnabled(cmbReviews.getItemCount() > 0);
+		cmdViewReview.setActionCommand("ViewReview");
+	
 		cmdUpdate = new JButton("Update");
-		cmdUpdate.setBounds(105, 195, 100, 20);
+		cmdUpdate.setBounds(50, 195, 100, 20);
 		cmdUpdate.addActionListener(aController);
 
 		cmdCancel = new JButton("Cancel");
-		cmdCancel.setBounds(225, 195, 100, 20);
+		cmdCancel.setBounds(290, 195, 100, 20);
 		cmdCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event){
@@ -133,6 +135,7 @@ public class PGChairDialog extends JDialog {
 		add(cmbAcceptance);
 		add(cmdUpdate);
 		add(cmdCancel);
+		add(cmdViewReview);
 
 		//Center dialog
 		int parentWidth = MainView.WIDTH;
@@ -144,6 +147,10 @@ public class PGChairDialog extends JDialog {
 
 	public Object getDecision() {
 		return cmbAcceptance.getSelectedItem();
+	}
+	
+	public Object getReview() {
+	  return cmbReviews.getSelectedItem();
 	}
 
 	public Object getSubProgramChair() {
