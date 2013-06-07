@@ -59,13 +59,15 @@ public class SubPGChairDialog extends JDialog
 		my_SPChair = SPChair;
 		my_paper = aPaper;
 
-		JPanel contentPanel = new JPanel();
 
 		setTitle("Sub Program Chair Command Center");
 		setModal(false);
 		setSize(350, 350);
 		//		setResizable(false);
 		setLayout(new BorderLayout());
+
+		JPanel contentPanel = new JPanel();
+		contentPanel.setLayout(null);
 		contentPanel.setBorder(new EmptyBorder(5,5,5,5));
 		add(contentPanel, BorderLayout.CENTER);
 
@@ -91,40 +93,47 @@ public class SubPGChairDialog extends JDialog
 		//Reviews
 		JLabel lblReviews = new JLabel("Reviews:");
 		lblReviews.setBounds(15, 86, 90, 14);
+		contentPanel.add(lblReviews);
 
 		createReviewItems(aPaper, contentPanel);
 
+		//Ratings
 		JLabel lblMyRating = new JLabel("My Rating:");
 		lblMyRating.setBounds(15, 174, 90, 14);
-
-		cmbRating = new JComboBox();
-		cmbRating.setBounds(120, 171, 200, 20);
-		cmbRating.setEditable(false);
-		cmbRating.setModel(new DefaultComboBoxModel(Recommendation.RATING_SCALE_HIGH_TO_LOW));
+		contentPanel.add(lblMyRating);
 
 		JLabel lblMyComments = new JLabel("My Comments:");
 		lblMyComments.setBounds(15, 202, 90, 14);		
+		contentPanel.add(lblMyComments);
+
+		Recommendation rec = my_paper.getRecommendation();
 		txtComments = new JTextPane();
+		if (rec.getRating() == 0)
+		{//New Rating
+			cmbRating = new JComboBox();
+			cmbRating.setBounds(120, 171, 200, 20);
+			cmbRating.setEditable(false);
+			cmbRating.setModel(new DefaultComboBoxModel(Recommendation.RATING_SCALE_HIGH_TO_LOW));		
+			contentPanel.add(cmbRating);
+		}
+		else
+		{//Show Old ratings
+			JLabel lblRating = new JLabel(Integer.toString(rec.getRating()));
+			lblRating.setBounds(120, 171, 200, 20);
+			contentPanel.add(lblRating);
+
+			txtComments.setText(rec.getComments());
+			txtComments.setEditable(false);
+		}
 		JScrollPane jsp = new JScrollPane(txtComments);
 		jsp.setBounds(120, 202, 200, 68);
-
-		contentPanel.setLayout(null);
-		contentPanel.add(lblTitle);
-		contentPanel.add(lblReviews);
-		contentPanel.add(lblAuthor);
-		contentPanel.add(lblStatus);
-		contentPanel.add(lblAuthor);
-		contentPanel.add(lblStatus);
-		contentPanel.add(lblMyRating);
-		contentPanel.add(lblMyComments);
-		contentPanel.add(cmbRating);
 		contentPanel.add(jsp);
 
 		//Button Pane
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		add(buttonPane, BorderLayout.SOUTH);
-
+		//Toggle Buttons
 		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
 		if(reviewers.isEmpty())
 		{
@@ -133,7 +142,7 @@ public class SubPGChairDialog extends JDialog
 			btnSave.addActionListener(my_controller);
 			buttonPane.add(btnSave);
 		}
-		else
+		else if (my_paper.getRecommendation().getRating()==0)
 		{
 			JButton btnSaveRec = new JButton("Save Recommendation");
 			btnSaveRec.setActionCommand("save_rec");
@@ -178,7 +187,15 @@ public class SubPGChairDialog extends JDialog
 
 	public int getRating()
 	{
-		return (Integer) cmbRating.getSelectedItem();
+		String descriptor = (String)cmbRating.getSelectedItem();
+		for(int i = 0; i < Recommendation.RATING_SCALE_HIGH_TO_LOW.length; i++)
+		{
+			if(descriptor.equals(Recommendation.RATING_SCALE_HIGH_TO_LOW[i]))
+			{
+				return 5-i;
+			}
+		}
+		return 0;
 	}
 
 	public String getComments()
