@@ -27,6 +27,7 @@ import model.Reviewer;
 import model.Role;
 import model.SubProgramChair;
 import model.User;
+import service.PaperService;
 import service.UserService;
 import controller.Controller;
 
@@ -188,12 +189,7 @@ public class SubPGChairDialog extends JDialog
 	private void createReviewItems(final Paper aPaper, JPanel contentPanel) {
 		final List<Review> reviews = my_paper.getReviews();
 		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
-		List<User> reviewer_pool = UserService.getInstance().getAllUsers(my_paper, my_SPChair.getConference().getID(), Role.REVIEWER);
-		for(User usr: reviewer_pool)
-		{
-			System.out.println(usr);
-		}
-		
+		List<User> reviewer_pool = UserService.getInstance().getAllUsers(aPaper, my_SPChair.getConference().getID(), Role.REVIEWER);
 		if(reviewers.size() == 0)
 		{
 			reviewer_choices.setModel(new DefaultComboBoxModel(reviewer_pool.toArray()));
@@ -203,8 +199,7 @@ public class SubPGChairDialog extends JDialog
 		}
 		else
 		{
-			System.out.println("Number of Reviews:" + reviews.size());
-			for(int i = 0; i < 4; i++)
+			for(int i = 0; i < 3; i++)
 			{
 				if(reviews.size() > i)
 				{ //display button for review
