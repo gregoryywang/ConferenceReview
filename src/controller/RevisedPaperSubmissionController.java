@@ -27,7 +27,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 
 	private RevisedPaperSubmissionForm view;
 
-	public RevisedPaperSubmissionController(Author aAuthor, Object aView, Object aModel) {
+	public RevisedPaperSubmissionController(Author aAuthor, Object aView) {
 		author = aAuthor;
 		view = (RevisedPaperSubmissionForm) aView;
 	}
