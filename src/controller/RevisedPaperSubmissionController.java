@@ -18,18 +18,11 @@ public class RevisedPaperSubmissionController implements ActionListener {
 
 	private RevisedPaperSubmissionForm view;
 	private TableModel model;
-	
-	/**
-	 * Only useful if saving an edited paper. 
-	 * Otherwise should be null and not used.
-	 */
-	private Paper paper;
 
-	public RevisedPaperSubmissionController(Author aAuthor, Object aView, Object aModel, Paper aPaper) {
+	public RevisedPaperSubmissionController(Author aAuthor, Object aView, Object aModel) {
 		author = aAuthor;
 		view = (RevisedPaperSubmissionForm) aView;
 		model = (TableModel) aModel;
-		paper = aPaper;
 	}
 
 	@Override 
@@ -56,6 +49,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 		}
 		
 		if("UpdatePaper".equals(command)) {
+			Paper paper = view.getPaper();
 			paper.setTitle(view.titleField.getText());
 			paper.setKeywords(view.keywordsField.getText());
 			paper.setCategory((String) view.catagoryField.getSelectedItem());

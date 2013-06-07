@@ -44,190 +44,193 @@ import model.User;
 
 public class RevisedPaperSubmissionForm extends JFrame {
 
-  /**
-   * The default serial version UID.
-   */
-  private static final long serialVersionUID = 1L;
+	/**
+	 * The default serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * The default background color.
-   */
-  private static final Color BACKGROUND_COLOR = Color.WHITE;
+	/**
+	 * The default background color.
+	 */
+	private static final Color BACKGROUND_COLOR = Color.WHITE;
 
-  /**
-   * The default frame width.
-   */
-  private static final int FRAME_WIDTH = 300;
+	/**
+	 * The default frame width.
+	 */
+	private static final int FRAME_WIDTH = 300;
 
-  /**
-   * The default frame height.
-   */
-  private static final int FRAME_HEIGHT = 300;
+	/**
+	 * The default frame height.
+	 */
+	private static final int FRAME_HEIGHT = 300;
 
-  private Author user;
-  
-  private RevisedPaperSubmissionController controller;
+	private Author user;
+
+	private RevisedPaperSubmissionController controller;
 
 
-  public final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
-  public final JTextField titleField, keywordsField/* , catagoryField */;
-  public final JComboBox catagoryField;
-  public final BackgroundTextArea paperAbstract, paperContent;
+	public final JLabel nameLabel, name, titleLabel, keywordsLabel, catagoryLabel;
+	public final JTextField titleField, keywordsField/* , catagoryField */;
+	public final JComboBox catagoryField;
+	public final BackgroundTextArea paperAbstract, paperContent;
 
-  final JButton submitButton, updateButton, cancelButton;
-  final JPanel topPanel, midPanel, bottemPanel;
-  private AbstractTableModel model;
-  
-  Paper paper;
-  boolean isNewSubmission = true;
+	final JButton submitButton, updateButton, cancelButton;
+	final JPanel topPanel, midPanel, bottemPanel;
+	private AbstractTableModel model;
 
-  public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
-	  
-    super("Paper Submission");
-    this.user = the_user;
-    controller = new RevisedPaperSubmissionController(user, this, model, paper);
+	Paper paper;
+	boolean isNewSubmission = true;
 
-    // check if creating a new paper or editing an existing paper
-    if(paper != null) {
-    	isNewSubmission = false;
-    	paper = the_paper;
-    }
-    
-    model = (AbstractTableModel) aModel;
-    
+	public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
+		
+		super("Paper Submission");
+		this.user = the_user;
+		controller = new RevisedPaperSubmissionController(user, this, model);
 
-    String firstName = user.getFirstName();
-    String lastName = user.getLastName();
+		// check if creating a new paper or editing an existing paper
+		if(paper != null) {
+			isNewSubmission = false;
+			paper = the_paper;
+		}
 
-    nameLabel = new JLabel("Your name: ");
-    name = new JLabel(firstName + " " + lastName);
+		model = (AbstractTableModel) aModel;
 
-    titleLabel = new JLabel("Submission title:");
-    titleField = new JTextField(15);
-    if (!isNewSubmission) {
-    	titleField.setText(paper.getTitle());
-    }
 
-    keywordsLabel = new JLabel("Keywords:");
-    keywordsField = new JTextField(15);
-    if (!isNewSubmission) {
-    	keywordsField.setText(paper.getKeywords());
-    }
+		String firstName = user.getFirstName();
+		String lastName = user.getLastName();
 
-    catagoryLabel = new JLabel("Catagory:");
-    catagoryField = new JComboBox();
-    ComboBoxModel categories =
-        new DefaultComboBoxModel(user.getConference().getCategories().toArray());
-    catagoryField.setModel(categories);
-    if (!isNewSubmission) {
-    	catagoryField.setSelectedItem(paper.getCategory());
-    }
+		nameLabel = new JLabel("Your name: ");
+		name = new JLabel(firstName + " " + lastName);
 
-    topPanel = new JPanel(new GridLayout(4, 2));
+		titleLabel = new JLabel("Submission title:");
+		titleField = new JTextField(15);
+		if (!isNewSubmission) {
+			titleField.setText(paper.getTitle());
+		}
 
-    topPanel.add(nameLabel);
-    topPanel.add(name);
+		keywordsLabel = new JLabel("Keywords:");
+		keywordsField = new JTextField(15);
+		if (!isNewSubmission) {
+			keywordsField.setText(paper.getKeywords());
+		}
 
-    topPanel.add(titleLabel);
-    topPanel.add(titleField);
+		catagoryLabel = new JLabel("Catagory:");
+		catagoryField = new JComboBox();
+		ComboBoxModel categories =
+				new DefaultComboBoxModel(user.getConference().getCategories().toArray());
+		catagoryField.setModel(categories);
+		if (!isNewSubmission) {
+			catagoryField.setSelectedItem(paper.getCategory());
+		}
 
-    topPanel.add(keywordsLabel);
-    topPanel.add(keywordsField);
+		topPanel = new JPanel(new GridLayout(4, 2));
 
-    topPanel.add(catagoryLabel);
-    topPanel.add(catagoryField);
+		topPanel.add(nameLabel);
+		topPanel.add(name);
 
-    paperAbstract = new BackgroundTextArea("Paste or type your abstract here.");
-    paperAbstract.setWrapStyleWord(true);
-    JScrollPane abstractScrollPane = new JScrollPane(paperAbstract);
+		topPanel.add(titleLabel);
+		topPanel.add(titleField);
 
-    paperContent = new BackgroundTextArea("Paste or type your paper here.");
-    paperContent.setWrapStyleWord(true);
-    JScrollPane contentScrollPane = new JScrollPane(paperContent);
+		topPanel.add(keywordsLabel);
+		topPanel.add(keywordsField);
 
-    midPanel = new JPanel(new GridLayout(2, 1));
-    midPanel.add(abstractScrollPane);
-    midPanel.add(contentScrollPane);
+		topPanel.add(catagoryLabel);
+		topPanel.add(catagoryField);
 
-    submitButton = new JButton("Submit");
-    submitButton.setActionCommand("SubmitNewPaper");
-    submitButton.addActionListener(controller); 
-    
-    updateButton = new JButton("Update");
-    updateButton.setActionCommand("UpdatePaper");
-    updateButton.addActionListener(controller); 
-                                   
-    cancelButton = new JButton("Cancel");
-    cancelButton.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent the_event)
-      {
-        dispose();
-      }
-    });
+		paperAbstract = new BackgroundTextArea("Paste or type your abstract here.");
+		paperAbstract.setWrapStyleWord(true);
+		JScrollPane abstractScrollPane = new JScrollPane(paperAbstract);
 
-    bottemPanel = new JPanel();
-    bottemPanel.add(submitButton);
-    bottemPanel.add(cancelButton);
-    
-    // Update button only appears if editing existing submission
-    if (!isNewSubmission) {
-    	bottemPanel.add(updateButton);
-    }
-    
-    // Disables update button if deadline is passed
-    if(!user.canSubmitOrModify()) {
-    	updateButton.setEnabled(false);
-    }
+		paperContent = new BackgroundTextArea("Paste or type your paper here.");
+		paperContent.setWrapStyleWord(true);
+		JScrollPane contentScrollPane = new JScrollPane(paperContent);
 
-    add(topPanel, BorderLayout.NORTH);
-    add(midPanel, BorderLayout.CENTER);
-    add(bottemPanel, BorderLayout.SOUTH);
+		midPanel = new JPanel(new GridLayout(2, 1));
+		midPanel.add(abstractScrollPane);
+		midPanel.add(contentScrollPane);
 
-    setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-    setBackground(BACKGROUND_COLOR);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
+		submitButton = new JButton("Submit");
+		submitButton.setActionCommand("SubmitNewPaper");
+		submitButton.addActionListener(controller); 
 
-  public static void main(String[] args) {
-    User test = new User();
-    Author test2 = new Author(test);
-    //new PaperSubmissionForm(test2).setVisible(true);
-  }
+		updateButton = new JButton("Update");
+		updateButton.setActionCommand("UpdatePaper");
+		updateButton.addActionListener(controller); 
 
-  public class BackgroundTextArea extends JTextArea implements FocusListener {
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent the_event)
+			{
+				dispose();
+			}
+		});
 
-	  /**
-	   * Default serial ID
-	   */
-	  private static final long serialVersionUID = 1L;
+		bottemPanel = new JPanel();
+		bottemPanel.add(submitButton);
+		bottemPanel.add(cancelButton);
 
-	  private final String backgroundText;
+		// Update button only appears if editing existing submission
+		if (!isNewSubmission) {
+			bottemPanel.add(updateButton);
+		}
 
-	  public BackgroundTextArea(final String backgroundText) {
-	    super(backgroundText);
-	    this.backgroundText = backgroundText;
-	    super.addFocusListener(this);
-	  }
+		// Disables update button if deadline is passed
+		if(!user.canSubmitOrModify()) {
+			updateButton.setEnabled(false);
+		}
 
-	  @Override
-	  public void focusGained(FocusEvent e) {
-	    if (this.getText().isEmpty()) {
-	      super.setText("");
-	    }
-	  }
+		add(topPanel, BorderLayout.NORTH);
+		add(midPanel, BorderLayout.CENTER);
+		add(bottemPanel, BorderLayout.SOUTH);
 
-	  @Override
-	  public void focusLost(FocusEvent e) {
-	    if (this.getText().isEmpty()) {
-	      super.setText(backgroundText);
-	    }
-	  }
+		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setBackground(BACKGROUND_COLOR);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 
-	  @Override
-	  public String getText() {
-	    String typed = super.getText();
-	    return typed.equals(backgroundText) ? "" : typed;
-	  }
+	public Paper getPaper() {
+		return paper;
+	}
+
+	public static void main(String[] args) {
+		User test = new User();
+		//new PaperSubmissionForm(test2).setVisible(true);
+	}
+
+	public class BackgroundTextArea extends JTextArea implements FocusListener {
+
+		/**
+		 * Default serial ID
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private final String backgroundText;
+
+		public BackgroundTextArea(final String backgroundText) {
+			super(backgroundText);
+			this.backgroundText = backgroundText;
+			super.addFocusListener(this);
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (this.getText().isEmpty()) {
+				super.setText("");
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (this.getText().isEmpty()) {
+				super.setText(backgroundText);
+			}
+		}
+
+		@Override
+		public String getText() {
+			String typed = super.getText();
+			return typed.equals(backgroundText) ? "" : typed;
+		}
 	}  
 }
 
