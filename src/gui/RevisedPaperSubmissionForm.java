@@ -84,14 +84,13 @@ public class RevisedPaperSubmissionForm extends JFrame {
   public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
 	  
     super("Paper Submission");
-    paper = the_paper;
     this.user = the_user;
     controller = new RevisedPaperSubmissionController(user, this, model, paper);
 
     // check if creating a new paper or editing an existing paper
     if(paper != null) {
     	isNewSubmission = false;
-    	the_paper = paper;
+    	paper = the_paper;
     }
     
     model = (AbstractTableModel) aModel;
@@ -195,40 +194,41 @@ public class RevisedPaperSubmissionForm extends JFrame {
     //new PaperSubmissionForm(test2).setVisible(true);
   }
 
+  public class BackgroundTextArea extends JTextArea implements FocusListener {
+
+	  /**
+	   * Default serial ID
+	   */
+	  private static final long serialVersionUID = 1L;
+
+	  private final String backgroundText;
+
+	  public BackgroundTextArea(final String backgroundText) {
+	    super(backgroundText);
+	    this.backgroundText = backgroundText;
+	    super.addFocusListener(this);
+	  }
+
+	  @Override
+	  public void focusGained(FocusEvent e) {
+	    if (this.getText().isEmpty()) {
+	      super.setText("");
+	    }
+	  }
+
+	  @Override
+	  public void focusLost(FocusEvent e) {
+	    if (this.getText().isEmpty()) {
+	      super.setText(backgroundText);
+	    }
+	  }
+
+	  @Override
+	  public String getText() {
+	    String typed = super.getText();
+	    return typed.equals(backgroundText) ? "" : typed;
+	  }
+	}  
 }
 
-class BackgroundTextArea extends JTextArea implements FocusListener {
 
-  /**
-   * Default serial ID
-   */
-  private static final long serialVersionUID = 1L;
-
-  private final String backgroundText;
-
-  public BackgroundTextArea(final String backgroundText) {
-    super(backgroundText);
-    this.backgroundText = backgroundText;
-    super.addFocusListener(this);
-  }
-
-  @Override
-  public void focusGained(FocusEvent e) {
-    if (this.getText().isEmpty()) {
-      super.setText("");
-    }
-  }
-
-  @Override
-  public void focusLost(FocusEvent e) {
-    if (this.getText().isEmpty()) {
-      super.setText(backgroundText);
-    }
-  }
-
-  @Override
-  public String getText() {
-    String typed = super.getText();
-    return typed.equals(backgroundText) ? "" : typed;
-  }
-}
