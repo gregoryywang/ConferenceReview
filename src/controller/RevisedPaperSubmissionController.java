@@ -1,5 +1,15 @@
 package controller;
 
+/**
+ * RevisedPaperSubmissionController.java
+ * Controls the behavior of buttons in RevisedPaperSubmissionForm
+ * 
+ * @author yongyuwang
+ * @version 3
+ * Based on code from PaperSubmissionController 
+ * by Roshun Jones 
+ */
+
 import gui.RevisedPaperSubmissionForm;
 
 import java.awt.event.ActionEvent;
