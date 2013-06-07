@@ -39,7 +39,7 @@ import model.Author;
 import model.Paper;
 import model.User;
 
-public class PaperSubmissionForm extends JFrame {
+public class RevisedPaperSubmissionForm extends JFrame {
 
   /**
    * The default serial version UID.
@@ -75,7 +75,7 @@ public class PaperSubmissionForm extends JFrame {
   Paper paper = new Paper();
   boolean isNewSubmission = true;
 
-  public PaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
+  public RevisedPaperSubmissionForm(final Author the_user, Object aModel, Paper the_paper) {
 	  
     super("Paper Submission");
     paper = the_paper;
