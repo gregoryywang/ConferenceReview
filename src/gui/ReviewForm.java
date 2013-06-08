@@ -118,7 +118,7 @@ public class ReviewForm extends JFrame
 	public ReviewForm()
 	{
 		super("Review Form");
-		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
 		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
@@ -148,7 +148,7 @@ public class ReviewForm extends JFrame
 	public ReviewForm(final Paper the_paper, final User the_user, final Review the_review)
 	{
 		super("Review Form");
-		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		my_user = the_user;
 		if ("Author".equals(my_user.getClass().getSimpleName()))
