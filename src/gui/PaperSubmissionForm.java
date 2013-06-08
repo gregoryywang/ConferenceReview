@@ -147,7 +147,7 @@ public class PaperSubmissionForm extends JFrame {
 
     setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     setBackground(BACKGROUND_COLOR);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
   }
 
   public static void main(String[] args) {

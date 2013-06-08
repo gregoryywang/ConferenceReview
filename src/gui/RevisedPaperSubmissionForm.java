@@ -59,12 +59,12 @@ public class RevisedPaperSubmissionForm extends JFrame {
 	/**
 	 * The default frame width.
 	 */
-	private static final int FRAME_WIDTH = 300;
+	private static final int FRAME_WIDTH = 350;
 
 	/**
 	 * The default frame height.
 	 */
-	private static final int FRAME_HEIGHT = 300;
+	private static final int FRAME_HEIGHT = 350;
 
 	private Author user;
 
@@ -85,6 +85,7 @@ public class RevisedPaperSubmissionForm extends JFrame {
 	public RevisedPaperSubmissionForm(final Author the_user, Paper the_paper) {
 		
 		super("Paper Submission");
+		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.user = the_user;
 		controller = new RevisedPaperSubmissionController(user, this);
 
@@ -190,6 +191,13 @@ public class RevisedPaperSubmissionForm extends JFrame {
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBackground(BACKGROUND_COLOR);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		//Center dialog
+    int parentWidth = MainView.WIDTH;
+    int parentHeight = MainView.HEIGHT;
+    int locX = (parentWidth / 2) - (getWidth() / 2);
+    int locY = (parentHeight / 2) - (getHeight() / 2);
+    setLocation(locX, locY);
 	}
 
 	public Paper getPaper() {
