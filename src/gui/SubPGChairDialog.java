@@ -25,6 +25,7 @@ import model.Recommendation;
 import model.Review;
 import model.Reviewer;
 import model.Role;
+import model.Status;
 import model.SubProgramChair;
 import model.User;
 import service.PaperService;
@@ -179,10 +180,13 @@ public class SubPGChairDialog extends JDialog
 		}
 		else if (my_paper.getRecommendation().getRating()==0)
 		{
-			JButton btnSaveRec = new JButton("Save Recommendation");
+			JButton btnSaveRec = new JButton("Save Recommendation");			
 			btnSaveRec.setActionCommand("save_rec");
 			btnSaveRec.addActionListener(my_controller);
-			buttonPane.add(btnSaveRec);
+			if(my_paper.getStatus() == Status.RECOMMENDATION_NEEDED)
+			{
+				buttonPane.add(btnSaveRec);
+			}
 		}
 		
 		JButton btnCancel = new JButton("Cancel");
