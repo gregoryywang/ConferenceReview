@@ -88,11 +88,12 @@ public class RevisedPaperSubmissionForm extends JFrame {
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.user = the_user;
 		controller = new RevisedPaperSubmissionController(user, this);
-
+	
 		// check if creating a new paper or editing an existing paper
-		if(paper != null) {
-			isNewSubmission = false;
+		if(the_paper != null) {
 			paper = the_paper;
+		} else {
+		  paper = new Paper();
 		}
 
 
@@ -105,25 +106,20 @@ public class RevisedPaperSubmissionForm extends JFrame {
 
 		titleLabel = new JLabel("Submission title:");
 		titleField = new JTextField(15);
-		if (!isNewSubmission) {
-			titleField.setText(paper.getTitle());
-		}
-
+		titleField.setText(paper.getTitle());
+	
 		keywordsLabel = new JLabel("Keywords:");
 		keywordsField = new JTextField(15);
-		if (!isNewSubmission) {
-			keywordsField.setText(paper.getKeywords());
-		}
+		keywordsField.setText(paper.getKeywords());
+		
 
 		catagoryLabel = new JLabel("Catagory:");
 		catagoryField = new JComboBox();
 		ComboBoxModel categories =
 				new DefaultComboBoxModel(user.getConference().getCategories().toArray());
 		catagoryField.setModel(categories);
-		if (!isNewSubmission) {
-			catagoryField.setSelectedItem(paper.getCategory());
-		}
-
+		catagoryField.setSelectedItem(paper.getCategory());
+	
 		topPanel = new JPanel(new GridLayout(4, 2));
 
 		topPanel.add(nameLabel);
@@ -141,10 +137,13 @@ public class RevisedPaperSubmissionForm extends JFrame {
 		paperAbstract = new BackgroundTextArea("Paste or type your abstract here.");
 		paperAbstract.setWrapStyleWord(true);
 		JScrollPane abstractScrollPane = new JScrollPane(paperAbstract);
-
+		paperAbstract.setText(paper.getAbstract());
+		
 		paperContent = new BackgroundTextArea("Paste or type your paper here.");
 		paperContent.setWrapStyleWord(true);
+		paperContent.setLineWrap(true);
 		JScrollPane contentScrollPane = new JScrollPane(paperContent);
+		paperContent.setText(paper.getContent());
 
 		midPanel = new JPanel(new GridLayout(2, 1));
 		midPanel.add(abstractScrollPane);
@@ -167,17 +166,12 @@ public class RevisedPaperSubmissionForm extends JFrame {
 		});
 
 		bottemPanel = new JPanel();
-		if(!isNewSubmission) {
+		if(paper.getID() != 0) {
 			bottemPanel.add(updateButton);
 		} else {
 			bottemPanel.add(submitButton);
 		}
 		bottemPanel.add(cancelButton);
-
-		// Update button only appears if editing existing submission
-		if (!isNewSubmission) {
-			bottemPanel.add(updateButton);
-		}
 
 		// Disables update button if deadline is passed
 		if(!user.canSubmitOrModify()) {
