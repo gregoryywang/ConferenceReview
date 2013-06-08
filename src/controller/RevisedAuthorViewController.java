@@ -10,13 +10,11 @@ package controller;
  * by Roshun Jones and Danielle Tucker respectively.
  */
 
-import gui.MainView;
 import gui.AuthorView;
 import gui.RevisedPaperSubmissionForm;
 
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 
 import model.Author;
@@ -41,13 +39,13 @@ public class RevisedAuthorViewController implements Controller
 		if("view_edit".equals(command))
 		{
 			Paper paper = my_view.getSelectedRow();
-	        new RevisedPaperSubmissionForm(the_author, paper).setVisible(true); 
+	        new RevisedPaperSubmissionForm(the_author, paper, my_view).setVisible(true); 
 			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("add_submission".equals(command))
 		{
 			//Launches the new paper submission form when pressed.
-	        new RevisedPaperSubmissionForm(the_author, null).setVisible(true); 
+	        new RevisedPaperSubmissionForm(the_author, null, my_view).setVisible(true); 
 			my_view.getTableModel().fireTableDataChanged();
 		}
 		if("view_reviews".equals(command))
