@@ -11,16 +11,19 @@ package controller;
  */
 
 import gui.AuthorView;
+import gui.ReviewForm;
 import gui.RevisedPaperSubmissionForm;
 
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import service.PaperService;
 import model.Author;
 import model.Paper;
+import model.Review;
 
 
 public class RevisedAuthorViewController implements Controller
@@ -50,10 +53,32 @@ public class RevisedAuthorViewController implements Controller
 	        new RevisedPaperSubmissionForm(the_author, null, my_view).setVisible(true); 
 			my_view.getTableModel().fireTableDataChanged();
 		}
-		if("view_reviews".equals(command))
+		if("view_review1".equals(command))
 		{
 			Paper paper = my_view.getSelectedRow();
-			
+			List<Review> reviewList = paper.getReviews();
+			Review review = reviewList.get(0);
+			if( review != null ) {
+		        new ReviewForm(paper, the_author, review).start(); 
+		    }
+		}
+		if("view_review2".equals(command))
+		{
+			Paper paper = my_view.getSelectedRow();
+			List<Review> reviewList = paper.getReviews();
+			Review review = reviewList.get(1);
+			if( review != null ) {
+		        new ReviewForm(paper, the_author, review).start(); 
+		    }
+		}
+		if("view_review3".equals(command))
+		{
+			Paper paper = my_view.getSelectedRow();
+			List<Review> reviewList = paper.getReviews();
+			Review review = reviewList.get(2);
+			if( review != null ) {
+		        new ReviewForm(paper, the_author, review).start(); 
+		    }
 		}
 		if("delete_submission".equals(command))
 		{
