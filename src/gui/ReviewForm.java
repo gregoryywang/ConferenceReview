@@ -13,7 +13,6 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -343,9 +342,14 @@ public class ReviewForm extends JFrame
 		private static final long serialVersionUID = 1L;
 		
 		/**
-		 * Reference to the collection of JComponents.
+		 * Reference to the collection of JTextAreas.
 		 */
-		private List<JComponent> my_review_fields;
+		private List<JTextArea> my_textareas;
+		
+		/**
+		 * Reference to the collection of JComboBoxes.
+		 */
+		private List<JComboBox> my_comboboxes;
 		
 		/**
 		 * Reference to the summary combo box.
@@ -363,7 +367,8 @@ public class ReviewForm extends JFrame
 		private ReviewPanel()
 		{
 			super();
-			my_review_fields = new ArrayList<JComponent>();
+			my_comboboxes = new ArrayList<JComboBox>();
+			my_textareas = new ArrayList<JTextArea>();
 			createFields();
 		}
 		
@@ -420,14 +425,14 @@ public class ReviewForm extends JFrame
 				question_panel.add(question_box);
 				panel.add(question_panel);
 				
-				my_review_fields.add(question_box);
+				my_comboboxes.add(question_box);
 				comment_field.setMargin(new Insets(10, 10, 10, 10));
 				comment_field.setLineWrap(true);
 				final JPanel rating_label = new JPanel();
 				rating_label.add(new JLabel("Rating Comment: "));
 				panel.add(rating_label);
 				panel.add(comment_scroll);
-				my_review_fields.add(comment_field);
+				my_textareas.add(comment_field);
 			}
 			
 			if (!my_is_author_flag)
@@ -494,16 +499,16 @@ public class ReviewForm extends JFrame
 		 */
 		public void parseData()
 		{
-			for (int i = 0; i < my_review_fields.size(); i++)
+			for (int i = 0; i < my_comboboxes.size(); i++)
 			{
 				if (i % 2 == 0)
 				{
-					my_review.setRating(i, ((JComboBox) my_review_fields.
+					my_review.setRating(i, ((JComboBox) my_comboboxes.
 						get(i)).getSelectedIndex());
 				}
 				else
 				{
-					my_review.setComment(i, ((JTextArea) my_review_fields.
+					my_review.setComment(i, ((JTextArea) my_textareas.
 						get(i)).getText());
 				}
 			}
@@ -529,24 +534,21 @@ public class ReviewForm extends JFrame
 		{
 			boolean result = true;
 			
-			for (JComponent component : my_review_fields)
+			for (JComboBox component : my_comboboxes)
 			{
-				if ("JComboBox".equals(component.getClass().getSimpleName()))
+				if ("--select a rating--".equals(Review.RATING_SCALE_LOW_TO_HIGH[
+				    ((JComboBox) component).getSelectedIndex()]))
 				{
-					if ("--select a rating--".equals(Review.RATING_SCALE_LOW_TO_HIGH[
-					    ((JComboBox) component).getSelectedIndex()]))
-					{
-						result = false;
-						break;
-					}
+					result = false;
+					break;
 				}
-				else
+			}
+			for (JTextArea component : my_textareas)
+			{
+				if (DEFAULT_TEXT.equals(((JTextArea) component).getText()))
 				{
-					if (DEFAULT_TEXT.equals(((JTextArea) component).getText()))
-					{
-						result = false;
-						break;
-					}
+					result = false;
+					break;
 				}
 			}
 			if (!my_is_author_flag)
