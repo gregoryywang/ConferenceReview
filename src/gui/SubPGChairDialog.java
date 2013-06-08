@@ -270,7 +270,7 @@ public class SubPGChairDialog extends JDialog
 		{
 			for(int i = 0; i < 3; i++)
 			{
-				if(reviews.size() > i)
+				if(reviews.size() > i && reviews.get(i).getID() != 0)
 				{ //display button for review
 					JButton btnReviewer1 = new JButton("View Review");
 					btnReviewer1.setBounds(120, 83 + i*30, 200, 20);

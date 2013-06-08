@@ -205,7 +205,7 @@ public class Author extends User
 	public boolean canGetReviews(final Paper the_paper)
 	{
 		boolean result = false;
-		if (the_paper.getStatus() == Status.ACCEPT)
+		if (the_paper.getStatus() == Status.ACCEPT || the_paper.getStatus() == Status.DECLINE)
 		{
 			result = true;
 		}

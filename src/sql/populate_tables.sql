@@ -107,7 +107,7 @@ insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id)
 insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (7,3,5,1);
 
 --Create A Review for Paper 5 written by ReviewerTest(REVIEW_ID = 1)
-insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (5, 4, 'I would recommend that you read this and approve it!!!', 4, 'Nice work on this.', 1);
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (5, 5, 'I would recommend that you read this and approve it!!!', 4, 'Nice work on this.', 1);
 --Create answers to all questions in review
 insert into rating_comment(review_id, question_id, rating, comment_text) values (1,1,4,'Looks good');
 insert into rating_comment(review_id, question_id, rating, comment_text) values (1,2,2,'Needs improvement in this area');
@@ -176,3 +176,54 @@ insert into rating_comment(review_id, question_id, rating, comment_text) values 
 --Add general user (USER_ID = 9)
 insert into user(first_name, last_name, username, password, email_address) values('Default', 'User', 'UserTest', 'UserTest', 'UserTest@uw.edu');
 
+
+
+--Create Paper7 with Author as author (PAPER_ID = 7)
+insert into paper(author_id, title, keywords, abstract, cat_id, content, active, recomm_rating, recomm_comments, status, acceptance_status) values(3, 'Traceroute and the Interned', 'informative', 'abstracts are great', 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1, 5, 'Yes this should be in the conference.', 'DECISION_NEEDED', 'UNDECIDED');
+--Associate Paper with conference1 and Reviewer2
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(3,2,7,1);
+--Associate Paper with SubProgramChair
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values(4,4,7,1);
+--Associate ReivewerTest with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (5,3,7,1);
+--Associate ReivewerTest2 with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (6,3,7,1);
+--Associate ReivewerTest3 with Paper 6
+insert into user_role_paper_conference_join(user_id, role_id, paper_id, conf_id) values (7,3,7,1);
+
+--Create A Review for Paper 7 written by ReviewerTest(REVIEW_ID = 5)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (7, 5, 'I would recommend that you read this and approve it!!!', 4, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,1,4,'All items addressed');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,5,3,'Yep');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (5,9,5,'Meets the standard');
+--Create A Review for Paper 7 written by ReviewerTest2(REVIEW_ID = 6)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (7, 6, 'I would think...', 4, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,1,4,'Some minor details');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,5,3,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (6,9,5,'Meets the standard');
+--Create A Review for Paper 6 written by ReviewerTest2(REVIEW_ID = 7)
+insert into review(paper_id, reviewer_id, cmmt_subpgrmchair, summary_rating, summary_cmmt, active) values (7, 7, 'I would recommend that...!!!', 5, 'Nice work on this.', 1);
+--Create answers to all questions in review
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,1,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,2,5,'Nice work here');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,3,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,4,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,5,3,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,6,4,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,7,5,'Looks good');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,8,4,'What Can I Say???');
+insert into rating_comment(review_id, question_id, rating, comment_text) values (7,9,5,'Meets the standard');
