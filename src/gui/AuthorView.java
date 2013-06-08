@@ -62,16 +62,16 @@ public class AuthorView extends JPanel {
     ViewReview1.addActionListener(controller);
     
     // Configure view review 2 button
-    ViewReview1 = new JButton("View Review 2");
-    ViewReview1.setEnabled(false);
-    ViewReview1.setActionCommand("view_review2");
-    ViewReview1.addActionListener(controller);
+    ViewReview2 = new JButton("View Review 2");
+    ViewReview2.setEnabled(false);
+    ViewReview2.setActionCommand("view_review2");
+    ViewReview2.addActionListener(controller);
     
     // Configure view review 3 button
-    ViewReview1 = new JButton("View Review 3");
-    ViewReview1.setEnabled(false);
-    ViewReview1.setActionCommand("view_reviews3");
-    ViewReview1.addActionListener(controller);
+    ViewReview3 = new JButton("View Review 3");
+    ViewReview3.setEnabled(false);
+    ViewReview3.setActionCommand("view_reviews3");
+    ViewReview3.addActionListener(controller);
     
     // Configure Delete Submission button
     DeleteSubmission = new JButton("Delete Submission");
