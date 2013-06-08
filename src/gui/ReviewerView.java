@@ -56,12 +56,6 @@ public class ReviewerView extends JPanel
     btViewEdit.setActionCommand("write_review");
     btViewEdit.addActionListener(controller);
    
-    //Configure view/edit button
-    btViewPaper = new JButton("View Paper");
-    btViewPaper.setEnabled(false);
-    btViewPaper.setActionCommand("view_paper");
-    btViewPaper.addActionListener(controller);
-
     tableModel = new TableModel(model);
     table = new JTable(tableModel);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -71,8 +65,6 @@ public class ReviewerView extends JPanel
       public void valueChanged(ListSelectionEvent event) {
         //Enable view/edit button when selection is made
         btViewEdit.setEnabled(true);
-        //Enable view paper button when selection is made
-        btViewPaper.setEnabled(true);
       }
     });
     
