@@ -40,17 +40,52 @@ import controller.Controller;
 public class SubPGChairDialog extends JDialog
 {
 	/**
-	 * 
+	 * The id
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * The parent
+	 */
 	private final MainView my_parent;
+	
+	/**
+	 * The controller
+	 */
 	private final Controller my_controller;
+	
+	/**
+	 * The subprogram chair user
+	 */
 	private final SubProgramChair my_SPChair;
+	
+	/**
+	 * The Paper under observation.
+	 */
 	private final Paper my_paper;
+	
+	/**
+	 * The comments for the recommendation
+	 */
 	private JTextPane txtComments;
+	
+	/**
+	 * The rating for the recommendation
+	 */
 	private JComboBox cmbRating;
+	
+	/**
+	 * The list of reviewers for the paper.
+	 */
 	private final JList reviewer_choices = new JList();
 
+	/**
+	 * constructor
+	 * @param aParent the parent view
+	 * @param aController the controller for actions
+	 * @param SPChair the subprogram chair user
+	 * @param aPaper the paper under consideration
+	 */
 	public SubPGChairDialog(final MainView aParent, final Controller aController,
 			final SubProgramChair SPChair, final Paper aPaper)
 	{
@@ -185,6 +220,10 @@ public class SubPGChairDialog extends JDialog
 		return selections;
 	}
 
+	/**
+	 * Get the rating
+	 * @return the rating selected
+	 */
 	public int getRating()
 	{
 		String descriptor = (String)cmbRating.getSelectedItem();
@@ -198,11 +237,20 @@ public class SubPGChairDialog extends JDialog
 		return 0;
 	}
 
+	/**
+	 * Get the comments associated with the recommendation.
+	 * @return
+	 */
 	public String getComments()
 	{
 		return txtComments.getText();
 	}
 
+	/**
+	 * Create the buttons/text for each review/reviewer
+	 * @param aPaper the paper
+	 * @param contentPanel the panel
+	 */
 	private void createReviewItems(final Paper aPaper, JPanel contentPanel) {
 		final List<Review> reviews = my_paper.getReviews();
 		List<Reviewer> reviewers = my_SPChair.getReviewers(aPaper);
@@ -237,6 +285,11 @@ public class SubPGChairDialog extends JDialog
 		}
 	}
 
+	/**
+	 * Listen for the button press of a review to launch a review to read
+	 * @author Danielle Tucker
+	 * @version 2013 Spring
+	 */
 	private class ReviewActionListener implements ActionListener
 	{
 		private Review my_review;

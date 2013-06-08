@@ -20,6 +20,12 @@ import model.User;
 import controller.Controller;
 import controller.SubPGChairController;
 
+/**
+ * View that a SubProgram Chair should see
+ * @author Roshun (template)
+ * @author Danielle
+ * @version 2013 Spring
+ */
 public class SubPGChairView extends JPanel
 {
 	/**
@@ -27,16 +33,55 @@ public class SubPGChairView extends JPanel
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The headings for the JTable
+	 */
 	private String[] columns = {"Author","Title", "Status", "Reviewer", "Reviewer", "Reviewer"};
+	/**
+	 * The list of papers to display.
+	 */
 	private List<Paper> model;
+	
+	/**
+	 * The controller for actions associated with popups which may change the model.
+	 */
 	private Controller controller;
+	
+	/**
+	 * The table.
+	 */
 	private JTable table;
+	
+	/**
+	 * The scrollpane to display the table on
+	 */
 	private JScrollPane scrollPane;
+	
+	/**
+	 * My subprogram chair user.
+	 */
 	private SubProgramChair my_SPChair;
+	
+	/**
+	 * The button to launch the command center.
+	 */
 	private JButton btViewEdit;
+	
+	/**
+	 * The model for the J Table
+	 */
 	private TableModel tableModel;
+	
+	/**
+	 * The list of papers.
+	 */
 	private List<Paper> data;
+	
+	/**
+	 * The parent of this panel.
+	 */
 	private MainView parent;
+	
 	/**
 	 * Constructs a SubPGChairView from a specific
 	 * SubProgramChair User.
@@ -76,10 +121,18 @@ public class SubPGChairView extends JPanel
 		setVisible(true);
 	}
 
+	/**
+	 * Get the table model for this view.
+	 * @return the table model for this view
+	 */
 	public TableModel getTableModel() {
 		return tableModel;
 	}
 
+	/**
+	 * Get the selected row of the table
+	 * @return the paper at the selected row of the Jtable
+	 */
 	public Paper getSelectedRow() {   
 		int selectedRow = table.getSelectedRow();
 
@@ -89,10 +142,18 @@ public class SubPGChairView extends JPanel
 		return null;
 	}
 
+	/**
+	 * Get the subprogram chair user
+	 * @return the user
+	 */
 	public SubProgramChair getSPChair() {
 		return my_SPChair;
 	}
 
+	/**
+	 * Get the parent of this pane
+	 * @return the parent of this pane
+	 */
 	public MainView getMainView() {
 		return parent;
 	}
@@ -102,10 +163,22 @@ public class SubPGChairView extends JPanel
 		btViewEdit.setEnabled(false);
 	}
 
+	/**
+	 * The Table Model for displaying the papers
+	 * @author Roshun (template)
+	 * @author Danielle
+	 */
 	public class TableModel extends AbstractTableModel 
 	{
+		/**
+		 * The id
+		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructor
+		 * @param model  the papers to display
+		 */
 		private TableModel(List<Paper> model) {
 			super();
 
@@ -115,21 +188,33 @@ public class SubPGChairView extends JPanel
 				data = model;
 		}
 
+		/**
+		 * @return the column count for this table.
+		 */
 		@Override
 		public int getColumnCount() {
 			return columns.length;
 		}
 
+		/**
+		 * @return the row count for this table.
+		 */
 		@Override
 		public int getRowCount() {
 			return data.size();
 		}
 
+		/**
+		 * @return the heading name for this column
+		 */
 		@Override
 		public String getColumnName(int columnIndex){
 			return columns[columnIndex];
 		}
 
+		/**
+		 * @return the paper at the row index.
+		 */
 		@Override //{"Author","Title", "Status", "Reviewer", "Reviewer", "Reviewer"}
 		public Object getValueAt(int rowIndex, int columnIndex ) {
 			Paper paper = data.get(rowIndex); 
@@ -175,6 +260,9 @@ public class SubPGChairView extends JPanel
 			return result;
 		}
 
+		/**
+		 * Get the class of the column.  They are all strings (nothing else!)
+		 */
 		@Override
 		public Class getColumnClass(int columnIndex) {
 			return String.class;
