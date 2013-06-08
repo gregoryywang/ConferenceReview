@@ -4,9 +4,10 @@ package model;
 /**
  * Class to encapsulate a Review in our system.
  * (This Review is based on a Paper Object)
- * @author Levon (method stubs)
+ * @author Levon (method stubs & QUESTIONS array & updating comments
+ * & ratings references)
  * @author Danielle Tucker
- * @version 1.0 (Spring 2013)
+ * @version Spring 2013
  */
 public class Review 
 {
@@ -16,7 +17,7 @@ public class Review
 	public static final String INSTRUCTIONS =
 		"Please provide a numeric rating on a 5-point scale for each question, along with a brief " +
 		"rationale for each numeric rating. In doing so, please discuss both the strengths and the " +
-		"weaknesses of each paper so that the editors and authors can understand your reasoning./n" +
+		"weaknesses of each paper so that the editors and authors can understand your reasoning." +
 		"Please phrase your reviews politely; even 'bad' papers represent a lot of work on the part of " + 
 		"the authors. The review may be the basis for further revisions of the paper or the work that " +
 		"the paper reports. We all know how hurtful a needlessly negative review can be, and how " +
@@ -49,14 +50,6 @@ public class Review
 	};
 	
 	/**
-	 * Descriptors for each value of the rating scale from high value to low.  Position
-	 * 0 is instruction to select a rating and position 1 equates to a rating of 5
-	 */
-	public static final String[] RATING_SCALE_HIGH_TO_LOW = {"--select a rating--",
-		"Strong Accept", "Accept", "Neutral", "Reject", "Strong Reject"
-	};
-	
-	/**
 	 * Descriptors for each value of the rating scale from low value to high.  Position 0 is 
 	 * instruction to select a rating and position 1 equates to a rating of 1.
 	 */
@@ -80,7 +73,7 @@ public class Review
 	private User my_owner;
 	
 	/**
-	 * The ratings for this review.  Position 0 is used for the summary rating.
+	 * The ratings for this review.
 	 */
 	private int[] my_ratings;
 	
@@ -153,10 +146,6 @@ public class Review
 		{
 			my_subprogramchair_comment = the_comment;
 		}
-		else
-		{
-			my_subprogramchair_comment = "No Comment Entered";
-		}
 	}
 	
 	public String getSPChairComment()
@@ -170,7 +159,7 @@ public class Review
 	 */
 	public void setSummaryRating(final int the_rating)
 	{
-		my_summary_rating = validateRating(the_rating);
+		my_summary_rating = the_rating;
 	}
 	
 	/**
@@ -228,9 +217,9 @@ public class Review
 	 */
 	public void setRating(final int the_q, final int the_value)
 	{
-		if(the_q > 0 && the_q < QUESTIONS.length)
+		if(the_q >= 0 && the_q < QUESTIONS.length)
 		{
-			my_ratings[the_q] = validateRating(the_value);
+			my_ratings[the_q] = the_value;
 		}
 	}
 
@@ -257,8 +246,10 @@ public class Review
 	 */
 	public void setComment(final int the_q, final String the_comment)
 	{
-		if(the_q > 0 && the_q < QUESTIONS.length)
+		if(the_q >= 0 && the_q < QUESTIONS.length)
+		{
 			my_comments[the_q] = the_comment;
+		}
 	}
 
 	/**
@@ -268,10 +259,12 @@ public class Review
 	 */
 	public String getComment(final int the_question)
 	{
-		if(the_question > 0 && the_question < QUESTIONS.length)
-			return my_comments[the_question];
-		else
-			return "";
+		String result = "";
+		if(the_question >= 0 && the_question < QUESTIONS.length)
+		{
+			result = my_comments[the_question];
+		}
+		return result;
 	}
 	
 	/**
@@ -283,23 +276,5 @@ public class Review
 	{
 		return my_owner.toString();
 	}
-
-	/**
-	 * Sets rating to between 1 and 5 inclusive.
-	 * @param the_rating the rating to validate
-	 * @return the rating between 1 and 5
-	 */
-	private int validateRating(int the_rating) 
-	{
-		int rating = the_rating;
-		if(the_rating < 1)
-		{
-			rating = 1;
-		}
-		else if(the_rating > 5)
-		{
-			rating = 5;
-		}
-		return rating;
-	}
 }
+
