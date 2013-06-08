@@ -61,6 +61,9 @@ public class RecommendationTest {
 		assertEquals(5, rec.getRating());
 	}
 	
+	/**
+	 * Test the ability to set and get comments.
+	 */
 	@Test
 	public void testSetComments()
 	{
