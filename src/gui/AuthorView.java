@@ -57,7 +57,7 @@ public class AuthorView extends JPanel {
     
     // Configure view reviews button
     ViewReviews = new JButton("View Reviews");
-    ViewReviews.setEnabled(false);
+    ViewReviews.setEnabled(true);
     ViewReviews.setActionCommand("view_reviews");
     ViewReviews.addActionListener(controller);
     
