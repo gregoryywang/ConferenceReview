@@ -78,16 +78,19 @@ public class RevisedPaperSubmissionForm extends JFrame {
 
 	final JButton submitButton, updateButton, cancelButton;
 	final JPanel topPanel, midPanel, bottemPanel;
+	
+	private AuthorView my_view;
 
 	Paper paper;
 	boolean isNewSubmission = true;
 
-	public RevisedPaperSubmissionForm(final Author the_user, Paper the_paper) {
+	public RevisedPaperSubmissionForm(final Author the_user, Paper the_paper, final AuthorView the_view) {
 		
 		super("Paper Submission");
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.user = the_user;
-		controller = new RevisedPaperSubmissionController(user, this);
+		my_view = the_view;
+		controller = new RevisedPaperSubmissionController(user, this, my_view);
 	
 		// check if creating a new paper or editing an existing paper
 		if(the_paper != null) {
