@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -25,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import model.Administrator;
 import model.Conference;
@@ -78,7 +78,7 @@ public class ConferenceForm extends JFrame
 	 * The conference flag to see if the user selected to make a new conference.
 	 */
 	private boolean my_is_new_conf_flag = false;
-	
+
 	private Administrator the_admin;
 
 	/**
@@ -90,10 +90,11 @@ public class ConferenceForm extends JFrame
 	public ConferenceForm(final User the_administrator, final Conference the_conference)
 	{
 		super("Conference Form");
-		//System.out.println("CF_MSG...The conference passed is: " + the_conference);
 
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 460, 430);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		the_admin = new Administrator(the_administrator);
 		my_conference = the_conference;
 		if (my_conference.getID() == 0)
@@ -161,7 +162,7 @@ public class ConferenceForm extends JFrame
 		button_panel.add(conference_button);
 		add(button_panel, BorderLayout.SOUTH);
 		setVisible(true);
-		pack();
+		//pack();
 	}
 
 	/**
@@ -205,7 +206,7 @@ public class ConferenceForm extends JFrame
 				new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 
 				new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()))).start();
 	}
-	*/
+	 */
 
 	public class ConferencePanel extends JPanel
 	{
@@ -240,11 +241,14 @@ public class ConferenceForm extends JFrame
 		 */
 		public ConferencePanel(final Conference the_conference)
 		{
-			super(new GridLayout(ROWS, COLUMNS));
-			createFields();
-			pack();
+			//super(new GridLayout(ROWS, COLUMNS));
+			super();
+			setBorder(new EmptyBorder(5, 5, 5, 5));
+			setBounds(100, 100, 600, 444);
+
+			createFields();			
+			
 			setVisible(true);
-			//System.out.println("CP_MSG...The conference passed is: " + the_conference + " conf_id: " + the_conference.getID());
 		}
 
 		public List<JComponent> getConferenceFields()
@@ -265,41 +269,43 @@ public class ConferenceForm extends JFrame
 			my_conference.setTopic(((JTextField) my_conference_fields.get(fields_index++)).getText());
 			String date = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDate(Date.valueOf(date));
-			
-			my_conference.setProgramChair((User) ((JComboBox) my_conference_fields.get(fields_index++)).
-					getSelectedItem());
+
+			if(my_is_new_conf_flag)
+			{
+				my_conference.setProgramChair((User) ((JComboBox) my_conference_fields.get(fields_index++)).
+						getSelectedItem());
+			}
+			else
+			{
+				fields_index++;
+			}
 
 			String submission = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.SUBMIT_PAPER, Date.valueOf(submission));
 
 			String review = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.REVIEW_PAPER, Date.valueOf(review));		
-//			my_conference.setDeadline(Deadline.REVIEW_PAPER, new Date(Long.parseLong(
-//					review.replaceAll("-", ""))));
 
 			String recommendation = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.MAKE_RECOMMENDATION, Date.valueOf(recommendation));
-//			my_conference.setDeadline(Deadline.MAKE_RECOMMENDATION, new Date(Long.parseLong(
-//					recommendation.replaceAll("-", ""))));
 
 			String final_decision = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.FINAL_DECISION, Date.valueOf(final_decision));
-//			my_conference.setDeadline(Deadline.FINAL_DECISION, new Date(Long.parseLong(
-//					final_decision.replaceAll("-", ""))));
 
 			String revision = ((JTextField) my_conference_fields.get(fields_index++)).getText();
 			my_conference.setDeadline(Deadline.REVISE_PAPER, Date.valueOf(revision));
-//			my_conference.setDeadline(Deadline.REVISE_PAPER, new Date(Long.parseLong(
-//					revision.replaceAll("-", ""))));
-			
+
 			//Get the list of categories and set them in the conference.
-			Object[] categories = ((JList) my_conference_fields.get(fields_index)).getSelectedValues();
-			List<String> category_list = new ArrayList<String>();
-			for(Object category: categories)
+			if(my_is_new_conf_flag)
 			{
-				category_list.add((String) category);
+				Object[] categories = ((JList) my_conference_fields.get(fields_index)).getSelectedValues();
+				List<String> category_list = new ArrayList<String>();
+				for(Object category: categories)
+				{
+					category_list.add((String) category);
+				}
+				my_conference.setCategories(category_list);
 			}
-			my_conference.setCategories(category_list);
 
 			return my_conference;
 		}
@@ -309,18 +315,35 @@ public class ConferenceForm extends JFrame
 		 */
 		private void createFields()
 		{
-			add(new JLabel("\t Conference Topic: "));
-			final JTextField topic_field = new JTextField(TEXTFIELD_SIZE);
+			setLayout(null);
+			
+
+			//add(new JLabel("\t Conference Topic: "));
+			JLabel lblNewLabel = new JLabel("Conference Topic: ");
+			lblNewLabel.setBounds(10, 30, 240, 20);
+			add(lblNewLabel);
+
+			//final JTextField topic_field = new JTextField(TEXTFIELD_SIZE);
+			final JTextField topic_field = new JTextField();
+			topic_field.setBounds(260, 27, 173, 20);
+			add(topic_field);
+
 			topic_field.setEditable(true);
 			if(!my_is_new_conf_flag)
 			{
 				topic_field.setText(my_conference.getTopic().toString());
+				topic_field.setCaretPosition(0);
 			}
 			my_conference_fields.add(topic_field);
 			add(topic_field);
-		
-			add(new JLabel("\t Conference Date (YYYY-MM-DD): "));
+
+			//add(new JLabel("\t Conference Date (YYYY-MM-DD): "));
+			JLabel lblConferenceDateyymmdd = new JLabel("Conference Date (YYYY-MM-DD):");
+			lblConferenceDateyymmdd.setBounds(10, 61, 240, 20);
+			add(lblConferenceDateyymmdd);
+
 			final JTextField conference_date_field = new JTextField(TEXTFIELD_SIZE);
+			conference_date_field.setBounds(260, 61, 173, 20);
 			conference_date_field.setEditable(true);
 			conference_date_field.addFocusListener(new DateListener((JTextField) conference_date_field));
 			if(!my_is_new_conf_flag)
@@ -329,25 +352,41 @@ public class ConferenceForm extends JFrame
 			}
 			my_conference_fields.add(conference_date_field);
 			add(conference_date_field);
-		
-			add(new JLabel("\t Program Chair: "));
-			final JComboBox program_chair_field = new JComboBox();
-			program_chair_field.setEditable(false);
+
+			
+			//add(new JLabel("\t Program Chair: "));
+			JLabel lblProgramChair = new JLabel("Program Chair:");
+			lblProgramChair.setBounds(10, 86, 240, 20);
+			add(lblProgramChair);
+
+
 			if (my_is_new_conf_flag)
 			{
+				final JComboBox program_chair_field = new JComboBox();
+				program_chair_field.setEditable(false);
 				program_chair_field.setModel(new DefaultComboBoxModel(
 						UserService.getInstance().getAllUsers().toArray()));
+				program_chair_field.setBounds(260, 86, 173, 20);
+				my_conference_fields.add(program_chair_field);
+				add(program_chair_field);
 			}
 			else
 			{
-				program_chair_field.addItem(my_conference.getProgramChair());
+				final JLabel program_chair_field = new JLabel(my_conference.getProgramChair().toString());
+				//program_chair_field.addItem(my_conference.getProgramChair());
+				my_conference_fields.add(program_chair_field);
+				program_chair_field.setBounds(260, 86, 173, 20);
+				add(program_chair_field);
 			}
-			my_conference_fields.add(program_chair_field);
-			add(program_chair_field);
-		
-			add(new JLabel("\t Submission Deadline (YYYY-MM-DD): "));
+
+			//add(new JLabel("\t Submission Deadline (YYYY-MM-DD): "));
+			JLabel lblSubmissionDeadlineyyyymmdd = new JLabel("Submission Deadline (YYYY-MM-DD):");
+			lblSubmissionDeadlineyyyymmdd.setBounds(10, 111, 240, 20);
+			add(lblSubmissionDeadlineyyyymmdd);
+
 			final JTextField submission_field = new JTextField(TEXTFIELD_SIZE);
 			submission_field.setEditable(true);
+			submission_field.setBounds(260, 111, 173, 20);
 			submission_field.addFocusListener(new DateListener((JTextField) submission_field));
 			if(!my_is_new_conf_flag)
 			{
@@ -355,8 +394,14 @@ public class ConferenceForm extends JFrame
 			}
 			my_conference_fields.add(submission_field);
 			add(submission_field);
-		
-			add(new JLabel("\t Review Deadline (YYYY-MM-DD): "));
+
+			
+			
+			//add(new JLabel("\t Review Deadline (YYYY-MM-DD): "));
+			JLabel lblReviewDeadlineyyyymmdd = new JLabel("Review Deadline (YYYY-MM-DD):");
+			lblReviewDeadlineyyyymmdd.setBounds(10, 136, 240, 20);
+			add(lblReviewDeadlineyyyymmdd);
+
 			final JTextField review_field = new JTextField(TEXTFIELD_SIZE);
 			review_field.setEditable(true);
 			review_field.addFocusListener(new DateListener((JTextField) review_field));
@@ -365,9 +410,14 @@ public class ConferenceForm extends JFrame
 				review_field.setText(my_conference.getDeadline(Deadline.REVIEW_PAPER).toString());
 			}
 			my_conference_fields.add(review_field);
+			review_field.setBounds(260, 136, 173, 20);
 			add(review_field);
-		
-			add(new JLabel("\t Recommendation Deadline (YYYY-MM-DD): "));
+
+			//add(new JLabel("\t Recommendation Deadline (YYYY-MM-DD): "));
+			JLabel lblRecommendationDeadlineyyyymmdd = new JLabel("Recommendation Deadline (YYYY-MM-DD):");
+			lblRecommendationDeadlineyyyymmdd.setBounds(10, 161, 240, 20);
+			add(lblRecommendationDeadlineyyyymmdd);
+			
 			final JTextField recommendation_field = new JTextField(TEXTFIELD_SIZE);
 			recommendation_field.setEditable(true);
 			recommendation_field.addFocusListener(new DateListener((JTextField) recommendation_field));
@@ -376,9 +426,14 @@ public class ConferenceForm extends JFrame
 				recommendation_field.setText(my_conference.getDeadline(Deadline.MAKE_RECOMMENDATION).toString());
 			}
 			my_conference_fields.add(recommendation_field);
+			recommendation_field.setBounds(260, 161, 173, 20);
 			add(recommendation_field);
-		
-			add(new JLabel("\t Final Decision Deadline (YYYY-MM-DD): "));
+
+			//add(new JLabel("\t Final Decision Deadline (YYYY-MM-DD): "));
+			JLabel lblFinalDecisionDeadline = new JLabel("Final Decision Deadline (YYYY-MM-DD):");
+			lblFinalDecisionDeadline.setBounds(10, 189, 240, 20);
+			add(lblFinalDecisionDeadline);
+
 			final JTextField final_decision_field = new JTextField(TEXTFIELD_SIZE);
 			final_decision_field.setEditable(true);
 			final_decision_field.addFocusListener(new DateListener((JTextField) final_decision_field));
@@ -387,9 +442,14 @@ public class ConferenceForm extends JFrame
 				final_decision_field.setText(my_conference.getDeadline(Deadline.FINAL_DECISION).toString());
 			}
 			my_conference_fields.add(final_decision_field);
+			final_decision_field.setBounds(260, 189, 173, 20);
 			add(final_decision_field);
-		
-			add(new JLabel("\t Revision Deadline (YYYY-MM-DD): "));
+
+			//add(new JLabel("\t Revision Deadline (YYYY-MM-DD): "));
+			JLabel lblRevisionDeadlineyyyymmdd = new JLabel("Revision Deadline (YYYY-MM-DD):");
+			lblRevisionDeadlineyyyymmdd.setBounds(10, 220, 240, 20);
+			add(lblRevisionDeadlineyyyymmdd);
+
 			final JTextField revision_field = new JTextField(TEXTFIELD_SIZE);
 			revision_field.setEditable(true);
 			revision_field.addFocusListener(new DateListener((JTextField) revision_field));
@@ -398,9 +458,14 @@ public class ConferenceForm extends JFrame
 				revision_field.setText(my_conference.getDeadline(Deadline.REVISE_PAPER).toString());
 			}
 			my_conference_fields.add(revision_field);
+			revision_field.setBounds(260, 220, 173, 20);
 			add(revision_field);
-		
-			add(new JLabel("\t Conference Categories:"));
+
+			//add(new JLabel("\t Conference Categories:"));
+			JLabel lblConferenceCategories = new JLabel("Conference Categories:");
+			lblConferenceCategories.setBounds(10, 260, 240, 20);
+			add(lblConferenceCategories);
+			
 			final JList categories_field = new JList();
 			//categories_field.setEditable(true);
 			if (my_is_new_conf_flag)
@@ -414,7 +479,8 @@ public class ConferenceForm extends JFrame
 			}
 			my_conference_fields.add(categories_field);
 			JScrollPane categories_view = new JScrollPane(categories_field);
-			categories_field.setVisibleRowCount(1);
+			//categories_field.setVisibleRowCount(1);
+			categories_view.setBounds(260, 245, 173, 80);
 			add(categories_view);
 		}
 	}
@@ -512,7 +578,7 @@ public class ConferenceForm extends JFrame
 		private boolean isValidDate(final String the_date)
 		{
 			boolean result = false;
-		
+
 			int month = 0;
 			int day = 0;
 			int year = 0;
@@ -527,13 +593,13 @@ public class ConferenceForm extends JFrame
 				// Do nothing
 				JOptionPane.showMessageDialog(null, the_exception.getMessage());
 			}
-		
+
 			if (month > 0 && month < 13 && day > 0 && day < 32 && year > 1776
 					&& "-".equals(the_date.substring(4, 5)) && "-".equals(the_date.substring(7, 8)))
 			{
 				result = true;
 			}
-		
+
 			return result;
 		}
 	}
