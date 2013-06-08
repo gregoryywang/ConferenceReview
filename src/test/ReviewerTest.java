@@ -14,10 +14,16 @@ import model.User;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for methods of Reviewer
+ * @author Danielle
+ * @version 2013 Spring
+ */
 public class ReviewerTest {
 	
 	Conference past_conf;
 	Conference future_conf;
+	Reviewer reviewer;
 	
 	@Before
 	public void setUp()
@@ -26,36 +32,21 @@ public class ReviewerTest {
 		past_conf.setDeadline(Deadline.REVIEW_PAPER, Date.valueOf(("2000-01-01")));
 		
 		future_conf = new Conference();
-		future_conf.setDeadline(Deadline.REVIEW_PAPER, Date.valueOf(("2050-01-01")));	
+		future_conf.setDeadline(Deadline.REVIEW_PAPER, Date.valueOf(("2999-01-01")));
+		
+		reviewer = new Reviewer(new User());
 	}
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testAddReview()
-	{
-		fail();
-	}
-	
-	@Test
-	public void testGetReview()
-	{
-		fail();
-	}
-	
-	@Test
-	public void testViewPapers()
-	{
-		fail();
-	}
-	
+	/**
+	 * Test the method which allows reviews to be added.
+	 */
 	@Test
 	public void testCanAddReview()
 	{
-		fail();
+		reviewer.setConference(past_conf);
+		assertFalse(reviewer.canAddReview());
+		reviewer.setConference(future_conf);
+		assertTrue(reviewer.canAddReview());
 	}
 	
 	/**

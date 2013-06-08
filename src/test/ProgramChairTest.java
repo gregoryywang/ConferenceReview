@@ -18,6 +18,7 @@ import model.Role;
 import model.Status;
 import model.User;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import service.ConferenceService;
@@ -33,8 +34,20 @@ import dao.PaperDAO;
  */
 public class ProgramChairTest {
 
-	private User pg_user = UserService.getInstance().authenticateUser("PrgmChairTest", "PrgmChairTest");
+	private User pg_user;
 	
+	/**
+	 * Setup
+	 */
+	@Before
+	public void setup()
+	{
+		pg_user = UserService.getInstance().authenticateUser("PrgmChairTest", "PrgmChairTest");
+	}
+	
+	/**
+	 * Testing the constructor which is used by the userservice.
+	 */
 	@Test
 	public void testConstructor() {
 		assertNotNull(pg_user);
@@ -43,6 +56,9 @@ public class ProgramChairTest {
 		assertEquals(pg_user.getID(), pg_chair.getID());
 	}
 	
+	/**
+	 * Test setting role
+	 */
 	@Test
 	public void testSetRole()
 	{
@@ -51,6 +67,9 @@ public class ProgramChairTest {
 		assertEquals(Role.PROGRAM_CHAIR, pg_chair.getRole());
 	}
 	
+	/**
+	 * Checking business rules
+	 */
 	@Test
 	public void testCanAssignDecision()
 	{
@@ -67,6 +86,9 @@ public class ProgramChairTest {
 		}
 	}
 	
+	/**
+	 * Checking papers against hard coded papers in pre-populated database
+	 */
 	@Test
 	public void viewPapers()
 	{
@@ -77,6 +99,9 @@ public class ProgramChairTest {
 		assertTrue(papers.size()>0);
 	}
 	
+	/**
+	 * Checking business rules
+	 */
 	@Test
 	public void testAssignDecision()
 	{
@@ -96,6 +121,9 @@ public class ProgramChairTest {
 		assertEquals(Status.ACCEPT, paper_db.getStatus());
 	}
 	
+	/**
+	 * Checking setting up subProgram chair rules
+	 */
 	@Test
 	public void testAssignSPChair()
 	{
@@ -136,7 +164,4 @@ public class ProgramChairTest {
 		PaperService.getInstance().deletePaper(new_paper.getID());
 		
 	}
-/*
-assignSPChair(User, Paper)
- */
 }

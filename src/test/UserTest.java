@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import model.User;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import service.UserService;
@@ -15,8 +16,20 @@ import service.UserService;
  */
 public class UserTest {
 
-	User my_admin = UserService.getInstance().authenticateUser("AdminTest", "AdminTest");
+	User my_admin;
 	
+	/**
+	 * Setup
+	 */
+	@Before
+	public void setUp()
+	{
+		User my_admin = UserService.getInstance().authenticateUser("AdminTest", "AdminTest");
+	}
+	
+	/**
+	 * Testing setup got the correct user.
+	 */
 	@Test
 	public void getUserTest(){
 		assertEquals("AdminTest", my_admin.getFirstName());
@@ -24,6 +37,9 @@ public class UserTest {
 		assertEquals("AdminTest AdminTest", my_admin.toString());
 	}
 	
+	/**
+	 * Checking the copy constructor.
+	 */
 	@Test
 	public void copyConstructorTest() {
 		User admin = new User(my_admin);
