@@ -50,7 +50,7 @@ public class ReviewerView extends JPanel
     controller = new ReviewerViewController(this, model);
     
     //Configure view/edit button
-    btViewEdit = new JButton("Write/Edit Review");
+    btViewEdit = new JButton("Write/View Review");
     btViewEdit.setEnabled(false);
     btViewEdit.setActionCommand("write_review");
     btViewEdit.addActionListener(controller);
