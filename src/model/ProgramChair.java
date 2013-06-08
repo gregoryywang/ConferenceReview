@@ -13,12 +13,19 @@ import service.PaperService;
  */
 public class ProgramChair extends User
 {
+	/**
+	 * Devault constructor.
+	 */
 	public ProgramChair()
 	{
 		super();
 		super.setRole(Role.PROGRAM_CHAIR);
 	}
 	
+	/**
+	 * Copy constructor
+	 * @param the_user the user to turn into a Program Chair
+	 */
 	public ProgramChair(final User the_user)
 	{
 		super(the_user);
@@ -80,6 +87,10 @@ public class ProgramChair extends User
 		return PaperService.getInstance().getAssignedPapers(getID(), getConference().getID(), Role.PROGRAM_CHAIR);
 	}
 	
+	/**
+	 * Does nothing. (override so role cannot be changed)
+	 * @param the_role the role to change this user to (ignored)
+	 */
 	@Override
 	public void setRole(final Role the_role)
 	{
