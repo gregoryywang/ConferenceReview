@@ -15,6 +15,7 @@ import javax.swing.table.AbstractTableModel;
 
 import model.Paper;
 import model.ProgramChair;
+import model.Reviewer;
 import model.SubProgramChair;
 import model.User;
 import service.PaperService;
@@ -27,7 +28,8 @@ public class PGChairView extends JPanel {
   private Controller controller;
   private JTable table;
   private JScrollPane scrollPane;
-  private String[] columns = {"Author","Title", "Sub-Program Chair", "Acceptance Status"};
+  private String[] columns = {"Author","Title", "Sub-Program Chair", "Acceptance Status", 
+    "Reviewer 1", "Reviewer 2", "Reviewer 3"};
   private ProgramChair PGChair;
   private TableModel tableModel;
   private List<Paper> data;
@@ -124,6 +126,8 @@ public class PGChairView extends JPanel {
     public Object getValueAt(int rowIndex, int columnIndex ) {
       Paper paper = data.get(rowIndex); 
       String result = null;
+      List<Reviewer> reviewers = PGChair.getReviewers(paper);
+      
       switch(columnIndex) {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
@@ -131,6 +135,37 @@ public class PGChairView extends JPanel {
           SubProgramChair user = PaperService.getInstance().getAssignedSubprogramChair(paper.getID());
           result = (user.getID() == 0) ? "Not Assigned" : user.getFullName(); break; 
         case 3: result = paper.getAcceptanceStatus().toString(); break;
+        case 4:
+          if(reviewers.size() > 0)
+          {
+            result = reviewers.get(0).getFullName();
+          }
+          else
+          {
+            result = "Not Assigned";
+          }
+          break; 
+        case 5: 
+          if(reviewers.size() > 1)
+          {
+            result = reviewers.get(1).getFullName();
+          }
+          else
+          {
+            result = "Not Assigned";
+          }
+          break; 
+        case 6: 
+          if(reviewers.size() > 2)
+          {
+            result = reviewers.get(2).getFullName();
+          }
+          else
+          {
+            result = "Not Assigned";
+          }
+          break; 
+
       }
       
       return result;

@@ -112,4 +112,14 @@ public class ProgramChair extends User
 		}
 		return result;
 	}
+	
+	/**
+   * Get all reviewers assigned to the paper.
+   * @param the_paper the reviewers assigned to the paper
+   * @return all reviewers assigned to the paper.
+   */
+  public List<Reviewer> getReviewers(final Paper the_paper)
+  {
+    return PaperService.getInstance().getAssignedReviewers(the_paper.getID());
+  }
 }
