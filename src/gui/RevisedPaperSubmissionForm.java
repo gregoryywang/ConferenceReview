@@ -189,7 +189,7 @@ public class RevisedPaperSubmissionForm extends JFrame {
 
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBackground(BACKGROUND_COLOR);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public Paper getPaper() {
