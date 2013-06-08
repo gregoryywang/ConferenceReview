@@ -12,6 +12,7 @@ import model.User;
 /**
  * This class used for system authentication.
  * @author Roshun Jones
+ * @author Danielle (few methods and edits)
  * @version 1.0
  *
  */
@@ -123,7 +124,9 @@ public final class UserDAO extends AbstractDAO {
 	}
 
 	/**
-	 * Returns whether a user is an administrator.
+	 * Returns whether a user is an administrator or not.
+	 * @return whether a user is an administrator.
+	 * @param aUserid the user id
 	 */
 	public boolean isAdmin(final int aUserid) {
 		ResultSet rs = null;
@@ -156,10 +159,10 @@ public final class UserDAO extends AbstractDAO {
 			result = stmt.executeQuery();
 
 			while (result.next() ) {
-				user = createUser(result); //Danielle
+				user = createUser(result);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage()); //Danielle
+			System.out.println(e.getMessage());
 		}
 
 		return user;
