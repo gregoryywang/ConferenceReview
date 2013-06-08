@@ -112,7 +112,7 @@ public class Review
 	public Review(final User the_reviewer)
 	{
 		my_owner = the_reviewer;
-		my_comments = new String[QUESTIONS.length];
+		my_comments = new String[QUESTIONS.length + 1];
 		my_ratings = new int[QUESTIONS.length + 1];
 		my_subprogramchair_comment = DEFAULT_TEXT;
 		my_summary_comment = DEFAULT_TEXT;
@@ -212,12 +212,12 @@ public class Review
 	
 	/**
 	 * Set the rating for the questions.  Invalid question numbers are ignored.
-	 * @param the_q the question number on the review form
+	 * @param the_q the question number on the review form (1 to 9)
 	 * @param the_value the value (1-5) invalid values are changes to value (1-5)
 	 */
 	public void setRating(final int the_q, final int the_value)
 	{
-		if(the_q >= 0 && the_q < QUESTIONS.length)
+		if(the_q > 0 && the_q < my_ratings.length)
 		{
 			my_ratings[the_q] = the_value;
 		}
@@ -225,13 +225,13 @@ public class Review
 
 	/**
 	 * Get the rating for a question.
-	 * @param the_q the question
+	 * @param the_q the question (question 1 - 9)
 	 * @return the rating 1 - 5.  Will return 0 if no rating has been set.
 	 */
 	public int getRating(final int the_q)
 	{
 		int result = 0;
-		if(the_q >= 0 && the_q < my_ratings.length)
+		if(the_q > 0 && the_q < my_ratings.length)
 		{
 			result = my_ratings[the_q];
 		}
@@ -241,12 +241,12 @@ public class Review
 	/**
 	 * Set the comment for the reason behind the rating for a question. Valid
 	 * questions are 1 to Review.Questions.length - 1
-	 * @param the_q the question number
+	 * @param the_q the question number (1 - 9)
 	 * @param the_comment the comment associated with a question's rating.
 	 */
 	public void setComment(final int the_q, final String the_comment)
 	{
-		if(the_q >= 0 && the_q < QUESTIONS.length)
+		if(the_q > 0 && the_q < my_comments.length)
 		{
 			my_comments[the_q] = the_comment;
 		}
@@ -254,13 +254,13 @@ public class Review
 
 	/**
 	 * Get the comment regarding why a rating was set for a particular question
-	 * @param the_question the question number (must be valid otherwise "" returned)
+	 * @param the_question the question number (1-9)(must be valid otherwise "" returned)
 	 * @return the comment associated with this question
 	 */
 	public String getComment(final int the_question)
 	{
 		String result = "";
-		if(the_question >= 0 && the_question < QUESTIONS.length)
+		if(the_question > 0 && the_question < my_comments.length)
 		{
 			result = my_comments[the_question];
 		}
