@@ -373,16 +373,14 @@ public class Paper extends Observable
 		{
 			result = true;
 		}
-		if(the_object != null && the_object.getClass()==getClass())
-		{
-			final Paper other_paper = (Paper) the_object;
-			if(other_paper.getID() == getID() &&
-				getTitle().equals(other_paper.getTitle()) &&
-				other_paper.getTitle().equals(getTitle()))
-			{
-				result = true;
-			}
+		
+		else if(the_object == null || (the_object.getClass() != getClass())) {
+		  result = false;
 		}
+		
+		else if( ((Paper) the_object).getID() == getID() )
+		  result = true;
+		
 		return result;
 	}
 
