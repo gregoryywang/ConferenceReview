@@ -407,7 +407,7 @@ public class ReviewForm extends JFrame
 					{
 						comment_field.setEditable(false);
 					}
-					question_box.addItem(Integer.valueOf(my_review.getRating(i)));
+					question_box.addItem(Integer.valueOf(my_review.getRating(i+1)));
 					comment_field.setText(my_review.getComment(i));
 				}
 				

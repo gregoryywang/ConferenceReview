@@ -113,7 +113,7 @@ public class Review
 	{
 		my_owner = the_reviewer;
 		my_comments = new String[QUESTIONS.length];
-		my_ratings = new int[QUESTIONS.length];
+		my_ratings = new int[QUESTIONS.length + 1];
 		my_subprogramchair_comment = DEFAULT_TEXT;
 		my_summary_comment = DEFAULT_TEXT;
 	}
@@ -231,7 +231,7 @@ public class Review
 	public int getRating(final int the_q)
 	{
 		int result = 0;
-		if(the_q > 0 && the_q < my_ratings.length)
+		if(the_q >= 0 && the_q < my_ratings.length)
 		{
 			result = my_ratings[the_q];
 		}
