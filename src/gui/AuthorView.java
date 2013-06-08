@@ -41,7 +41,7 @@ public class AuthorView extends JPanel {
   private Author author;
   private TableModel tableModel;
   private List<Paper> data;
-  private JButton ViewEdit, DeleteSubmission, AddSubmission, ViewReviews;
+  private JButton ViewEdit, DeleteSubmission, AddSubmission, ViewReview1, ViewReview2, ViewReview3;
   private MainView parent;
 
   public AuthorView(User aUser) {
@@ -55,11 +55,23 @@ public class AuthorView extends JPanel {
     ViewEdit.setActionCommand("view_edit");
     ViewEdit.addActionListener(controller);
     
-    // Configure view reviews button
-    ViewReviews = new JButton("View Reviews");
-    ViewReviews.setEnabled(false);
-    ViewReviews.setActionCommand("view_reviews");
-    ViewReviews.addActionListener(controller);
+    // Configure view review 1 button
+    ViewReview1 = new JButton("View Review 1");
+    ViewReview1.setEnabled(false);
+    ViewReview1.setActionCommand("view_review1");
+    ViewReview1.addActionListener(controller);
+    
+    // Configure view review 2 button
+    ViewReview1 = new JButton("View Review 2");
+    ViewReview1.setEnabled(false);
+    ViewReview1.setActionCommand("view_review2");
+    ViewReview1.addActionListener(controller);
+    
+    // Configure view review 3 button
+    ViewReview1 = new JButton("View Review 3");
+    ViewReview1.setEnabled(false);
+    ViewReview1.setActionCommand("view_reviews3");
+    ViewReview1.addActionListener(controller);
     
     // Configure Delete Submission button
     DeleteSubmission = new JButton("Delete Submission");
@@ -96,7 +108,9 @@ public class AuthorView extends JPanel {
       	      Paper paper = data.get(selectedRow);
       	      if (paper.getStatus().equals("ACCEPT") || paper.getStatus().equals("DECLINE")) 
       	      {
-      	    	  ViewReviews.setEnabled(true);
+      	    	  ViewReview1.setEnabled(true);
+      	    	  ViewReview2.setEnabled(true);
+      	    	  ViewReview3.setEnabled(true);
       	      }
     	  }  
       }
@@ -111,8 +125,10 @@ public class AuthorView extends JPanel {
     JPanel southPanel = new JPanel();
     southPanel.add(AddSubmission);
     southPanel.add(ViewEdit);
-    southPanel.add(ViewReviews);
     southPanel.add(DeleteSubmission);
+    southPanel.add(ViewReview1);
+    southPanel.add(ViewReview2);
+    southPanel.add(ViewReview3);
     add(southPanel, BorderLayout.SOUTH);
     
     parent = (MainView) getTopLevelAncestor();
@@ -145,7 +161,9 @@ public class AuthorView extends JPanel {
 	ViewEdit.setEnabled(false);
 	DeleteSubmission.setEnabled(false);
 	AddSubmission.setEnabled(false);
-    ViewReviews.setEnabled(false);
+    ViewReview1.setEnabled(false);
+    ViewReview2.setEnabled(false);
+    ViewReview3.setEnabled(false);
   }
   
   public class TableModel extends AbstractTableModel {
