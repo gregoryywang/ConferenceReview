@@ -93,7 +93,7 @@ public class ConferenceForm extends JFrame
 		//System.out.println("CF_MSG...The conference passed is: " + the_conference);
 
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		the_admin = new Administrator(the_administrator);
 		my_conference = the_conference;
 		if (my_conference.getID() == 0)
