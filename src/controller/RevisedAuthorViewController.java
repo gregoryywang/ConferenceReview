@@ -6,12 +6,12 @@ package controller;
  * 
  * @author yongyuwang
  * @version 3
- * Based on code from AuthorViewController 
- * by Roshun Jones 
+ * Based on code from AuthorViewController and SubPGChairViewController
+ * by Roshun Jones and Danielle Tucker respectively.
  */
 
 import gui.MainView;
-import gui.RevisedAuthorView;
+import gui.AuthorView;
 import gui.RevisedPaperSubmissionForm;
 
 
@@ -25,10 +25,10 @@ import model.Paper;
 
 public class RevisedAuthorViewController implements Controller
 {
-	private RevisedAuthorView my_view;
+	private AuthorView my_view;
 	private Author the_author;
 
-	public RevisedAuthorViewController(final RevisedAuthorView the_view)
+	public RevisedAuthorViewController(final AuthorView the_view)
 	{
 		my_view = the_view;
 		the_author = my_view.getAuthor();
