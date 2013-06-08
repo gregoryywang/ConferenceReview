@@ -10,6 +10,9 @@ package model;
  */
 public class Review 
 {
+	/**
+	 * The instructions for the reviewer.
+	 */
 	public static final String INSTRUCTIONS =
 		"Please provide a numeric rating on a 5-point scale for each question, along with a brief " +
 		"rationale for each numeric rating. In doing so, please discuss both the strengths and the " +
@@ -19,6 +22,9 @@ public class Review
 		"the paper reports. We all know how hurtful a needlessly negative review can be, and how " +
 		"helpful a positive one can be; please try to bear that in mind when you are writing yours.";
 	
+	/**
+	 * The questions for the reviewer.  Note: question 1 is in location 0 in the array!!!
+	 */
 	public static final String[] QUESTIONS = {
 		"Can the content be directly applied by classroom instructors or curriculum designers?",
 		
@@ -43,35 +49,63 @@ public class Review
 	};
 	
 	/**
-	 * Descriptors for each value of the rating scale from high value to low.
+	 * Descriptors for each value of the rating scale from high value to low.  Position
+	 * 0 is instruction to select a rating and position 1 equates to a rating of 5
 	 */
 	public static final String[] RATING_SCALE_HIGH_TO_LOW = {"--select a rating--",
 		"Strong Accept", "Accept", "Neutral", "Reject", "Strong Reject"
 	};
 	
 	/**
+	 * Descriptors for each value of the rating scale from low value to high.  Position 0 is 
+	 * instruction to select a rating and position 1 equates to a rating of 1.
+	 */
+	public static final String[] RATING_SCALE_LOW_TO_HIGH = {"--select a rating--",
+		"Strong Reject",  "Reject", "Neutral","Accept", "Strong Accept" 
+	};
+	
+	/**
 	 * The default comment text.
 	 */
 	private static final String DEFAULT_TEXT = "Enter a comment here.";
-	
-	public static final String[] RATING_SCALE_DESCRIPTORS = {};
-	
+
+	/**
+	 * The id of the review.
+	 */
 	private int my_id = 0;
 	
+	/**
+	 * The author of the review.
+	 */
 	private User my_owner;
 	
+	/**
+	 * The ratings for this review.  Position 0 is used for the summary rating.
+	 */
 	private int[] my_ratings;
 	
+	/**
+	 * The summary rating
+	 */
 	private int my_summary_rating;
 	
+	/**
+	 * The comment for the subprogram chair to read.
+	 */
 	private String my_subprogramchair_comment;
 	
+	/**
+	 * The overall comment for this review.
+	 */
 	private String my_summary_comment;
 	
+	/**
+	 * Array of comments.  Position 0 is not used.
+	 */
 	private String[] my_comments;
 	
 	/**
-	 * TEST CONSTRUCTOR.
+	 * Default constructor (TEST)
 	 */
 	public Review()
 	{
@@ -121,7 +155,7 @@ public class Review
 		}
 		else
 		{
-			my_subprogramchair_comment = "Enter a comment here.";
+			my_subprogramchair_comment = "No Comment Entered";
 		}
 	}
 	
@@ -216,7 +250,8 @@ public class Review
 	}
 	
 	/**
-	 * Set the comment for the reason behind the rating for a question
+	 * Set the comment for the reason behind the rating for a question. Valid
+	 * questions are 1 to Review.Questions.length - 1
 	 * @param the_q the question number
 	 * @param the_comment the comment associated with a question's rating.
 	 */

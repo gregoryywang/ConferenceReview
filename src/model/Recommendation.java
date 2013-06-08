@@ -49,7 +49,13 @@ public class Recommendation
 		my_comments = "";
 		my_rating = 0;
 	}
-	
+
+	/**
+	 * Constructor which takes the author, rating, and comments
+	 * @param the_subPrg_Chair the author of the recommendation
+	 * @param the_rating the rating (1 to 5)
+	 * @param the_comments the comments
+	 */
 	public Recommendation(final User the_subPrg_Chair, final int the_rating, final String the_comments)
 	{
 		my_owner = the_subPrg_Chair;
@@ -64,18 +70,28 @@ public class Recommendation
 		}
 	}
 	
-	
-	
+	/**
+	 * Set the owner of this recommendation
+	 * @param the_user the user (subprogram chair)
+	 */
 	public void setRecommender(final User the_user)
 	{
 		my_owner = the_user;
 	}
 	
+	/**
+	 * Get the author of this recommendation (subprogram chair)
+	 * @return the author of this recommendation
+	 */
 	public User getRecommender()
 	{
 		return my_owner;
 	}
 	
+	/**
+	 * Set the rating
+	 * @param the_rating the value (valid values 1 - 5 and other values adjusted to this range)
+	 */
 	public void setRating(final int the_rating)
 	{
 		if(the_rating < MIN_RATING)
@@ -91,11 +107,20 @@ public class Recommendation
 			my_rating = the_rating;
 		}
 	}
+	
+	/**
+	 * Get the rating value
+	 * @return the rating
+	 */
 	public int getRating()
 	{
 		return my_rating;
 	}
 	
+	/**
+	 * Set the comments to go along with the rating
+	 * @param the_comments the comments
+	 */
 	public void setComments(final String the_comments)
 	{
 		if(the_comments != null)
@@ -103,10 +128,20 @@ public class Recommendation
 			my_comments = the_comments;
 		}
 	}
+	
+	/**
+	 * Get the comments for this rating
+	 * @return the comments
+	 */
 	public String getComments()
 	{
 		return my_comments;
 	}
+	
+	/**
+	 * The string rating of this recommendation
+	 * @return the string representation of this object which is the value of the rating.
+	 */
 	public String toString()
 	{
 		String result = "--none--";
