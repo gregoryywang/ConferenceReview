@@ -24,7 +24,7 @@ import model.User;
  * Class to get/set information about papers in the database.
  * @author Danielle Tucker
  * @author Roshun (edits and slq query assistance)
- *
+ * @version 2013 Spring
  */
 public class PaperDAO extends AbstractDAO {
 
@@ -65,14 +65,17 @@ public class PaperDAO extends AbstractDAO {
 			"WHERE USER_ID = ? AND ROLE_ID = ? AND CONF_ID = ?";
 
 
+	/**
+	 * Default constructor
+	 */
 	public PaperDAO() 
 	{
 		//default constructor
 	}
 
 	/**
-	 * TO DO: update/edit of paper.
-	 * Adds new paper to the data source or update a current paper.
+	 * Adds new paper to the data source or update a current paper. Reviews are NOT added
+	 * to this paper..Use addReview for this purpose.
 	 * @param the_paper the paper to save to the data storage.
 	 * @author Danielle
 	 * @author Roshun (Edits: get generated key, insert content field)
@@ -143,7 +146,10 @@ public class PaperDAO extends AbstractDAO {
 		catch (Exception e) {e.printStackTrace();}
 	}
 
-
+	/**
+	 * Remove a paper from active status.  Will no longer appear with getPaper()
+	 * @param the_paper_id the paper id
+	 */
 	public void deletePaper(final int the_paper_id)
 	{
 		final String delete_paper = "UPDATE paper SET active = 0 WHERE paper_id = ?";
@@ -156,12 +162,16 @@ public class PaperDAO extends AbstractDAO {
 		{
 			System.err.println("PDAO_deletePaper()_MSG: " + e);
 		}
-
 	}
 
 
 	/**
-	 * Assigns a paper to a user.
+	 * Associate a user with a role, paper, and/or conference.
+	 * @param aPaperId the paper_id
+	 * @param aUserId the user id
+	 * @param aConfId the conference id
+	 * @param aRole the role
+	 * @author Roshun
 	 */
 	public void assignPaper(final int aPaperId, 
 			final int aUserId, 
@@ -187,7 +197,6 @@ public class PaperDAO extends AbstractDAO {
 	}
 
 	/**
-	 * STILL TESTING
 	 * Adds a new Review to the data source and connects it to the paper.
 	 * @param the_review the review to associate with a paper.
 	 * @param the_paper_id the unique identifier of the paper for which the review is written for.
@@ -244,7 +253,6 @@ public class PaperDAO extends AbstractDAO {
 	 * @param the_role the role of the user
 	 * @param the_conference the conference id of the papers to retrieve.
 	 * @return the papers associated with a conference, user, in a particular role
-	 * @author Danielle
 	 */
 	public List<Paper> getPapers(final int the_user_id, final Role the_role, final int the_conference)
 	{
@@ -404,6 +412,11 @@ public class PaperDAO extends AbstractDAO {
 		return review;
 	}
 
+	/**
+	 * Get all reviews for a paper
+	 * @param the_paper_id the paper
+	 * @return the reviews for the paper.  If none are associated then an empty list is returned.
+	 */
 	public List<Review> getReviews(final int the_paper_id)
 	{
 		List<Review> revs = new ArrayList<Review>();

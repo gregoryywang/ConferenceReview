@@ -17,6 +17,7 @@ import model.User;
 /**
  * DAO used to communicate with Conference related data.
  * @author Roshun Jones
+ * @author Danielle (some methods and edits to associate categories and program chair with conf)
  * @version 1.0
  *
  */
@@ -117,8 +118,6 @@ public class ConferenceDAO extends AbstractDAO {
 	/**
 	 * Adds new conference to data source.
 	 * @param aConference The conference to persist.
-	 * @author Roshun
-	 * @author Danielle (Edits: associate categories and pgchair with conference)
 	 */
 	public void saveConference(final Conference aConference) {
 		try {
@@ -173,8 +172,6 @@ public class ConferenceDAO extends AbstractDAO {
 	/**
 	 * Get single conference object.
 	 * @param aConfId The conference id.
-	 * @author Roshun
-	 * @author Danielle (Edit: get program chair and categories populated)
 	 */
 	public Conference getConference(final int aConfId) {
 		Conference conference = new Conference();

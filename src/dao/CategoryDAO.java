@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * Access for categories which conferences and papers may assume.
  * @author Roshun
- *
+ * @author Danielle (cleanup after refactor/redesign)
+ * @version 2013 Spring
  */
 public class CategoryDAO {
 	private static final String GET_CATEGORIES = "SELECT * FROM CATEGORY";
@@ -20,7 +21,6 @@ public class CategoryDAO {
 	/**
 	 * Returns a list of system-wide categories.
 	 * @return all categories available for creating new conferences.
-	 * @author Danielle
 	 */
 	public List<String> getCategories() 
 	{
@@ -43,11 +43,9 @@ public class CategoryDAO {
 	}
 	
 	/**
-	 * TO DO: Implement!
 	 * Get the category id from the string text of the category.
 	 * @param the_category the name of the paper category
 	 * @return the id of the category.  If not valid, will return 0
-	 * @author Danielle
 	 */
 	public int getCategory(final String the_category)
 	{
