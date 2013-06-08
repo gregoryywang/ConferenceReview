@@ -18,8 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import model.Paper;
 import model.Review;
@@ -41,6 +43,16 @@ public class ReviewForm extends JFrame
 	private static final String DEFAULT_TEXT = "Enter a comment here.";
 	
 	/**
+	 * The default instructions panel width.
+	 */
+	private static final int INSTRUCTIONS_WIDTH = 650;
+	
+	/**
+	 * The default instructions panel height.
+	 */
+	private static final int INSTRUCTIONS_HEIGHT = 135;
+	
+	/**
 	 * The default number of rows in the panel.
 	 */
 	private static final int PANEL_ROWS = 0;
@@ -53,7 +65,7 @@ public class ReviewForm extends JFrame
 	/**
 	 * The default frame width.
 	 */
-	private static final int FRAME_WIDTH = 900;
+	private static final int FRAME_WIDTH = 1000;
 	
 	/**
 	 * The default frame height.
@@ -108,9 +120,10 @@ public class ReviewForm extends JFrame
 		super("Review Form");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		//my_user = new Author(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		//my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		//my_user = new Author(new ArrayList<Paper>());
+		//my_user = new ProgramChair();
 		
 		if ("Author".equals(my_user.getClass().getSimpleName()))
 		{
@@ -161,23 +174,64 @@ public class ReviewForm extends JFrame
 	{
 		my_panel = new JPanel(new BorderLayout());
 		
-		final JPanel northern_panel = new JPanel();
-		northern_panel.add(new JLabel("Reviewer: "));
-		if (my_is_reviewer_flag)
-		{
-			northern_panel.add(new JLabel(my_user.toString()));
-		}
-		else
-		{
-			northern_panel.add(new JLabel(my_review.getReviewer().toString()));
-		}
-		northern_panel.add(new JLabel("Paper: "));
-		northern_panel.add(new JLabel(my_paper.getTitle()));
-		my_panel.add(northern_panel, BorderLayout.NORTH);
+		my_panel.add(createNorthernPanel(), BorderLayout.NORTH);
+		my_panel.add(createCentralPanel(), BorderLayout.CENTER);
+		my_panel.add(createSouthernPanel(), BorderLayout.SOUTH);
 		
-		my_reviewer_panel = new ReviewPanel();
-		my_panel.add(my_reviewer_panel, BorderLayout.CENTER);
+		final JScrollPane review_scrollbar = new JScrollPane(my_panel);
+		review_scrollbar.setViewportView(my_panel);
+		review_scrollbar.setWheelScrollingEnabled(true);
+		review_scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		final JTabbedPane tabbed_pane = new JTabbedPane();
+		tabbed_pane.addTab("Review", review_scrollbar);
+		
+		if (!my_is_author_flag)
+		{
+			final JPanel subprogram_chair_panel = new SubProgramChairPanel(
+				"SubProgramChair".equals(my_user.getClass().getSimpleName()));
+			tabbed_pane.addTab("SubProgramChair Comment", subprogram_chair_panel);
+		}
+		
+		tabbed_pane.addTab("Instructions", createInstructionsTab());
+		add(tabbed_pane);
+		
+		pack();
+		setVisible(true);
+	}
+	
+	/**
+	 * Method to create an instructions panel for the tabbed pane.
+	 * 
+	 * @return returns a panel to be displayed in the
+	 * tabbed pane
+	 */
+	private JPanel createInstructionsTab()
+	{
+		final JPanel instructions_panel = new JPanel();
+		
+		final JTextArea text_area = new JTextArea();
+		text_area.setText(Review.INSTRUCTIONS);
+		text_area.setEditable(false);
+		text_area.setPreferredSize(new Dimension(
+			INSTRUCTIONS_WIDTH, INSTRUCTIONS_HEIGHT));
+		text_area.setWrapStyleWord(true);
+		text_area.setLineWrap(true);
+		text_area.setMargin(new Insets(10, 10, 10, 10));
+		final JScrollPane scrollpane = new JScrollPane(text_area);
+		instructions_panel.add(scrollpane);
+		
+		return instructions_panel;
+	}
+	
+	/**
+	 * Method to create the southern part of the review tab.
+	 * 
+	 * @return returns a panel to be displayed in the southern
+	 * part of the review tab.
+	 */
+	private JPanel createSouthernPanel()
+	{
 		final JPanel southern_panel = new JPanel();
 		final JButton southern_button = new JButton();
 		southern_panel.add(southern_button);
@@ -230,27 +284,38 @@ public class ReviewForm extends JFrame
 				dispose();
 			}
 		});
-		my_panel.add(southern_panel, BorderLayout.SOUTH);
 		
-		final JScrollPane scrollbar = new JScrollPane(my_panel);
-		scrollbar.setViewportView(my_panel);
-		scrollbar.setWheelScrollingEnabled(true);
-		scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		
-		final JTabbedPane tabbed_pane = new JTabbedPane();
-		tabbed_pane.addTab("Review", scrollbar);
-		add(tabbed_pane);
-		
-		if (!my_is_author_flag)
-		{
-			final JPanel subprogram_chair_panel = new SubProgramChairPanel(
-				"SubProgramChair".equals(my_user.getClass().getSimpleName()));
-			tabbed_pane.addTab("SubProgramChair Comment", subprogram_chair_panel);
-		}
-		
-		pack();
-		setVisible(true);
+		return southern_panel;
 	}
+	
+	/**
+	 * Method to create the central part of the review tab.
+	 * 
+	 * @return returns a panel to be displayed in the central
+	 * part of the review tab.
+	 */
+	private JPanel createCentralPanel()
+	{
+		return my_reviewer_panel = new ReviewPanel();
+	}
+	
+	/**
+	 * Method to create the northern part of the review tab.
+	 * 
+	 * @return returns a panel to be displayed in the northern
+	 * part of the review tab.
+	 */
+	private JPanel createNorthernPanel()
+	{
+		final JPanel northern_panel = new JPanel();
+		northern_panel.add(new JLabel("Reviewer: "));
+		northern_panel.add(new JLabel(my_review.getReviewer().toString()));
+		northern_panel.add(new JLabel("Paper: "));
+		northern_panel.add(new JLabel(my_paper.getTitle()));
+		
+		return northern_panel;
+	}
+	
 	
 	/**
 	 * Private class to create the panel that will display the
@@ -288,23 +353,22 @@ public class ReviewForm extends JFrame
 		{
 			super();
 			my_review_fields = new ArrayList<JComponent>();
-			add(createFields());
+			createFields();
 		}
 		
 		/**
 		 * Method to fill the panel with the JComponents.
-		 * 
-		 * @return returns a panel populated with the 
-		 * paper information
 		 */
-		private JPanel createFields()
+		private void createFields()
 		{
 			final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
 			
 			for (int i = 0; i < Review.QUESTIONS.length; i++)
 			{
+				panel.add(new JSeparator());
 				final JPanel question_label = new JPanel();
-				question_label.add(new JLabel(Review.QUESTIONS[i]));
+				question_label.add(new JLabel("Question " + (i + 1)
+					+ ": " + Review.QUESTIONS[i]));
 				panel.add(question_label);
 				
 				final JPanel question_panel = new JPanel();
@@ -318,28 +382,33 @@ public class ReviewForm extends JFrame
 					{
 						comment_field.setEditable(true);
 						question_box.setModel(new DefaultComboBoxModel(
-								Review.RATING_SCALE_HIGH_TO_LOW));
+								Review.RATING_SCALE_LOW_TO_HIGH));
 					}
 					else
 					{
-						question_box.addItem(Review.RATING_SCALE_HIGH_TO_LOW[0]);
+						question_box.addItem(Review.RATING_SCALE_LOW_TO_HIGH[0]);
 						comment_field.setEditable(false);
 					}
 					comment_field.setText(DEFAULT_TEXT);
 				}
 				else
 				{
-					question_box.addItem(Integer.valueOf(my_review.getRating(i)));
-					comment_field.setText(my_review.getComment(i));
-					if (!my_is_reviewer_flag || !((Reviewer) my_user).canAddReview())
+					if (my_is_reviewer_flag && ((Reviewer) my_user).canAddReview())
+					{
+						comment_field.setEditable(true);
+					}
+					else
 					{
 						comment_field.setEditable(false);
 					}
+					question_box.addItem(Integer.valueOf(my_review.getRating(i)));
+					comment_field.setText(my_review.getComment(i));
 				}
 				
 				question_box.setEditable(false);
 				question_panel.add(question_box);
 				panel.add(question_panel);
+				
 				my_review_fields.add(question_box);
 				comment_field.setMargin(new Insets(10, 10, 10, 10));
 				comment_field.setLineWrap(true);
@@ -355,21 +424,18 @@ public class ReviewForm extends JFrame
 				my_summary_box = new JComboBox();
 				my_summary_comment = new JTextArea();
 				
-				final JPanel central_panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
-				final JPanel reviewer_panel = new JPanel();
-				reviewer_panel.add(new JLabel("User: " + my_user.toString()));
-				central_panel.add(reviewer_panel);
+				panel.add(new JSeparator());
 				
 				final JPanel summary_panel = new JPanel();
 				summary_panel.add(new JLabel("Summary Rating: "));
 				my_summary_box = new JComboBox();
 				my_summary_box.setEditable(false);
 				summary_panel.add(my_summary_box);
-				central_panel.add(summary_panel);
+				panel.add(summary_panel);
 				
 				final JPanel comment_label = new JPanel();
 				comment_label.add(new JLabel("Summary Comment: "));
-				central_panel.add(comment_label);
+				panel.add(comment_label);
 				
 				my_summary_comment = new JTextArea();
 				if (my_review.getID() == 0)
@@ -378,12 +444,12 @@ public class ReviewForm extends JFrame
 					if (!my_is_reviewer_flag)
 					{
 						my_summary_comment.setEditable(false);
-						my_summary_box.addItem(Review.RATING_SCALE_HIGH_TO_LOW[0]);
+						my_summary_box.addItem(Review.RATING_SCALE_LOW_TO_HIGH[0]);
 					}
 					else
 					{
 						my_summary_box.setModel(new DefaultComboBoxModel(
-							Review.RATING_SCALE_HIGH_TO_LOW));
+							Review.RATING_SCALE_LOW_TO_HIGH));
 					}
 				}
 				else
@@ -400,11 +466,10 @@ public class ReviewForm extends JFrame
 				my_summary_comment.setLineWrap(true);
 				my_summary_comment.setMargin(new Insets(10, 10, 10, 10));
 				final JScrollPane comment_scroll = new JScrollPane(my_summary_comment);
-				central_panel.add(comment_scroll);
-				panel.add(central_panel);
+				panel.add(comment_scroll);
 			}
 			
-			return panel;
+			add(panel);
 		}
 		
 		/**
@@ -414,10 +479,16 @@ public class ReviewForm extends JFrame
 		{
 			for (int i = 0; i < my_review_fields.size(); i++)
 			{
-				my_review.setRating(i, ((JComboBox) my_review_fields.
-					get(i)).getSelectedIndex());
-				i++;
-				my_review.setComment(i, ((JTextArea) my_review_fields.get(i)).getText());
+				if (i % 2 == 0)
+				{
+					my_review.setRating(i, ((JComboBox) my_review_fields.
+						get(i)).getSelectedIndex());
+				}
+				else
+				{
+					my_review.setComment(i, ((JTextArea) my_review_fields.
+						get(i)).getText());
+				}
 			}
 			if (!my_is_author_flag)
 			{
@@ -439,22 +510,27 @@ public class ReviewForm extends JFrame
 			
 			for (JComponent component : my_review_fields)
 			{
-				if ("JTextArea".equals(component.getClass().getSimpleName()) &&
-					DEFAULT_TEXT.equals(((JTextArea) component).getText()))
+				if ("JComboBox".equals(component.getClass().getSimpleName()))
 				{
-					result = false;
-					break;
+					if ("--select a rating--".equals(Review.RATING_SCALE_LOW_TO_HIGH[
+					    ((JComboBox) component).getSelectedIndex()]))
+					{
+						result = false;
+						break;
+					}
 				}
-				else if ("--select a rating--".equals(Review.RATING_SCALE_HIGH_TO_LOW[
-				    ((JComboBox) component).getSelectedIndex()]))
+				else
 				{
-					result = false;
-					break;
+					if (DEFAULT_TEXT.equals(((JTextArea) component).getText()))
+					{
+						result = false;
+						break;
+					}
 				}
 			}
 			if (!my_is_author_flag)
 			{
-				if ("--select a rating--".equals(Review.RATING_SCALE_HIGH_TO_LOW[
+				if ("--select a rating--".equals(Review.RATING_SCALE_LOW_TO_HIGH[
 				    my_summary_box.getSelectedIndex()]) || DEFAULT_TEXT.
 				    equals(my_summary_comment.getText()))
 				{
@@ -489,21 +565,26 @@ public class ReviewForm extends JFrame
 		 */
 		private SubProgramChairPanel(final boolean the_flag)
 		{
-			super(new BorderLayout());
+			super();
 			my_is_subprogram_chair_flag = the_flag;
 			createFields();
 		}
 		
+		/**
+		 * Private method to create the fields for the panel.
+		 */
 		private void createFields()
 		{
-			final JPanel central_panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
+			final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
+			panel.setPreferredSize(new Dimension(700, 175));
+			
 			final JPanel reviewer_panel = new JPanel();
 			reviewer_panel.add(new JLabel("SubProgramChair: " + my_user.toString()));
-			central_panel.add(reviewer_panel);
-			
+			panel.add(reviewer_panel);
+
 			final JPanel comment_label = new JPanel();
-			comment_label.add(new JLabel("Comment: "));
-			central_panel.add(comment_label);
+			comment_label.add(new JLabel("Comment:"));
+			panel.add(comment_label);
 			
 			final JTextArea comment_area = new JTextArea();
 			if (my_review.getID() == 0)
@@ -514,13 +595,13 @@ public class ReviewForm extends JFrame
 			{
 				comment_area.setText(my_review.getSPChairComment());
 			}
-			comment_area.setPreferredSize(new Dimension(50, 50));
 			comment_area.setWrapStyleWord(true);
 			comment_area.setLineWrap(true);
 			comment_area.setMargin(new Insets(10, 10, 10, 10));
 			final JScrollPane comment_scroll = new JScrollPane(comment_area);
-			central_panel.add(comment_scroll);
-			add(central_panel, BorderLayout.CENTER);
+			comment_scroll.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			panel.add(comment_scroll);
 			
 			if (my_is_subprogram_chair_flag)
 			{
@@ -540,27 +621,32 @@ public class ReviewForm extends JFrame
 						{
 							my_review.setSPChairComment(comment_area.getText());
 							JOptionPane.showMessageDialog(null, "You have successfully " +
-								submit_button.getText() + "d the Comment.");
+								"Submitted the Comment.");
 						}
 					}
 				});
 				southern_panel.add(submit_button);
-				add(southern_panel, BorderLayout.SOUTH);
+				panel.add(southern_panel);
 			}
 			else
 			{
 				comment_area.setEditable(false);
 			}
+			add(panel);
 		}
 	}
+	
 	
 	/**
 	 * Method to test the ReviewForm class.
 	 * 
 	 * @param the_args the command-line arguments
 	 */
+	
 	public static void main(final String[] the_args)
 	{
 		new ReviewForm().start();
 	}
+	
 }
+
