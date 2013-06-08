@@ -199,7 +199,7 @@ public class ReviewForm extends JFrame
 			
 			subprogram_panel = new SubProgramChairPanel();
 			tabbed_pane.addTab("Review", review_scrollbar);
-			tabbed_pane.addTab("SubProgramChair Comment", subprogram_panel);
+			tabbed_pane.addTab("Comment to SubProgramChair", subprogram_panel);
 		}
 		add(tabbed_pane);
 		
@@ -246,14 +246,7 @@ public class ReviewForm extends JFrame
 		{
 			southern_button.setText("Cancel");
 			final JButton review_button = new JButton();
-			if (my_is_new_review_flag)
-			{
-				review_button.setText("Create");
-			}
-			else
-			{
-				review_button.setText("Save");
-			}
+			review_button.setText("Create");
 			review_button.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(final ActionEvent the_event)
@@ -489,6 +482,7 @@ public class ReviewForm extends JFrame
 				my_summary_comment.setWrapStyleWord(true);
 				my_summary_comment.setLineWrap(true);
 				my_summary_comment.setMargin(new Insets(10, 10, 10, 10));
+				my_summary_comment.addFocusListener(new TextAreaListener());
 				final JScrollPane comment_scroll = new JScrollPane(my_summary_comment);
 				panel.add(comment_scroll);
 			}
@@ -610,6 +604,31 @@ public class ReviewForm extends JFrame
 			comment_area.setWrapStyleWord(true);
 			comment_area.setLineWrap(true);
 			comment_area.setMargin(new Insets(10, 10, 10, 10));
+			comment_area.addFocusListener(new FocusListener()
+			{
+				/**
+				 * Overrides the implemented FocusListener interface method.
+				 * 
+				 * @param the_event the Object that fired the event
+				 */
+				@Override
+				public void focusGained(final FocusEvent the_event) 
+				{
+					final JTextArea textarea = (JTextArea) the_event.getSource();
+					textarea.selectAll();
+				}
+				
+				/**
+				 * Overrides the implemented FocusListener interface method.
+				 * 
+				 * @param the_event the Object that fired the event
+				 */
+				@Override
+				public void focusLost(final FocusEvent the_event) 
+				{
+					// Do nothing!
+				}
+			});
 			final JScrollPane comment_scroll = new JScrollPane(comment_area);
 			comment_scroll.setVerticalScrollBarPolicy(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
