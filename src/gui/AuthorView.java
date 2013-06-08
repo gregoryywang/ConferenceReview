@@ -12,10 +12,12 @@ package gui;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -57,7 +59,7 @@ public class AuthorView extends JPanel {
     
     // Configure view reviews button
     ViewReviews = new JButton("View Reviews");
-    ViewReviews.setEnabled(true);
+    ViewReviews.setEnabled(false);
     ViewReviews.setActionCommand("view_reviews");
     ViewReviews.addActionListener(controller);
     
@@ -87,9 +89,18 @@ public class AuthorView extends JPanel {
           //Enable view/edit button when when selection is made
     	  ViewEdit.setEnabled(true);
     	  // Only enables delete button if selected and deadline is not passed
-    	  if(!author.canSubmitOrModify()) {
+    	  if(author.canDelete()) {
         	  DeleteSubmission.setEnabled(true);
-    	  }   
+    	  }
+    	  // Only enables view reviews button if selected paper has a final decision.
+    	  int selectedRow = table.getSelectedRow();
+    	  if(selectedRow >= 0) {
+      	      Paper paper = data.get(selectedRow);
+      	      if (paper.getStatus().equals("ACCEPT") || paper.getStatus().equals("DECLINE")) 
+      	      {
+      	    	  ViewReviews.setEnabled(true);
+      	      }
+    	  }  
       }
     });
     

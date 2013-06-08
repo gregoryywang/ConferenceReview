@@ -26,12 +26,12 @@ public class RevisedPaperSubmissionController implements ActionListener {
 
 	private Author author;
 
-	private RevisedPaperSubmissionForm view;
+	private RevisedPaperSubmissionForm form_view;
 	private AuthorView author_view;
 
 	public RevisedPaperSubmissionController(Author aAuthor, Object aView, final AuthorView the_view ) {
 		author = aAuthor;
-		view = (RevisedPaperSubmissionForm) aView;
+		form_view = (RevisedPaperSubmissionForm) aView;
 		author_view = the_view;
 		
 	}
@@ -41,16 +41,16 @@ public class RevisedPaperSubmissionController implements ActionListener {
 		String command = the_event.getActionCommand();
 		if("SubmitNewPaper".equals(command)) {
 			// initialize new paper object using information from submission form
-			Paper myPaper = new Paper(author, view.titleField.getText(),
-					view.keywordsField.getText(),
-					view.paperAbstract.getText(),
-					(String) view.catagoryField.getSelectedItem(),
-					view.paperContent.getText());
+			Paper myPaper = new Paper(author, form_view.titleField.getText(),
+					form_view.keywordsField.getText(),
+					form_view.paperAbstract.getText(),
+					(String) form_view.catagoryField.getSelectedItem(),
+					form_view.paperContent.getText());
 
 			// saves the paper into database
 			try {
 				author.submitPaper(myPaper);
-				view.dispose();
+				form_view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -60,13 +60,13 @@ public class RevisedPaperSubmissionController implements ActionListener {
 		}
 		
 		if("UpdatePaper".equals(command)) {
-			Paper paper = view.getPaper();
-			paper.setTitle(view.titleField.getText());
-			paper.setKeywords(view.keywordsField.getText());
-			paper.setCategory((String) view.catagoryField.getSelectedItem());
+			Paper paper = form_view.getPaper();
+			paper.setTitle(form_view.titleField.getText());
+			paper.setKeywords(form_view.keywordsField.getText());
+			paper.setCategory((String) form_view.catagoryField.getSelectedItem());
 			try {
 				author.modifyPaper(paper);
-				view.dispose();
+				form_view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -54,14 +54,6 @@ public class RevisedAuthorViewController implements Controller
 		if("view_reviews".equals(command))
 		{
 			Paper paper = my_view.getSelectedRow();
-			if (paper.getStatus().equals("ACCEPT") || paper.getStatus().equals("DECLINE")) 
-			{
-				// do something to display reviews here
-			}
-			else 
-			{
-				JOptionPane.showMessageDialog(new Frame(), "You cannot view reviews for this submission yet.");
-			}
 			
 		}
 		if("delete_submission".equals(command))
