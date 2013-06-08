@@ -236,7 +236,8 @@ public class PaperDAO extends AbstractDAO {
 			{
 				quest.setInt(1, the_review.getID());
 				quest.setInt(2, i);
-				quest.setString(3, the_review.getComment(i));
+				quest.setInt(3, the_review.getRating(i));
+				quest.setString(4, the_review.getComment(i));
 				quest.execute();
 			}
 			quest.close();
