@@ -14,15 +14,20 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.Paper;
-import model.ProgramChair;
 import model.Reviewer;
 import model.User;
-import service.PaperService;
 import controller.Controller;
-import controller.PGChairViewController;
 import controller.ReviewerViewController;
 
-public class ReviewerView extends JPanel {
+/**
+ * Class that will display the ReviewerView panel
+ * in the GUI.
+ * 
+ * @author Levon K
+ * @version Spring 2013
+ */
+public class ReviewerView extends JPanel 
+{
   private static final long serialVersionUID = 1L;
   private List<Paper> model;
   private Controller controller;

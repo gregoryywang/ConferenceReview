@@ -26,7 +26,6 @@ import javax.swing.ScrollPaneConstants;
 import model.Paper;
 import model.Review;
 import model.Reviewer;
-import model.SubProgramChair;
 import model.User;
 import service.PaperService;
 
@@ -70,7 +69,7 @@ public class ReviewForm extends JFrame
 	/**
 	 * The default frame height.
 	 */
-	private static final int FRAME_HEIGHT = 275;
+	private static final int FRAME_HEIGHT = 550;
 	
 	/**
 	 * Reference to the User viewing the form.
@@ -120,8 +119,8 @@ public class ReviewForm extends JFrame
 		super("Review Form");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		//my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
+		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
 		//my_user = new Author(new ArrayList<Paper>());
 		//my_user = new ProgramChair();
 		
@@ -184,16 +183,23 @@ public class ReviewForm extends JFrame
 		review_scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		final JTabbedPane tabbed_pane = new JTabbedPane();
-		tabbed_pane.addTab("Review", review_scrollbar);
+		final JPanel subprogram_panel;
 		
-		if (!my_is_author_flag)
+		if (my_is_author_flag)
 		{
-			final JPanel subprogram_chair_panel = new SubProgramChairPanel(
-				"SubProgramChair".equals(my_user.getClass().getSimpleName()));
-			tabbed_pane.addTab("SubProgramChair Comment", subprogram_chair_panel);
+			tabbed_pane.addTab("Review", review_scrollbar);
 		}
-		
-		tabbed_pane.addTab("Instructions", createInstructionsTab());
+		else
+		{
+			if (my_is_reviewer_flag)
+			{
+				tabbed_pane.addTab("Instructions", createInstructionsTab());
+			}
+			
+			subprogram_panel = new SubProgramChairPanel();
+			tabbed_pane.addTab("Review", review_scrollbar);
+			tabbed_pane.addTab("SubProgramChair Comment", subprogram_panel);
+		}
 		add(tabbed_pane);
 		
 		pack();
@@ -551,22 +557,14 @@ public class ReviewForm extends JFrame
 		 * The default serial version UID.
 		 */
 		private static final long serialVersionUID = 1L;
-		
-		/**
-		 * Flag is set to true if the User is a SubProgramChair.
-		 */
-		private boolean my_is_subprogram_chair_flag;
 
 		/**
 		 * Constructs a new SubProgramChairAction for the
 		 * SubProgramChair comment.
-		 * 
-		 * @param the_flag is subprogram chair flag
 		 */
-		private SubProgramChairPanel(final boolean the_flag)
+		private SubProgramChairPanel()
 		{
 			super();
-			my_is_subprogram_chair_flag = the_flag;
 			createFields();
 		}
 		
@@ -603,7 +601,7 @@ public class ReviewForm extends JFrame
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			panel.add(comment_scroll);
 			
-			if (my_is_subprogram_chair_flag)
+			if (my_is_reviewer_flag)
 			{
 				final JPanel southern_panel = new JPanel();
 				final JButton submit_button = new JButton("Submit");
@@ -622,6 +620,7 @@ public class ReviewForm extends JFrame
 							my_review.setSPChairComment(comment_area.getText());
 							JOptionPane.showMessageDialog(null, "You have successfully " +
 								"Submitted the Comment.");
+							comment_area.setCaretPosition(0);
 						}
 					}
 				});
