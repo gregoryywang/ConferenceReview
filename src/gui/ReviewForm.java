@@ -369,7 +369,7 @@ public class ReviewForm extends JFrame
 		{
 			final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
 			
-			for (int i = 0; i <= Review.QUESTIONS.length; i++)
+			for (int i = 0; i < Review.QUESTIONS.length; i++)
 			{
 				panel.add(new JSeparator());
 				final JPanel question_label = new JPanel();
