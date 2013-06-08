@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -315,6 +316,10 @@ public class ReviewForm extends JFrame
 	{
 		final JPanel northern_panel = new JPanel();
 		northern_panel.add(new JLabel("Reviewer: "));
+		if (my_is_new_review_flag)
+		{
+			my_review.setReviewer(my_user);
+		}
 		northern_panel.add(new JLabel(my_review.getReviewer().toString()));
 		northern_panel.add(new JLabel("Paper: "));
 		northern_panel.add(new JLabel(my_paper.getTitle()));
@@ -432,6 +437,12 @@ public class ReviewForm extends JFrame
 				
 				panel.add(new JSeparator());
 				
+				final JPanel summary_label = new JPanel();
+				final JLabel label = new JLabel("Summary");
+				label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
+				summary_label.add(label);
+				panel.add(summary_label);
+				
 				final JPanel summary_panel = new JPanel();
 				summary_panel.add(new JLabel("Summary Rating: "));
 				my_summary_box = new JComboBox();
@@ -500,6 +511,10 @@ public class ReviewForm extends JFrame
 			{
 				my_review.setSummaryRating(my_summary_box.getSelectedIndex());
 				my_review.setSummaryComment(my_summary_comment.getText());
+			}
+			if (my_is_reviewer_flag)
+			{
+				my_review.setReviewer(my_user);
 			}
 		}
 		
@@ -573,6 +588,7 @@ public class ReviewForm extends JFrame
 		 */
 		private void createFields()
 		{
+			
 			final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
 			panel.setPreferredSize(new Dimension(700, 175));
 			
