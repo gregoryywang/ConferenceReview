@@ -160,6 +160,22 @@ public class AuthorView extends JPanel {
         data = model;
     }
     
+    /**
+     * Adds row to table
+     */
+    public void addRow(Paper aObject) {
+      data.add(aObject);
+      this.fireTableDataChanged();
+    }
+    
+    /**
+     * Deletes row from table
+     */
+    public void deleteRow(Paper aObject) {
+      data.remove(aObject);
+      this.fireTableDataChanged();
+    }
+    
     @Override
     public int getColumnCount() {
       return columns.length;

@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import service.PaperService;
+
 import model.Author;
 import model.Paper;
 
@@ -50,17 +52,14 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			// saves the paper into database
 			try {
 				author.submitPaper(myPaper);
-				author_view.getTableModel().fireTableDataChanged();
+				author_view.getTableModel().addRow(myPaper);
 				form_view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			JOptionPane.showMessageDialog(new JDialog(), "Your paper has been submitted.");
-			author_view.getTableModel().fireTableDataChanged();
-		}
-		
-		if("UpdatePaper".equals(command)) {
+		} else if("UpdatePaper".equals(command)) {
 			Paper paper = form_view.getPaper();
 			paper.setTitle(form_view.titleField.getText());
 			paper.setKeywords(form_view.keywordsField.getText());
@@ -75,6 +74,6 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			}
 			JOptionPane.showMessageDialog(new JDialog(), "Your submission has been updated.");
 			author_view.getTableModel().fireTableDataChanged();
-		}
+		} 
 	}
 }

@@ -16,6 +16,9 @@ import gui.RevisedPaperSubmissionForm;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import service.PaperService;
 import model.Author;
 import model.Paper;
 
@@ -54,15 +57,10 @@ public class RevisedAuthorViewController implements Controller
 		}
 		if("delete_submission".equals(command))
 		{
-			Paper paper = my_view.getSelectedRow();
-			try {
-				the_author.deletePaper(paper);
-				my_view.getTableModel().fireTableDataChanged();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			my_view.getTableModel().fireTableDataChanged();
+		  Paper paper = my_view.getSelectedRow();
+      PaperService.getInstance().deletePaper(paper.getID());
+      my_view.getTableModel().deleteRow(paper);
+      JOptionPane.showMessageDialog(new JDialog(), "Your submission has been removed.");
 		}
 	
 	}
