@@ -94,7 +94,7 @@ public class ConferenceForm extends JFrame
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setBounds(100, 100, 460, 430);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		the_admin = new Administrator(the_administrator);
 		my_conference = the_conference;
 		if (my_conference.getID() == 0)
