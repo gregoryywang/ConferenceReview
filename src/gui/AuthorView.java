@@ -1,110 +1,188 @@
-
 package gui;
 
 /**
- * Author View.
+ * RevisedAuthorView
+ * A new AuthorView based on the new PGChairView
+ * Has edit buttons acting on each paper in the table.
  * 
- * @author Roshun Jones
- * @version 1.0
+ * @author yongyuwang
+ * @version 3
+ * Based on code from PGChairView and SubPGChairView
+ * by Roshun Jones and Danielle Tucker respectively.
  */
 
 import java.awt.BorderLayout;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.table.TableModel;
+import java.util.ArrayList;
+import java.util.List;
 
-import controller.AuthorViewController;
-import service.ConferenceService;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+
 import model.Author;
-import model.User;
 import model.Paper;
+import model.User;
+
+import controller.Controller;
+import controller.RevisedAuthorViewController;
 
 public class AuthorView extends JPanel {
-
-  /**
-   * The default serial ID
-   */
   private static final long serialVersionUID = 1L;
-  private Author user;
-  private TablePanel tablePanel;
-  private AuthorViewController controller;
-  
-  public AuthorView(final User the_user) {
-    this.user = new Author(the_user);
+  private List<Paper> model;
+  private Controller controller;
+  private JTable table;
+  private JScrollPane scrollPane;
+  private String[] columns = {"Title", "Category", "Acceptance Status"};
+  private Author author;
+  private TableModel tableModel;
+  private List<Paper> data;
+  private JButton ViewEdit, DeleteSubmission, AddSubmission, ViewReviews;
+  private MainView parent;
+
+  public AuthorView(User aUser) {
+    author = new Author(aUser);
+    model = author.viewPapers();
+    controller = new RevisedAuthorViewController(this);
+    
+    // Configure view/edit button
+    ViewEdit = new JButton("View/Edit Details");
+    ViewEdit.setEnabled(false);
+    ViewEdit.setActionCommand("view_edit");
+    ViewEdit.addActionListener(controller);
+    
+    // Configure view reviews button
+    ViewReviews = new JButton("View Reviews");
+    ViewReviews.setEnabled(false);
+    ViewReviews.setActionCommand("view_reviews");
+    ViewReviews.addActionListener(controller);
+    
+    // Configure Delete Submission button
+    DeleteSubmission = new JButton("Delete Submission");
+    DeleteSubmission.setEnabled(false);
+    DeleteSubmission.setActionCommand("delete_submission");
+    DeleteSubmission.addActionListener(controller);
+    
+    // Configure the Add Submission button
+    AddSubmission = new JButton("Add Submission");
+    // Disables new submission button if deadline is passed
+    if(!author.canSubmitOrModify())
+    {
+    	AddSubmission.setEnabled(false);
+    }
+    AddSubmission.setActionCommand("add_submission");
+    AddSubmission.addActionListener(controller);
+   
+    tableModel = new TableModel(model);
+    table = new JTable(tableModel);
+    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    table.setRowSelectionAllowed(true);
+    table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+      @Override
+      public void valueChanged(ListSelectionEvent event) {
+          //Enable view/edit button when when selection is made
+    	  ViewEdit.setEnabled(true);
+    	  // Only enables delete button if selected and deadline is not passed
+    	  if(!author.canSubmitOrModify()) {
+        	  DeleteSubmission.setEnabled(true);
+    	  }   
+      }
+    });
+    
+    // adds scroll panel for papers to main panel
     setLayout(new BorderLayout());
-    controller = new AuthorViewController(user);
-
-    String[][] properties = {
-      {"java.lang.String", "Title", "Title", "false"},
-      {"java.lang.String", "Category", "Category", "false"},
-      {"java.lang.String", "AcceptanceStatus", "AcceptanceStatus", "false"}
-    };
-
-    // Create table panel.
-    tablePanel = new TablePanel<Paper>(properties, controller);
-     
-    // Populate model
-    tablePanel.setModel(user.viewPapers());
+    scrollPane = new JScrollPane(table);
+    add(scrollPane, BorderLayout.NORTH);
     
-    HashMap<Integer, Collection<Object>> refs = new HashMap<Integer, Collection<Object>>();
-    refs.put(1, Arrays.asList(ConferenceService.getInstance().getCategories().toArray()));
+    // adds auxiliary panel for buttons to main panel
+    JPanel southPanel = new JPanel();
+    southPanel.add(AddSubmission);
+    southPanel.add(ViewEdit);
+    southPanel.add(ViewReviews);
+    southPanel.add(DeleteSubmission);
+    add(southPanel, BorderLayout.SOUTH);
     
-    tablePanel.setReferenceValues(refs);
-    
-    add(tablePanel, BorderLayout.NORTH);
-
-    JPanel panel = new JPanel();
-    JButton AddSubmissionButton = new JButton("Add Submission");
-    if(!user.canSubmitOrModify())
-    {
-    	AddSubmissionButton.setEnabled(false);
-    }
-    panel.add(AddSubmissionButton);
-    AddSubmissionButton.addActionListener(controller);
-    
-    /*
-    JButton viewPaper = new JButton("View Submission");
-    viewPaper.addActionListener(controller);
-    panel.add(viewPaper);
-    */
-    
-    JButton editPaper = new JButton("Edit Submission");
-    if(!user.canSubmitOrModify())
-    {
-    	editPaper.setEnabled(false);
-    }
-    editPaper.addActionListener(controller);
-    panel.add(editPaper);
-
-    add(panel, BorderLayout.SOUTH);
+    parent = (MainView) getTopLevelAncestor();
+    setVisible(true);
   }
-
-  /**
-   * Returns view's model.
-   * 
-   * @return The view's model.
-   */
-  public TableModel getModel() {
-    return tablePanel.getModel();
+  
+  public TableModel getTableModel() {
+    return tableModel;
   }
+  
+  public Paper getSelectedRow() {   
+    int selectedRow = table.getSelectedRow();
+    
+    if(selectedRow >= 0)
+      return data.get(selectedRow);
+    
+    return null;
+  }
+  
+  public Author getAuthor() {
+    return author;
+  }
+  
+  public MainView getMainView() {
+    return parent;
+  }
+  
+  //:) I know.....
+  public void disableButton() {
+	ViewEdit.setEnabled(false);
+	DeleteSubmission.setEnabled(false);
+	AddSubmission.setEnabled(false);
+    ViewReviews.setEnabled(false);
+  }
+  
+  public class TableModel extends AbstractTableModel {
+    private static final long serialVersionUID = 1L;
+    
+    private TableModel(List<Paper> model) {
+      super();
+      
+      if(model == null)
+        data = new ArrayList<Paper>();
+      else
+        data = model;
+    }
+    
+    @Override
+    public int getColumnCount() {
+      return columns.length;
+    }
 
-  /**
-   * Test code to launch a local panel.
-   * 
-   * @param args
-   */
-  public static void main(String[] args) {
+    @Override
+    public int getRowCount() {
+      return data.size();
+    }
 
-    User testUser = new User();
-    AuthorView test = new AuthorView(testUser);
-    JFrame testFrame = new JFrame();
-    testFrame.getContentPane().add(test);
-    testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    testFrame.pack();
-    testFrame.setVisible(true);
+    @Override
+    public String getColumnName(int columnIndex){
+      return columns[columnIndex];
+    }
+    
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex ) {
+      Paper paper = data.get(rowIndex); 
+      String result = null;
+      switch(columnIndex) {
+        case 0: result = paper.getTitle(); break;
+        case 1: result = paper.getCategory(); break;
+        case 2: result = paper.getAcceptanceStatus().toString(); break;
+      }
+      
+      return result;
+    }
+    
+    @Override
+    public Class getColumnClass(int columnIndex) {
+      return String.class;
+    }
   }
 }
+
