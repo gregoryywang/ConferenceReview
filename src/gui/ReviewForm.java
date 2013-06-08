@@ -263,7 +263,7 @@ public class ReviewForm extends JFrame
 						my_reviewer_panel.parseData();
 						PaperService.getInstance().addReview(my_review, my_paper);
 						JOptionPane.showMessageDialog(null, "You have successfully " +
-							review_button.getText() + "d the Comment.");
+							review_button.getText() + "d the Review.");
 					}
 					else
 					{
@@ -617,33 +617,7 @@ public class ReviewForm extends JFrame
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			panel.add(comment_scroll);
 			
-			if (my_is_reviewer_flag)
-			{
-				final JPanel southern_panel = new JPanel();
-				final JButton submit_button = new JButton("Submit");
-				submit_button.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(final ActionEvent the_event)
-					{
-						if (DEFAULT_TEXT.equals(comment_area.getText()))
-						{
-							JOptionPane.showMessageDialog(null, "Please enter " +
-								"a valid comment for the Paper or press the " +
-								"\"Cancel\" button to discard changes.");
-						}
-						else
-						{
-							my_review.setSPChairComment(comment_area.getText());
-							JOptionPane.showMessageDialog(null, "You have successfully " +
-								"Submitted the Comment.");
-							comment_area.setCaretPosition(0);
-						}
-					}
-				});
-				southern_panel.add(submit_button);
-				panel.add(southern_panel);
-			}
-			else
+			if (!my_is_reviewer_flag)
 			{
 				comment_area.setEditable(false);
 			}
