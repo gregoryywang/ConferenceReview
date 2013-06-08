@@ -166,7 +166,11 @@ public class RevisedPaperSubmissionForm extends JFrame {
 		});
 
 		bottemPanel = new JPanel();
-		bottemPanel.add(submitButton);
+		if(!isNewSubmission) {
+			bottemPanel.add(updateButton);
+		} else {
+			bottemPanel.add(submitButton);
+		}
 		bottemPanel.add(cancelButton);
 
 		// Update button only appears if editing existing submission
