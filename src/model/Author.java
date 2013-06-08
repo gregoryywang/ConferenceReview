@@ -6,13 +6,21 @@ import model.Conference.Deadline;
 import service.ConferenceService;
 import service.PaperService;
 
+/**
+ * Represents an author
+ * @author Danielle
+ * @version 2013 Spring
+ */
 public class Author extends User
 {
-
+	/**
+	 * The list of papers associated with this author.
+	 */
 	private List<Paper> papers;
 	
   /**
    * TEST CONSTRUCTOR.
+   * @author Levon
    */
   public Author(final List<Paper> the_papers)
   {
@@ -88,8 +96,6 @@ public class Author extends User
 	}
 
 	/**
-	 * TO DO: Implement!!
-	 * 
 	 * Remove a paper which has been submitted for review.
 	 * @param the_paper the paper which to remove
 	 * @throws Exception if attempting to delete a paper after the submission deadline.
@@ -146,6 +152,15 @@ public class Author extends User
 			result = true;
 		}
 		return result;
+	}
+	
+	/**
+	 * To determine if a paper may be deleted in the author's current conference.
+	 * @return if a paper may be deleted.
+	 */
+	public boolean canDelete()
+	{
+		return canSubmitOrModify();
 	}
 	
 	/**

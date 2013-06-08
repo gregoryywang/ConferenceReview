@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+/**
+ * Represents a conference with associated dates and deadlines and program chair.
+ * @author Roshun
+ * @version 2013 Spring
+ */
 public class Conference extends Observable
 {
 	/**
 	 * The deadline types of papers in the review process.
-	 * @author Danielle T
-	 * @version 2013 May
+	 * @author Danielle 
 	 */
 	public static enum Deadline {SUBMIT_PAPER, REVIEW_PAPER, MAKE_RECOMMENDATION,
 		FINAL_DECISION, REVISE_PAPER};
@@ -37,6 +41,9 @@ public class Conference extends Observable
 	 */
 	private String my_topic;
 	
+	/**
+	 * The list of categories associated with the conference.
+	 */
 	private List<String> my_categories;
 	
 	/**
@@ -98,11 +105,19 @@ public class Conference extends Observable
 				the_conference.my_deadlines.get(Deadline.FINAL_DECISION), the_conference.my_deadlines.get(Deadline.REVISE_PAPER));
 	}
 	
+	/**
+	 * Set the ID of the conference
+	 * @param the_conf_id the conference id
+	 */
 	public void setID(final int the_conf_id)
 	{
 		my_id = the_conf_id;
 	}
 	
+	/**
+	 * Get the conference id
+	 * @return the conference id.  Default is 0
+	 */
 	public int getID()
 	{
 		return my_id;
@@ -165,11 +180,19 @@ public class Conference extends Observable
 		return new ArrayList<String>(my_categories);
 	}
 	
+	/**
+	 * Set the topic of the conference
+	 * @param the_topic the topic (title)
+	 */
 	public void setTopic(final String the_topic)
 	{
 		my_topic = the_topic;
 	}
 	
+	/**
+	 * Get the title (topic) of this conference
+	 * @return the topic
+	 */
 	public String getTopic()
 	{
 		return my_topic;
@@ -206,6 +229,9 @@ public class Conference extends Observable
 		return my_topic;
 	}
 	
+	/**
+	 * @return the short title of this conference (the topic)
+	 */
 	public String toString()
 	{
 		return shortTitle();
