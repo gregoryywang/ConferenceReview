@@ -38,7 +38,6 @@ public class ReviewerView extends JPanel
   private TableModel tableModel;
   private List<Paper> data;
   private JButton btViewEdit;
-  private JButton btViewPaper;
   private MainView parent;
 
   /**
@@ -73,7 +72,6 @@ public class ReviewerView extends JPanel
     add(scrollPane, BorderLayout.NORTH);
     JPanel southPanel = new JPanel();
     southPanel.add(btViewEdit);
-    southPanel.add(btViewPaper);
     add(southPanel, BorderLayout.SOUTH);
     parent = (MainView) getTopLevelAncestor();
     setVisible(true);
