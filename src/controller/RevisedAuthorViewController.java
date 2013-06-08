@@ -14,11 +14,7 @@ import gui.AuthorView;
 import gui.RevisedPaperSubmissionForm;
 
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JOptionPane;
-
 
 import model.Author;
 import model.Paper;
@@ -61,6 +57,7 @@ public class RevisedAuthorViewController implements Controller
 			Paper paper = my_view.getSelectedRow();
 			try {
 				the_author.deletePaper(paper);
+				my_view.getTableModel().fireTableDataChanged();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

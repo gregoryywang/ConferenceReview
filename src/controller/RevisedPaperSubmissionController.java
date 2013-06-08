@@ -50,6 +50,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			// saves the paper into database
 			try {
 				author.submitPaper(myPaper);
+				author_view.getTableModel().fireTableDataChanged();
 				form_view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -66,6 +67,7 @@ public class RevisedPaperSubmissionController implements ActionListener {
 			paper.setCategory((String) form_view.catagoryField.getSelectedItem());
 			try {
 				author.modifyPaper(paper);
+				author_view.getTableModel().fireTableDataChanged();
 				form_view.dispose();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
