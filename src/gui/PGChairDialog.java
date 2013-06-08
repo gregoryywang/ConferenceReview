@@ -79,11 +79,12 @@ public class PGChairDialog extends JDialog {
 		lblReviews = new JLabel("View Reviews:");
 		lblReviews.setBounds(50,110,220,20);
 		Object[] reviewValues = PaperService.getInstance().getReviews(aPaper.getID()).toArray();
-		if (reviewValues.length == 0 ) {
-		  reviewValues = new Object[]{"No Reviews Available"};
-		}
+		if(reviewValues.length == 0) {
+		  cmbReviews = new JComboBox(new Object[]{"No reviews available"});
+		  cmbReviews.setEnabled(false);
+		} else
+		  cmbReviews = new JComboBox(new DefaultComboBoxModel(reviewValues));
 		
-		cmbReviews = new JComboBox(new DefaultComboBoxModel(reviewValues));
 		cmbReviews.setBounds(210,110,185,20);
 		
 		lblAcceptance = new JLabel("Acceptance Descision:");
@@ -98,7 +99,7 @@ public class PGChairDialog extends JDialog {
 		cmdViewReview = new JButton("View Review");
 		cmdViewReview.setBounds(170, 195, 100, 20); //from l, from t, width, ht
 		cmdViewReview.addActionListener(aController);
-		cmdViewReview.setEnabled(cmbReviews.getItemCount() > 1);
+		cmdViewReview.setEnabled(cmbReviews.getItemCount() > 0 && cmbReviews.isEnabled());
 		cmdViewReview.setActionCommand("ViewReview");
 	
 		cmdUpdate = new JButton("Update");
