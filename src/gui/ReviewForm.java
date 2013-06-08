@@ -122,9 +122,6 @@ public class ReviewForm extends JFrame
 		setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		my_user = new Reviewer(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		//my_user = new SubProgramChair(new User("TEST", "TEST", "TEST", "TEST", "TEST"));
-		//my_user = new Author(new ArrayList<Paper>());
-		//my_user = new ProgramChair();
 		
 		if ("Author".equals(my_user.getClass().getSimpleName()))
 		{
