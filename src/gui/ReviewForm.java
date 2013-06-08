@@ -427,37 +427,7 @@ public class ReviewForm extends JFrame
 				my_comboboxes.add(question_box);
 				comment_field.setMargin(new Insets(10, 10, 10, 10));
 				comment_field.setLineWrap(true);
-				comment_field.addFocusListener(new FocusListener()
-				{
-					/**
-					 * Overrides the FocusListener interface method.
-					 * 
-					 * @param the_event the Object that fired the event
-					 */
-					@Override
-					public void focusGained(final FocusEvent the_event) 
-					{
-						if (DEFAULT_TEXT.equals(comment_field.getText()))
-						{
-							comment_field.setText("");
-						}
-					}
-					
-					/**
-					 * Overrides the FocusListener interface method.
-					 * 
-					 * @param the_event the Object that fired the event
-					 */
-					@Override
-					public void focusLost(final FocusEvent the_event) 
-					{
-						if ("".equals(comment_field.getText()))
-						{
-							comment_field.setText(DEFAULT_TEXT);
-						}
-					}
-					
-				});
+				comment_field.addFocusListener(new TextAreaListener());
 				final JPanel rating_label = new JPanel();
 				rating_label.add(new JLabel("Rating Comment: "));
 				panel.add(rating_label);
@@ -531,9 +501,9 @@ public class ReviewForm extends JFrame
 		{
 			for (int i = 0; i < my_comboboxes.size(); i++)
 			{
-				my_review.setRating(i, ((JComboBox) my_comboboxes.
+				my_review.setRating(i+1, ((JComboBox) my_comboboxes.
 					get(i)).getSelectedIndex());
-				my_review.setComment(i, ((JTextArea) my_textareas.
+				my_review.setComment(i+1, ((JTextArea) my_textareas.
 					get(i)).getText());
 			}
 			if (!my_is_author_flag)
@@ -651,6 +621,42 @@ public class ReviewForm extends JFrame
 		}
 	}
 	
+	/**
+	 * Private class to create a FocusListener
+	 * for the JTextAreas.
+	 */
+	private class TextAreaListener implements FocusListener
+	{
+		/**
+		 * Overrides the FocusListener interface method.
+		 * 
+		 * @param the_event the Object that fired the event
+		 */
+		@Override
+		public void focusGained(final FocusEvent the_event) 
+		{
+			final JTextArea textarea = (JTextArea) the_event.getSource();
+			if (DEFAULT_TEXT.equals(textarea.getText()))
+			{
+				textarea.setText("");
+			}
+		}
+		
+		/**
+		 * Overrides the FocusListener interface method.
+		 * 
+		 * @param the_event the Object that fired the event
+		 */
+		@Override
+		public void focusLost(final FocusEvent the_event) 
+		{
+			final JTextArea textarea = (JTextArea) the_event.getSource();
+			if ("".equals(textarea.getText()))
+			{
+				textarea.setText(DEFAULT_TEXT);
+			}
+		}
+	}
 	
 	/**
 	 * Method to test the ReviewForm class.
