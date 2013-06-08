@@ -10,10 +10,6 @@ import java.util.List;
 import model.Paper;
 import model.Review;
 import model.Reviewer;
-import model.Role;
-import model.Status;
-import model.User;
-import service.PaperService;
 
 public class ReviewerViewController implements Controller {
   private ReviewerView my_view;
@@ -35,14 +31,6 @@ public class ReviewerViewController implements Controller {
       Review review = my_view.getReviewer().getReview(paper.getID());
       my_form = new ReviewForm(paper, my_view.getReviewer(), review);
       my_form.start();
-      
-      //Center dialog
-      int locX = (parent.getWidth() / 2) - (my_form.getWidth() / 2);
-      int locY = (parent.getHeight() / 2) - (my_form.getHeight() / 2);
-   
-      my_form.setLocation(locX, locY);
-      my_form.validate();
-      my_form.repaint();
     }
       
       my_view.disableButton();
