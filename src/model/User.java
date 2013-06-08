@@ -7,25 +7,25 @@ import java.util.Observable;
 /**
  * Test Class for User
  * @author yongyuwang and Danielle Tucker
- *
+ * @version 2013 Spring
  */
 public class User extends Observable
 {
 	/**
 	 * The unique id that identifies this user.
 	 */
-  private int user_id;
-  
-  /**
+	private int user_id;
+
+	/**
 	 * The User's first name.
 	 */
 	private String my_first_name;
-	
+
 	/**
 	 * The User's last name.
 	 */
 	private String my_last_name;
-	
+
 	/**
 	 * The User's username to log in (assumed unique).
 	 */
@@ -35,22 +35,22 @@ public class User extends Observable
 	 * The User's password.
 	 */
 	private String my_password;
-	
+
 	/**
 	 * The contact email.
 	 */
 	private String my_email;
-	
+
 	/**
 	 * The User's current role.
 	 */
 	private Role my_role;
-	
+
 	/**
 	 * The User's current conference.
 	 */
 	private Conference my_conference;
-	
+
 	/**
 	 * TEST CONSTRUCTOR.
 	 */
@@ -64,7 +64,7 @@ public class User extends Observable
 		my_conference = new Conference();
 		my_role = Role.USER;
 	}
-	
+
 	/**
 	 * Create a user.
 	 * @param the_conference the current conference the user is part of
@@ -104,7 +104,7 @@ public class User extends Observable
 		this(null, Role.USER, the_first_name, the_last_name, 
 				the_username, the_password, the_email);
 	}
-	
+
 	/**
 	 * Create a deep copy of the provided User. (Copy constructor.)
 	 * @param the_user the user to make a copy of.
@@ -126,11 +126,11 @@ public class User extends Observable
 	{
 		return user_id;
 	}
-	
+
 	public void setID(final int aId) {
-	  user_id = aId;
+		user_id = aId;
 	}
-	
+
 	/**
 	 * Set the first name of the user.
 	 * @param the_first_name the name to be used for the first name
@@ -141,7 +141,7 @@ public class User extends Observable
 		setChanged();
 		notifyObservers(my_first_name);
 	}
-	
+
 	/**
 	 * Returns the first name.
 	 * @return first name of the user.
@@ -150,7 +150,7 @@ public class User extends Observable
 	{
 		return my_first_name;
 	}
-	
+
 	/**
 	 * Change the last name of the user.
 	 * @param the_last_name the name to be used for the last name.
@@ -161,7 +161,7 @@ public class User extends Observable
 		setChanged();
 		notifyObservers(my_last_name);
 	}
-	
+
 	/**
 	 * Returns the last name.
 	 * @return last name of the user.
@@ -170,7 +170,7 @@ public class User extends Observable
 	{
 		return my_last_name;
 	}
-	
+
 	/**
 	 * Return the full name First Name Last Name
 	 * @return the full name of the user First then Last name order.
@@ -179,7 +179,7 @@ public class User extends Observable
 	{
 		return my_first_name + " " + my_last_name;
 	}
-	
+
 	/**
 	 * Return the username
 	 * @return the username
@@ -188,7 +188,7 @@ public class User extends Observable
 	{
 		return my_username;
 	}
-	
+
 	/**
 	 * Return the password (Warning: this is in plaintext.)
 	 * @return the password
@@ -197,7 +197,7 @@ public class User extends Observable
 	{
 		return my_password;
 	}
-	
+
 	/**
 	 * Change the email contact information.
 	 * Assumes a valid email address format.
@@ -209,7 +209,7 @@ public class User extends Observable
 		setChanged();
 		notifyObservers(my_email);
 	}
-	
+
 	/**
 	 * Return the email contact information.
 	 * @return the email contact information.
@@ -219,28 +219,44 @@ public class User extends Observable
 		return my_email;
 	}
 
-  public Role getRole() {
-    return my_role;
-  }
-  
-  public void setRole(Role the_role) {
-    my_role = the_role;
-    setChanged();
-    notifyObservers(my_role);
-  }
+	/**
+	 * Get the current role of the user
+	 * @return current role of the user which defaults to Role.User
+	 */
+	public Role getRole() {
+		return my_role;
+	}
 
-public Conference getConference()
-  {
-	  return my_conference;
-  }
-  
-  public void setConference(final Conference the_conference)
-  {
-	  my_conference = the_conference;
-	  setChanged();
-	  notifyObservers(my_conference);
-  }
-  
+	/**
+	 * Set the role of this user
+	 * @param the_role the role
+	 */
+	public void setRole(Role the_role) {
+		my_role = the_role;
+		setChanged();
+		notifyObservers(my_role);
+	}
+
+	/**
+	 * Get the conference
+	 * @return the conference associated with this user
+	 */
+	public Conference getConference()
+	{
+		return my_conference;
+	}
+
+	/**
+	 * Set the conference associated with this user
+	 * @param the_conference the conference
+	 */
+	public void setConference(final Conference the_conference)
+	{
+		my_conference = the_conference;
+		setChanged();
+		notifyObservers(my_conference);
+	}
+
 
 	/**
 	 * Get the current sql date for comparison against the deadlines for the conference.
@@ -250,26 +266,35 @@ public Conference getConference()
 		Date timeNow = new Date(Calendar.getInstance().getTimeInMillis());
 		return timeNow;
 	}
-  
-  @Override
-  public String toString() {
-    return getFullName();
-  }
-  
-  @Override
-  public boolean equals(final Object the_object)
-  {
-	  boolean result = false;
-	  if(the_object == null || the_object instanceof User)
-	  {
-		  return false;
-	  }
-	  User other_user = (User) the_object;
-	  if(other_user.getID() == getID())
-	  {
-		  result = true;
-	  }
-	  return result;
-  }
-  
+
+	/**
+	 * String representation of this object (just the name)
+	 * @return the Full Name of the user
+	 */
+	@Override
+	public String toString() {
+		return getFullName();
+	}
+
+	/**
+	 * Equals method
+	 * @param the_object the object
+	 * @return if the object is equal to this user
+	 */
+	@Override
+	public boolean equals(final Object the_object)
+	{
+		boolean result = false;
+		if(the_object == null || the_object instanceof User)
+		{
+			return false;
+		}
+		User other_user = (User) the_object;
+		if(other_user.getID() == getID())
+		{
+			result = true;
+		}
+		return result;
+	}
+
 }

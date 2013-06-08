@@ -10,6 +10,7 @@ import gui.SubPGChairView;
 /**
  * Describes the type of roles a user can be.
  * @author Danielle Tucker
+ * @author Roshun Jones  (refactor with class associations.)
  * @version 14 May 2013
  */
 public enum Role {
@@ -47,18 +48,26 @@ public enum Role {
 	 */
 	PROGRAM_CHAIR("Program Chair", PGChairView.class);
 	
+	/**
+	 * The text associated with this role.
+	 */
 	private String my_text;
+	
+	/**
+	 * The class associated with this role.
+	 */
 	private Class viewClass;
 	
 	Role(final String the_string, Class viewClass)
 	{
 		my_text = the_string;
-		this.viewClass = viewClass;
+		this.viewClass = viewClass;  //Roshun
 	}
 	
 	/**
 	 * Returns role's view class.
 	 * @param returns role's view class.
+	 * @author Roshun
 	 */
 	public Class getView() {
 	  return viewClass;

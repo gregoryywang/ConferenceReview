@@ -32,13 +32,19 @@ public class SubProgramChair extends User
 			the_password, the_username, the_email);
 	}
 	
-	
+	/**
+	 * Copy constructor
+	 * @param the_user the user who is to be a subprogram chair
+	 */
 	public SubProgramChair(final User the_user)
 	{
 		super(the_user);
 		setRole(Role.PROGRAM_CHAIR);
 	}
 	
+	/**
+	 * Default constructor
+	 */
 	public SubProgramChair()
 	{
 		//
@@ -88,6 +94,10 @@ public class SubProgramChair extends User
 		return recommendation;
 	}
 	
+	/**
+	 * Set the role for the SubProgramChair
+	 * @param the_role the role to set this user to (ignored as will always be subprogram)
+	 */
 	@Override
 	public void setRole(final Role the_role)
 	{

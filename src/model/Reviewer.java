@@ -13,6 +13,10 @@ import service.PaperService;
  */
 public class Reviewer extends User
 {
+	/**
+	 * Create a Reviewer 
+	 * @param the_user the user to make a reviewer with all associated functionality
+	 */
 	public Reviewer(final User the_user)
 	{
 		super(the_user);
@@ -20,10 +24,10 @@ public class Reviewer extends User
 	}
 	
 	/**
-	 * 
+	 * Add a review to the paper (make a review for this paper)
 	 * @param the_review the review to attach to this paper
 	 * @param the_paper the paper
-	 * @throws Exception
+	 * @throws Exception if trying to submit the paper after the deadline
 	 */
 	public void addReview(Review the_review, Paper the_paper) throws Exception
 	{
@@ -99,6 +103,7 @@ public class Reviewer extends User
 	@Override
 	/**
 	 * Will always set the role to Role.REVIEWER
+	 * @param the_role the role to change this user to (ignored);
 	 */
 	public void setRole(Role the_role)
 	{
