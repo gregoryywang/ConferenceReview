@@ -285,16 +285,17 @@ public class User extends Observable
 	public boolean equals(final Object the_object)
 	{
 		boolean result = false;
-		if(the_object == null || the_object instanceof User)
-		{
+		if( the_object == this )
+		  return true;
+		
+		if(the_object == null || the_object.getClass() != getClass())
 			return false;
-		}
+		
 		User other_user = (User) the_object;
 		if(other_user.getID() == getID())
-		{
-			result = true;
-		}
-		return result;
+		  return true;
+		
+		return false;
 	}
 
 }
