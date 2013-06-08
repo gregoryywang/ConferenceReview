@@ -369,7 +369,7 @@ public class ReviewForm extends JFrame
 		{
 			final JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
 			
-			for (int i = 0; i < Review.QUESTIONS.length; i++)
+			for (int i = 0; i <= Review.QUESTIONS.length; i++)
 			{
 				panel.add(new JSeparator());
 				final JPanel question_label = new JPanel();
@@ -408,7 +408,7 @@ public class ReviewForm extends JFrame
 						comment_field.setEditable(false);
 					}
 					question_box.addItem(Integer.valueOf(my_review.getRating(i+1)));
-					comment_field.setText(my_review.getComment(i));
+					comment_field.setText(my_review.getComment(i+1));
 				}
 				
 				question_box.setEditable(false);
