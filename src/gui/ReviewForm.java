@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +71,7 @@ public class ReviewForm extends JFrame
 	/**
 	 * The default frame height.
 	 */
-	private static final int FRAME_HEIGHT = 550;
+	private static final int FRAME_HEIGHT = 350;
 	
 	/**
 	 * Reference to the User viewing the form.
@@ -428,6 +430,37 @@ public class ReviewForm extends JFrame
 				my_comboboxes.add(question_box);
 				comment_field.setMargin(new Insets(10, 10, 10, 10));
 				comment_field.setLineWrap(true);
+				comment_field.addFocusListener(new FocusListener()
+				{
+					/**
+					 * Overrides the FocusListener interface method.
+					 * 
+					 * @param the_event the Object that fired the event
+					 */
+					@Override
+					public void focusGained(final FocusEvent the_event) 
+					{
+						if (DEFAULT_TEXT.equals(comment_field.getText()))
+						{
+							comment_field.setText("");
+						}
+					}
+					
+					/**
+					 * Overrides the FocusListener interface method.
+					 * 
+					 * @param the_event the Object that fired the event
+					 */
+					@Override
+					public void focusLost(final FocusEvent the_event) 
+					{
+						if ("".equals(comment_field.getText()))
+						{
+							comment_field.setText(DEFAULT_TEXT);
+						}
+					}
+					
+				});
 				final JPanel rating_label = new JPanel();
 				rating_label.add(new JLabel("Rating Comment: "));
 				panel.add(rating_label);
@@ -501,16 +534,10 @@ public class ReviewForm extends JFrame
 		{
 			for (int i = 0; i < my_comboboxes.size(); i++)
 			{
-				if (i % 2 == 0)
-				{
-					my_review.setRating(i, ((JComboBox) my_comboboxes.
-						get(i)).getSelectedIndex());
-				}
-				else
-				{
-					my_review.setComment(i, ((JTextArea) my_textareas.
-						get(i)).getText());
-				}
+				my_review.setRating(i, ((JComboBox) my_comboboxes.
+					get(i)).getSelectedIndex());
+				my_review.setComment(i, ((JTextArea) my_textareas.
+					get(i)).getText());
 			}
 			if (!my_is_author_flag)
 			{
