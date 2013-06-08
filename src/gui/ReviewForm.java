@@ -163,8 +163,6 @@ public class ReviewForm extends JFrame
 			my_is_new_review_flag = true;
 		}
 		my_paper = the_paper;
-		
-		setAlwaysOnTop(true);
 	}
 	
 	/**
