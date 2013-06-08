@@ -17,13 +17,39 @@ import model.SubProgramChair;
 import model.User;
 import service.PaperService;
 
+/**
+ * Controller for actions associated with a SubProgram Chair
+ * @author Roshun (template)
+ * @author Danielle Tucker
+ * @version 2013 Spring
+ */
 public class SubPGChairController implements Controller
 {
+	/**
+	 * The view.
+	 */
 	private SubPGChairView my_view;
+	
+	/**
+	 * The dialog box
+	 */
 	private SubPGChairDialog dlg;
+	
+	/**
+	 * The model (papers)
+	 */
 	private List<Paper> model;
+	
+	/**
+	 * The subprogram chair user
+	 */
 	private SubProgramChair the_SPChair;
 
+	/**
+	 * Constructor
+	 * @param the_view the view
+	 * @param the_papers the list of papers for this subProgram Chair
+	 */
 	public SubPGChairController(final SubPGChairView the_view, final List<Paper> the_papers)
 	{
 		my_view = the_view;
@@ -31,6 +57,11 @@ public class SubPGChairController implements Controller
 		the_SPChair = my_view.getSPChair();
 	}
 
+	/**
+	 * Directs the actions for the View/Edit button, Save Recommendation
+	 * Button and Save Reviewers Button
+	 * @param the_event the action event (button press)
+	 */
 	@Override
 	public void actionPerformed(final ActionEvent the_event)
 	{
@@ -72,12 +103,18 @@ public class SubPGChairController implements Controller
 		}
 	}
 
+	/**
+	 * Does nothing
+	 */
 	@Override
 	public void update(Object aObject) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Does nothing
+	 */
 	@Override
 	public void setModel(Object aObject) {
 		// TODO Auto-generated method stub
