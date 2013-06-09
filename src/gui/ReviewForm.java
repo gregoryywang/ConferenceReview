@@ -30,6 +30,8 @@ import model.Review;
 import model.Reviewer;
 import model.User;
 import service.PaperService;
+import controller.Controller;
+import controller.ReviewerViewController;
 
 public class ReviewForm extends JFrame
 {
@@ -113,6 +115,8 @@ public class ReviewForm extends JFrame
 	 */
 	private JPanel my_panel;
 	
+	private Controller my_controller;
+	
 	/**
 	 * TEST CONSTRUCTOR.
 	 */
@@ -134,6 +138,12 @@ public class ReviewForm extends JFrame
 		my_review = new Review();
 		my_is_new_review_flag = true;
 		my_paper = new Paper();
+	}
+	
+	public ReviewForm(final Paper the_paper, final User the_user, final Review the_review, final ReviewerViewController the_controller)
+	{
+		this(the_paper, the_user, the_review);
+		my_controller = the_controller;
 	}
 	
 	/**
@@ -255,6 +265,10 @@ public class ReviewForm extends JFrame
 						PaperService.getInstance().addReview(my_review, my_paper);
 						JOptionPane.showMessageDialog(null, "You have successfully " +
 							review_button.getText() + "d the Review.");
+						if(my_controller != null)
+						{
+							my_controller.actionPerformed(the_event);
+						}
 					}
 					else
 					{
