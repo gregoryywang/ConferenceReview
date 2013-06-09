@@ -32,8 +32,12 @@ public class ReviewerViewController implements Controller {
       my_form = new ReviewForm(paper, my_view.getReviewer(), review);
       my_form.start();
     }
+    if("Create".equals(the_event.getActionCommand()))
+    {
+		my_view.getTableModel().fireTableDataChanged();
+    }
       
-      my_view.disableButton();
+     // my_view.disableButton();
   }
 
   @Override
