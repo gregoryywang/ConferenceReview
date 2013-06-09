@@ -33,7 +33,7 @@ public class ReviewerView extends JPanel
   private Controller controller;
   private JTable table;
   private JScrollPane scrollPane;
-  private String[] columns = {"Author","Title", "Status"};
+  private String[] columns = {"Author","Title", "Review Complete"};
   private Reviewer reviewer;
   private TableModel tableModel;
   private List<Paper> data;
@@ -137,7 +137,19 @@ public class ReviewerView extends JPanel
       switch(columnIndex) {
         case 0: result = paper.getAuthor().getFullName(); break;
         case 1: result = paper.getTitle(); break;
-        case 2: result = paper.getStatus().toString(); break;
+        case 2: 
+        	{
+        		if (reviewer.reviewComplete(paper))
+        		{
+        			result = "Complete";
+        		}
+        		else
+        		{
+        			result = "Review Needed";
+        		}
+        		//result = paper.getStatus().toString(); 
+        		break;
+        	}
       }
       
       return result;

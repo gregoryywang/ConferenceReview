@@ -86,6 +86,25 @@ public class Reviewer extends User
 	}
 	
 	/**
+	 * Determine if the Reviewer had completed their review.
+	 * @param the paper to check.
+	 * @return if the reviewer has made a review for this paper.
+	 */
+	public boolean reviewComplete(final Paper the_paper)
+	{
+		List<Review> the_reviews = the_paper.getReviews();
+		boolean result = false;
+		for(Review review: the_reviews)
+		{
+			if(review.getReviewer().getID() == getID())
+			{
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	/**
 	 * Determine if a review can be submitted.  Reviews must
 	 * be submitted before the review paper deadline for this conference.
 	 * @return if the paper is open for review
