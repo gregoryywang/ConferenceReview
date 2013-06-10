@@ -278,7 +278,10 @@ public class ReviewForm extends JFrame
 					}
 				}
 			});
-			southern_panel.add(review_button);
+			if(my_is_new_review_flag)
+			{
+				southern_panel.add(review_button);
+			}
 		}
 		else
 		{
@@ -291,7 +294,7 @@ public class ReviewForm extends JFrame
 			{
 				if ("Cancel".equals(southern_button.getText()))
 				{
-					JOptionPane.showMessageDialog(null, "No changes were made.");
+					//JOptionPane.showMessageDialog(null, "No changes were made.");
 				}
 				dispose();
 			}
@@ -425,6 +428,10 @@ public class ReviewForm extends JFrame
 					}
 					question_box.addItem(Integer.valueOf(my_review.getRating(i+1)));
 					comment_field.setText(my_review.getComment(i+1));
+					if(!my_is_new_review_flag)
+					{
+						comment_field.setEditable(false);
+					}
 				}
 				
 				question_box.setEditable(false);
@@ -612,6 +619,7 @@ public class ReviewForm extends JFrame
 			else
 			{
 				comment_area.setText(my_review.getSPChairComment());
+				comment_area.setEditable(false);
 			}
 			comment_area.setWrapStyleWord(true);
 			comment_area.setLineWrap(true);
