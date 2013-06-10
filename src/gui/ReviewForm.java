@@ -254,7 +254,7 @@ public class ReviewForm extends JFrame
 		{
 			southern_button.setText("Cancel");
 			final JButton review_button = new JButton();
-			review_button.setText("Create");
+			review_button.setText("Submit Review");
 			review_button.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(final ActionEvent the_event)
@@ -263,12 +263,13 @@ public class ReviewForm extends JFrame
 					{
 						my_reviewer_panel.parseData();
 						PaperService.getInstance().addReview(my_review, my_paper);
-						JOptionPane.showMessageDialog(null, "You have successfully " +
-							review_button.getText() + "d the Review.");
+						JOptionPane.showMessageDialog(null, "You have successfully submitted the Review.");
 						if(my_controller != null)
 						{
 							my_controller.actionPerformed(the_event);
 						}
+						
+						dispose();
 					}
 					else
 					{
