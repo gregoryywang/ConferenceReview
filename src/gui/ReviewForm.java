@@ -252,7 +252,7 @@ public class ReviewForm extends JFrame
 		southern_panel.add(southern_button);
 		if (my_is_reviewer_flag)
 		{
-			southern_button.setText("Cancel");
+			southern_button.setText("Close");
 			final JButton review_button = new JButton();
 			review_button.setText("Submit Review");
 			review_button.addActionListener(new ActionListener()
@@ -427,7 +427,7 @@ public class ReviewForm extends JFrame
 					{
 						comment_field.setEditable(false);
 					}
-					question_box.addItem(Integer.valueOf(my_review.getRating(i+1)));
+					question_box.addItem(Review.RATING_SCALE_LOW_TO_HIGH[Integer.valueOf(my_review.getRating(i+1))]);
 					comment_field.setText(my_review.getComment(i+1));
 					if(!my_is_new_review_flag)
 					{
@@ -496,7 +496,7 @@ public class ReviewForm extends JFrame
 					{
 						my_summary_comment.setEditable(false);
 					}
-					my_summary_box.addItem(Integer.valueOf(my_review.getSummaryRating()));
+					my_summary_box.addItem(Review.RATING_SCALE_LOW_TO_HIGH[Integer.valueOf(my_review.getSummaryRating())]);
 				}
 				my_summary_comment.setPreferredSize(new Dimension(50, 50));
 				my_summary_comment.setWrapStyleWord(true);
