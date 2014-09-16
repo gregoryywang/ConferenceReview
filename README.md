@@ -6,6 +6,9 @@ __Author:__ Danielle T, Roshun J, Levon K, Yong YW<br />
 __Status:__ Stable<br />
 __Version:__ 1.0
 
+__Original README Author:__ Danielle T (@tuckerd)<br />
+Edited for .MD formatting by Yong YW (@yongyuwang)
+
 Google Code website: https://code.google.com/p/da-deliverables/
 
 ##Installation
@@ -29,15 +32,15 @@ The runnable file is packaged in a .zip file which you will need to extract the 
 
 The database is pre-populated with the following users with the login and password being identical:
 
-UserTest (Login:UserTest Psswd: UserTest) - This is what a default user will see which is pretty much not very interesting because they are not an author yet and can only submit a paper.
+* UserTest (Login:UserTest Psswd: UserTest) - This is what a default user will see which is pretty much not very interesting because they are not an author yet and can only submit a paper.
 
-AuthorTest (Login/Passwd: AuthorTest) - This user has several papers submitted to several conferences
+* AuthorTest (Login/Passwd: AuthorTest) - This user has several papers submitted to several conferences
 
-ReviewerTest (Login/Passwd: ReviewerTest) - This user has several papers which they are reviewers for and either have already submitted a review or have yet to submit a review
+* ReviewerTest (Login/Passwd: ReviewerTest) - This user has several papers which they are reviewers for and either have already submitted a review or have yet to submit a review
 
-SubPrgrmTest (Login/Passwd: SubPrgmTest) - This user is a SubProgram Chair who has some papers who they need to assign reviewers and others which already have reviewers assigned to them.  Some reviewers who are assigned have submitted reviews and others have not.
+* SubPrgrmTest (Login/Passwd: SubPrgmTest) - This user is a SubProgram Chair who has some papers who they need to assign reviewers and others which already have reviewers assigned to them.  Some reviewers who are assigned have submitted reviews and others have not.
 
-PrgmChairTest (Login/Passwd: PrgmChairTest) - This user is a Program Chair who has several papers which belong to them.
+* PrgmChairTest (Login/Passwd: PrgmChairTest) - This user is a Program Chair who has several papers which belong to them.
 
 ###Every User Story and Business Rule and State of Implementation
 
