@@ -313,7 +313,7 @@ YES  NF04.    The programming will be carried out using Java 6.x and JUnit 4.x.
 * UserService
   * Authors: Roshun and Danielle
 
-####sql Package --
+####SQL Package
 
 Note: Database Design by Roshun
 
