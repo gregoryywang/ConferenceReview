@@ -1,6 +1,7 @@
-#ConferenceReview
+ConferenceReview
+========
 
-ConferenceReview is a Java swing-based application which manages reviews and recommendations for papers submitted to conferences.
+A Java swing-based application which manages reviews and recommendations for papers submitted to conferences.
 
 __Author:__ Danielle T, Roshun J, Levon K, Yong YW<br />
 __Status:__ Stable<br />
