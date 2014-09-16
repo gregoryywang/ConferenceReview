@@ -126,8 +126,8 @@ BR22.    All paper submissions must be made on or before the submission deadline
 (User Stories: 3, others)
 
 * Maximum submissions and reviews are arbitrary for first iterations.
-** For first iterations the list of reviewers for a conference is already available
-*** Not all business rules have been explicitly associated to user stories - you will elaborate additional associations in your deliverables
+* For first iterations the list of reviewers for a conference is already available
+* Not all business rules have been explicitly associated to user stories - you will elaborate additional associations in your deliverables
 
 ###Non-functional requirements
 
@@ -143,183 +143,234 @@ YES  NF04.    The programming will be carried out using Java 6.x and JUnit 4.x.
 ###Description of Authorship
 
 ####Controller Package
-AuthorViewController
-  Authors: Yong 
-  Editors: Roshun
-Controller
-  Authors: Roshun
-PaperSubmissionController
-  Authors: Roshun
-PGChairViewController
-  Authors: Roshun
-ReviewerViewController
-  Authors: Roshun(template) and Levon
-RevisedAuthorViewController
-  Authors: Yong
-RevisedPaperSubmissionController
-  Authors: Yong
-  Editor: Roshun
-SubPGChairController
-  Authors: Roshun(template) and Danielle
+* AuthorViewController
+  * Authors: Yong 
+  * Editors: Roshun
+  
+* Controller
+  * Authors: Roshun
+  
+* PaperSubmissionController
+  * Authors: Roshun
+  
+* PGChairViewController
+  * Authors: Roshun
+  
+* ReviewerViewController
+  * Authors: Roshun(template) and Levon
+  
+* RevisedAuthorViewController
+  * Authors: Yong
+  
+* RevisedPaperSubmissionController
+  * Authors: Yong
+  * Editor: Roshun
+  
+* SubPGChairController
+  * Authors: Roshun(template) and Danielle
 
 ####DAO Package
-AbstractDAO.
-  Authors: Roshun
-CategoryDAO
-  Authors: Danielle
-  Editors: Roshun
-ConferenceDAO.
-  Authors: Roshun
-  Editors:  Danielle
-PaperDAO
-  Authors: Danielle
-  Editors: Roshun and Levon(bug fix)
-UserDAO.java
-  Authors: Roshun
-  Editors: Danielle
+
+* AbstractDAO.
+  * Authors: Roshun
+  
+* CategoryDAO
+  * Authors: Danielle
+  * Editors: Roshun
+  
+* ConferenceDAO.
+  * Authors: Roshun
+  * Editors:  Danielle
+  
+* PaperDAO
+  * Authors: Danielle
+  * Editors: Roshun and Levon(bug fix)
+  
+* UserDAO.java
+  * Authors: Roshun
+  * Editors: Danielle
 
 ####GUI Package
-AdminView
-  Authors: Levon
-  Editors: Danielle
-AuthorView
-  Authors: Yong
-  Editors: Roshun
-ConferenceForm
-  Authors: Levon
-  Editors: Danielle
-HeaderView
-  Authors: Danielle
-  Editors: Roshun (tie views together through this one view)
-LoginView
-  Authors: Yong
-  Editors: Roshun
-MainView
-  Authors: Yong
-  Editors: Roshun(Abstraction of Roles with Views) and Danielle(logout menu)
-OldAuthorView
-  Authors: Roshun and Yong
-PaperSubmissionForm
+
+* AdminView
+  * Authors: Levon
+  * Editors: Danielle
+  
+* AuthorView
+  * Authors: Yong
+  * Editors: Roshun
+  
+* ConferenceForm
+  * Authors: Levon
+  * Editors: Danielle
+  
+* HeaderView
+  * Authors: Danielle
+  * Editors: Roshun (tie views together through this one view)
+  
+* LoginView
+  * Authors: Yong
+  * Editors: Roshun
+  
+* MainView
+  * Authors: Yong
+  * Editors: Roshun(Abstraction of Roles with Views) and Danielle(logout menu)
+  
+* OldAuthorView
+  * Authors: Roshun and Yong
+  
+* PaperSubmissionForm
   Authors: Yong
   Editors: Roshun(adjustments after a code refactor)  and Danielle(category dropdown)
-PGChairDialog
-  Authors: Roshun
-  Editors: Danielle(minor)
-PGChairView
-  Authors: Roshun (served as template for all other Views)
-  Editors:
-ReviewerView
-  Authors: Roshun(template) and Levon
-  Editors:
-ReviewForm
-  Authors: Levon
-  Editors: Danielle and Roshun
-SubPGChairDialog
-  Authors: Danielle
-  Editors: Roshun
-SubPGChairView
-  Authors: Roshun(template) and Danielle
-  Editors:
-TablePanel
-  Authors: Roshun
-  Editors:
+  
+* PGChairDialog
+  * Authors: Roshun
+  * Editors: Danielle(minor)
+  
+* PGChairView
+  * Authors: Roshun (served as template for all other Views)
+
+* ReviewerView
+  * Authors: Roshun(template) and Levon
+
+* ReviewForm
+  * Authors: Levon
+  * Editors: Danielle and Roshun
+  
+* SubPGChairDialog
+  * Authors: Danielle
+  * Editors: Roshun
+  
+* SubPGChairView
+  * Authors: Roshun(template) and Danielle
+  
+* TablePanel
+  * Authors: Roshun
 
 ####Model Package
-Administrator
-  Authors: Danielle
-  Editors: Levon and Roshun
-Author
-  Authors: Roshun
-  Editors: Danielle(business logic) and Levon
-AuthorTableModel
-  Authors: Yong
-  Editors: Roshun(minor)
-Conference
-  Authors: Roshun and Danielle
-  Editors: Levon
-Paper
-  Authors: Roshun and Danielle
-  Editors: Levon
-ProgramChair
-  Authors: Danielle 
-  Editors: Levon (initial code stubs and constructor)
-Recommendation
-  Authors:Danielle
-  Editors: Levon
-Review
-  Authors: Danielle
-  Editors: Levon
-Reviewer
-  Authors: Danielle
-  Editors: Levon
-Role
-  Authors: Danielle and Roshun
-Status
-  Authors: Danielle
-  Editors: Roshun
-SubProgramChair
-  Authors: Levon
-  Editors: Danielle
-User
-  Authors: Roshun and Danielle
-  Editors: Levon
+
+* Administrator
+  * Authors: Danielle
+  * Editors: Levon and Roshun
+  
+* Author
+  * Authors: Roshun
+  * Editors: Danielle(business logic) and Levon
+  
+* AuthorTableModel
+  * Authors: Yong
+  * Editors: Roshun(minor)
+  
+* Conference
+  * Authors: Roshun and Danielle
+  * Editors: Levon
+  
+* Paper
+  * Authors: Roshun and Danielle
+  * Editors: Levon
+  
+* ProgramChair
+  * Authors: Danielle 
+  * Editors: Levon (initial code stubs and constructor)
+  
+* Recommendation
+  * Authors:Danielle
+  * Editors: Levon
+  
+* Review
+  * Authors: Danielle
+  * Editors: Levon
+  
+* Reviewer
+  * Authors: Danielle
+  * Editors: Levon
+  
+* Role
+  * Authors: Danielle and Roshun
+  
+* Status
+  * Authors: Danielle
+  * Editors: Roshun
+  
+* SubProgramChair
+  * Authors: Levon
+  * Editors: Danielle
+  
+* User
+  * Authors: Roshun and Danielle
+  * Editors: Levon
 
 ####Service Package
-ConferenceService
-  Authors:Roshun
-  Editors: Danielle(clean up after a refactor)
-PaperService
-  Authors: Danielle
-  Editors: Roshun
-UserService
-  Authors: Roshun and Danielle
 
---sql Package --
-** Note: Database Design by Roshun
-populate_tables.sql
-  Authors: Roshun and Danielle
-tables.sql
-  Authors: Roshun and Danielle
+* ConferenceService
+  * Authors:Roshun
+  * Editors: Danielle(clean up after a refactor)
+  
+* PaperService
+  * Authors: Danielle
+  * Editors: Roshun
+  
+* UserService
+  * Authors: Roshun and Danielle
+
+####sql Package --
+
+Note: Database Design by Roshun
+
+* populate_tables.sql
+  * Authors: Roshun and Danielle
+  
+* tables.sql
+  * Authors: Roshun and Danielle
 
 ####Test Package
-CategoryDAOTest
-  Authors: Danielle
-  Editors: Roshun(initial code)
-ConferenceDAOTest
-  Authors: Roshun
-  Editors: Danielle
-PaperDAOTest
-  Authors: Danielle
-  Editors: Roshun
-ProgramChairTest
+
+* CategoryDAOTest
+  * Authors: Danielle
+  * Editors: Roshun(initial code)
+  
+* ConferenceDAOTest
+  * Authors: Roshun
+  * Editors: Danielle
+  
+* PaperDAOTest
+  * Authors: Danielle
+  * Editors: Roshun
+  
+* ProgramChairTest
+  * Authors:Danielle
+  
+* RecommendationTest
   Authors:Danielle
-RecommendationTest
-  Authors:Danielle
-ReviewerTest
-  Authors: Danielle
-UserDAOTest
-  Authors: Roshun
-  Editors: Danielle
-UserTest.java
-  Authors: Danielle
+  
+* ReviewerTest
+  * Authors: Danielle
+  
+* UserDAOTest
+  * Authors: Roshun
+  * Editors: Danielle
+  
+* UserTest.java
+  * Authors: Danielle
 
 ##Other Comments
 
-Design Choices for this Iteration:
-Users are hard-coded into this iteration.
+###Design Choices for this Iteration
 
-Once a conference is created, only dates can be changed, not Program Chairs or Categories.
+* Users are hard-coded into this iteration.
 
-Categories are hard-coded into the system for conferences  This is for ease of error checking and later possible sorting by category
+* Once a conference is created, only dates can be changed, not Program Chairs or Categories.
 
-Once a review, recommendation, or assignment of roles for a paper have been assigned, these cannot change.
+* Categories are hard-coded into the system for conferences  This is for ease of error checking and later possible sorting by category
 
-Only three reviewers are allowed for each paper.
+* Once a review, recommendation, or assignment of roles for a paper have been assigned, these cannot change.
+
+* Only three reviewers are allowed for each paper.
 
 ##Changes From Original Design
 
--Display changed a bit as it was decided that in our paper prototype the pane on the left side was not really necessary.  We also simplified the view a bit as the addition of all the buttons on the row for each paper was not as graphically pleasing when rendered in a JTable as we had hoped.  General overall layout is very similar to what we had before.
+* Display changed a bit as it was decided that in our paper prototype the pane on the left side was not really necessary.  We also simplified the view a bit as the addition of all the buttons on the row for each paper was not as graphically pleasing when rendered in a JTable as we had hoped.  General overall layout is very similar to what we had before.
 
--Added Controller, DataAccessObject (DAO) and Service package so that models would not have to talk directly to the database and gui’s did not have to talk directly to the database as well.  In general, gui’s communicate with Service objects or Models’s directly.  Service object communicate with the DataAccessObject and package things together if needed from several data access object calls while also performing some business logic.  Controllers are how the models were being updated when actions happen in the gui.
+* Added Controller, DataAccessObject (DAO) and Service package so that models would not have to talk directly to the database and gui’s did not have to talk directly to the database as well.  In general, gui’s communicate with Service objects or Models’s directly.  Service object communicate with the DataAccessObject and package things together if needed from several data access object calls while also performing some business logic.  Controllers are how the models were being updated when actions happen in the gui.
 
--Viewer Interface was removed as it ended up being irrelevant.
+* Viewer Interface was removed as it ended up being irrelevant.
