@@ -12,24 +12,24 @@ Edited for .MD formatting by Yong YW (@yongyuwang)
 
 Google Code website: https://code.google.com/p/da-deliverables/
 
-##Installation
+## Installation
 
 An archive file containing the compiled .JAR binaries for this project is hosted in the Google Code website.
 
 Currently, user names and passwords are hard-coded and can be found in the Users section below.
 
-##Project Report
+## Project Report
 
 Conference Review System
 Spring 2013
 
 DaDeliverables (Roshun J, Yong Yu W, Levon K, Danielle T) 
 
-###Instructions For Running File
+### Instructions For Running File
 
 The runnable file is packaged in a .zip file which you will need to extract the contents into a local directory where the file ConferenceReviewSystem.jar can be launched. The contents should consist of three files: The application jar file and two database files. Note that these files must reside in the same directory for the application to work correctly.
 
-###Users
+### Users
 
 The database is pre-populated with the following users with the login and password being identical:
 
@@ -69,7 +69,7 @@ YES   US11.     As a user, I want to log in.
 
 YES   US12.     As a user, I want to create a new conference.
 
-####Business rules 
+#### Business rules 
 
 YES  BR01.    Role designations for a user are conference-specific. In other words having a particular role for conference X has no effect on the role or roles that this user has for conference Y. 
 (User Stories: all)
@@ -133,7 +133,7 @@ BR22.    All paper submissions must be made on or before the submission deadline
 * For first iterations the list of reviewers for a conference is already available
 * Not all business rules have been explicitly associated to user stories - you will elaborate additional associations in your deliverables
 
-###Non-functional requirements
+### Non-functional requirements
 
 YES  NF01.    The system will be executed on a single machine as a desktop application with only a single user at a time.
 YES  NF02.    The system will not have secure user authentication, but the user will identify himself/herself after system startup using a unique username. 
@@ -144,9 +144,9 @@ YES  NF03.    Persistent data will be stored in one or more files on the local f
 
 YES  NF04.    The programming will be carried out using Java 6.x and JUnit 4.x.
 
-###Description of Authorship
+### Description of Authorship
 
-####Controller Package
+#### Controller Package
 * AuthorViewController
   * Authors: Yong 
   * Editors: Roshun
@@ -357,9 +357,9 @@ Note: Database Design by Roshun
 * UserTest.java
   * Authors: Danielle
 
-##Other Comments
+## Other Comments
 
-###Design Choices for this Iteration
+### Design Choices for this Iteration
 
 * Users are hard-coded into this iteration.
 
@@ -371,7 +371,7 @@ Note: Database Design by Roshun
 
 * Only three reviewers are allowed for each paper.
 
-##Changes From Original Design
+## Changes From Original Design
 
 * Display changed a bit as it was decided that in our paper prototype the pane on the left side was not really necessary.  We also simplified the view a bit as the addition of all the buttons on the row for each paper was not as graphically pleasing when rendered in a JTable as we had hoped.  General overall layout is very similar to what we had before.
 
